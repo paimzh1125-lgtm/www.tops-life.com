@@ -14,31 +14,66 @@ const RevealText = lazy(() => import('../components/RevealText'));
 const slides = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1584036561566-b45238f2e13d?q=80&w=2000&auto=format&fit=crop', // Medical packaging abstraction
+    images: [
+      'https://images.unsplash.com/photo-1584036561566-b45238f2e13d?q=80&w=2000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1584036561566-b45238f2e13d?q=80&w=2000&auto=format&fit=crop&alt=2',
+    ],
     title: '无菌。可靠。为医疗安全匠心打造。',
-    subtitle: '高性能软包装，为药品及医疗器械生产的每一个环节提供安全保障。'
+    subtitle: '高性能软包装，为药品及医疗器械生产的每一个环节提供安全保障。',
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1581093588401-fbb0736d9138?q=80&w=2000&auto=format&fit=crop', // Lab/Injection Molding
+    images: [
+      'https://images.unsplash.com/photo-1581093588401-fbb0736d9138?q=80&w=2000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1581093588401-fbb0736d9138?q=80&w=2000&auto=format&fit=crop&alt=2',
+    ],
     title: '面向关键医用部件的先进注塑成型技术',
-    subtitle: '通过 ISO 13485 认证的生产流程，提供精密、稳定且值得信赖的产品。'
+    subtitle: '通过 ISO 13485 认证的生产流程，提供精密、稳定且值得信赖的产品。',
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2000&auto=format&fit=crop', // Organic/Bio
+    images: [
+      'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2000&auto=format&fit=crop&alt=2',
+    ],
     title: '助力未来生物材料发展的可持续大豆蛋白',
-    subtitle: '非转基因功能性大豆蛋白解决方案，应用于纸张/纸板涂布和水性油墨等行业'
+    subtitle: '非转基因功能性大豆蛋白解决方案，应用于纸张/纸板涂布和水性油墨等行业',
   }
 ];
 
 const Slide = React.memo(({ slide }: { slide: typeof slides[0] }) => {
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (imageRefs.current) {
+      gsap.fromTo(
+        imageRefs.current, 
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 1, stagger: 0.2, ease: "power3.out" }
+      );
+    }
+  }, [slide]);
+
   return (
     <SwiperSlide key={slide.id} className="relative">
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-[10000ms] ease-linear scale-100 animate-slow-zoom"
-        style={{ backgroundImage: `url(${slide.image})` }}
-      ></div>
+      <Swiper
+        modules={[Autoplay, EffectFade, Pagination]}
+        effect="fade"
+        autoplay={{ delay: 3000 }}
+        loop={true}
+        speed={1000}
+        className="h-full w-full"
+      >
+        {slide.images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <div
+              ref={(el) => (imageRefs.current[index] = el)}
+              className="absolute inset-0"
+              style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            ></div>
+        ))}
+      </Swiper>
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-tops-dark/30 z-10"></div>
 
@@ -135,7 +170,7 @@ const Home: React.FC = () => {
       <section className="bg-white py-24 relative z-20">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
+            {[ 
               { icon: ShieldCheck, title: '安全', desc: '严格遵循最高医疗级规范，确保患者安全，符合监管要求。' },
               { icon: Leaf, title: '环保', desc: '可持续理念融入材料研发，提供生物基环保解决方案。' },
               { icon: Settings, title: '质量控制', desc: '遵循 ISO 9001 及 ISO 13485，确保生产稳定可控、可追溯。' }
@@ -163,11 +198,11 @@ const Home: React.FC = () => {
             <div className="w-12 h-1 bg-tops-blue mx-auto"></div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
+            {[ 
               { label: '医疗器械', sub: 'Medical Devices', icon: Activity },
               { label: '制药生产', sub: 'Pharmaceutical', icon: ShieldCheck },
               { label: '新材料', sub: 'New Materials', icon: Leaf },
-              { label: '功能涂布', sub: 'Functional Coatings', icon: Settings }
+              { label: '大豆蛋白聚合物', sub: 'Functional Coatings', icon: Settings }
             ].map((m, i) => (
               <div
                 key={i}
