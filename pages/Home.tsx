@@ -71,6 +71,7 @@ const Slide = React.memo(({ slide }: { slide: typeof slides[0] }) => {
               className="absolute inset-0"
               style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             ></div>
+          </SwiperSlide>
         ))}
       </Swiper>
 
@@ -202,7 +203,7 @@ const Home: React.FC = () => {
               { label: '医疗器械', sub: 'Medical Devices', icon: Activity },
               { label: '制药生产', sub: 'Pharmaceutical', icon: ShieldCheck },
               { label: '新材料', sub: 'New Materials', icon: Leaf },
-              { label: '大豆蛋白聚合物', sub: 'Functional Coatings', icon: Settings }
+              { label: '功能涂布', sub: 'Functional Coatings', icon: Settings }
             ].map((m, i) => (
               <div
                 key={i}
@@ -237,7 +238,7 @@ const Home: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-slate-700">
                 <div className="w-2 h-2 bg-tops-blue rounded-full"></div>
-                10万级洁净室生产环境 (ISO Class 8)
+                10万级洁净室生产环境 (ISO Class 7)
               </li>
               <li className="flex items-center gap-3 text-slate-700">
                 <div className="w-2 h-2 bg-tops-blue rounded-full"></div>
