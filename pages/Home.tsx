@@ -10,32 +10,23 @@ import 'swiper/css/pagination';
 // 懒加载 RevealText 组件
 const RevealText = lazy(() => import('../components/RevealText'));
 
-// Slide Data
+// 静态图片数据
 const slides = [
   {
     id: 1,
-    images: [
-      'https://images.unsplash.com/photo-1584036561566-b45238f2e13d?q=80&w=2000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1584036561566-b45238f2e13d?q=80&w=2000&auto=format&fit=crop&alt=2',
-    ],
+    image: '/images/medical-packaging.jpg', // 假设在 public/images 中有该图片
     title: '无菌。可靠。为医疗安全匠心打造。',
     subtitle: '高性能软包装，为药品及医疗器械生产的每一个环节提供安全保障。',
   },
   {
     id: 2,
-    images: [
-      'https://images.unsplash.com/photo-1581093588401-fbb0736d9138?q=80&w=2000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1581093588401-fbb0736d9138?q=80&w=2000&auto=format&fit=crop&alt=2',
-    ],
+    image: '/images/medical-injection-molding.jpg', // 假设在 public/images 中有该图片
     title: '面向关键医用部件的先进注塑成型技术',
     subtitle: '通过 ISO 13485 认证的生产流程，提供精密、稳定且值得信赖的产品。',
   },
   {
     id: 3,
-    images: [
-      'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2000&auto=format&fit=crop&alt=2',
-    ],
+    image: '/images/soy-protein.jpg', // 假设在 public/images 中有该图片
     title: '助力未来生物材料发展的可持续大豆蛋白',
     subtitle: '非转基因功能性大豆蛋白解决方案，应用于纸张/纸板涂布和水性油墨等行业',
   }
@@ -64,15 +55,13 @@ const Slide = React.memo(({ slide }: { slide: typeof slides[0] }) => {
         speed={1000}
         className="h-full w-full"
       >
-        {slide.images.map((image, index) => (
-          <SwiperSlide key={index}>
-            <div
-              ref={(el) => (imageRefs.current[index] = el)}
-              className="absolute inset-0"
-              style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            ></div>
-          </SwiperSlide>
-        ))}
+        <SwiperSlide>
+          <div
+            ref={(el) => (imageRefs.current[0] = el)}
+            className="absolute inset-0"
+            style={{ backgroundImage: `url(${slide.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          ></div>
+        </SwiperSlide>
       </Swiper>
 
       {/* Overlay */}
@@ -238,7 +227,7 @@ const Home: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-slate-700">
                 <div className="w-2 h-2 bg-tops-blue rounded-full"></div>
-                10万级洁净室生产环境 (ISO Class 7)
+                10万级洁净室生产环境 (ISO Class 8)
               </li>
               <li className="flex items-center gap-3 text-slate-700">
                 <div className="w-2 h-2 bg-tops-blue rounded-full"></div>
