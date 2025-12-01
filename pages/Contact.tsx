@@ -65,7 +65,7 @@ const Contact: React.FC = () => {
               ></div>
               <div className="absolute inset-0 bg-slate-900/10 pointer-events-none" />
               <div className="relative z-10 bg-white p-4 rounded shadow-lg text-center">
-                 <p className="font-bold text-tops-dark">苏州托普斯生物科技有限公司</p>
+                 <p className="font-bold text-tops-dark">苏州永爱生命科技有限公司</p>
                  <p className="text-xs text-slate-500">苏州工业园区方泾路 8 号</p>
               </div>
            </div>
