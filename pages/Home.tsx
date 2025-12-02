@@ -1,4 +1,3 @@
-// Home.tsx  ——  中英双语 + 骨架屏 + 国内国外全加速终极版
 import React, { useEffect, useRef, Suspense, lazy, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
@@ -11,8 +10,11 @@ import 'swiper/css/pagination';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 全局图片加速函数（国内外通吃）
-const IMG = (url: string) => `https://images.weserv.nl/?url=${encodeURIComponent(url)}&il`;
+// 全局图片加速函数（切换到 jsDelivr + GitHub 镜像，国内超稳）
+const IMG = (url: string) => {
+  const match = url.match(/photo-([^-?]+)/);
+  return match ? `https://cdn.jsdelivr.us/gh/unsplash/source@master/${match[1]}.jpg` : url;
+};
 
 // 语言内容定义（超方便后期维护）
 const LANG = {
@@ -186,11 +188,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 核心优势、应用领域、技术实力 …… 全部同理加上 animate-item */}
-        {/* （篇幅原因下面保持不变，只展示关键改动点） */}
-        {/* 其它模块全部加上 className="animate-item" 即可自动触发动画 */}
-
-        {/* 示例：核心优势卡片 */}
+        {/* Core Values */}
         <section className="py-32 bg-gradient-to-b from-white to-slate-50">
           <div className="container mx-auto px-6 text-center mb-20 animate-item">
             <h2 className="text-5xl font-bold mb-4">{t.values}</h2>
@@ -213,7 +211,59 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 其他模块（市场应用、技术实力）同理加上 animate-item 即可 */}
+        {/* Markets Grid */}
+        <section className="py-32 bg-white">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 animate-item">{t.markets}</h2>
+            <div className="w-20 h-1 bg-tops-blue mx-auto mb-16 animate-item" />
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+              {[
+                { label: t.medicalDevices, sub: 'Medical Devices', icon: Activity },
+                { label: t.pharma, sub: 'Pharmaceutical Packaging', icon: ShieldCheck },
+                { label: t.bio, sub: 'Bio-based Materials', icon: Leaf },
+                { label: t.coating, sub: 'Functional Coatings', icon: Settings }
+              ].map((item, i) => (
+                <div key={i} className="group cursor-pointer animate-item">
+                  <div className="aspect-square bg-slate-50 rounded-3xl flex flex-col items-center justify-center p-8 border-2 border-transparent hover:border-tops-blue transition-all duration-500 hover:shadow-xl">
+                    <item.icon size={56} className="text-slate-400 group-hover:text-tops-blue mb-6 group-hover:scale-110 transition-all duration-500" />
+                    <h4 className="text-xl font-bold">{item.label}</h4>
+                    <span className="text-sm text-slate-500 mt-2 uppercase tracking-wider">{item.sub}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Tech Spec Parallax */}
+        <section className="py-32 bg-slate-50">
+          <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center max-w-7xl">
+            <div className="order-2 md:order-1 space-y-8 animate-item">
+              <h2 className="text-4xl md:text-5xl font-bold">{t.tech}</h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                {t.techDesc}
+              </p>
+              <ul className="space-y-5 text-lg">
+                {[t.lab1, t.lab2, t.lab3].map((l, i) => (
+                  <li key={i} className="flex items-center gap-4">
+                    <div className="w-3 h-3 bg-tops-blue rounded-full flex-shrink-0" />
+                    <span className="text-slate-700">{l}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="order-1 md:order-2 relative rounded-3xl overflow-hidden shadow-2xl animate-item">
+              <img 
+                src={IMG('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop')}
+                alt="洁净室实验室"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-tops-blue/40 to-transparent" />
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );
