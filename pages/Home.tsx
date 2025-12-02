@@ -14,15 +14,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const RevealText = lazy(() => import('../components/RevealText'));
 
-// 图片全部用我给你准备好的国内顶级 CDN，永不失联、秒加载
 const slides = [
-  { id: 1, image: 'https://cdn.tops-life.com/slides/1.jpg' },
-  { id: 2, image: 'https://cdn.tops-life.com/slides/2.jpg' },
-  { id: 3, image: 'https://cdn.tops-life.com/slides/3.jpg' },
-  { id: 4, image: 'https://cdn.tops-life.com/slides/1.jpg' }, // 加第四张彻底消除 loop 警告
+  { id: 1, image: 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/1.jpg' },
+  { id: 2, image: 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/2.jpg' },
+  { id: 3, image: 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/3.jpg' },
+  { id: 4, image: 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/1.jpg' }, // 重复第一张，解决 loop 警告
 ];
 
-const labImage = 'https://cdn.tops-life.com/slides/lab.jpg';
+const labImage = 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/lab.jpg';
 
 // 中英文内容
 const LANG = {
