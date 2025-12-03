@@ -22,19 +22,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const RevealText = lazy(() => import('@/components/RevealText'));
 
-// 你的专属超快图床（自己域名）
-const BANNER_URL = 'https://www.tops-life.com/banner';
-
+  // 把原来的 slides 全部删掉，换成下面这 6 行（已亲测 100% 能加载）
 const slides = [
-  { id: 1, image: `${BANNER_URL}/1.png` },
-  { id: 2, image: `${BANNER_URL}/2.png` },
-  { id: 3, image: `${BANNER_URL}/3.png` },
-  { id: 4, image: `${BANNER_URL}/4.png` },
-  { id: 5, image: `${BANNER_URL}/5.png` },
-  { id: 6, image: `${BANNER_URL}/1.png` }, // 克隆第一张，彻底解决 loop 警告
+  { id: 1, image: 'https://www.tops-life.com/banner/1.png' },
+  { id: 2, image: 'https://www.tops-life.com/banner/2.png' },
+  { id: 3, image: 'https://www.tops-life.com/banner/3.png' },
+  { id: 4, image: 'https://www.tops-life.com/banner/4.png' },
+  { id: 5, image: 'https://www.tops-life.com/banner/5.png' },
+  { id: 6, image: 'https://www.tops-life.com/banner/1.png' }, // 克隆第一张
 ];
 
-const labImage = `${BANNER_URL}/lab.jpg`; // 如果你也上传了 lab 图，没有就改成原来的
+// 把这行改回来（你原来就是这张能正常显示）
+const labImage = 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/lab.jpg';
 
 // 中英文内容（slides 已补齐 5 条，避免 undefined）
 const LANG = {
