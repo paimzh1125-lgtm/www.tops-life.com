@@ -23,12 +23,11 @@ const slides = [
   { id: 2, image: `${BANNER_URL}/2.png` },
   { id: 3, image: `${BANNER_URL}/3.png` },
   { id: 4, image: `${BANNER_URL}/4.png` },
-  { id: 5, image: `${BANNER_URL}/5.png` },
   { id: 6, image: `${BANNER_URL}/1.png` }, // 克隆第一张，彻底解决 Swiper loop 警告
 ];
 
 // 实验室图也换成你的
-const labImage = 'https://www.tops-life.com/banner/lab.jpg'; // 如果你也上传了就用这个，否则保留原图也行
+const labImage = 'https://www.tops-life.com/banner/5.jpg'; // 如果你也上传了就用这个，否则保留原图也行
 
 // 中英文内容（保持不变）
 const LANG = { /* 你原来的完整 LANG 对象，全部保留 */ };
