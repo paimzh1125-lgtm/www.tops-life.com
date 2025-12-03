@@ -24,13 +24,13 @@ const RevealText = lazy(() => import('@/components/RevealText'));
 
   // 把原来的 slides 全部删掉，换成下面这 6 行（已亲测 100% 能加载）
 const slides = [
-  { id: 1, image: 'https://www.tops-life.com/banner/1.png' },
-  { id: 2, image: 'https://www.tops-life.com/banner/2.png' },
-  { id: 3, image: 'https://www.tops-life.com/banner/3.png' },
-  { id: 4, image: 'https://www.tops-life.com/banner/4.png' },
-  { id: 5, image: 'https://www.tops-life.com/banner/5.png' },
-  { id: 6, image: 'https://www.tops-life.com/banner/1.png' }, // 克隆第一张
-];
+  { id: 1, image: 'https://www.tops-life.com/banner/1.png?v=1' },
+  { id: 2, image: 'https://www.tops-life.com/banner/2.png?v=1' },
+  { id: 3, image: 'https://www.tops-life.com/banner/3.png?v=1' },
+  { id: 4, image: 'https://www.tops-life.com/banner/4.png?v=1' },
+  { id: 5, image: 'https://www.tops-life.com/banner/5.png?v=1' },
+  { id: 6, image: 'https://www.tops-life.com/banner/1.png?v=1' }, // 克隆第一张
+];一张
 
 // 把这行改回来（你原来就是这张能正常显示）
 const labImage = 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/lab.jpg';
