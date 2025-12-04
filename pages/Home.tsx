@@ -19,19 +19,22 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 
 gsap.registerPlugin(ScrollTrigger);
+
 const RevealText = lazy(() => import('@/components/RevealText'));
 
-// 正确的 slides 定义（已加防缓存参数 + 克隆图）
+// 轮播图（已放进 public/banner/，路径正确）
 const slides = [
   { id: 1, image: '/banner/1.png' },
   { id: 2, image: '/banner/2.png' },
   { id: 3, image: '/banner/3.png' },
   { id: 4, image: '/banner/4.png' },
   { id: 5, image: '/banner/5.png' },
-  { id: 6, image: '/banner/1.png' }, // 克隆图
+  { id: 6, image: '/banner/1.png' }, // 克隆图，保证 loop 无缝
 ];
 
-// 中英文内容（已补齐5条）
+// 实验室大图（关键！必须补回来）
+const labImage = '/banner/5.jpg'; // 如果你实际是 5.png 就改成 '/banner/5.png'
+
 const LANG = {
   zh: {
     who: "Who We Are",
@@ -154,6 +157,7 @@ export default function Home() {
 
   return (
     <>
+      {/* 语言切换按钮 */}
       <button
         onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
         className="fixed top-8 right-8 z-50 bg-white/95 backdrop-blur-lg shadow-2xl rounded-full p-4 hover:scale-110 transition-all group"
@@ -162,6 +166,7 @@ export default function Home() {
       </button>
 
       <div className="overflow-hidden">
+        {/* 轮播图 */}
         <section className="h-screen relative">
           <Swiper
             modules={[Autoplay, EffectFade, Pagination]}
@@ -178,7 +183,7 @@ export default function Home() {
           </Swiper>
         </section>
 
-        {/* 以下内容完全保持你原来的，全部完美 */}
+        {/* Who We Are */}
         <section className="py-32 px-6 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-20 items-center">
             <div className="space-y-10 animate-item">
@@ -204,6 +209,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 核心优势 */}
         <section className="py-32 bg-gradient-to-b from-white to-slate-50">
           <div className="container mx-auto px-6 text-center mb-20 animate-item">
             <h2 className="text-5xl font-bold mb-4">{t.values}</h2>
@@ -226,6 +232,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 技术实力 + 实验室大图 */}
         <section className="py-32 bg-slate-50">
           <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center max-w-7xl">
             <div className="space-y-8 animate-item">
