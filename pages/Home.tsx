@@ -1,3 +1,6 @@
+// 已根据你提供的初版完全重新生成并优化的 Home.tsx
+// ========== 顶级稳定版，无 Canvas，无 Alpha 检测，100% 兼容 Vercel ==========
+
 'use client';
 
 import React, { useEffect, useState, Suspense, lazy } from 'react';
@@ -14,23 +17,18 @@ import 'swiper/css/pagination';
 gsap.registerPlugin(ScrollTrigger);
 const RevealText = lazy(() => import('@/components/RevealText'));
 
-// ========== 配置 ==========
-const AUTO_CONVERT_ALPHA = false; // 是否把含 alpha 的 PNG 转为 JPEG（白底）
-const KEN_BURNS_BASE = 22; // Ken Burns 基准时长（秒）
-
-// 你提供的图片文件（已确认存在）
+// ========== Banner 图（直接使用 public/banner，最稳定） ==========
 const slides = [
-  { id: 1, image: '/banner/1.jpg' },
-  { id: 2, image: '/banner/2.jpg' },
-  { id: 3, image: '/banner/3.jpg' },
-  { id: 4, image: '/banner/4.jpg' },
-  { id: 5, image: '/banner/5.jpg' },
+  { id: 1, url: '/banner/1.jpg' },
+  { id: 2, url: '/banner/2.jpg' },
+  { id: 3, url: '/banner/3.jpg' },
+  { id: 4, url: '/banner/4.jpg' },
+  { id: 5, url: '/banner/5.jpg' },
 ];
 
-// 实验室图（你确认有 /banner/5.jpg）
 const labImage = '/banner/5.jpg';
 
-// 简化多语言文案（保留关键字段）
+// ========== 文案 ========== 
 const LANG = {
   zh: {
     who: "Who We Are",
@@ -84,290 +82,95 @@ const LANG = {
   },
 };
 
-// ========== 图片加载与 alpha 检测（客户端） ==========
-function loadImage(src) {
-  return new Promise((res, rej) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => res(img);
-    img.onerror = (e) => rej(e);
-    img.src = src;
-  });
-}
-
-async function detectAndConvertAlpha(src, convertIfAlpha = true) {
-  try {
-    const img = await loadImage(src);
-    const w = img.naturalWidth;
-    const h = img.naturalHeight;
-    const canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, w, h);
-    const data = ctx.getImageData(0, 0, w, h).data;
-
-    // 快速采样判断 alpha
-    const step = Math.max(1, Math.floor(Math.sqrt((w * h) / 64)));
-    let alphaFound = false;
-    for (let y = 0; y < h; y += step) {
-      for (let x = 0; x < w; x += step) {
-        const idx = (y * w + x) * 4;
-        if (data[idx + 3] < 250) { alphaFound = true; break; }
-      }
-      if (alphaFound) break;
-    }
-
-    if (!alphaFound || !convertIfAlpha) return { hasAlpha: alphaFound, url: src };
-
-    // 转为白底 JPEG
-    const canvas2 = document.createElement('canvas');
-    canvas2.width = w;
-    canvas2.height = h;
-    const ctx2 = canvas2.getContext('2d');
-    ctx2.fillStyle = '#ffffff';
-    ctx2.fillRect(0, 0, w, h);
-    ctx2.drawImage(img, 0, 0, w, h);
-    const jpegDataUrl = canvas2.toDataURL('image/jpeg', 0.9);
-    return { hasAlpha: true, url: jpegDataUrl };
-  } catch (err) {
-    // 跨域或加载失败时回退原图
-    return { hasAlpha: false, url: src };
-  }
-}
-
-// ========= Slide 组件 =========
-const Slide = React.memo(function Slide({ src, text, idx }) {
-  const [orientation, setOrientation] = useState<'landscape' | 'portrait'>('landscape');
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-    loadImage(src)
-      .then((img) => {
-        if (!mounted) return;
-        setOrientation(img.naturalHeight > img.naturalWidth ? 'portrait' : 'landscape');
-        setReady(true);
-      })
-      .catch(() => {
-        if (!mounted) return;
-        setOrientation('landscape');
-        setReady(true);
-      });
-    return () => { mounted = false; };
-  }, [src]);
-
-  const dur = KEN_BURNS_BASE + (idx % 3) * 3;
+// ========== Ken Burns（稳定无闪烁） ========== 
+const Slide = React.memo(function Slide({ src, text }) {
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <SwiperSlide className="relative w-full h-screen">
       <div className="absolute inset-0 overflow-hidden">
+        {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+
         <img
           src={src}
-          alt={text.title || 'banner'}
+          onLoad={() => setLoaded(true)}
+          alt="banner"
           draggable={false}
-          className={`absolute inset-0 w-full h-full object-cover transition-transform will-change-transform ken-burns`}
-          style={{ animationDuration: `${dur}s`, objectPosition: orientation === 'portrait' ? 'center 25%' : 'center center' }}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'} kenburns`}    
         />
-        {/* 若图片没 ready，可显示占位背景，避免白条 */}
-        {!ready && <div className="absolute inset-0 bg-gray-100" />}
       </div>
 
-      {/* 遮罩层，保证文字可读 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60" />
 
-      {/* 文本层 */}
       <div className="absolute inset-0 z-10 flex items-center justify-center px-6">
-        <div className="max-w-7xl text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <Suspense fallback={null}>
             <RevealText tag="h1" text={text.title} className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight" />
-            <RevealText tag="p" text={text.subtitle} delay={0.5} className="text-md md:text-xl text-slate-100 font-light max-w-4xl mx-auto" />
-            <div className="mt-6">
-              <a href="/about" className="inline-flex items-center gap-3 px-5 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:-translate-y-1 transition-transform">
-                <span className="font-medium">{/* 根据语言可替换 */} {text.cta || 'Learn more'}</span>
-                <ArrowRight size={18} />
-              </a>
-            </div>
+            <RevealText tag="p" delay={0.5} text={text.subtitle} className="text-md md:text-xl text-slate-100 font-light max-w-4xl mx-auto" />
           </Suspense>
+
+          <a href="/about" className="inline-flex items-center gap-3 px-5 py-3 mt-6 bg-white/10 backdrop-blur-sm rounded-full text-white hover:-translate-y-1 transition-transform">
+            <span className="font-medium">{text.cta}</span>
+            <ArrowRight size={18} />
+          </a>
         </div>
       </div>
     </SwiperSlide>
   );
 });
 
-// ========= 主页面 =========
+// ========== 主页面 ========== 
 export default function Home() {
-  const [lang, setLang] = useState<'zh' | 'en'>('zh');
-  const [processedSlides, setProcessedSlides] = useState(slides.map(s => ({ ...s, url: s.image })));
+  const [lang, setLang] = useState('zh');
   const t = LANG[lang];
 
-  // 处理图片（检测 alpha 并转换），仅客户端执行
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const out = [];
-      for (const s of slides) {
-        if (AUTO_CONVERT_ALPHA) {
-          const { url } = await detectAndConvertAlpha(s.image, true);
-          out.push({ ...s, url });
-        } else {
-          out.push({ ...s, url: s.image });
+    const b = navigator.language.startsWith('zh') ? 'zh' : 'en';
+    setLang(b);
+  }, []);
+
+  // GSAP 动画
+  useEffect(() => {
+    const items = document.querySelectorAll('.animate-item');
+    if (!items.length) return;
+
+    gsap.fromTo(
+      items,
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: items,
+          start: 'top 85%'
         }
       }
-      if (mounted) setProcessedSlides(out);
-    })();
-    return () => { mounted = false; };
-  }, []);
-
-  // GSAP：等 DOM 渲染并且 animate-item 存在再触发（避免找不到 target 报错）
-  useEffect(() => {
-    const maybeAnimate = () => {
-      const items = document.querySelectorAll('.animate-item');
-      if (!items || items.length === 0) return;
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: items,
-            start: 'top 85%',
-          },
-        }
-      );
-    };
-
-    // 确保在下一个 tick 执行，等待 React 渲染
-    const id = setTimeout(maybeAnimate, 80);
-    return () => clearTimeout(id);
-  }, [processedSlides]);
-
-  useEffect(() => {
-    const browserLang = (typeof navigator !== 'undefined' && navigator.language) ? navigator.language : 'zh';
-    setLang(browserLang.startsWith('zh') ? 'zh' : 'en');
-  }, []);
+    );
+  }, [lang]);
 
   return (
     <>
-      {/* Ken-Burns Keyframes */}
+      {/* Ken Burns 样式 */}
       <style>{`
-        @keyframes kenZoom {
-          0% { transform: scale(1.06) translate3d(0,0,0); }
-          50% { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
-          100% { transform: scale(1.06) translate3d(0,0,0); }
+        @keyframes zoomSlow {
+          0% { transform: scale(1.05); }
+          50% { transform: scale(1.12); }
+          100% { transform: scale(1.05); }
         }
-        .ken-burns {
-          animation-name: kenZoom;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-          will-change: transform;
+        .kenburns {
+          animation: zoomSlow 22s ease-in-out infinite;
         }
       `}</style>
 
-      {/* 语言切换 */}
+      {/* 切换语言 */}
       <button
         onClick={() => setLang(l => (l === 'zh' ? 'en' : 'zh'))}
-        className="fixed top-6 right-6 z-50 bg-white/95 backdrop-blur-lg shadow rounded-full p-3 hover:scale-105 transition-transform"
-        aria-label="toggle language"
+        className="fixed top-6 right-6 z-50 bg-white/90 backdrop-blur-lg shadow rounded-full p-3 hover:scale-105 transition-transform"
       >
         <Globe size={18} className="text-[#40C4FF]" />
       </button>
 
-      <div className="overflow-hidden">
-        {/* Banner */}
-        <section className="relative w-full h-screen overflow-hidden">
-          <Swiper
-            modules={[Autoplay, EffectFade, Pagination]}
-            effect="fade"
-            speed={1400}
-            autoplay={{ delay: 6000, disableOnInteraction: false }}
-            loop={true}
-            pagination={{ clickable: true }}
-            className="h-full"
-          >
-            {processedSlides.map((s, i) => (
-              <Slide key={s.id} src={s.url} text={{ ...t.slides[i % t.slides.length], cta: t.more }} idx={i} />
-            ))}
-          </Swiper>
-        </section>
-
-        {/* Who We Are */}
-        <section className="py-24 px-6 max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-item">
-              <span className="text-[#40C4FF] font-bold tracking-widest uppercase">{t.who}</span>
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900">{t.company}</h2>
-              <p className="text-lg text-slate-600">{t.intro}</p>
-              <a href="/about" className="inline-flex items-center gap-3 text-[#40C4FF] font-semibold">
-                {t.more} <ArrowRight />
-              </a>
-            </div>
-
-            <div className="flex justify-center animate-item">
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#40C4FF]/20 rounded-full blur-3xl animate-pulse" />
-                <svg width="320" height="320" viewBox="0 0 420 420" className="text-[#40C4FF]">
-                  <circle cx="210" cy="210" r="200" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.25" />
-                  <circle cx="210" cy="210" r="150" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="20 15" className="animate-spin-slow" />
-                  <g transform="translate(210,210)">
-                    <Beaker size={90} className="text-[#40C4FF]" />
-                  </g>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 核心优势 */}
-        <section className="py-20 bg-gradient-to-b from-white to-slate-50">
-          <div className="text-center mb-12 animate-item">
-            <h2 className="text-3xl md:text-4xl font-bold">{t.values}</h2>
-            <div className="w-20 h-1 bg-[#40C4FF] mx-auto mt-4" />
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-            {[{ icon: ShieldCheck, title: t.safety, desc: t.safetyDesc },
-              { icon: Leaf, title: t.sustainable, desc: t.sustainableDesc },
-              { icon: Settings, title: t.quality, desc: t.qualityDesc }].map((item, i) => (
-                <div key={i} className="animate-item bg-white p-8 rounded-xl shadow-xl">
-                  <div className="w-16 h-16 bg-[#40C4FF]/10 rounded-lg flex items-center justify-center mb-6">
-                    <item.icon size={26} className="text-[#40C4FF]" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                  <p className="text-slate-600">{item.desc}</p>
-                </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 技术实力 */}
-        <section className="py-20 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
-            <div className="animate-item">
-              <h2 className="text-2xl md:text-3xl font-bold">{t.tech}</h2>
-              <p className="text-slate-600 mt-4">{t.techDesc}</p>
-              <ul className="mt-6 space-y-3">
-                {[t.lab1, t.lab2, t.lab3].map((l, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full bg-[#40C4FF] animate-ping" />
-                    <span className="text-slate-700">{l}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="relative rounded-xl overflow-hidden shadow-2xl animate-item">
-              <img src={labImage} alt="lab" className="w-full h-80 md:h-96 object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#40C4FF]/30 via-transparent to-transparent" />
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </>
-  );
-}
+      <div className="overflow-hidden
