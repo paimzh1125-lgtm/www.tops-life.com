@@ -185,3 +185,18 @@ export default function IndexPage() {
             ].map((title, idx) => (
               <article
                 key={idx}
+                className="p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 shadow-[0_10px_30px_rgba(64,196,255,0.12)]"
+              >
+                <h4 className="text-xl font-medium mb-2">{title}</h4>
+                <p className="text-sm opacity-90">
+                  {[
+                    t("严格遵循最高医疗级规范，确保患者安全，符合监管要求。", "Complies with the highest medical standards to ensure safety."),
+                    t("可持续理念融入材料研发，提供生物基环保解决方案。", "Sustainable, bio-based material solutions."),
+                    t("遵循 ISO 9001 / ISO 13485，确保生产稳定可控、可追溯。", "ISO 9001 / 13485 certified traceable processes."),
+                  ][idx]}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
