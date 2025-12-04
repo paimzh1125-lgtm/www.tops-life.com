@@ -4,7 +4,7 @@ import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Globe, ShieldCheck, Leaf, Settings, Beaker, CheckCircle2 } from 'lucide-react';
-import { Helmet } from 'react-helmet';
+// removed react-helmet (not supported in Vite)
 
 /* 保持引用路径不变 */
 import 'swiper/css';
