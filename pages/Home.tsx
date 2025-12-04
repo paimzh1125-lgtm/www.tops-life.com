@@ -23,16 +23,13 @@ const RevealText = lazy(() => import('@/components/RevealText'));
 
 // 正确的 slides 定义（已加防缓存参数 + 克隆图）
 const slides = [
-  { id: 1, image: 'https://www.tops-life.com/banner/1.png?v=2025' },
-  { id: 2, image: 'https://www.tops-life.com/banner/2.png?v=2025' },
-  { id: 3, image: 'https://www.tops-life.com/banner/3.png?v=2025' },
-  { id: 4, image: 'https://www.tops-life.com/banner/4.png?v=2025' },
-  { id: 5, image: 'https://www.tops-life.com/banner/5.png?v=2025' },
-  { id: 6, image: 'https://www.tops-life.com/banner/1.png?v=2025' }, // 必须有的克隆图
+  { id: 1, image: '/banner/1.png' },
+  { id: 2, image: '/banner/2.png' },
+  { id: 3, image: '/banner/3.png' },
+  { id: 4, image: '/banner/4.png' },
+  { id: 5, image: '/banner/5.png' },
+  { id: 6, image: '/banner/1.png' }, // 克隆图
 ];
-
-// 实验室图（你原来能显示的，先用着）
-const labImage = 'https://www.tops-life.com/banner/5.jpg';
 
 // 中英文内容（已补齐5条）
 const LANG = {
