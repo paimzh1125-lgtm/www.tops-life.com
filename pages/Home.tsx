@@ -15,7 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const RevealText = lazy(() => import('@/components/RevealText'));
 
 // ========== 配置 ==========
-const AUTO_CONVERT_ALPHA = true; // 是否把含 alpha 的 PNG 转为 JPEG（白底）
+const AUTO_CONVERT_ALPHA = false; // 是否把含 alpha 的 PNG 转为 JPEG（白底）
 const KEN_BURNS_BASE = 22; // Ken Burns 基准时长（秒）
 
 // 你提供的图片文件（已确认存在）
