@@ -20,7 +20,7 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// 确保路径正确
+// 假设 ParticleBackground 路径正确
 import ParticleBackground from "../components/ParticleBackground";
 const RevealText = lazy(() => import("../components/RevealText"));
 
@@ -31,9 +31,17 @@ const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
   image: `banner/${id}.jpg`,
 }));
 
+// 图标映射
+const ICONS = {
+  safety: ShieldCheck,
+  sustainable: Leaf,
+  quality: CheckCircle2 => Settings, // 替换为更合适的图标
+  tech: Microscope,
+};
+
 const LANG = {
   zh: {
-    who: "关于我们",
+    who: "关于我们要",
     company: "苏州永爱生命科技有限公司",
     intro:
       "苏州永爱生命科技有限公司是一家以技术为驱动的制造商，专业深耕医用软包装、精密注塑部件及新型生物材料领域。我们将科学专业知识与先进生产体系相结合，为全球生命科学产业提供支持。",
@@ -168,10 +176,12 @@ export default function Home() {
           }
         );
       });
+
+      // 视差背景效果 (如果有需要)
     }, containerRef);
 
     return () => ctx.revert();
-  }, [lang]);
+  }, [lang]); // Re-run when lang changes
 
   return (
     <div
@@ -202,8 +212,7 @@ export default function Home() {
           loop
           pagination={{
             clickable: true,
-            bulletActiveClass:
-              "swiper-pagination-bullet-active !bg-blue-500 !w-8",
+            bulletActiveClass: "swiper-pagination-bullet-active !bg-blue-500 !w-8",
           }}
           className="h-full w-full group"
         >
@@ -218,7 +227,7 @@ export default function Home() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-
+                
                 {/* Modern Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
 
@@ -246,13 +255,12 @@ export default function Home() {
 
       {/* --- Who We Are (Intro) --- */}
       <section className="relative py-32 overflow-hidden">
-        {/* Particle Background Layer (Visible as requested) */}
-        <div className="absolute inset-0 opacity-100 pointer-events-none">
-          <ParticleBackground />
+        {/* Particle Background Layer */}
+        <div className="absolute inset-0 opacity-40 pointer-events-none">
+           <ParticleBackground />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-20 items-center">
-          {/* Left Text Content */}
           <div className="gsap-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50/80 border border-blue-100 text-blue-600 text-xs font-bold rounded-full uppercase tracking-wider mb-6">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
@@ -272,34 +280,23 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Right Image Area (Modified: Using banner/5.jpg) */}
-          <div className="relative gsap-fade-up h-full flex items-center justify-center lg:justify-end">
-             
-             {/* Main Image Container */}
-             <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white/50 z-10">
-                <img 
-                    src="banner/5.jpg" 
-                    alt="Production Environment" 
-                    className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" 
-                />
-             </div>
-
-             {/* 绿色环保悬浮卡片 (Floating Green Module) */}
-             {/* Positioned absolutely on top of the image (bottom left) */}
-             <div className="absolute -bottom-6 -left-6 md:-left-12 bg-white p-6 md:p-8 rounded-2xl shadow-2xl border border-slate-100 max-w-xs w-full animate-float z-20">
-                <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center">
+          {/* Decorative Image/Graphic Area */}
+          <div className="relative gsap-fade-up hidden lg:block">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl relative">
+               {/* 这里的图片建议替换为一张代表公司的静态图，或者使用 slide 1 作为占位 */}
+               <img src="banner/1.jpg" alt="Company" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"/>
+               <div className="absolute inset-0 bg-blue-900/10 mix-blend-multiply"></div>
+            </div>
+            {/* Floating Badge */}
+            <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-xl shadow-xl border border-slate-100 max-w-xs animate-float">
+                <div className="flex items-center gap-4 mb-2">
+                    <div className="p-3 bg-green-100 text-green-600 rounded-full">
                         <Leaf size={24} />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-800">{t.sustainable}</h3>
+                    <div className="font-bold text-slate-800">{t.sustainable}</div>
                 </div>
-                <p className="text-slate-600 leading-relaxed text-sm">
-                    {t.sustainableDesc}
-                </p>
-             </div>
-
-             {/* 背景装饰光晕 */}
-             <div className="absolute -z-10 right-0 top-1/2 -translate-y-1/2 w-full h-full bg-blue-100/30 rounded-full blur-3xl opacity-50"></div>
+                <p className="text-sm text-slate-500">{t.sustainableDesc}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -308,9 +305,7 @@ export default function Home() {
       <section className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20 gsap-fade-up">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
-              {t.values}
-            </h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{t.values}</h2>
             <div className="w-16 h-1 bg-blue-500 mx-auto rounded-full"></div>
           </div>
 
@@ -330,9 +325,7 @@ export default function Home() {
                 <Leaf size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3">{t.sustainable}</h3>
-              <p className="text-slate-600 leading-relaxed">
-                {t.sustainableDesc}
-              </p>
+              <p className="text-slate-600 leading-relaxed">{t.sustainableDesc}</p>
             </div>
 
             {/* Card 3: Quality */}
@@ -347,102 +340,70 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Technical Strength (Blue-White Light Theme) --- */}
-      <section className="py-32 bg-gradient-to-b from-[#E6F4FF] via-white to-[#E6F4FF] relative overflow-hidden">
-        {/* Abstract Background Shapes (Light) */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl"></div>
+      {/* --- Technical Strength (Dark Section) --- */}
+      <section className="py-32 bg-slate-900 text-white relative overflow-hidden">
+        {/* Abstract Background Shapes */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl"></div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-16">
           {/* Text Content */}
           <div className="lg:col-span-5 gsap-fade-up">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6 flex items-center gap-3 text-slate-900">
-              <Beaker className="text-blue-600" size={36} /> {t.tech}
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6 flex items-center gap-3">
+              <Beaker className="text-blue-400" size={36}/> {t.tech}
             </h2>
-            <p className="text-slate-600 text-lg leading-relaxed mb-10 border-l-4 border-blue-500 pl-6">
+            <p className="text-slate-300 text-lg leading-relaxed mb-10 border-l-4 border-blue-500 pl-6">
               {t.techDesc}
             </p>
-
-            <div className="space-y-4">
+            
+            <div className="space-y-6">
               {[t.lab1, t.lab2, t.lab3].map((item, idx) => (
-                // Dark Blue/Grey cards for contrast
-                <div
-                  key={idx}
-                  className="flex items-center gap-4 p-5 rounded-xl bg-slate-800 text-white shadow-lg transform hover:scale-[1.02] transition-all"
-                >
-                  <div className="p-2 bg-blue-500/20 text-blue-300 rounded-lg">
-                    {idx === 0 ? (
-                      <Activity size={20} />
-                    ) : idx === 1 ? (
-                      <Layers size={20} />
-                    ) : (
-                      <Microscope size={20} />
-                    )}
+                <div key={idx} className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="p-2 bg-blue-500/20 text-blue-400 rounded-lg">
+                    {idx === 0 ? <Activity size={20}/> : idx === 1 ? <Layers size={20}/> : <Microscope size={20}/>}
                   </div>
-                  <span className="font-medium tracking-wide">{item}</span>
+                  <span className="font-medium">{item}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Image/Visual Grid (Bento Style) */}
+          {/* Image/Visual Grid */}
           <div className="lg:col-span-7 grid grid-cols-2 gap-4 h-full gsap-fade-up">
-            <div className="space-y-4 pt-12">
-              <div className="h-64 rounded-2xl overflow-hidden shadow-lg border border-white">
-                <img
-                  src="banner/3.jpg"
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                  alt="Lab 1"
-                />
+              <div className="space-y-4 pt-12">
+                  <div className="h-64 rounded-2xl overflow-hidden">
+                      <img src="banner/3.jpg" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Lab 1"/>
+                  </div>
+                  <div className="h-40 rounded-2xl overflow-hidden bg-slate-800 flex items-center justify-center p-6 text-center border border-white/10">
+                      <div className="text-4xl font-bold text-blue-400">ISO</div>
+                  </div>
               </div>
-              {/* ISO Box: Bright Blue */}
-              <div className="h-40 rounded-2xl overflow-hidden bg-blue-600 flex items-center justify-center p-6 text-center shadow-xl shadow-blue-200/50">
-                <div className="text-4xl font-bold text-white">ISO</div>
+              <div className="space-y-4">
+                  <div className="h-40 rounded-2xl overflow-hidden bg-blue-600 flex items-center justify-center p-6 text-center">
+                      <div className="text-white font-bold text-xl">100,000+ <br/><span className="text-sm opacity-80 font-normal">Class Cleanroom</span></div>
+                  </div>
+                  <div className="h-64 rounded-2xl overflow-hidden">
+                      <img src="banner/4.jpg" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Lab 2"/>
+                  </div>
               </div>
-            </div>
-            <div className="space-y-4">
-              {/* Cleanroom Box: Bright Blue Accent */}
-              <div className="h-40 rounded-2xl overflow-hidden bg-blue-500 flex items-center justify-center p-6 text-center shadow-xl shadow-blue-200/50">
-                <div className="text-white font-bold text-xl">
-                  100,000+ <br />
-                  <span className="text-sm opacity-90 font-normal">
-                    Class Cleanroom
-                  </span>
-                </div>
-              </div>
-              <div className="h-64 rounded-2xl overflow-hidden shadow-lg border border-white">
-                <img
-                  src="banner/4.jpg"
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                  alt="Lab 2"
-                />
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* --- Market Applications --- */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl lg:text-4xl font-bold text-center mb-16 gsap-fade-up text-slate-900">
+          <h2 className="text-3xl lg:text-4xl font-bold text-center mb-16 gsap-fade-up">
             {t.marketTitle || "Industry Applications"}
           </h2>
-
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.market.map((m, i) => (
-              <div
-                key={i}
-                className="gsap-fade-up group relative h-80 rounded-2xl overflow-hidden shadow-lg cursor-pointer"
-              >
-                {/* Background Image */}
-                <img
-                  src={`banner/${(i % 5) + 1}.jpg`}
-                  alt={m}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+              <div key={i} className="gsap-fade-up group relative h-80 rounded-2xl overflow-hidden shadow-lg cursor-pointer">
+                {/* Background Image (Using slides as placeholders if needed, or colored bg) */}
+                <img src={`banner/${(i % 5) + 1}.jpg`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/40 transition-colors duration-300" />
-
+                
                 <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
                   <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-xl font-bold mb-2">{m}</h3>
@@ -459,17 +420,17 @@ export default function Home() {
       </section>
 
       {/* --- Footer --- */}
-      <footer className="bg-slate-50 border-t border-slate-200 py-12">
+      <footer className="bg-white border-t border-slate-200 py-12">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-slate-900 font-bold text-xl tracking-tight">
-            TOPS LIFE <span className="text-blue-600">TECH</span>
-          </div>
-          <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} {t.company}. All rights reserved.
-          </p>
+           <div className="text-slate-900 font-bold text-xl tracking-tight">
+             TOPS LIFE <span className="text-blue-600">TECH</span>
+           </div>
+           <p className="text-slate-500 text-sm">
+             © {new Date().getFullYear()} {t.company}. All rights reserved.
+           </p>
         </div>
       </footer>
-
+      
       {/* Global CSS for custom animations (Injecting styles for simplicity) */}
       <style>{`
         @keyframes ken-burns {
