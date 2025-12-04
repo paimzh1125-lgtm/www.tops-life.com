@@ -1,33 +1,47 @@
-import React, { useEffect, useState, Suspense, lazy, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Globe, ShieldCheck, Leaf, Settings, Beaker, CheckCircle2 } from 'lucide-react';
 
-/* 保持引用路径不变 */
+/* ----------------------------- 样式引入 (保持路径不变) ----------------------------- */
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Lazy component
-const RevealText = lazy(() => import('@/components/RevealText'));
+/* ----------------------------- 内置简单版 RevealText (防止因缺少组件报错) ----------------------------- */
+const RevealText = ({ text, className, delay = 0 }: { text: string, className?: string, delay?: number }) => {
+  const el = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (el.current) {
+      gsap.fromTo(el.current, 
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, delay: delay, ease: "power3.out" }
+      );
+    }
+  }, [text, delay]);
 
-/* ----------------------------- 配置 ----------------------------- */
-// 确保这里的路径对应 public 文件夹下的真实文件
+  return <div ref={el} className={className}>{text}</div>;
+};
+
+/* ----------------------------- 核心配置: 图片源 ----------------------------- */
+// 为了确保图片必须加载出来，这里使用了 Unsplash 的在线图源。
+// 如果你想用本地图片，请确保文件存在于 public/banner/ 目录下，然后改回 '/banner/1.jpg'
 const rawSlides = [
-  { id: 1, image: '/banner/1.jpg' },
-  { id: 2, image: '/banner/2.jpg' },
-  { id: 3, image: '/banner/3.jpg' },
-  { id: 4, image: '/banner/4.jpg' },
-  { id: 5, image: '/banner/5.jpg' },
+  { id: 1, image: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&q=80&w=2091' }, // 医疗/实验室
+  { id: 2, image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070' }, // 注塑/机械
+  { id: 3, image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=2070' }, // 生物/试管
+  { id: 4, image: 'https://images.unsplash.com/photo-1583912267655-7d2d34224c55?auto=format&fit=crop&q=80&w=2070' }, // 包装/盒子
+  { id: 5, image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=2080' }, // 显微镜
 ];
 
-const labImage = '/banner/5.jpg';
+const labImage = 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=2080'; // 底部实验室大图
 
-/* ----------------------------- 文案 ----------------------------- */
+/* ----------------------------- 文案配置 ----------------------------- */
 const LANG = {
   zh: {
     who: "Who We Are",
@@ -81,30 +95,30 @@ const LANG = {
   },
 };
 
-/* ----------------------------- 辅助组件: 图片加载器 ----------------------------- */
-// 解决图片加载白屏问题，提供平滑过渡
+/* ----------------------------- 增强型图片加载器 ----------------------------- */
+// 即使网速慢，也会显示骨架屏；即使加载失败，也会显示背景色，防止白屏。
 const ImageLoader = ({ src, alt, className, style }: any) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
-      {/* 占位图 / 加载骨架 */}
+    <div className={`relative overflow-hidden bg-slate-900 ${className}`}>
+      {/* 加载中状态 - 骨架屏 */}
       {!loaded && !error && (
-        <div className="absolute inset-0 bg-slate-800 animate-pulse z-0" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-800 to-slate-700 animate-pulse z-0" />
       )}
       
-      {/* 错误回退 */}
+      {/* 加载失败状态 - 优雅降级 */}
       {error && (
-        <div className="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-500 z-0">
-          <span>Image Not Found</span>
+        <div className="absolute inset-0 bg-slate-800 flex flex-col items-center justify-center text-slate-500 z-0">
+          <Beaker size={48} className="mb-2 opacity-20" />
         </div>
       )}
 
       <img
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+        className={`w-full h-full object-cover transition-opacity duration-1000 ease-out ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
         style={style}
@@ -117,50 +131,45 @@ const ImageLoader = ({ src, alt, className, style }: any) => {
 
 /* ----------------------------- Slide 组件 ----------------------------- */
 const Slide = ({ src, text, idx }: any) => {
-  // 不同的缩放时间，增加视觉丰富度
   const animDur = 20 + idx * 2;
 
   return (
     <SwiperSlide>
       <div className="relative w-full h-screen overflow-hidden bg-black">
-        
-        {/* 使用 ImageLoader 替换原生 img */}
+        {/* 图片层 */}
         <ImageLoader
           src={src}
           alt={text.title}
           className="absolute inset-0 w-full h-full"
           style={{
-            animation: `kenZoom ${animDur}s ease-in-out infinite alternate`, // 增加 alternate 让动画更自然
+            animation: `kenZoom ${animDur}s ease-in-out infinite alternate`,
           }}
         />
 
-        {/* 遮罩优化：增加底部渐变，让文字更易读 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70 z-10" />
+        {/* 遮罩层 - 确保文字在任何图片上都清晰 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 z-10" />
 
-        {/* 文案 */}
+        {/* 内容层 */}
         <div className="absolute inset-0 z-20 flex items-center justify-center text-center px-4 md:px-6">
           <div className="max-w-5xl">
-            <Suspense fallback={<h1 className="text-white text-4xl md:text-6xl font-bold opacity-0 animate-fade-in">{text.title}</h1>}>
-              <div className="overflow-hidden mb-4 md:mb-6">
-                <RevealText
-                  tag="h1"
-                  text={text.title}
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-lg tracking-tight"
-                />
-              </div>
-              <div className="overflow-hidden">
-                <RevealText
-                  tag="p"
-                  text={text.subtitle}
-                  delay={0.4}
-                  className="text-lg md:text-2xl text-slate-200 font-light max-w-2xl mx-auto"
-                />
-              </div>
-            </Suspense>
+            <div className="overflow-hidden mb-4 md:mb-6">
+              <RevealText
+                text={text.title}
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-lg tracking-tight"
+              />
+            </div>
+            
+            <div className="overflow-hidden">
+              <RevealText
+                text={text.subtitle}
+                delay={0.3}
+                className="text-lg md:text-2xl text-slate-200 font-light max-w-2xl mx-auto"
+              />
+            </div>
 
             <a 
               href="/about" 
-              className="group inline-flex items-center gap-3 mt-10 md:mt-12 text-white bg-white/10 border border-white/20 px-8 py-3 rounded-full backdrop-blur-md hover:bg-white hover:text-blue-600 transition-all duration-300"
+              className="group inline-flex items-center gap-3 mt-10 md:mt-12 text-white bg-white/10 border border-white/20 px-8 py-3 rounded-full backdrop-blur-md hover:bg-white hover:text-[#40C4FF] transition-all duration-300"
             >
               <span className="font-medium tracking-wide">{text.cta}</span>
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -175,28 +184,25 @@ const Slide = ({ src, text, idx }: any) => {
 /* ----------------------------- 主页面组件 ----------------------------- */
 export default function Home() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
-  // 保持 rawSlides 不变，如果图片只有3张，请确保 rawSlides 数组里只保留前3个对象
-  const [slides] = useState(rawSlides);
+  // 使用 useMemo 缓存配置
+  const t = useMemo(() => LANG[lang], [lang]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 初始化语言
   useEffect(() => {
+    // 自动检测浏览器语言
     if (typeof window !== 'undefined') {
       const l = navigator.language.startsWith('zh') ? 'zh' : 'en';
       setLang(l);
     }
   }, []);
 
-  // 使用 useMemo 获取当前语言包
-  const t = useMemo(() => LANG[lang], [lang]);
-
-  /* GSAP 动画 (React 18 Safe) */
+  /* GSAP 动画上下文清理 (防止React StrictMode下的重复动画) */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 通用淡入上浮动画
+      // 模块上浮动画
       gsap.fromTo(
         '.animate-item',
-        { y: 50, opacity: 0 },
+        { y: 60, opacity: 0 },
         {
           y: 0,
           opacity: 1,
@@ -204,60 +210,58 @@ export default function Home() {
           ease: 'power3.out',
           stagger: 0.15,
           scrollTrigger: {
-            trigger: '.animate-item', // 触发点
+            trigger: '.animate-item',
             start: 'top 85%',
           },
         }
       );
-
-      // SVG 旋转动画微调
-      gsap.to('.animate-spin-slow', {
-        rotation: 360,
-        duration: 20,
-        repeat: -1,
-        ease: 'linear'
-      });
-      
     }, containerRef);
 
-    return () => ctx.revert(); // 清理动画
-  }, [lang]); // 语言切换时重置动画上下文
+    return () => ctx.revert();
+  }, [lang]);
 
   return (
-    <div ref={containerRef} className="bg-white text-slate-900 overflow-x-hidden">
+    <div ref={containerRef} className="bg-white text-slate-900 overflow-x-hidden font-sans">
       
-      {/* 注入全局动画样式 (Ken Burns) */}
+      {/* 动态样式注入 */}
       <style>{`
         @keyframes kenZoom {
           0% { transform: scale(1.0); }
           100% { transform: scale(1.15); }
         }
-        .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
-        .swiper-pagination-bullet-active { background: #40C4FF !important; opacity: 1; scale: 1.2; }
+        .animate-spin-slow {
+          animation: spin 20s linear infinite;
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .swiper-pagination-bullet { background: white !important; opacity: 0.5; width: 10px; height: 10px; }
+        .swiper-pagination-bullet-active { background: #40C4FF !important; opacity: 1; transform: scale(1.2); }
       `}</style>
 
-      {/* 切换语言按钮 (悬浮) */}
+      {/* 语言切换悬浮球 */}
       <button
         onClick={() => setLang(prev => prev === 'zh' ? 'en' : 'zh')}
-        className="fixed top-6 right-6 z-50 px-5 py-2.5 bg-white/90 text-slate-800 rounded-full shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-sm border border-slate-100 flex items-center gap-2 font-medium text-sm"
+        className="fixed top-6 right-6 z-50 px-5 py-2.5 bg-white/90 text-slate-800 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-slate-100 flex items-center gap-2 font-medium text-sm cursor-pointer"
       >
         <Globe size={18} className="text-[#40C4FF]" />
         <span>{lang === 'zh' ? 'English' : '中文'}</span>
       </button>
 
-      {/* Hero Banner Section */}
+      {/* Banner Section */}
       <section className="h-screen w-full relative">
         <Swiper
           modules={[Autoplay, EffectFade, Pagination]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
-          speed={1000}
-          autoplay={{ delay: 6000, disableOnInteraction: false }}
-          loop={true}
+          speed={1500}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          loop={true} // 确保 rawSlides 长度 >= 3 才能正常 loop
           pagination={{ clickable: true, dynamicBullets: true }}
           className="h-full w-full"
         >
-          {slides.map((s, i) => (
+          {rawSlides.map((s, i) => (
             <Slide 
               key={s.id} 
               src={s.image} 
@@ -268,7 +272,7 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* Who we are Section */}
+      {/* Who We Are Section */}
       <section className="py-24 md:py-32 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
         <div className="space-y-8 animate-item">
           <div className="inline-block px-3 py-1 bg-blue-50 text-[#40C4FF] text-sm font-bold rounded-full tracking-wider uppercase mb-2">
@@ -286,26 +290,19 @@ export default function Home() {
         </div>
 
         <div className="animate-item flex justify-center relative">
-          {/* 装饰背景圆 */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-50 rounded-full blur-3xl -z-10" />
+          {/* 背景光晕 */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-100 rounded-full blur-3xl -z-10" />
           
           <svg width="100%" height="100%" viewBox="0 0 420 420" className="max-w-[360px] text-[#40C4FF] overflow-visible">
-            {/* 静态外圈 */}
             <circle cx="210" cy="210" r="200" strokeWidth="1" stroke="currentColor" opacity=".1" />
-            {/* 动态虚线圈 */}
             <circle cx="210" cy="210" r="170" strokeWidth="2" stroke="currentColor" strokeDasharray="10 30" className="animate-spin-slow origin-center" opacity=".6" />
-            <circle cx="210" cy="210" r="140" strokeWidth="1" stroke="currentColor" opacity=".2" />
-            {/* 中心图标 */}
             <g transform="translate(160, 160)">
-              <foreignObject width="100" height="100">
-                <div className="w-full h-full flex items-center justify-center text-[#40C4FF]">
-                  <Beaker size={80} strokeWidth={1.5} />
-                </div>
-              </foreignObject>
+               <foreignObject width="100" height="100">
+                  <div className="flex items-center justify-center h-full text-[#40C4FF]">
+                    <Beaker size={80} strokeWidth={1.5} />
+                  </div>
+               </foreignObject>
             </g>
-            {/* 漂浮的小圆点装饰 */}
-            <circle cx="210" cy="40" r="6" fill="currentColor" className="animate-pulse" />
-            <circle cx="380" cy="210" r="4" fill="currentColor" className="animate-pulse" style={{ animationDelay: '1s' }} />
           </svg>
         </div>
       </section>
@@ -346,7 +343,7 @@ export default function Home() {
             
             <ul className="space-y-5 mt-6">
               {[t.lab1, t.lab2, t.lab3].map((item, i) => (
-                <li key={i} className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-[#40C4FF]/30 transition-colors">
+                <li key={i} className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm border border-slate-100">
                   <CheckCircle2 className="text-[#40C4FF] shrink-0 mt-0.5" size={24} />
                   <span className="font-medium text-slate-700">{item}</span>
                 </li>
@@ -354,8 +351,7 @@ export default function Home() {
             </ul>
           </div>
 
-          <div className="animate-item relative order-1 lg:order-2 group">
-            <div className="absolute -inset-4 bg-[#40C4FF]/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="animate-item relative order-1 lg:order-2">
             <div className="relative shadow-2xl rounded-2xl overflow-hidden aspect-[4/3]">
               <ImageLoader 
                 src={labImage} 
@@ -365,19 +361,6 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-tr from-[#40C4FF]/20 to-transparent pointer-events-none" />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Simple Footer Callout (Optional addition) */}
-      <section className="py-20 bg-[#0B1120] text-white text-center">
-        <div className="max-w-4xl mx-auto px-6 animate-item">
-          <h2 className="text-3xl font-bold mb-6">{t.company}</h2>
-          <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
-            {lang === 'zh' ? '致力于生命科学领域的创新与发展' : 'Dedicated to innovation and development in life sciences'}
-          </p>
-          <a href="/contact" className="inline-block bg-[#40C4FF] text-white px-8 py-3 rounded-full font-bold hover:bg-[#33b1e8] transition-colors">
-            {lang === 'zh' ? '联系我们要' : 'Contact Us'}
-          </a>
         </div>
       </section>
     </div>
