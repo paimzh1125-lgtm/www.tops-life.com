@@ -1,10 +1,3 @@
-/** 重新生成全新首页代码（Vite + React + Tailwind）
- * 需求：
- *  - 底色为“蓝白色”主题（#E6F4FF + 白色 + 蓝色点缀）
- *  - 内容保持与当前版本一致（文字、结构、动画等不变）
- *  - 支持中英文切换
- *  - 图片正常加载（使用 Vite 正确路径）
- */
 
 import React, { useEffect, useState, Suspense, lazy, useRef, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -187,5 +180,9 @@ export default function Home() {
             {t.who}
           </div>
           <h2 className="text-4xl font-bold mt-4 mb-6">{t.company}</h2>
-          <p className="text-lg text-slate-700 leading-relaxed">{t.intro}</p>
+          <p className="text-lg text-slate-700 leading-relaxed">{t.intro}
+        </p>
+        </div>
+      </section>
+      <</p>
         </div>
