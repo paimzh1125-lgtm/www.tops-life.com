@@ -174,3 +174,14 @@ export default function Home() {
       </button>
 
       <div className="overflow-hidden
+
+
+// ⚠️ 修复：上次生成的代码在结尾被截断导致 "Unexpected end of file"
+// 这里补全缺失的 JSX 结构闭合标签（</div> </> 等），确保编译正常
+
+// 请将以下补全部署到文件末尾：
+
+      </div>
+    </>
+  );
+}
