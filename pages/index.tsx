@@ -1,10 +1,12 @@
-import React, { useEffect, useState, Suspense, lazy, useRef, useMemo } from 'react';
+import React, { useEffect, useState, Suspense, lazy, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { gsap } from 'gsap';
-import * as THREE from 'three'; 
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Globe, ShieldCheck, Leaf, Settings, Beaker, CheckCircle2 } from 'lucide-react';
+
+// 🚀 修复点 1：导入 ParticleBackground 组件 (假设路径为 ../components)
+import ParticleBackground from '../components/ParticleBackground'; 
 
 /* 保持引用路径不变 */
 import 'swiper/css';
@@ -16,261 +18,6 @@ gsap.registerPlugin(ScrollTrigger);
 // Lazy component
 const RevealText = lazy(() => import('@/components/RevealText'));
 
-/* ----------------------------- PARTICLE BACKGROUND 组件 (已优化) ----------------------------- */
-const ParticleBackground: React.FC = () => {
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (!containerRef.current) return;
-        // --- Config ---
-        const isMobile = window.innerWidth < 768;
-        const PARTICLE_COUNT = isMobile ? 1200 : 5000;
-        const CANVAS_WIDTH = 200;
-        const CANVAS_HEIGHT = 100;
-        const CYCLE_DURATION = 20000; 
-        const FORM_DURATION = 4000; 
-        
-        // --- Scene Setup ---
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x0f172a, 0.002);
-
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 50;
-
-        const renderer = new THREE.WebGLRenderer({ 
-            alpha: true, 
-            antialias: true,
-            powerPreference: "high-performance"
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        containerRef.current.appendChild(renderer.domElement);
-
-        // --- Particle Logic ---
-        const createTextCoordinates = (text: string) => {
-            const canvas = document.createElement('canvas');
-            canvas.width = CANVAS_WIDTH;
-            canvas.height = CANVAS_HEIGHT;
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return [];
-            
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 36px "HarmonyOS Sans", sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(text, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-
-            const imageData = ctx.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            const data = imageData.data;
-            const coords = [];
-
-            for (let y = 0; y < CANVAS_HEIGHT; y += 2) {
-                for (let x = 0; x < CANVAS_WIDTH; x += 2) {
-                    const i = (y * CANVAS_WIDTH + x) * 4;
-                    if (data[i] > 128) {
-                        coords.push({
-                            x: (x - CANVAS_WIDTH / 2) * 0.5,
-                            y: -(y - CANVAS_HEIGHT / 2) * 0.5,
-                            z: 0
-                        });
-                    }
-                }
-            }
-            return coords;
-        };
-
-        const textCoords = createTextCoordinates("Tops Life");
-        
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(PARTICLE_COUNT * 3);
-        const targets = new Float32Array(PARTICLE_COUNT * 3);
-        const colors = new Float32Array(PARTICLE_COUNT * 3);
-        const sizes = new Float32Array(PARTICLE_COUNT);
-        const randoms = new Float32Array(PARTICLE_COUNT * 3);
-
-        const color1 = new THREE.Color('#0F172A');
-        const color2 = new THREE.Color('#40C4FF');
-
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 150;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
-
-            if (i < textCoords.length) {
-                targets[i * 3] = textCoords[i].x;
-                targets[i * 3 + 1] = textCoords[i].y;
-                targets[i * 3 + 2] = textCoords[i].z;
-            } else {
-                targets[i * 3] = (Math.random() - 0.5) * 60;
-                targets[i * 3 + 1] = (Math.random() - 0.5) * 40;
-                targets[i * 3 + 2] = (Math.random() - 0.5) * 40;
-            }
-
-            const mixedColor = color1.clone().lerp(color2, Math.random());
-            colors[i * 3] = mixedColor.r;
-            colors[i * 3 + 1] = mixedColor.g;
-            colors[i * 3 + 2] = mixedColor.b;
-
-            sizes[i] = Math.random() * 2;
-            
-            randoms[i * 3] = Math.random();
-            randoms[i * 3 + 1] = Math.random();
-            randoms[i * 3 + 2] = Math.random();
-        }
-
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-        const material = new THREE.PointsMaterial({
-            size: 0.6,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending,
-            sizeAttenuation: true
-        });
-
-        const particles = new THREE.Points(geometry, material);
-        scene.add(particles);
-
-        // --- Interaction & Animation State (优化) ---
-        let mouseX = 0;
-        let mouseY = 0;
-        let time = 0;
-        
-        const animState = { formProgress: 0 }; 
-
-        const mouseVector = new THREE.Vector3();
-
-        const onMouseMove = (event: MouseEvent) => {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        };
-
-        window.addEventListener('mousemove', onMouseMove);
-
-        // Cycle Logic
-        const startCycle = () => {
-            setTimeout(() => {
-                gsap.to(animState, { 
-                    formProgress: 1,
-                    duration: 2,
-                    ease: "power2.inOut",
-                    onComplete: () => {
-                        setTimeout(() => {
-                            gsap.to(animState, { 
-                                formProgress: 0,
-                                duration: 2,
-                                ease: "power2.inOut",
-                            });
-                        }, FORM_DURATION);
-                    }
-                })
-            }, 3000);
-        };
-
-        const cycleInterval = setInterval(startCycle, CYCLE_DURATION);
-        startCycle();
-
-        // --- Animation Loop ---
-        const animate = () => {
-            time += 0.005;
-            const currentFormProgress = animState.formProgress; 
-
-            const positions = particles.geometry.attributes.position.array as Float32Array;
-
-            mouseVector.set(mouseX * 40, mouseY * 20, 0);
-
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                const i3 = i * 3;
-                
-                let px = positions[i3];
-                let py = positions[i3 + 1];
-                let pz = positions[i3 + 2];
-
-                const tx = targets[i3];
-                const ty = targets[i3 + 1];
-                const tz = targets[i3 + 2];
-
-                const nx = Math.sin(time + randoms[i3] * 10) * 1.5;
-                const ny = Math.cos(time + randoms[i3 + 1] * 10) * 1.5;
-                const nz = Math.sin(time + randoms[i3 + 2] * 10) * 1.5;
-
-                const cx = (randoms[i3] - 0.5) * 120 + nx;
-                const cy = (randoms[i3+1] - 0.5) * 80 + ny;
-                const cz = (randoms[i3+2] - 0.5) * 50 + nz;
-
-                // Interpolate between Cloud and Text
-                const dx = cx + (tx - cx) * currentFormProgress;
-                const dy = cy + (ty - cy) * currentFormProgress;
-                const dz = cz + (tz - cz) * currentFormProgress;
-
-                // Apply movement towards calculated destination
-                px += (dx - px) * 0.03;
-                py += (dy - py) * 0.03;
-                pz += (dz - pz) * 0.03;
-
-                // Mouse Interaction (Vortex/Repel)
-                if (currentFormProgress < 0.8) {
-                    const dist = Math.sqrt(Math.pow(px - mouseVector.x, 2) + Math.pow(py - mouseVector.y, 2));
-                    if (dist < 30) {
-                        const force = (30 - dist) / 30;
-                        const angle = Math.atan2(py - mouseVector.y, px - mouseVector.x);
-                        px += Math.cos(angle + Math.PI / 2) * force * 0.5;
-                        py += Math.sin(angle + Math.PI / 2) * force * 0.5;
-                        px -= (px - mouseVector.x) * 0.02;
-                        py -= (py - mouseVector.y) * 0.02;
-                    }
-                }
-
-                positions[i3] = px;
-                positions[i3 + 1] = py;
-                positions[i3 + 2] = pz;
-            }
-
-            particles.geometry.attributes.position.needsUpdate = true;
-            
-            particles.rotation.y = Math.sin(time * 0.1) * 0.1;
-
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-        };
-
-        animate();
-
-        // --- Resize ---
-        const handleResize = () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        };
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-            window.removeEventListener('mousemove', onMouseMove);
-            clearInterval(cycleInterval);
-            if (containerRef.current) {
-                containerRef.current.removeChild(renderer.domElement);
-            }
-            geometry.dispose();
-            material.dispose();
-            renderer.dispose();
-        };
-    }, []);
-
-    return (
-        <div 
-            ref={containerRef} 
-            id="particle-bg"
-            className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none bg-gradient-to-b from-[#0F172A] to-[#0d1b2a]"
-            aria-hidden="true"
-        />
-    );
-};
 
 /* ----------------------------- 配置 ----------------------------- */
 const rawSlides = [
@@ -338,6 +85,7 @@ const LANG = {
 };
 
 /* ----------------------------- 辅助组件: 图片加载器 ----------------------------- */
+// 解决图片加载白屏问题，提供平滑过渡
 const ImageLoader = ({ src, alt, className, style }: any) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -372,23 +120,27 @@ const ImageLoader = ({ src, alt, className, style }: any) => {
 
 /* ----------------------------- Slide 组件 ----------------------------- */
 const Slide = ({ src, text, idx }: any) => {
+  // 不同的缩放时间，增加视觉丰富度
   const animDur = 20 + idx * 2;
 
   return (
     <SwiperSlide>
       <div className="relative w-full h-screen overflow-hidden bg-black">
         
+        {/* 使用 ImageLoader 替换原生 img */}
         <ImageLoader
           src={src}
           alt={text.title}
           className="absolute inset-0 w-full h-full"
           style={{
-            animation: `kenZoom ${animDur}s ease-in-out infinite alternate`, 
+            animation: `kenZoom ${animDur}s ease-in-out infinite alternate`, // 增加 alternate 让动画更自然
           }}
         />
 
+        {/* 遮罩优化：增加底部渐变，让文字更易读 */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70 z-10" />
 
+        {/* 文案 */}
         <div className="absolute inset-0 z-20 flex items-center justify-center text-center px-4 md:px-6">
           <div className="max-w-5xl">
             <Suspense fallback={<h1 className="text-white text-4xl md:text-6xl font-bold opacity-0 animate-fade-in">{text.title}</h1>}>
@@ -426,13 +178,11 @@ const Slide = ({ src, text, idx }: any) => {
 /* ----------------------------- 主页面组件 ----------------------------- */
 export default function Home() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
+  // 保持 rawSlides 不变
   const [slides] = useState(rawSlides);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 💥 修复点：直接获取语言包，避免 useMemo 引起的潜在打包引用问题
-  const t = LANG[lang];
-
-  // 初始化语言 (保持不变)
+  // 初始化语言
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const l = navigator.language.startsWith('zh') ? 'zh' : 'en';
@@ -440,6 +190,8 @@ export default function Home() {
     }
   }, []);
 
+  // 🚀 修复点 2：直接获取语言包，避免 useMemo 引起的潜在打包引用问题
+  const t = LANG[lang];
 
   /* GSAP 动画 (React 18 Safe) */
   useEffect(() => {
@@ -455,7 +207,7 @@ export default function Home() {
           ease: 'power3.out',
           stagger: 0.15,
           scrollTrigger: {
-            trigger: '.animate-item', 
+            trigger: '.animate-item', // 触发点
             start: 'top 85%',
           },
         }
@@ -471,15 +223,15 @@ export default function Home() {
       
     }, containerRef);
 
-    return () => ctx.revert(); 
-  }, [lang]); 
+    return () => ctx.revert(); // 清理动画
+  }, [lang]); // 语言切换时重置动画上下文
 
   return (
     <div ref={containerRef} className="bg-white text-slate-900 overflow-x-hidden">
       
-      {/* 渲染 ParticleBackground 组件 */}
+      {/* 🚀 修复点 3：渲染 ParticleBackground 组件 */}
       <ParticleBackground />
-
+      
       {/* 注入全局动画样式 (Ken Burns) */}
       <style>{`
         @keyframes kenZoom {
@@ -515,7 +267,6 @@ export default function Home() {
             <Slide 
               key={s.id} 
               src={s.image} 
-              // t 在此被使用
               text={{ ...t.slides[i] || t.slides[0], cta: t.more }} 
               idx={i} 
             />
