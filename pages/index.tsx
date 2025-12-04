@@ -13,7 +13,6 @@ import {
   Activity,
   Layers,
   Microscope,
-  // 新增
   PackageOpen,
   DraftingCompass,
   Sprout
@@ -24,6 +23,7 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+// 确保路径正确
 import ParticleBackground from "../components/ParticleBackground";
 const RevealText = lazy(() => import("../components/RevealText"));
 
@@ -48,7 +48,7 @@ const LANG = {
     quality: "精密质控",
     qualityDesc: "遵循 ISO 9001 及 ISO 13485，全流程可追溯的质量管理体系。",
     
-    // 新增业务板块
+    // 核心业务板块
     solutionsTitle: "核心业务解决方案",
     solutions: [
       {
@@ -70,12 +70,14 @@ const LANG = {
     lab1: "10万级洁净室生产环境",
     lab2: "高精度全电动注塑设备",
     lab3: "完备的理化、微生物实验室",
+    
+    // --- 高级感文案更新 ---
     slides: [
-      { title: "无菌。可靠。为医疗安全匠心打造。", subtitle: "高性能软包装，为药品及医疗器械生产的每一个环节提供安全保障。" },
-      { title: "面向关键医用部件的先进注塑成型技术", subtitle: "通过 ISO 13485 认证的生产流程，提供精密、稳定且值得信赖的产品。" },
-      { title: "助力未来生物材料发展的可持续大豆蛋白", subtitle: "非转基因功能性大豆蛋白解决方案，应用于纸张/纸板涂布和水性油墨等行业。" },
-      { title: "科研级生产环境", subtitle: "持续扩展制造能力，以满足生命科学行业严格要求。" },
-      { title: "先进产线与质量体系", subtitle: "稳定、可追溯的质量体系，为全球客户提供高等级产品。" },
+      { title: "赋能生命科学，筑造坚实无菌屏障。", subtitle: "以高性能软包装解决方案，守护药品与医疗器械的每一次安全交付。" },
+      { title: "微米级精密成型，重塑医疗制造标准。", subtitle: "全流程 ISO 13485 认证，为关键医疗部件提供极致的稳定与精准。" },
+      { title: "探索材料边界，引领生物基科技未来。", subtitle: "源于自然的创新聚合物技术，为全球工业提供可持续的高性能方案。" },
+      { title: "严苛洁净环境，承载卓越品质承诺。", subtitle: "持续拓展制造能力边界，从容应对生命科学行业最严格的挑战。" },
+      { title: "智造驱动未来，交付全球可信赖价值。", subtitle: "构建透明、可追溯的质量体系，成为全球客户值得托付的长期伙伴。" },
     ],
     marketTitle: "应用领域",
     market: ["医疗器械", "制药生产", "新材料", "大豆蛋白聚合物"],
@@ -94,7 +96,7 @@ const LANG = {
     quality: "Quality Control",
     qualityDesc: "ISO 9001 & ISO 13485 certified traceable processes.",
 
-    // New Business Section
+    // Business Section
     solutionsTitle: "Core Business Solutions",
     solutions: [
       {
@@ -116,12 +118,14 @@ const LANG = {
     lab1: "Class 100,000 Cleanroom",
     lab2: "High-precision electric injection molding",
     lab3: "Full QC & microbiology laboratories",
+    
+    // Updated English Copy
     slides: [
-      { title: "Sterile. Reliable.", subtitle: "High-performance packaging ensuring safety across production." },
-      { title: "Advanced Injection Molding", subtitle: "ISO 13485 certified processes delivering reliability." },
-      { title: "Sustainable Biomaterials", subtitle: "Non-GMO soy protein solutions for coatings and water-based inks." },
-      { title: "Research-grade Manufacturing", subtitle: "Expanding capabilities for strict quality." },
-      { title: "Advanced Production & Quality", subtitle: "Stable and traceable global supply." },
+      { title: "Empowering Life Science.", subtitle: "Building robust sterile barriers for the safety of every medical delivery." },
+      { title: "Precision Redefined.", subtitle: "Micron-level injection molding reshaping medical manufacturing standards." },
+      { title: "Material Innovation.", subtitle: "Leading the future of bio-based technology with sustainable polymer solutions." },
+      { title: "Purity & Excellence.", subtitle: "Strict controlled environments carrying the promise of superior quality." },
+      { title: "Driven by Intelligence.", subtitle: "Delivering trusted value globally with traceable manufacturing systems." },
     ],
     marketTitle: "Market Applications",
     market: ["Medical Devices", "Pharmaceutical Manufacturing", "Advanced Materials", "Soy Protein Polymers"],
@@ -156,16 +160,19 @@ export default function Home() {
         <span className="font-medium tracking-wide">{lang === "zh" ? "EN / 中文" : "中文 / EN"}</span>
       </button>
 
-      {/* Hero */}
+      {/* Hero Section (Banner) */}
       <section className="h-screen relative overflow-hidden">
         <Swiper modules={[Autoplay, EffectFade, Pagination, Navigation]} autoplay={{ delay: 6000, disableOnInteraction: false }} effect="fade" speed={1000} loop pagination={{ clickable: true, bulletActiveClass: "swiper-pagination-bullet-active !bg-blue-500 !w-8" }} className="h-full w-full group">
           {rawSlides.map((s, i) => (
             <SwiperSlide key={s.id}>
               <div className="relative h-full w-full overflow-hidden">
+                {/* Image */}
                 <div className="absolute inset-0 w-full h-full animate-ken-burns">
                   <img src={s.image} alt={t.slides[i].title} className="w-full h-full object-cover" />
                 </div>
+                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+                {/* Text Content */}
                 <div className="absolute inset-0 flex items-center justify-center px-6">
                   <div className="max-w-5xl w-full text-center text-white">
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight opacity-0 animate-slide-up-fade [animation-delay:300ms] [animation-fill-mode:forwards]">{t.slides[i].title}</h1>
@@ -181,10 +188,11 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* Who We Are */}
+      {/* Who We Are (Company Intro) */}
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 opacity-100 pointer-events-none"><ParticleBackground /></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-20 items-center">
+          {/* Left: Text */}
           <div className="gsap-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50/80 border border-blue-100 text-blue-600 text-xs font-bold rounded-full uppercase tracking-wider mb-6">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>{t.who}
@@ -194,17 +202,17 @@ export default function Home() {
             <p className="text-lg text-slate-600 leading-relaxed mb-8"><Suspense fallback={<span>...</span>}><RevealText text={t.intro} /></Suspense></p>
             <button className="group flex items-center gap-3 text-blue-600 font-semibold hover:gap-5 transition-all">{t.more} <ArrowRight size={20} /></button>
           </div>
+          
+          {/* Right: Image ONLY (Updated: Removed the Green/Sustainable Card) */}
           <div className="relative gsap-fade-up h-full flex items-center justify-center lg:justify-end">
+             {/* Image Container */}
              <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white/50 z-10">
-                <img src="banner/5.jpg" alt="Production" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" />
+                <img src="banner/5.jpg" alt="Production Environment" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" />
              </div>
-             <div className="absolute -bottom-6 -left-6 md:-left-12 bg-white p-6 md:p-8 rounded-2xl shadow-2xl border border-slate-100 max-w-xs w-full animate-float z-20">
-                <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center"><Leaf size={24} /></div>
-                    <h3 className="text-xl font-bold text-slate-800">{t.sustainable}</h3>
-                </div>
-                <p className="text-slate-600 leading-relaxed text-sm">{t.sustainableDesc}</p>
-             </div>
+             
+             {/* 删除了之前的 absolute 悬浮卡片 div */}
+
+             {/* Background Glow */}
              <div className="absolute -z-10 right-0 top-1/2 -translate-y-1/2 w-full h-full bg-blue-100/30 rounded-full blur-3xl opacity-50"></div>
           </div>
         </div>
@@ -237,7 +245,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- NEW: Business Solutions --- */}
+      {/* Business Solutions */}
       <section className="py-24 bg-slate-50 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 gsap-fade-up">
@@ -248,22 +256,17 @@ export default function Home() {
           <div className="grid lg:grid-cols-3 gap-8">
             {t.solutions.map((item, idx) => (
               <div key={idx} className="gsap-fade-up group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 flex flex-col">
-                {/* Header with gradient and Icon */}
                 <div className={`h-24 w-full relative overflow-hidden flex items-center justify-center ${idx === 0 ? 'bg-blue-50' : idx === 1 ? 'bg-indigo-50' : 'bg-green-50'}`}>
-                  {/* Subtle pattern or gradient */}
                   <div className={`absolute inset-0 opacity-20 ${idx === 0 ? 'bg-gradient-to-br from-blue-100 to-transparent' : idx === 1 ? 'bg-gradient-to-br from-indigo-100 to-transparent' : 'bg-gradient-to-br from-green-100 to-transparent'}`}></div>
-                  
                   <div className={`p-3.5 rounded-xl transition-transform duration-500 group-hover:scale-110 ${idx === 0 ? 'bg-blue-100 text-blue-600' : idx === 1 ? 'bg-indigo-100 text-indigo-600' : 'bg-green-100 text-green-600'}`}>
                     {idx === 0 && <PackageOpen size={28} strokeWidth={1.5} />}
                     {idx === 1 && <DraftingCompass size={28} strokeWidth={1.5} />}
                     {idx === 2 && <Sprout size={28} strokeWidth={1.5} />}
                   </div>
                 </div>
-
                 <div className="p-8 flex-1 flex flex-col">
                   <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed text-sm flex-1">{item.desc}</p>
-                  
                   <div className="mt-6 pt-6 border-t border-slate-100 flex items-center text-blue-600 font-semibold text-sm opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                     {t.more} <ArrowRight size={16} className="ml-2" />
                   </div>
