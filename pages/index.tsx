@@ -246,12 +246,13 @@ export default function Home() {
 
       {/* --- Who We Are (Intro) --- */}
       <section className="relative py-32 overflow-hidden">
-        {/* Particle Background Layer */}
+        {/* Particle Background Layer (Visible as requested) */}
         <div className="absolute inset-0 opacity-100 pointer-events-none">
           <ParticleBackground />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-20 items-center">
+          {/* Left Text Content */}
           <div className="gsap-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50/80 border border-blue-100 text-blue-600 text-xs font-bold rounded-full uppercase tracking-wider mb-6">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
@@ -271,12 +272,21 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Decorative Image/Graphic Area with NEW GREEN CARD */}
-          <div className="relative gsap-fade-up h-full min-h-[400px] flex items-center justify-center lg:justify-end">
-             {/* 这一块区域用于展示那个悬浮的绿色环保卡片，配合粒子背景 */}
+          {/* Right Image Area (Modified: Using banner/5.jpg) */}
+          <div className="relative gsap-fade-up h-full flex items-center justify-center lg:justify-end">
              
-             {/* 绿色环保悬浮卡片 (Green Module) */}
-             <div className="relative bg-white p-8 rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full animate-float z-20">
+             {/* Main Image Container */}
+             <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white/50 z-10">
+                <img 
+                    src="banner/5.jpg" 
+                    alt="Production Environment" 
+                    className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700" 
+                />
+             </div>
+
+             {/* 绿色环保悬浮卡片 (Floating Green Module) */}
+             {/* Positioned absolutely on top of the image (bottom left) */}
+             <div className="absolute -bottom-6 -left-6 md:-left-12 bg-white p-6 md:p-8 rounded-2xl shadow-2xl border border-slate-100 max-w-xs w-full animate-float z-20">
                 <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center">
                         <Leaf size={24} />
@@ -286,15 +296,10 @@ export default function Home() {
                 <p className="text-slate-600 leading-relaxed text-sm">
                     {t.sustainableDesc}
                 </p>
-                {/* 装饰性小圆点 */}
-                <div className="absolute top-4 right-4 flex gap-1">
-                   <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                   <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                </div>
              </div>
 
-             {/* 背景装饰图 (虚化/叠底) */}
-             <div className="absolute -z-10 right-0 top-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-100/50 rounded-full blur-3xl opacity-60"></div>
+             {/* 背景装饰光晕 */}
+             <div className="absolute -z-10 right-0 top-1/2 -translate-y-1/2 w-full h-full bg-blue-100/30 rounded-full blur-3xl opacity-50"></div>
           </div>
         </div>
       </section>
@@ -343,7 +348,6 @@ export default function Home() {
       </section>
 
       {/* --- Technical Strength (Blue-White Light Theme) --- */}
-      {/* 修改：背景改为蓝白渐变，字体改为深色 */}
       <section className="py-32 bg-gradient-to-b from-[#E6F4FF] via-white to-[#E6F4FF] relative overflow-hidden">
         {/* Abstract Background Shapes (Light) */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl"></div>
@@ -361,7 +365,7 @@ export default function Home() {
 
             <div className="space-y-4">
               {[t.lab1, t.lab2, t.lab3].map((item, idx) => (
-                // 修改：列表项改为深色卡片或深色描边卡片，这里使用深蓝灰背景卡片以突出专业感
+                // Dark Blue/Grey cards for contrast
                 <div
                   key={idx}
                   className="flex items-center gap-4 p-5 rounded-xl bg-slate-800 text-white shadow-lg transform hover:scale-[1.02] transition-all"
