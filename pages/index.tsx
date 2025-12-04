@@ -197,10 +197,7 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="bg-white text-slate-900 overflow-x-hidden relative">
-      <Helmet>
-        <title>{lang === 'zh' ? '苏州永爱生命科技有限公司' : 'Suzhou Tops Life Technology Co., Ltd.'}</title>
-        <meta name="description" content={lang === 'zh' ? '医用软包装、精密注塑及大豆蛋白新材料制造商。' : 'Manufacturer specializing in medical soft packaging, precision injection molding, and soy-protein biomaterials.'} />
-      </Helmet>
+      
 
       <style>{`
         @keyframes kenZoom { 0% { transform: scale(1.0); } 100% { transform: scale(1.15); } }
