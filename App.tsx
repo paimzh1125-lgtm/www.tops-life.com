@@ -10,7 +10,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 // Pages
-import Home from './pages/Home';
+import Home from './pages/index';
 import About from './pages/About';
 import Products from './pages/Products';
 import News from './pages/News';
