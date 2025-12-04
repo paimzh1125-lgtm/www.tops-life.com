@@ -30,7 +30,7 @@ const slides = [
   { id: 4, image: 'https://www.tops-life.com/banner/4.png?v=1' },
   { id: 5, image: 'https://www.tops-life.com/banner/5.png?v=1' },
   { id: 6, image: 'https://www.tops-life.com/banner/1.png?v=1' }, // 克隆第一张
-];一张
+];
 
 // 把这行改回来（你原来就是这张能正常显示）
 const labImage = 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/lab.jpg';
