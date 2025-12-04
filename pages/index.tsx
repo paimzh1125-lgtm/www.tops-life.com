@@ -3,14 +3,14 @@
 
 import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Autoplay, EffectFade } from "swiper";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ParticleBackground from "../components/ParticleBackground";
 
-SwiperCore.use([Autoplay, EffectFade]);
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function IndexPage() {
@@ -52,7 +52,7 @@ export default function IndexPage() {
       <ParticleBackground />
 
       {/* Swiper Banner */}
-      <Swiper effect="fade" autoplay={{ delay: 8000 }} speed={1200} loop className="h-screen">
+      <Swiper modules={[Autoplay]} effect="fade" autoplay={{ delay: 8000 }} speed={1200} loop>
         {/* Banner 内容 */}
         {[1, 2, 3, 4, 5].map((n, i) => (
           <SwiperSlide key={n}>
