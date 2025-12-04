@@ -20,10 +20,10 @@ const KEN_BURNS_BASE = 22; // Ken Burns 基准时长（秒）
 
 // 你提供的图片文件（已确认存在）
 const slides = [
-  { id: 1, image: '/banner/1.png' },
-  { id: 2, image: '/banner/2.png' },
-  { id: 3, image: '/banner/3.png' },
-  { id: 4, image: '/banner/4.png' },
+  { id: 1, image: '/banner/1.jpg' },
+  { id: 2, image: '/banner/2.jpg' },
+  { id: 3, image: '/banner/3.jpg' },
+  { id: 4, image: '/banner/4.jpg' },
   { id: 5, image: '/banner/5.jpg' },
 ];
 
