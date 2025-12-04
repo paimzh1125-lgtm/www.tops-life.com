@@ -32,7 +32,7 @@ const slides = [
 ];
 
 // 实验室图（你原来能显示的，先用着）
-const labImage = 'https://raw.githubusercontent.com/grok-images/tops-life-slides/main/lab.jpg';
+const labImage = 'https://www.tops-life.com/banner/5.jpg';
 
 // 中英文内容（已补齐5条）
 const LANG = {
