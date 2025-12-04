@@ -139,64 +139,32 @@ export default function IndexPage() {
                 </p>
               </div>
             </section>
-          </SwiperSlide>
-        ))}
-      </Swiper>
 
-      {/* 公司简介 */}
-      <section className="py-28" ref={introRef}>
-        <div className="intro-content container mx-auto px-6 lg:px-20 text-center lg:text-left flex flex-col lg:flex-row items-center gap-12">
+      {/* 技术实力 */}
+      <section className="py-24">
+        <div className="container mx-auto px-6 lg:px-20 flex flex-col lg:flex-row items-center gap-8">
+          <div className="flex-1 rounded-xl overflow-hidden">
+            <div
+              className="h-80 bg-cover bg-center"
+              data-speed="0.94"
+              style={{ backgroundImage: "url(/banner/4.jpg)" }}
+            />
+          </div>
           <div className="flex-1">
-            <h2 className="text-3xl font-bold mb-4">
-              {t("苏州永爱生命科技有限公司", "Suzhou Tops Life Technology Co., Ltd.")}
-            </h2>
-            <p className="text-lg leading-relaxed opacity-95 max-w-2xl">
+            <h3 className="text-2xl font-semibold mb-4">{t("技术实力", "Technical Strength")}</h3>
+            <p className="leading-relaxed opacity-95">
               {t(
-                "苏州永爱生命科技有限公司是一家以技术为驱动的制造商，专注医用软包装、精密注塑部件及新型生物材料研发生产。",
-                "A technology‑driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials."
+                "技术团队融合高分子科学、材料工程及精密成型专业知识，配备洁净室、自动化生产线及内部研发实验室。",
+                "Our technical team integrates polymer science, materials engineering, and precision molding expertise, supported by cleanrooms, automated production lines, and in-house R&D laboratories."
               )}
             </p>
           </div>
-
-          {/* Logo */}
-          <div className="w-48 h-48 flex-shrink-0">
-            <svg viewBox="0 0 120 120" className="w-full h-full">
-              <g fill="none" stroke="#40C4FF" strokeWidth={1.6} strokeLinecap="round">
-                <path className="logo-line" d="M10 60 Q40 10 70 60 T110 60" />
-                <path className="logo-line" d="M20 80 H100" />
-              </g>
-            </svg>
-          </div>
         </div>
       </section>
 
-      {/* 核心价值观 */}
-      <section className="py-20">
-        <div className="container mx-auto px-6 lg:px-20">
-          <h3 className="text-2xl font-semibold mb-8 text-center">
-            {t("核心价值观", "Core Values")}
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              t("安全", "Safety"),
-              t("环保", "Sustainability"),
-              t("质量控制", "Quality Control"),
-            ].map((title, idx) => (
-              <article
-                key={idx}
-                className="p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 shadow-[0_10px_30px_rgba(64,196,255,0.12)]"
-              >
-                <h4 className="text-xl font-medium mb-2">{title}</h4>
-                <p className="text-sm opacity-90">
-                  {[
-                    t("严格遵循最高医疗级规范，确保患者安全，符合监管要求。", "Complies with the highest medical standards to ensure safety."),
-                    t("可持续理念融入材料研发，提供生物基环保解决方案。", "Sustainable, bio-based material solutions."),
-                    t("遵循 ISO 9001 / ISO 13485，确保生产稳定可控、可追溯。", "ISO 9001 / 13485 certified traceable processes."),
-                  ][idx]}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <footer className="py-12 text-center text-sm opacity-80">
+        © {new Date().getFullYear()} {t("苏州永爱生命科技有限公司 • 版权所有", "Suzhou Tops Life Technology Co., Ltd. • All rights reserved")}
+      </footer>
+    </div>
+  );
+}
