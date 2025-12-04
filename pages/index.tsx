@@ -124,6 +124,36 @@ const Home: React.FC = () => {
                     <p className="text-lg opacity-90 max-w-3xl mx-auto">非转基因功能性大豆蛋白解决方案，应用于纸张/纸板涂布和水性油墨等行业。</p>
                   </div>
                 </div>
+              </section>
+            </SwiperSlide>
+
+            {/* Banner 4 */}
+            <SwiperSlide>
+              <section className="h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/banner/4.jpg')" }}>
+                <div className="container mx-auto px-6 lg:px-20 text-center">
+                  <div className="backdrop-blur-sm bg-black/30 inline-block p-8 rounded-lg">
+                    <h1 className="text-4xl lg:text-5xl font-semibold leading-tight mb-4" ref={(el) => (bannerTitleRefs.current[3] = el)}>
+                      <div className="line">科研级生产环境</div>
+                    </h1>
+                    <p className="text-lg opacity-90 max-w-3xl mx-auto">持续扩展制造能力，以满足全球生命科学客户的严格要求。</p>
+                  </div>
+                </div>
+              </section>
+            </SwiperSlide>
+
+            {/* Banner 5 */}
+            <SwiperSlide>
+              <section className="h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/banner/5.jpg')" }}>
+                <div className="container mx-auto px-6 lg:px-20 text-center">
+                  <div className="backdrop-blur-sm bg-black/30 inline-block p-8 rounded-lg">
+                    <h1 className="text-4xl lg:text-5xl font-semibold leading-tight mb-4" ref={(el) => (bannerTitleRefs.current[4] = el)}>
+                      <div className="line">先进产线与质量体系</div>
+                    </h1>
+                    <p className="text-lg opacity-90 max-w-3xl mx-auto">以稳定、可追溯的制造流程，为全球客户提供高等级产品。</p>
+                  </div>
+                </div>
+              </section>
+            </SwiperSlide>
           </Swiper>
         </header>
 
@@ -226,7 +256,7 @@ const Home: React.FC = () => {
           window.addEventListener('scroll', () => {
             const rect = el.getBoundingClientRect();
             const offset = (window.innerHeight - rect.top) * (1 - speed);
-            el.style.transform = `translateY(${offset * 0.15}px)`;
+            el.style.transform = 'translateY(' + (offset * 0.15) + 'px)';
           });
         })();
       ` }} />
