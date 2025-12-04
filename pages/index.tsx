@@ -18,14 +18,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 // 图片与文案配置（请确保 public/banner 下存在对应图片）
 const rawSlides = [
-  { id: 1, image: '/banner/1.jpg' },
-  { id: 2, image: '/banner/2.jpg' },
-  { id: 3, image: '/banner/3.jpg' },
-  { id: 4, image: '/banner/4.jpg' },
-  { id: 5, image: '/banner/5.jpg' },
+  { id: 1, image: 'banner/1.jpg' },
+  { id: 2, image: 'banner/2.jpg' },
+  { id: 3, image: 'banner/3.jpg' },
+  { id: 4, image: 'banner/4.jpg' },
+  { id: 5, image: 'banner/5.jpg' },
 ];
 
-const labImage = '/banner/5.jpg';
+const labImage = 'banner/5.jpg';
 
 const LANG = {
   zh: {
