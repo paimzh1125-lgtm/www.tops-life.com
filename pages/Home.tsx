@@ -261,6 +261,3 @@ export default function Home() {
     </>
   );
 }
-<div className="overflow-hidden pt-20 lg:pt-0">  {/* 手机留出导航高度 */}
-  <section className="h-screen w-full relative -mt-20 lg:mt-0">  {/* 关键！ */}
-    <Swiper className="h-full w-full">...
