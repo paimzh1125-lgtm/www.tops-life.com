@@ -1,15 +1,18 @@
+// --- MODIFY FILE App.tsx ---
+
 import React, { useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Components
+// 引入刚刚创建的 Provider
+import { LanguageProvider } from './components/LanguageContext'; 
+
 import ParticleBackground from './components/ParticleBackground';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-// Pages
 import Home from './pages/index';
 import About from './pages/About';
 import Products from './pages/Products';
@@ -18,6 +21,7 @@ import Contact from './pages/Contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// ... (ScrollToTop 组件保持不变) ...
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -26,12 +30,14 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Made children optional to prevent TypeScript error: Property 'children' is missing in type '{}'
+// ... (Layout 组件保持不变) ...
 const Layout = ({ children }: { children?: React.ReactNode }) => {
+  // ... (Lenis 代码保持不变) ...
   const lenisRef = useRef<Lenis | null>(null);
-
+  
   useEffect(() => {
-    const lenis = new Lenis({
+     // ... (原有 Lenis 初始化代码) ...
+     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
@@ -40,22 +46,17 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
       smoothTouch: false,
       touchMultiplier: 2,
     });
-    
     lenisRef.current = lenis;
-
     const raf = (time: number) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
     };
     requestAnimationFrame(raf);
-
-    // Integrate Lenis with ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
     gsap.ticker.lagSmoothing(0);
-
     return () => {
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
@@ -65,7 +66,7 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
   return (
     <div className="relative min-h-screen flex flex-col font-sans text-tops-dark bg-tops-white selection:bg-tops-blue selection:text-white">
       <ParticleBackground />
-      <Navbar />
+      <Navbar /> {/* Navbar 现在在 Provider 内部了 */}
       <main className="flex-grow z-10 relative">
         {children}
       </main>
@@ -76,18 +77,21 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
-      <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Layout>
-    </HashRouter>
+    //在这里包裹 LanguageProvider
+    <LanguageProvider>
+      <HashRouter>
+        <ScrollToTop />
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </Layout>
+      </HashRouter>
+    </LanguageProvider>
   );
 };
 
