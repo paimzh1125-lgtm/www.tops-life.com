@@ -1,104 +1,146 @@
 import React, { useState, useEffect } from 'react';
-import { Globe, Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Globe, ChevronRight } from 'lucide-react';
+import { useGlobalLang } from '../context/LanguageContext';   // ← 加入
+import { LANG } from '../i18n/lang';                           // ← 加入
 
 const Navbar: React.FC = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const location = useLocation();
 
-  // 监听滚动
+  const { lang, setLang } = useGlobalLang();                  // ← 使用全局语言
+  const t = LANG[lang].navbar;                                // ← 文案切换
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 导航链接
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [location]);
+
   const navLinks = [
-    { name: "首页", href: "#/" },
-    { name: "关于我们", href: "#/about" },
-    { name: "业务板块", href: "#/products" },
-    { name: "新闻动态", href: "#/news" },
-    { name: "联系我们", href: "#/contact" },
+    { name: t.home, path: '/' },
+    { name: t.about, path: '/about' },
+    { name: t.products, path: '/products' },
+    { name: t.news, path: '/news' },
+    { name: t.contact, path: '/contact' },
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md py-3" // 滚动后：白色背景，阴影
-          : "bg-transparent py-5" // 顶部：透明背景
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        isScrolled
+          ? 'bg-tops-dark/80 backdrop-blur-md border-b border-tops-blue/10 py-3'
+          : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        
-        {/* --- Logo 区域 --- */}
-        <a href="#/" className="flex items-center gap-2 group cursor-pointer select-none">
-          <img 
-            src="/banner/logo(1).png" 
-            alt="TOPS LIFE Logo" 
-            // 🔴 关键修改：添加了 filter 类
-            // brightness-0 invert: 这会让图片变白。
-            // 我们只在 "没有滚动 (!scrolled)" 时应用这个效果。
-            className={`
-              h-8 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
-              ${!scrolled ? "brightness-0 invert opacity-90" : ""} 
-            `}
-          />
-        </a>
+      <div className="container mx-auto px-6 flex justify-between items-center relative">
 
-        {/* --- 桌面端菜单 --- */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-sky-500 ${
-                scrolled ? "text-slate-700" : "text-white/90 hover:text-white"
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-10 h-10 border-2 border-tops-blue rounded-full flex items-center justify-center relative overflow-hidden">
+            <div className="absolute w-full h-full bg-tops-blue/20 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full" />
+            <span className="text-tops-blue font-bold text-xl relative z-10">T</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg leading-tight tracking-wide text-white">
+              TOPS LIFE
+            </span>
+            <span className="text-[10px] text-tops-blue tracking-wider uppercase">Technology</span>
+          </div>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`text-sm font-medium transition-all duration-300 relative group ${
+                location.pathname === link.path
+                  ? 'text-tops-blue'
+                  : 'text-slate-300 hover:text-white'
               }`}
             >
-              {item.name}
-            </a>
+              {link.name}
+              <span
+                className={`absolute -bottom-1 left-0 w-0 h-[2px] bg-tops-blue transition-all duration-300 group-hover:w-full ${
+                  location.pathname === link.path ? 'w-full' : ''
+                }`}
+              />
+            </Link>
           ))}
+        </nav>
 
-          {/* 语言切换按钮 */}
+        {/* Desktop Language Button */}
+        <div className="flex items-center gap-4">
           <button
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-bold transition-all hover:scale-105 ${
-              scrolled
-                ? "border-slate-200 bg-slate-50 text-slate-700 hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
-                : "border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-            }`}
+            className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-xs text-white hover:bg-white/10 transition-colors"
+            onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
           >
-            <Globe size={14} /> EN
+            <Globe size={14} /> {lang === 'zh' ? 'EN' : '中文'}
+          </button>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden text-white"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+          >
+            {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* --- 移动端菜单按钮 --- */}
-        <div className="md:hidden">
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className={`transition-colors ${scrolled ? "text-slate-800" : "text-white"}`}
+        {/* Mobile Menu */}
+        <div
+          className={`fixed inset-0 bg-tops-dark/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${
+            isMobileOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}
+        >
+          <button
+            className="absolute top-6 right-6 text-white"
+            onClick={() => setIsMobileOpen(false)}
           >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            <X size={32} />
+          </button>
+
+          {navLinks.map((link, idx) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="text-2xl font-bold text-white flex items-center gap-3"
+              style={{
+                animation: isMobileOpen
+                  ? `fadeInUp 0.5s forwards ${idx * 0.1}s`
+                  : 'none',
+                opacity: 0,
+              }}
+            >
+              {link.name} <ChevronRight size={20} className="text-tops-blue" />
+            </Link>
+          ))}
+
+          {/* Mobile Language Button */}
+          <button
+            className="text-white text-xl mt-6 flex items-center gap-2"
+            onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
+          >
+            <Globe size={20} /> {lang === 'zh' ? 'EN' : '中文'}
           </button>
         </div>
       </div>
 
-      {/* --- 移动端下拉菜单 --- */}
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-lg py-4 px-6 flex flex-col gap-4 md:hidden border-t border-slate-100">
-          {navLinks.map((item) => (
-            <a 
-              key={item.name} 
-              href={item.href} 
-              className="text-slate-700 font-medium hover:text-sky-500"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item.name}
-            </a>
-          ))}
-        </div>
-      )}
-    </nav>
+      {/* bottom line */}
+      <div
+        className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-tops-blue to-transparent w-full transition-opacity duration-300 ${
+          isScrolled ? 'opacity-50' : 'opacity-0'
+        }`}
+      />
+    </header>
   );
 };
 
