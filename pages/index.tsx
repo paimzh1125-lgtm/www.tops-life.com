@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense, lazy, useRef } from "react";
+import React, { useEffect, Suspense, lazy, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination, Navigation } from "swiper/modules";
 import { gsap } from "gsap";
@@ -19,7 +19,10 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// 保持原有组件引入 (如果找不到组件请自行恢复引用)
+// 引入我们刚刚创建的全局语言 Hook
+// 假设你的 index.tsx 在 src/pages/ 下，而 context 在 src/context/ 下
+import { useLanguage } from "../context/LanguageContext";
+
 // import ParticleBackground from "../components/ParticleBackground";
 const RevealText = lazy(() => import("../components/RevealText"));
 
@@ -32,7 +35,7 @@ const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
 }));
 
 // --- 优化后的浅蓝色渐变文字组件 ---
-const GradientText = ({ children, className = "" }) => (
+const GradientText = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
   <span className={`bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-400 ${className}`}>
     {children}
   </span>
@@ -126,11 +129,12 @@ const LANG = {
 };
 
 export default function Home() {
-  // 默认语言设置，由于删除了导航栏，语言切换应该由全局Header控制，这里暂时默认zh
-  const [lang] = useState("zh"); 
-  const t = LANG[lang];
+  // --- 修改点：使用全局 Context 代替本地 useState ---
+  const { language } = useLanguage(); 
+  const t = LANG[language];
   const containerRef = useRef(null);
 
+  // --- 修改点：useEffect 依赖项加入 language，确保切换语言时动画正常 ---
   useEffect(() => {
     const ctx = gsap.context(() => {
       // 通用淡入上浮
@@ -166,7 +170,7 @@ export default function Home() {
 
     }, containerRef);
     return () => ctx.revert();
-  }, [lang]);
+  }, [language]); // 这里加入了 language 依赖
 
   return (
     <div ref={containerRef} className="bg-white text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
@@ -193,8 +197,9 @@ export default function Home() {
                 <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
                   <div className="max-w-4xl text-white pt-20">
                     <div className="overflow-hidden mb-4">
+                      {/* --- 修改点：判断条件改为 language === 'zh' --- */}
                       <div className="animate-slide-up-fade [animation-delay:100ms] inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-400/30 bg-sky-500/20 backdrop-blur-md text-sky-200 text-xs font-bold uppercase tracking-widest">
-                        <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span> {lang === 'zh' ? '创新医疗科技' : 'Innovative MedTech'}
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span> {language === 'zh' ? '创新医疗科技' : 'Innovative MedTech'}
                       </div>
                     </div>
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] animate-slide-up-fade [animation-delay:300ms]">
@@ -210,8 +215,9 @@ export default function Home() {
                       <button className="px-8 py-4 bg-sky-500 hover:bg-sky-600 text-white rounded-full font-medium transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center gap-2 group">
                         {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </button>
+                      {/* --- 修改点：判断条件改为 language === 'zh' --- */}
                       <button className="px-8 py-4 bg-white/10 border border-white/30 backdrop-blur-md hover:bg-white hover:text-sky-600 text-white rounded-full font-medium transition-all">
-                        {lang === 'zh' ? '联系我们' : 'Contact Us'}
+                        {language === 'zh' ? '联系我们' : 'Contact Us'}
                       </button>
                     </div>
                   </div>
