@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
         {/* --- Logo 区域 --- */}
         <a href="#/" className="flex items-center gap-2 group cursor-pointer select-none">
           <img 
-            src="/banner/logo.png" 
+            src="/banner/logo(1).png" 
             alt="TOPS LIFE Logo" 
             // 🔴 关键修改：添加了 filter 类
             // brightness-0 invert: 这会让图片变白。
