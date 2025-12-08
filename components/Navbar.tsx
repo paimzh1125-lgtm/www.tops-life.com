@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
         {/* --- Logo 区域 (已替换) --- */}
         <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none">
           <img 
-            src="/banner/logo.png" 
+            src="/banner/logo(1).png" 
             alt="TOPS LIFE Logo" 
             // 🔴 关键逻辑：使用 isScrolled 状态控制 filter
             // 当页面在顶部 (!isScrolled) 时，应用反色变白效果
