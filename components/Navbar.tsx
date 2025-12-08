@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, ChevronRight } from 'lucide-react';
 // 引入 Hook
-import { useLanguage } from '../context/LanguageContext'; // 请根据实际路径调整
+import { useLanguage } from '../components/LanguageContext'; // 请根据实际路径调整
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
