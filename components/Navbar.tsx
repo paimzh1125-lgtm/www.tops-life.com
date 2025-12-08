@@ -1,27 +1,26 @@
-// --- START OF FILE Navbar.tsx ---
-
+// src/components/Navbar.tsx
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, ChevronRight } from 'lucide-react';
-// 🔴 修改路径：根据你的要求更新为 ../components/LanguageContext
-import { useLanguage } from '../components/LanguageContext'; 
+import { useLanguage } from './LanguageContext'; // 确保路径正确
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
   
-  // 获取全局语言状态
+  // 1. 获取全局语言状态
   const { language, toggleLanguage } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 路由变化时关闭手机菜单
   useEffect(() => {
     setIsMobileOpen(false);
   }, [location]);
@@ -43,63 +42,72 @@ const Navbar: React.FC = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-tops-dark/80 backdrop-blur-md border-b border-tops-blue/10 py-3' 
-          : 'bg-transparent py-6'
+          ? 'bg-white/95 backdrop-blur-md shadow-md py-3' // 滚动后：白底
+          : 'bg-transparent py-5' // 顶部：透明
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center relative">
         
-        {/* --- Logo 区域 (已替换) --- */}
+        {/* --- Logo --- */}
         <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none">
           <img 
             src="/banner/logo(1).png" 
             alt="TOPS LIFE Logo" 
-            // 🔴 关键逻辑：使用 isScrolled 状态控制 filter
-            // 当页面在顶部 (!isScrolled) 时，应用反色变白效果
+            // 顶部时(!isScrolled) Logo变白，滚动后恢复原色
             className={`
-              h-8 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
+              h-8 md:h-10 w-auto object-contain transition-all duration-300 group-hover:scale-105
               ${!isScrolled ? "brightness-0 invert opacity-90" : ""} 
             `}
           />
         </Link>
 
-        {/* Desktop Nav */}
+        {/* --- 桌面端导航 --- */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
               key={link.path} 
               to={link.path}
               className={`text-sm font-medium transition-all duration-300 relative group ${
-                location.pathname === link.path ? 'text-tops-blue' : 'text-slate-300 hover:text-white'
+                // 滚动后文字变深灰，未滚动文字变白
+                isScrolled 
+                  ? 'text-slate-600 hover:text-sky-500' 
+                  : 'text-white/90 hover:text-white'
               }`}
             >
               {link.name}
-              <span className={`absolute -bottom-1 left-0 w-0 h-[2px] bg-tops-blue transition-all duration-300 group-hover:w-full ${location.pathname === link.path ? 'w-full' : ''}`} />
+              {/* 下划线动画 */}
+              <span className={`absolute -bottom-1 left-0 h-[2px] bg-sky-500 transition-all duration-300 w-0 group-hover:w-full ${location.pathname === link.path ? 'w-full' : ''}`} />
             </Link>
           ))}
         </nav>
 
-        {/* Action & Mobile Toggle */}
+        {/* --- 右侧按钮 & 手机端开关 --- */}
         <div className="flex items-center gap-4">
+          {/* 语言切换按钮 */}
           <button 
             onClick={toggleLanguage}
-            className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-xs text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all border hover:scale-105 ${
+              isScrolled
+                ? "border-slate-200 bg-slate-50 text-slate-700 hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
+                : "border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            }`}
           >
-            <Globe size={14} /> {language === 'zh' ? 'EN' : 'ZH'}
+            <Globe size={14} /> {language === 'zh' ? 'EN' : '中文'}
           </button>
           
+          {/* 汉堡菜单图标 */}
           <button 
-            className="md:hidden text-white"
+            className={`md:hidden transition-colors ${isScrolled ? 'text-slate-800' : 'text-white'}`}
             onClick={() => setIsMobileOpen(!isMobileOpen)}
           >
             {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-tops-dark/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}>
+        {/* --- 手机端全屏菜单 --- */}
+        <div className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}>
             <button className="absolute top-6 right-6 text-white" onClick={() => setIsMobileOpen(false)}>
                 <X size={32} />
             </button>
@@ -108,24 +116,20 @@ const Navbar: React.FC = () => {
                   key={link.path} 
                   to={link.path}
                   onClick={() => setIsMobileOpen(false)}
-                  className="text-2xl font-bold text-white flex items-center gap-3"
-                  style={{ animation: isMobileOpen ? `fadeInUp 0.5s forwards ${idx * 0.1}s` : 'none', opacity: 0 }}
+                  className="text-2xl font-bold text-white flex items-center gap-3 hover:text-sky-400 transition-colors"
                >
-                 {link.name} <ChevronRight size={20} className="text-tops-blue" />
+                 {link.name} <ChevronRight size={20} className="text-sky-500" />
                </Link>
             ))}
-             {/* 移动端也添加切换语言按钮 */}
+             {/* 手机端语言切换 */}
              <button 
               onClick={() => { toggleLanguage(); setIsMobileOpen(false); }}
               className="mt-8 flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full text-lg text-white hover:bg-white/10"
             >
-              <Globe size={20} /> Switch to {language === 'zh' ? 'English' : '中文'}
+              <Globe size={20} /> {language === 'zh' ? 'Switch to English' : '切换到中文'}
             </button>
         </div>
       </div>
-      
-      {/* 底部扫描线 */}
-      <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-tops-blue to-transparent w-full transition-opacity duration-300 ${isScrolled ? 'opacity-50' : 'opacity-0'}`} />
     </header>
   );
 };
