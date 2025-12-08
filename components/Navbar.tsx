@@ -1,8 +1,9 @@
-// --- MODIFY FILE Navbar.tsx ---
+// --- START OF FILE Navbar.tsx ---
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, ChevronRight } from 'lucide-react';
+// 🔴 修改路径：根据你的要求更新为 ../components/LanguageContext
 import { useLanguage } from '../components/LanguageContext'; 
 
 const Navbar: React.FC = () => {
@@ -34,10 +35,10 @@ const Navbar: React.FC = () => {
     { name: '联系我们', path: '/contact' },
   ] : [
     { name: 'Home', path: '/' },
-    { name: 'ABOUT', path: '/about' },
-    { name: 'PRODUCTS', path: '/products' },
-    { name: 'NEWS', path: '/news' },
-    { name: 'CONTACT', path: '/contact' },
+    { name: 'About', path: '/about' },
+    { name: 'Products', path: '/products' },
+    { name: 'News', path: '/news' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -49,18 +50,19 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center relative">
-        {/* Logo (保持不变) */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 border-2 border-tops-blue rounded-full flex items-center justify-center relative overflow-hidden">
-             <div className="absolute w-full h-full bg-tops-blue/20 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full" />
-             <span className="text-tops-blue font-bold text-xl relative z-10">T</span>
-          </div>
-          <div className="flex flex-col">
-            <span className={`font-bold text-lg leading-tight tracking-wide transition-colors text-white`}>
-              TOPS LIFE
-            </span>
-            <span className="text-[10px] text-tops-blue tracking-wider uppercase">Technology</span>
-          </div>
+        
+        {/* --- Logo 区域 (已替换) --- */}
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none">
+          <img 
+            src="/banner/logo.png" 
+            alt="TOPS LIFE Logo" 
+            // 🔴 关键逻辑：使用 isScrolled 状态控制 filter
+            // 当页面在顶部 (!isScrolled) 时，应用反色变白效果
+            className={`
+              h-8 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
+              ${!isScrolled ? "brightness-0 invert opacity-90" : ""} 
+            `}
+          />
         </Link>
 
         {/* Desktop Nav */}
@@ -81,7 +83,6 @@ const Navbar: React.FC = () => {
 
         {/* Action & Mobile Toggle */}
         <div className="flex items-center gap-4">
-          {/* 语言切换按钮 */}
           <button 
             onClick={toggleLanguage}
             className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-xs text-white hover:bg-white/10 transition-colors cursor-pointer"
@@ -106,15 +107,15 @@ const Navbar: React.FC = () => {
                <Link 
                   key={link.path} 
                   to={link.path}
-                  onClick={() => setIsMobileOpen(false)} // 点击菜单后关闭
+                  onClick={() => setIsMobileOpen(false)}
                   className="text-2xl font-bold text-white flex items-center gap-3"
                   style={{ animation: isMobileOpen ? `fadeInUp 0.5s forwards ${idx * 0.1}s` : 'none', opacity: 0 }}
                >
                  {link.name} <ChevronRight size={20} className="text-tops-blue" />
                </Link>
             ))}
-            {/* 移动端也添加切换语言按钮 */}
-            <button 
+             {/* 移动端也添加切换语言按钮 */}
+             <button 
               onClick={() => { toggleLanguage(); setIsMobileOpen(false); }}
               className="mt-8 flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full text-lg text-white hover:bg-white/10"
             >
@@ -123,6 +124,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       
+      {/* 底部扫描线 */}
       <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-tops-blue to-transparent w-full transition-opacity duration-300 ${isScrolled ? 'opacity-50' : 'opacity-0'}`} />
     </header>
   );
