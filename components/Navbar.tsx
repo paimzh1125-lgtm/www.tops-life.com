@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
         {/* --- Logo --- */}
         <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none">
           <img 
-            src="/banner/logo(1).png" 
+            src="/banner/logo.png" 
             alt="TOPS LIFE Logo" 
             className={`
               h-9 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
