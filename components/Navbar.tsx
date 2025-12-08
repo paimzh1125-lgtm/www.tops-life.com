@@ -5,14 +5,14 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // 监听滚动，滚动后导航栏变白
+  // 监听滚动
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 导航链接配置
+  // 导航链接
   const navLinks = [
     { name: "首页", href: "#/" },
     { name: "关于我们", href: "#/about" },
@@ -25,8 +25,8 @@ const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-sm py-3"
-          : "bg-transparent py-5"
+          ? "bg-white/95 backdrop-blur-md shadow-md py-3" // 滚动后：白色背景，阴影
+          : "bg-transparent py-5" // 顶部：透明背景
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -36,8 +36,13 @@ const Navbar: React.FC = () => {
           <img 
             src="/banner/logo.png" 
             alt="TOPS LIFE Logo" 
-            // 🔴 关键修改在这里：h-8 (手机端高度) md:h-12 (电脑端高度) w-auto (宽度自适应)
-            className="h-8 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            // 🔴 关键修改：添加了 filter 类
+            // brightness-0 invert: 这会让图片变白。
+            // 我们只在 "没有滚动 (!scrolled)" 时应用这个效果。
+            className={`
+              h-8 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
+              ${!scrolled ? "brightness-0 invert opacity-90" : ""} 
+            `}
           />
         </a>
 
@@ -67,9 +72,12 @@ const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* --- 移动端菜单按钮 (汉堡菜单) --- */}
-        <div className="md:hidden text-white">
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={scrolled ? "text-slate-800" : "text-white"}>
+        {/* --- 移动端菜单按钮 --- */}
+        <div className="md:hidden">
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            className={`transition-colors ${scrolled ? "text-slate-800" : "text-white"}`}
+          >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
