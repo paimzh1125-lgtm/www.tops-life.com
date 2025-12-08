@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, ChevronRight } from 'lucide-react';
-// 引入 Hook
-import { useLanguage } from '../components/LanguageContext'; // 请根据实际路径调整
+import { useLanguage } from '../components/LanguageContext'; 
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,10 +34,10 @@ const Navbar: React.FC = () => {
     { name: '联系我们', path: '/contact' },
   ] : [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Products', path: '/products' },
-    { name: 'News', path: '/news' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'ABOUT', path: '/about' },
+    { name: 'PRODUCTS', path: '/products' },
+    { name: 'NEWS', path: '/news' },
+    { name: 'CONTACT', path: '/contact' },
   ];
 
   return (
