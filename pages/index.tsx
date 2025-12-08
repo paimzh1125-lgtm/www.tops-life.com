@@ -21,7 +21,7 @@ import "swiper/css/navigation";
 
 // 引入我们刚刚创建的全局语言 Hook
 // 假设你的 index.tsx 在 src/pages/ 下，而 context 在 src/context/ 下
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../components/LanguageContext";
 
 // import ParticleBackground from "../components/ParticleBackground";
 const RevealText = lazy(() => import("../components/RevealText"));
