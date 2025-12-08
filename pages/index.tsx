@@ -79,7 +79,7 @@ const LANG = {
     marketTitle: "应用领域",
     market: ["医疗器械", "制药生产", "新材料", "大豆蛋白聚合物"],
     cta: "准备好开启下一个项目了吗？",
-    ctaBtn: "联系我们要约",
+    ctaBtn: "联系我们",
   },
   en: {
     who: "Who We Are",
