@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
           <img 
             src="/banner/logo.png" 
             alt="TOPS LIFE Logo" 
-            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
             // 如果图片太大或太小，调整上面的 h-10 (高度40px) 即可，比如 h-12 或 h-8
           />
         </a>
