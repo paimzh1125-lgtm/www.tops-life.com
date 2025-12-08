@@ -1,105 +1,96 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, ChevronRight } from 'lucide-react';
+import { Globe, Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // 监听滚动，滚动后导航栏变白
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setIsMobileOpen(false);
-  }, [location]);
-
+  // 导航链接配置
   const navLinks = [
-    { name: '首页', path: '/' },
-    { name: '关于我们', path: '/about' },
-    { name: '业务板块', path: '/products' },
-    { name: '新闻动态', path: '/news' },
-    { name: '联系我们', path: '/contact' },
+    { name: "首页", href: "#/" },
+    { name: "关于我们", href: "#/about" },
+    { name: "业务板块", href: "#/products" },
+    { name: "新闻动态", href: "#/news" },
+    { name: "联系我们", href: "#/contact" },
   ];
 
   return (
-    <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-tops-dark/80 backdrop-blur-md border-b border-tops-blue/10 py-3' 
-          : 'bg-transparent py-6'
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/90 backdrop-blur-md shadow-sm py-3"
+          : "bg-transparent py-5"
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center relative">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 border-2 border-tops-blue rounded-full flex items-center justify-center relative overflow-hidden">
-             <div className="absolute w-full h-full bg-tops-blue/20 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full" />
-             <span className="text-tops-blue font-bold text-xl relative z-10">T</span>
-          </div>
-          <div className="flex flex-col">
-            <span className={`font-bold text-lg leading-tight tracking-wide transition-colors ${isScrolled ? 'text-white' : 'text-white'}`}>
-              TOPS LIFE
-            </span>
-            <span className="text-[10px] text-tops-blue tracking-wider uppercase">Technology</span>
-          </div>
-        </Link>
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        
+        {/* --- Logo 区域 (已修改为图片) --- */}
+        <a href="#/" className="flex items-center gap-2 group">
+          <img 
+            src="/banner/logo.png" 
+            alt="TOPS LIFE Logo" 
+            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            // 如果图片太大或太小，调整上面的 h-10 (高度40px) 即可，比如 h-12 或 h-8
+          />
+        </a>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
-              to={link.path}
-              className={`text-sm font-medium transition-all duration-300 relative group ${
-                location.pathname === link.path ? 'text-tops-blue' : 'text-slate-300 hover:text-white'
+        {/* --- 桌面端菜单 --- */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className={`text-sm font-medium transition-colors hover:text-sky-500 ${
+                scrolled ? "text-slate-700" : "text-white/90 hover:text-white"
               }`}
             >
-              {link.name}
-              <span className={`absolute -bottom-1 left-0 w-0 h-[2px] bg-tops-blue transition-all duration-300 group-hover:w-full ${location.pathname === link.path ? 'w-full' : ''}`} />
-            </Link>
+              {item.name}
+            </a>
           ))}
-        </nav>
 
-        {/* Action & Mobile Toggle */}
-        <div className="flex items-center gap-4">
-          <button className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-xs text-white hover:bg-white/10 transition-colors">
+          {/* 语言切换按钮 */}
+          <button
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-bold transition-all hover:scale-105 ${
+              scrolled
+                ? "border-slate-200 bg-slate-50 text-slate-700 hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200"
+                : "border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            }`}
+          >
             <Globe size={14} /> EN
           </button>
-          <button 
-            className="md:hidden text-white"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-          >
-            {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-tops-dark/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}>
-            <button className="absolute top-6 right-6 text-white" onClick={() => setIsMobileOpen(false)}>
-                <X size={32} />
-            </button>
-            {navLinks.map((link, idx) => (
-               <Link 
-                  key={link.path} 
-                  to={link.path}
-                  className="text-2xl font-bold text-white flex items-center gap-3"
-                  style={{ animation: isMobileOpen ? `fadeInUp 0.5s forwards ${idx * 0.1}s` : 'none', opacity: 0 }}
-               >
-                 {link.name} <ChevronRight size={20} className="text-tops-blue" />
-               </Link>
-            ))}
+        {/* --- 移动端菜单按钮 (汉堡菜单) --- */}
+        <div className="md:hidden text-white">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={scrolled ? "text-slate-800" : "text-white"}>
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </div>
-      
-      {/* Blue scanning line at bottom when scrolled */}
-      <div className={`absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-tops-blue to-transparent w-full transition-opacity duration-300 ${isScrolled ? 'opacity-50' : 'opacity-0'}`} />
-    </header>
+
+      {/* --- 移动端下拉菜单 --- */}
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-white shadow-lg py-4 px-6 flex flex-col gap-4 md:hidden border-t border-slate-100">
+          {navLinks.map((item) => (
+            <a 
+              key={item.name} 
+              href={item.href} 
+              className="text-slate-700 font-medium hover:text-sky-500"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item.name}
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
   );
 };
 
