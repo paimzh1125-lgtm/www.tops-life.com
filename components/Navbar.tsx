@@ -31,13 +31,13 @@ const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         
-        {/* --- Logo 区域 (已修改为图片) --- */}
-        <a href="#/" className="flex items-center gap-2 group">
+        {/* --- Logo 区域 --- */}
+        <a href="#/" className="flex items-center gap-2 group cursor-pointer select-none">
           <img 
             src="/banner/logo.png" 
             alt="TOPS LIFE Logo" 
-            className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
-            // 如果图片太大或太小，调整上面的 h-10 (高度40px) 即可，比如 h-12 或 h-8
+            // 🔴 关键修改在这里：h-8 (手机端高度) md:h-12 (电脑端高度) w-auto (宽度自适应)
+            className="h-8 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           />
         </a>
 
