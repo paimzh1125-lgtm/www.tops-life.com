@@ -2,33 +2,50 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <!-- 修改点1：图标改为本地路径 (请确保 public/images/logo.png 存在) -->
     <link rel="icon" type="image/png" href="/images/logo.png" />
-    
-    <!-- 移动端适配的关键标签 (保持现状，这行是对的) -->
+    <!-- 必须保留这一行，否则手机端还会变小 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="theme-color" content="#0F172A" />
     <meta name="description" content="苏州永爱生命科技有限公司 - 医用软包装与精密注塑专家" />
     <title>苏州永爱 Tops Life | 医用软包装与生物材料专家</title>
 
-    <!-- 字体优化：预加载中文字体（可选） -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- 【关键修复步骤】 -->
+    <!-- 1. 引入 Tailwind CSS 在线编译引擎 -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 修改点2：删除了 Tailwind CDN 和配置脚本 -->
-    <!-- 本地开发时，Tailwind 配置应放在 tailwind.config.js 文件中 -->
+    <!-- 2. 配置自定义颜色和字体 (这样 tops-blue 等颜色才能生效) -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              tops: {
+                blue: '#40C4FF', // 天空蓝
+                dark: '#0F172A', // 深空蓝
+                white: '#F8FAFC', // 纯净白
+                gray: '#94A3B8',
+              }
+            },
+            fontFamily: {
+              sans: ['"HarmonyOS Sans"', '"MiSans"', '"Microsoft YaHei"', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
 
-    <!-- 修改点3：删除了 Swiper CDN，因为我们在 index.tsx 里已经引入了 -->
+    <!-- Swiper 轮播图样式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
       body {
         margin: 0;
-        overflow-x: hidden; /* 防止水平滚动条 */
+        overflow-x: hidden;
         background-color: #F8FAFC;
         font-family: "HarmonyOS Sans", "MiSans", "Microsoft YaHei", sans-serif;
         -webkit-font-smoothing: antialiased;
       }
-      
       /* 滚动条美化 */
       ::-webkit-scrollbar {
         width: 8px;
@@ -43,13 +60,9 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #40C4FF;
       }
-      
-      /* 工具类 */
-      .text-glow {
-        text-shadow: 0 0 20px rgba(64, 196, 255, 0.3);
-      }
     </style>
 
+    <!-- 依赖包引入 -->
     <script type="importmap">
     {
       "imports": {
@@ -60,7 +73,6 @@
         "@studio-freight/lenis": "https://aistudiocdn.com/@studio-freight/lenis@^1.0.42",
         "gsap": "https://aistudiocdn.com/gsap@^3.13.0",
         "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/",
-        "three": "https://aistudiocdn.com/three@^0.181.2",
         "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
         "swiper/": "https://aistudiocdn.com/swiper@^12.0.3/"
       }
