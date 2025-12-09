@@ -1,142 +1,147 @@
+// src/components/Navbar.tsx
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from './LanguageContext';
-import { Menu, X, Globe, ChevronRight } from 'lucide-react'; // 使用统一的图标库
+import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from './LanguageContext'; // 确保路径正确
+
+// --- 简单的内部 SVG 图标组件，替代 lucide-react ---
+const Icons = {
+  Menu: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+  ),
+  X: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  ),
+  Globe: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  ),
+  ChevronRight: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  )
+};
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const location = useLocation();
   const { language, toggleLanguage } = useLanguage();
 
-  // 首页透明模式判断
-  const isTransparentMode = !isScrolled;
+  const isHomePage = location.pathname === '/';
+  const isTransparentMode = isHomePage && !isScrolled;
 
-  // 监听滚动
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 平滑滚动处理函数
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault(); // 阻止默认跳转
-    setIsMobileOpen(false); // 关闭手机菜单
-    
-    // 如果是回到顶部
-    if (id === 'top') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [location]);
 
   const navLinks = language === 'zh' ? [
-    { name: '首页', id: 'top' },
-    { name: '关于我们', id: 'about' },
-    { name: '业务板块', id: 'solutions' },
-    { name: '研发实力', id: 'tech' }, // 新增
-    { name: '联系我们', id: 'contact' },
+    { name: '首页', path: '/' },
+    { name: '关于我们', path: '/about' },
+    { name: '业务板块', path: '/products' },
+    { name: '新闻动态', path: '/news' },
+    { name: '联系我们', path: '/contact' },
   ] : [
-    { name: 'Home', id: 'top' },
-    { name: 'About', id: 'about' },
-    { name: 'Solutions', id: 'solutions' },
-    { name: 'R&D', id: 'tech' }, // 新增
-    { name: 'Contact', id: 'contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Products', path: '/products' },
+    { name: 'News', path: '/news' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isTransparentMode
           ? 'bg-transparent py-6' 
-          : 'bg-white/90 backdrop-blur-md shadow-sm py-4 border-b border-slate-100/50'
+          : 'bg-white/95 backdrop-blur-md shadow-lg py-4'
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="container mx-auto px-6 flex justify-between items-center relative">
         
         {/* Logo */}
-        <a href="/" onClick={(e) => scrollToSection(e, 'top')} className="flex items-center gap-2 group cursor-pointer z-50">
-          {/* 请确保 public/images/logo.png 存在，或者改成 logo-white.png 用于深色背景 */}
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none">
           <img 
-            src="public/banner/logo.png" 
+            src="/banner/logo.png" 
             alt="TOPS LIFE Logo" 
             className={`
-              h-10 md:h-12 w-auto object-contain transition-all duration-300
-              ${isTransparentMode ? "brightness-0 invert opacity-90" : ""} 
+              h-9 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
+              ${isTransparentMode ? "brightness-0 invert opacity-100" : ""} 
             `}
           />
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
-            <a 
-              key={link.id} 
-              href={`#${link.id}`}
-              onClick={(e) => scrollToSection(e, link.id)}
+            <Link 
+              key={link.path} 
+              to={link.path}
               className={`
-                text-[15px] font-medium tracking-wide transition-all duration-300 relative group px-2 py-1
-                ${isTransparentMode ? 'text-slate-100 hover:text-white' : 'text-slate-600 hover:text-sky-600'}
+                text-[15px] font-bold tracking-wide transition-all duration-300 relative group px-1
+                ${isTransparentMode ? 'text-white hover:text-sky-200' : 'text-slate-800 hover:text-sky-600'}
+                ${location.pathname === link.path ? (isTransparentMode ? 'text-sky-300' : 'text-sky-600') : ''}
               `}
             >
               {link.name}
-              {/* 下划线动画 */}
               <span 
                 className={`
-                  absolute bottom-0 left-0 h-[2px] rounded-full transition-all duration-300 w-0 group-hover:w-full 
+                  absolute -bottom-2 left-0 h-[3px] rounded-full transition-all duration-300 w-0 group-hover:w-full 
                   ${isTransparentMode ? 'bg-white' : 'bg-sky-500'}
+                  ${location.pathname === link.path ? 'w-full' : ''}
                 `} 
               />
-            </a>
+            </Link>
           ))}
         </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-4 z-50">
+        {/* Buttons */}
+        <div className="flex items-center gap-5">
           <button 
             onClick={toggleLanguage}
-            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 active:scale-95 ${
+            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 ${
               isTransparentMode
-                ? "border-white/30 bg-white/10 text-white backdrop-blur-md hover:bg-white/20" 
-                : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-white hover:border-sky-200 hover:text-sky-600 hover:shadow-md"
+                ? "border-white/40 bg-white/20 text-white backdrop-blur-md hover:bg-white/30" 
+                : "border-slate-200 bg-white text-slate-800 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300"
             }`}
           >
-            <Globe size={16} />
+            <Icons.Globe />
             {language === 'zh' ? 'EN' : '中文'}
           </button>
           
-          {/* Mobile Menu Button */}
           <button 
-            className={`md:hidden p-2 rounded-full transition-colors ${isTransparentMode ? 'text-white hover:bg-white/10' : 'text-slate-800 hover:bg-slate-100'}`}
+            className={`md:hidden transition-colors hover:scale-110 ${isTransparentMode ? 'text-white' : 'text-slate-900'}`}
             onClick={() => setIsMobileOpen(!isMobileOpen)}
           >
-            {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileOpen ? <Icons.X /> : <Icons.Menu />}
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        {/* Mobile Menu */}
+        <div className={`fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}>
+            <button className="absolute top-8 right-8 text-white/80 hover:text-white" onClick={() => setIsMobileOpen(false)}>
+                <Icons.X />
+            </button>
             {navLinks.map((link) => (
-               <a 
-                  key={link.id} 
-                  href={`#${link.id}`}
-                  onClick={(e) => scrollToSection(e, link.id)}
+               <Link 
+                  key={link.path} 
+                  to={link.path}
+                  onClick={() => setIsMobileOpen(false)}
                   className="text-2xl font-bold text-white flex items-center gap-3 hover:text-sky-400 transition-colors tracking-wider"
                >
-                 {link.name} <ChevronRight size={20} className="text-sky-500 opacity-0 group-hover:opacity-100" />
-               </a>
+                 {link.name} <div className="text-sky-500"><Icons.ChevronRight /></div>
+               </Link>
             ))}
              <button 
               onClick={() => { toggleLanguage(); setIsMobileOpen(false); }}
-              className="mt-8 flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full text-lg font-medium text-white hover:bg-white/10"
+              className="mt-8 flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-lg font-medium text-white hover:bg-white/10 hover:border-white/40 transition-all"
             >
-              <Globe size={20} /> {language === 'zh' ? 'English' : '切换中文'}
+              <Icons.Globe /> {language === 'zh' ? 'Switch to English' : '切换到中文'}
             </button>
         </div>
       </div>
