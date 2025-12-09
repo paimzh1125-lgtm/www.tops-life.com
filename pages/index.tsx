@@ -6,13 +6,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowRight,
   Beaker,
-  Activity,
-  Layers,
+  CheckCircle2,
   PackageOpen,
   DraftingCompass,
   Sprout,
-  TrendingUp,
-  CheckCircle2
+  TrendingUp
 } from "lucide-react";
 
 import "swiper/css";
@@ -20,7 +18,7 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// 引入全局语言 Hook
+// 引入全局语言 Hook (路径保持你原来的设置)
 import { useLanguage } from "../components/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -44,7 +42,6 @@ const LANG = {
     badge: "创新医疗科技",
     who: "关于我们",
     company: "苏州永爱生命科技有限公司",
-    // 中文简介保持不变
     intro: "苏州永爱Tops-Life成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应等领域的创新型企业。公司在医疗行业、特种纸、油墨行业等多个领域的各类组件方面拥有丰富经验，生产流程与解决方案涵盖多元化产品及服务。秉持 “质量为先，服务市场与应用” 的理念，公司聚焦三大核心业务：洁净软包装、新材料及医疗器械。我们致力于通过持续的技术创新，为全球客户提供更安全、更环保、更高效的解决方案。",
     more: "探索详情",
     contact: "联系我们",
@@ -94,7 +91,6 @@ const LANG = {
     badge: "Innovative MedTech",
     who: "Who We Are",
     company: "Suzhou Tops Life Technology Co., Ltd.",
-    // --- 修复点：英文简介已扩充，长度与中文匹配，防止布局跳动 ---
     intro: "Founded in 2011, Suzhou Tops-Life is a technology-driven enterprise specializing in flexible packaging, medical devices, and innovative material supply. With over a decade of expertise in medical, specialty paper, and ink industries, we offer diversified products and comprehensive solutions. Adhering to the philosophy of 'Quality First, Serving Market & Application', we focus on three core sectors: Clean Flexible Packaging, New Materials, and Medical Devices. We are dedicated to delivering safer, greener, and more efficient solutions to clients worldwide.",
     more: "Discover More",
     contact: "Contact Us",
@@ -183,19 +179,24 @@ export default function Home() {
 
     }, containerRef);
     return () => ctx.revert();
-  }, [language]); // 当语言切换时，刷新动画，防止布局计算错误
+  }, [language]); 
+
+  // 跳转处理
+  const scrollToContact = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div ref={containerRef} className="bg-white text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
       
-      {/* 背景装饰：优化了颜色更淡雅 */}
+      {/* 背景装饰 */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sky-50/60 rounded-full blur-[100px] animate-float"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[700px] h-[700px] bg-blue-50/60 rounded-full blur-[100px] animate-float [animation-delay:2s]"></div>
       </div>
 
-      {/* Hero Section - 首页轮播 */}
-      <section className="h-screen relative overflow-hidden z-10">
+      {/* Hero Section */}
+      <section className="h-screen relative overflow-hidden z-10" id="top">
         <Swiper modules={[Autoplay, EffectFade, Pagination, Navigation]} autoplay={{ delay: 6000 }} effect="fade" speed={1200} loop pagination={{ clickable: true }} className="h-full w-full">
           {rawSlides.map((s, i) => (
             <SwiperSlide key={s.id}>
@@ -203,7 +204,6 @@ export default function Home() {
                 <div className="absolute inset-0 bg-slate-900">
                   <img src={s.image} alt={t.slides[i].title} className="w-full h-full object-cover opacity-90 animate-ken-burns" />
                 </div>
-                {/* 遮罩优化：加强底部的渐变，保证文字清晰 */}
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                 
@@ -214,7 +214,6 @@ export default function Home() {
                         <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span> {t.badge}
                       </div>
                     </div>
-                    {/* 标题：针对移动端调整了字体大小，防止换行太难看 */}
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] animate-slide-up-fade [animation-delay:300ms]">
                       {t.slides[i].title.split("，")[0]}<br/>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 to-cyan-300">
@@ -225,10 +224,10 @@ export default function Home() {
                       {t.slides[i].subtitle}
                     </p>
                     <div className="flex flex-wrap gap-4 animate-slide-up-fade [animation-delay:700ms]">
-                      <button className="px-8 py-4 bg-sky-500 hover:bg-sky-600 text-white rounded-full font-medium transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center gap-2 group">
+                      <button onClick={scrollToContact} className="px-8 py-4 bg-sky-500 hover:bg-sky-600 text-white rounded-full font-medium transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center gap-2 group">
                         {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </button>
-                      <button className="px-8 py-4 bg-white/10 border border-white/30 backdrop-blur-md hover:bg-white hover:text-sky-600 text-white rounded-full font-medium transition-all">
+                      <button onClick={scrollToContact} className="px-8 py-4 bg-white/10 border border-white/30 backdrop-blur-md hover:bg-white hover:text-sky-600 text-white rounded-full font-medium transition-all">
                         {t.contact}
                       </button>
                     </div>
@@ -240,9 +239,8 @@ export default function Home() {
         </Swiper>
       </section>
 
-     {/* Intro Section - 关于我们 (优化版：垂直居中 + 减少留白) */}
-      <section className="relative py-16 lg:py-24 overflow-hidden z-10">
-        {/* 修改点1：items-start 改为 items-center，让右侧文字垂直居中 */}
+      {/* Intro Section - 关于我们 (ID="about") */}
+      <section id="about" className="relative py-16 lg:py-24 overflow-hidden z-10">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           {/* 左侧图片区域 */}
@@ -276,7 +274,6 @@ export default function Home() {
               {t.intro}
             </p>
             
-            {/* 数据统计 */}
             <div className="grid grid-cols-3 gap-6 border-t border-slate-100 pt-8 mb-8">
               {t.stats.map((stat, i) => (
                 <div key={i}>
@@ -289,16 +286,16 @@ export default function Home() {
               ))}
             </div>
 
-            {/* 修改点2：新增按钮，填充底部视觉空白 */}
-            <button className="px-8 py-3 rounded-full bg-slate-100 text-slate-700 font-bold hover:bg-sky-500 hover:text-white transition-all duration-300 flex items-center gap-2">
+            {/* 新增按钮 */}
+            <button onClick={scrollToContact} className="px-8 py-3 rounded-full bg-slate-100 text-slate-700 font-bold hover:bg-sky-500 hover:text-white transition-all duration-300 flex items-center gap-2">
               {t.more} <ArrowRight size={18} />
             </button>
           </div>
         </div>
       </section>
 
-      {/* Solutions - 核心业务 */}
-      <section className="py-24 bg-gradient-to-b from-white to-sky-50/50 relative z-10">
+      {/* Solutions - 核心业务 (ID="solutions") */}
+      <section id="solutions" className="py-24 bg-gradient-to-b from-white to-sky-50/50 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{t.solutionsTitle}</h2>
@@ -309,7 +306,6 @@ export default function Home() {
             {t.solutions.map((item, idx) => (
               <div key={idx} className="gsap-fade-up h-full">
                 <div className="group h-full bg-white rounded-[24px] p-8 border border-slate-100 shadow-lg hover:shadow-2xl hover:shadow-sky-100/50 transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden">
-                  {/* 顶部渐变条 */}
                   <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r ${idx === 0 ? 'from-sky-400 to-blue-500' : idx === 1 ? 'from-cyan-400 to-sky-500' : 'from-blue-400 to-indigo-500'}`}></div>
                   
                   <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${idx === 0 ? 'bg-sky-50 text-sky-600 group-hover:bg-sky-500 group-hover:text-white' : idx === 1 ? 'bg-cyan-50 text-cyan-600 group-hover:bg-cyan-500 group-hover:text-white' : 'bg-blue-50 text-blue-600 group-hover:bg-blue-500 group-hover:text-white'}`}>
@@ -329,9 +325,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* R&D Strength - 研发实力 */}
-      <section className="py-24 lg:py-32 bg-white relative overflow-hidden z-10">
-        {/* 背景线条 */}
+      {/* R&D Strength - 研发实力 (ID="tech") */}
+      <section id="tech" className="py-24 lg:py-32 bg-white relative overflow-hidden z-10">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
            <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
              <path d="M0 100 L100 0" stroke="#0ea5e9" strokeWidth="0.5" />
@@ -363,7 +358,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 图片拼接区域 */}
             <div className="lg:col-span-7 relative h-[400px] lg:h-[500px] gsap-fade-up mt-10 lg:mt-0">
               <div className="absolute top-0 right-0 w-3/4 h-3/4 rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-2xl z-10 gsap-parallax">
                  <img src="/banner/4.jpg" className="w-full h-full object-cover" alt="Lab Environment" />
@@ -409,10 +403,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section - 联系我们 */}
-      <section className="py-24 relative overflow-hidden bg-sky-600">
+      {/* CTA Section - 联系我们 (ID="contact") */}
+      <section id="contact" className="py-24 relative overflow-hidden bg-sky-600">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-blue-700"></div>
-        {/* 背景纹理：确保 public/images/pattern.png 存在，或者删除这行 */}
+        {/* 背景纹理 */}
         <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.png')] bg-repeat"></div>
         
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
@@ -426,7 +420,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 内联 CSS 动画定义 */}
+      {/* 动画定义 */}
       <style>{`
         @keyframes ken-burns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
         .animate-ken-burns { animation: ken-burns 25s ease-out infinite alternate; }
