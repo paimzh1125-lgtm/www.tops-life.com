@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2">
                {/* 这里的 Logo 最好用彩色的 */}
-               <img src="public/banner/logo.png" alt="Tops Life" className="h-8" />
+               <img src="/banner/logo.png" alt="Tops Life" className="h-8" />
                <span className="text-xl font-bold text-slate-800">TOPS LIFE</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-500">
