@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
         title: "联系方式",
         address: { label: "公司地址", val: "江苏省苏州市苏州工业园区方泾路 8 号", zip: "邮编：215121" },
         phone: { label: "联系电话", val: "+86 0512-66185798" },
-        email: { label: "电子邮箱", val: "pai.ma@tops-life.com" },
+        email: { label: "电子邮箱", val: "Topslife@tops-life.com" },
         hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
       },
       form: { title: "发送消息", desc: "请填写以下表格，我们的团队将在 24 小时内与您联系。", name: "您的姓名", email: "电子邮箱", subject: "咨询主题", message: "详细需求或留言", btn: "发送邮件" },
