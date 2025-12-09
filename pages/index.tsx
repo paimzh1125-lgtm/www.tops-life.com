@@ -19,22 +19,19 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// 引入我们刚刚创建的全局语言 Hook
-// 假设你的 index.tsx 在 src/pages/ 下，而 context 在 src/context/ 下
+// 引入全局语言 Hook
 import { useLanguage } from "../components/LanguageContext";
 
-// import ParticleBackground from "../components/ParticleBackground";
 const RevealText = lazy(() => import("../components/RevealText"));
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 模拟图片ID
+// --- 修改点 1：路径前加了 "/"，确保从 public/banner 文件夹读取 ---
 const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
   id,
-  image: `banner/${id}.jpg`, 
+  image: `/banner/${id}.jpg`, 
 }));
 
-// --- 优化后的浅蓝色渐变文字组件 ---
 const GradientText = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
   <span className={`bg-clip-text text-transparent bg-gradient-to-r from-sky-500 via-blue-500 to-cyan-400 ${className}`}>
     {children}
@@ -129,15 +126,12 @@ const LANG = {
 };
 
 export default function Home() {
-  // --- 修改点：使用全局 Context 代替本地 useState ---
   const { language } = useLanguage(); 
   const t = LANG[language];
   const containerRef = useRef(null);
 
-  // --- 修改点：useEffect 依赖项加入 language，确保切换语言时动画正常 ---
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 通用淡入上浮
       const fadeUps = document.querySelectorAll(".gsap-fade-up");
       fadeUps.forEach((el) => {
         gsap.fromTo(el, { y: 50, opacity: 0 }, {
@@ -146,7 +140,6 @@ export default function Home() {
         });
       });
 
-      // 视差效果
       const parallaxEls = document.querySelectorAll(".gsap-parallax");
       parallaxEls.forEach((el) => {
         gsap.to(el, {
@@ -155,7 +148,6 @@ export default function Home() {
         });
       });
       
-      // 数字增长动画
       const counters = document.querySelectorAll(".counter-number");
       counters.forEach(counter => {
         gsap.from(counter, {
@@ -170,12 +162,12 @@ export default function Home() {
 
     }, containerRef);
     return () => ctx.revert();
-  }, [language]); // 这里加入了 language 依赖
+  }, [language]);
 
   return (
     <div ref={containerRef} className="bg-white text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
       
-      {/* 浅色背景装饰 (Light Blue Blobs) */}
+      {/* 浅色背景装饰 */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sky-100/40 rounded-full blur-[100px] animate-float"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[700px] h-[700px] bg-blue-50/50 rounded-full blur-[100px] animate-float [animation-delay:2s]"></div>
@@ -189,15 +181,14 @@ export default function Home() {
             <SwiperSlide key={s.id}>
               <div className="relative h-full w-full">
                 <div className="absolute inset-0 bg-slate-900">
+                  {/* 图片路径已改为本地 */}
                   <img src={s.image} alt={t.slides[i].title} className="w-full h-full object-cover opacity-90 animate-ken-burns" />
                 </div>
-                {/* 调整为偏蓝色的遮罩，不再是纯黑，看起来更透气 */}
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-blue-900/30 to-transparent" />
                 
                 <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
                   <div className="max-w-4xl text-white pt-20">
                     <div className="overflow-hidden mb-4">
-                      {/* --- 修改点：判断条件改为 language === 'zh' --- */}
                       <div className="animate-slide-up-fade [animation-delay:100ms] inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-400/30 bg-sky-500/20 backdrop-blur-md text-sky-200 text-xs font-bold uppercase tracking-widest">
                         <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span> {language === 'zh' ? '创新医疗科技' : 'Innovative MedTech'}
                       </div>
@@ -215,7 +206,6 @@ export default function Home() {
                       <button className="px-8 py-4 bg-sky-500 hover:bg-sky-600 text-white rounded-full font-medium transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center gap-2 group">
                         {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </button>
-                      {/* --- 修改点：判断条件改为 language === 'zh' --- */}
                       <button className="px-8 py-4 bg-white/10 border border-white/30 backdrop-blur-md hover:bg-white hover:text-sky-600 text-white rounded-full font-medium transition-all">
                         {language === 'zh' ? '联系我们' : 'Contact Us'}
                       </button>
@@ -228,15 +218,14 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* Intro Section - 破格布局 */}
+      {/* Intro Section */}
       <section className="relative py-24 lg:py-32 overflow-hidden z-10">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="order-2 lg:order-1 relative gsap-fade-up">
-            {/* 装饰性背景框 - 浅蓝 */}
             <div className="absolute -top-10 -left-10 w-2/3 h-full border-[12px] border-sky-50 rounded-3xl -z-10"></div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl group border border-slate-100">
-              <img src="banner/3.jpg" alt="About" className="w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              {/* 悬浮数据卡片 */}
+              {/* --- 修改点 2：路径改为绝对路径 /banner/3.jpg --- */}
+              <img src="/banner/3.jpg" alt="About" className="w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute bottom-6 right-6 lg:-right-10 bg-white/95 backdrop-blur-xl p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white max-w-xs animate-float">
                 <div className="flex items-center gap-4 mb-3">
                   <div className="p-3 bg-sky-100 rounded-full text-sky-600"><TrendingUp size={24} /></div>
@@ -261,7 +250,6 @@ export default function Home() {
               </Suspense>
             </p>
             
-            {/* Stats Row */}
             <div className="grid grid-cols-3 gap-8 border-t border-slate-100 pt-8">
               {t.stats.map((stat, i) => (
                 <div key={i}>
@@ -274,7 +262,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Solutions - 清爽风格 */}
+      {/* Solutions */}
       <section className="py-24 bg-gradient-to-b from-white to-sky-50/30 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20 gsap-fade-up">
@@ -286,7 +274,6 @@ export default function Home() {
             {t.solutions.map((item, idx) => (
               <div key={idx} className="gsap-fade-up group relative p-1 rounded-3xl bg-white hover:bg-gradient-to-br hover:from-sky-100 hover:to-blue-50 transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-2 border border-slate-100">
                 <div className="bg-white h-full rounded-[20px] p-8 relative overflow-hidden z-10 flex flex-col">
-                  {/* Icon 背景色改为浅色系 */}
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${idx === 0 ? 'bg-sky-50 text-sky-500 group-hover:bg-sky-500 group-hover:text-white' : idx === 1 ? 'bg-cyan-50 text-cyan-500 group-hover:bg-cyan-500 group-hover:text-white' : 'bg-blue-50 text-blue-500 group-hover:bg-blue-500 group-hover:text-white'}`}>
                     {item.icon}
                   </div>
@@ -303,9 +290,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* R&D Strength - 这里的黑色背景被改为了浅蓝渐变背景 */}
+      {/* R&D Strength */}
       <section className="py-32 bg-gradient-to-br from-slate-50 via-sky-50 to-white relative overflow-hidden z-10">
-        {/* 背景科技线条 - 改为深蓝淡化 */}
         <div className="absolute inset-0 opacity-5 pointer-events-none">
            <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
              <path d="M0 100 L100 0" stroke="#0ea5e9" strokeWidth="0.5" />
@@ -325,7 +311,6 @@ export default function Home() {
               <p className="text-slate-600 text-lg leading-relaxed mb-10 border-l-4 border-sky-400 pl-6">{t.techDesc}</p>
               
               <div className="space-y-6">
-                {/* Tech Highlights */}
                 <div className="flex items-start gap-4 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                   <div className="mt-1 text-sky-500"><Activity /></div>
                   <div>
@@ -343,17 +328,16 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Side Visuals - Collage */}
             <div className="lg:col-span-7 relative h-[500px] gsap-fade-up">
               <div className="absolute top-0 right-0 w-3/4 h-3/4 rounded-3xl overflow-hidden border-8 border-white shadow-2xl z-10 gsap-parallax">
-                 <img src="banner/4.jpg" className="w-full h-full object-cover" alt="Lab" />
-                 {/* 覆盖一层淡淡的蓝色，统一色调 */}
+                 {/* --- 修改点 3：路径改为绝对路径 /banner/4.jpg --- */}
+                 <img src="/banner/4.jpg" className="w-full h-full object-cover" alt="Lab" />
                  <div className="absolute inset-0 bg-sky-900/10 mix-blend-overlay"></div>
               </div>
               <div className="absolute bottom-0 left-0 w-2/3 h-2/3 rounded-3xl overflow-hidden border-8 border-white shadow-xl z-20">
-                 <img src="banner/1.jpg" className="w-full h-full object-cover" alt="Production" />
+                 {/* --- 修改点 4：路径改为绝对路径 /banner/1.jpg --- */}
+                 <img src="/banner/1.jpg" className="w-full h-full object-cover" alt="Production" />
               </div>
-              {/* Decorative Circle */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-r from-sky-200 to-cyan-200 blur-3xl -z-10 opacity-60"></div>
             </div>
           </div>
@@ -376,7 +360,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.market.map((m, i) => (
               <div key={i} className="gsap-fade-up group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500">
-                <img src={`banner/${(i % 5) + 1}.jpg`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                {/* --- 修改点 5：路径前加 "/" --- */}
+                <img src={`/banner/${(i % 5) + 1}.jpg`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-sky-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
                 
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
@@ -394,13 +379,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section - 浅蓝风格 */}
+      {/* CTA Section */}
       <section className="py-24 relative overflow-hidden">
-        {/* 背景改为渐变浅蓝 */}
         <div className="absolute inset-0 bg-gradient-to-r from-sky-500 to-blue-600"></div>
-        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        {/* --- 修改点 6：替换了网络 URL 为本地 pattern.png --- */}
+        <div className="absolute inset-0 opacity-20 bg-[url('/images/pattern.png')]"></div>
         
-        {/* 装饰圆圈 */}
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl"></div>
 
@@ -412,7 +396,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 底部样式 */}
       <style>{`
         @keyframes ken-burns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
         .animate-ken-burns { animation: ken-burns 25s ease-out infinite alternate; }
