@@ -240,15 +240,16 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* Intro Section - 关于我们 */}
-      <section className="relative py-24 lg:py-32 overflow-hidden z-10">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+     {/* Intro Section - 关于我们 (优化版：垂直居中 + 减少留白) */}
+      <section className="relative py-16 lg:py-24 overflow-hidden z-10">
+        {/* 修改点1：items-start 改为 items-center，让右侧文字垂直居中 */}
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          
           {/* 左侧图片区域 */}
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="absolute -top-6 -left-6 w-3/4 h-full border-[10px] border-sky-50 rounded-3xl -z-10"></div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl group border border-slate-100">
               <img src="/banner/3.jpg" alt="About Tops Life" className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" />
-              {/* 悬浮数据卡片：调整位置防止在手机端遮挡严重 */}
               <div className="absolute bottom-4 right-4 lg:-right-8 lg:bottom-10 bg-white/95 backdrop-blur-xl p-5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white max-w-[200px] md:max-w-xs animate-float">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 bg-sky-100 rounded-full text-sky-600"><TrendingUp size={20} /></div>
@@ -263,7 +264,7 @@ export default function Home() {
           </div>
 
           {/* 右侧文字区域 */}
-          <div className="order-1 lg:order-2 gsap-fade-up pt-4">
+          <div className="order-1 lg:order-2 gsap-fade-up">
             <h2 className="text-sm font-bold text-sky-500 uppercase tracking-widest mb-3 flex items-center gap-2">
               <span className="w-8 h-[2px] bg-sky-500"></span> {t.who}
             </h2>
@@ -271,13 +272,12 @@ export default function Home() {
               {t.company.substring(0, 4)}<GradientText>{t.company.substring(4)}</GradientText>
             </h3>
             
-            {/* 修复点：移除了 RevealText 组件，使用标准 P 标签，增加 text-justify 两端对齐 */}
             <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-8 text-justify opacity-90">
               {t.intro}
             </p>
             
             {/* 数据统计 */}
-            <div className="grid grid-cols-3 gap-6 border-t border-slate-100 pt-8">
+            <div className="grid grid-cols-3 gap-6 border-t border-slate-100 pt-8 mb-8">
               {t.stats.map((stat, i) => (
                 <div key={i}>
                   <div className="text-3xl lg:text-4xl font-bold text-slate-800 mb-1 flex items-baseline">
@@ -288,6 +288,11 @@ export default function Home() {
                 </div>
               ))}
             </div>
+
+            {/* 修改点2：新增按钮，填充底部视觉空白 */}
+            <button className="px-8 py-3 rounded-full bg-slate-100 text-slate-700 font-bold hover:bg-sky-500 hover:text-white transition-all duration-300 flex items-center gap-2">
+              {t.more} <ArrowRight size={18} />
+            </button>
           </div>
         </div>
       </section>
