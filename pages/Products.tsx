@@ -45,11 +45,11 @@ const Products: React.FC = () => {
           title: "医用洁净软包装系统",
           desc: "专为医疗器械终端灭菌设计的无菌屏障系统（SBS）。我们提供从材料选型、结构设计到灭菌适应性验证的全流程服务，确保产品在有效期内的无菌完整性。",
           // 增加：具体产品类型
-          subProducts: ["Tyvek® 特卫强灭菌袋", "医用纸塑包装卷材", "铝箔/镀铝高阻隔包装", "吸塑盒盖材 (Lidding)"],
+          subProducts: ["PE袋和卷材", "医用级薄膜", "铝箔/尼龙高阻隔包装", "EVA和TPU (Lidding)"],
           // 增加：应用领域
-          applications: ["骨科植入物", "心血管介入耗材", "手术器械包", "IVD 诊断试剂"],
+          applications: ["医疗器械包装", "药品包装", "手术器械包", "医疗耗材包装"],
           features: ["符合 ISO 11607 标准", "适应 EO/Gamma/蒸汽灭菌", "极低的微粒污染风险"],
-          imgDesc: "ISO Class 7 洁净车间生产环境"
+          imgDesc: "ISO Class 8 洁净车间生产环境"
         },
         {
           id: "molding",
@@ -57,7 +57,7 @@ const Products: React.FC = () => {
           title: "精密医疗注塑与组装",
           desc: "依托 10 万级洁净注塑车间，我们专注于高难度、高精度的医疗高分子部件制造。具备双色注塑、包胶注塑及嵌件注塑能力，并提供移印、超声波焊接等后道工艺。",
           subProducts: ["微流控芯片基底", "外科吻合器组件", "体外诊断耗材", "精密齿轮/传动件"],
-          applications: ["微创外科手术", "生命科学实验", "药物输注系统", "呼吸麻醉监护"],
+          applications: ["医疗设备结构件", "生命科学实验", "诊断设备核心部件", "微创医疗器械部件"],
           features: ["全电动注塑机生产", "模具公差 < 0.005mm", "全程可追溯体系"],
           imgDesc: "精密模具开发与自动化生产"
         },
@@ -67,7 +67,7 @@ const Products: React.FC = () => {
           title: "大豆蛋白生物基新材料",
           desc: "面向未来的可持续解决方案。我们利用改性大豆蛋白技术，开发出高性能、无甲醛的植物基胶黏剂与功能涂层，完美替代传统石油基材料，助力碳中和。",
           subProducts: ["植物基无醛胶黏剂", "可降解阻隔涂层", "环保纸塑复合材料", "特种功能助剂"],
-          applications: ["高端消费品包装", "家居建材粘合", "可堆肥食品包装", "儿童玩具制造"],
+          applications: ["高端消费品包装", "环保包装材料", "可堆肥食品包装", "生物医用辅助材料"],
           features: ["100% 生物降解", "零甲醛 / 零苯", "优异的干湿强度"],
           imgDesc: "绿色化学与可持续发展实验室"
         }
@@ -98,8 +98,8 @@ const Products: React.FC = () => {
           category: "Core Business 01",
           title: "Medical Flexible Packaging",
           desc: "Sterile Barrier Systems (SBS) designed for terminal sterilization. We offer full-process services from material selection to validation, ensuring sterility integrity throughout shelf life.",
-          subProducts: ["Tyvek® Sterilization Pouches", "Medical Reel & Tubing", "Alu/Foil High Barrier Film", "Blister Lidding Materials"],
-          applications: ["Orthopedic Implants", "Cardiovascular Devices", "Surgical Kits", "IVD Diagnostics"],
+          subProducts: ["PE Bags and Rolls", "Medical-grade Film", "Aluminum Foil/Nylon High Barrier Packaging", "EVA and TPU (for Medical Device Packaging)"],
+          applications: ["Pharmaceutical Packaging", "Surgical Instrument Kits", "Medical Consumables Packaging", "Medical Device Packaging"],
           features: ["ISO 11607 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
           imgDesc: "ISO Class 7 Cleanroom Production"
         },
@@ -108,8 +108,8 @@ const Products: React.FC = () => {
           category: "Core Business 02",
           title: "Medical Injection Molding",
           desc: "Operating in Class 100k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
-          subProducts: ["Microfluidic Chips", "Surgical Stapler Parts", "Lab Consumables", "Precision Gears"],
-          applications: ["Minimally Invasive Surgery", "Life Sciences", "Drug Delivery", "Respiratory Care"],
+          subProducts: ["Microfluidic chip substrate", "Surgical stapler assembly", " In vitro diagnostic (IVD) consumables", "Precision gears/transmission parts"],
+          applications: ["medical device structural components", "Life science experiments", "Core components of diagnostic equipment", "Minimally invasive medical device components"],
           features: ["All-electric Molding", "Mold Tolerance < 0.005mm", "Full Traceability"],
           imgDesc: "Precision Mold & Automated Production"
         },
@@ -118,8 +118,8 @@ const Products: React.FC = () => {
           category: "Core Business 03",
           title: "Soy Protein Bio-Materials",
           desc: "Sustainable solutions for the future. Utilizing modified soy protein technology to create high-performance, formaldehyde-free plant-based binders and coatings replacing petrochemicals.",
-          subProducts: ["Plant-based Adhesives", "Biodegradable Coatings", "Eco-Paper Composites", "Functional Additives"],
-          applications: ["Luxury Packaging", "Home Furnishing", "Compostable Packaging", "Toy Manufacturing"],
+          subProducts: [" Plant-based formaldehyde-free adhesive", "Degradable barrier coating", "Environmentally friendly paper-plastic composite material", "Special functional additives"],
+          applications: ["high-end consumer product packaging", "Environmentally friendly packaging materials", "Compostable food packaging", "Biomedical auxiliary materials"],
           features: ["100% Biodegradable", "Zero Formaldehyde", "Superior Wet/Dry Strength"],
           imgDesc: "Green Chemistry & Sustainability Lab"
         }
