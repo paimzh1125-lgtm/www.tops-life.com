@@ -10,7 +10,11 @@ import {
   PackageOpen,
   DraftingCompass,
   Sprout,
-  TrendingUp
+  TrendingUp,
+  Clock,      // 新增图标
+  Settings2,  // 新增图标
+  Globe2,     // 新增图标
+  Leaf        // 新增图标
 } from "lucide-react";
 
 import "swiper/css";
@@ -18,12 +22,12 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// 引入全局语言 Hook (路径保持你原来的设置)
+// 引入全局语言 Hook
 import { useLanguage } from "../components/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 图片路径配置 (确保 public/banner/ 文件夹下有 1.jpg 到 5.jpg)
+// 图片路径配置
 const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
   id,
   image: `/banner/${id}.jpg`, 
@@ -36,7 +40,7 @@ const GradientText = ({ children, className = "" }: { children: React.ReactNode,
   </span>
 );
 
-// --- 语言数据包 (已修复英文内容过短的问题) ---
+// --- 语言数据包 ---
 const LANG = {
   zh: {
     badge: "创新医疗科技",
@@ -50,6 +54,7 @@ const LANG = {
       { num: "100k", label: "级洁净车间" },
       { num: "50+", label: "全球合作伙伴" },
     ],
+    // --- 核心业务 ---
     solutionsTitle: "核心业务解决方案",
     solutions: [
       {
@@ -68,6 +73,16 @@ const LANG = {
         icon: <Sprout size={32} />,
       }
     ],
+    // --- 新增：为什么选择我们 ---
+    whyUsTitle: "为什么选择 Tops-Life",
+    whyUsDesc: "不仅仅是供应商，更是您值得信赖的战略合作伙伴",
+    whyUsFeatures: [
+      { title: "快速响应交付", desc: "优化的供应链管理，确保紧急订单也能按时高质量交付。", icon: <Clock size={28} /> },
+      { title: "专属定制服务", desc: "从材料配方到模具设计，提供 100% 贴合您需求的定制方案。", icon: <Settings2 size={28} /> },
+      { title: "全球合规标准", desc: "产品符合 FDA, CE 及 ISO 标准，助您无忧开拓国际市场。", icon: <Globe2 size={28} /> },
+      { title: "可持续发展承诺", desc: "积极推广生物基材料，助力企业实现碳中和目标。", icon: <Leaf size={28} /> },
+    ],
+    // --- 研发实力 ---
     tech: "技术实力",
     techDesc: "融合高分子科学、材料工程及精密成型专业知识，配备洁净室、自动化生产线及内部研发实验室。",
     techHighlights: [
@@ -117,6 +132,15 @@ const LANG = {
         icon: <Sprout size={32} />,
       }
     ],
+    // --- Why Us English ---
+    whyUsTitle: "Why Choose Tops-Life",
+    whyUsDesc: "More than a supplier, we are your trusted strategic partner.",
+    whyUsFeatures: [
+      { title: "Rapid Response", desc: "Optimized supply chain management ensures on-time delivery even for urgent orders.", icon: <Clock size={28} /> },
+      { title: "Tailored Customization", desc: "From material formulas to mold design, providing solutions 100% fitted to your needs.", icon: <Settings2 size={28} /> },
+      { title: "Global Compliance", desc: "Products meet FDA, CE, and ISO standards, facilitating your global market expansion.", icon: <Globe2 size={28} /> },
+      { title: "Eco Commitment", desc: "Actively promoting bio-based materials to help achieve carbon neutrality goals.", icon: <Leaf size={28} /> },
+    ],
     tech: "Technical Strength",
     techDesc: "Integrating polymer science, materials engineering, and precision molding expertise, equipped with state-of-the-art cleanrooms and R&D labs.",
     techHighlights: [
@@ -143,10 +167,8 @@ export default function Home() {
   const t = LANG[language];
   const containerRef = useRef(null);
 
-  // 动画逻辑
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. 通用淡入上浮动画
       const fadeUps = document.querySelectorAll(".gsap-fade-up");
       fadeUps.forEach((el) => {
         gsap.fromTo(el, { y: 40, opacity: 0 }, {
@@ -155,7 +177,6 @@ export default function Home() {
         });
       });
 
-      // 2. 视差滚动效果 (图片)
       const parallaxEls = document.querySelectorAll(".gsap-parallax");
       parallaxEls.forEach((el) => {
         gsap.to(el, {
@@ -164,7 +185,6 @@ export default function Home() {
         });
       });
       
-      // 3. 数字增长动画
       const counters = document.querySelectorAll(".counter-number");
       counters.forEach(counter => {
         gsap.from(counter, {
@@ -176,12 +196,10 @@ export default function Home() {
           scrollTrigger: { trigger: counter, start: "top 85%" }
         });
       });
-
     }, containerRef);
     return () => ctx.revert();
   }, [language]); 
 
-  // 跳转处理
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -189,13 +207,13 @@ export default function Home() {
   return (
     <div ref={containerRef} className="bg-white text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
       
-      {/* 背景装饰 */}
+      {/* 全局背景装饰 */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sky-50/60 rounded-full blur-[100px] animate-float"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[700px] h-[700px] bg-blue-50/60 rounded-full blur-[100px] animate-float [animation-delay:2s]"></div>
       </div>
 
-      {/* Hero Section */}
+      {/* 1. Hero Section */}
       <section className="h-screen relative overflow-hidden z-10" id="top">
         <Swiper modules={[Autoplay, EffectFade, Pagination, Navigation]} autoplay={{ delay: 6000 }} effect="fade" speed={1200} loop pagination={{ clickable: true }} className="h-full w-full">
           {rawSlides.map((s, i) => (
@@ -239,11 +257,9 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* Intro Section - 关于我们 (ID="about") */}
+      {/* 2. Intro Section - 关于我们 */}
       <section id="about" className="relative py-16 lg:py-24 overflow-hidden z-10">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          
-          {/* 左侧图片区域 */}
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="absolute -top-6 -left-6 w-3/4 h-full border-[10px] border-sky-50 rounded-3xl -z-10"></div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl group border border-slate-100">
@@ -261,7 +277,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 右侧文字区域 */}
           <div className="order-1 lg:order-2 gsap-fade-up">
             <h2 className="text-sm font-bold text-sky-500 uppercase tracking-widest mb-3 flex items-center gap-2">
               <span className="w-8 h-[2px] bg-sky-500"></span> {t.who}
@@ -269,11 +284,9 @@ export default function Home() {
             <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               {t.company.substring(0, 4)}<GradientText>{t.company.substring(4)}</GradientText>
             </h3>
-            
             <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-8 text-justify opacity-90">
               {t.intro}
             </p>
-            
             <div className="grid grid-cols-3 gap-6 border-t border-slate-100 pt-8 mb-8">
               {t.stats.map((stat, i) => (
                 <div key={i}>
@@ -285,8 +298,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-
-            {/* 新增按钮 */}
             <button onClick={scrollToContact} className="px-8 py-3 rounded-full bg-slate-100 text-slate-700 font-bold hover:bg-sky-500 hover:text-white transition-all duration-300 flex items-center gap-2">
               {t.more} <ArrowRight size={18} />
             </button>
@@ -294,9 +305,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Solutions - 核心业务 (ID="solutions") */}
-      <section id="solutions" className="py-24 bg-gradient-to-b from-white to-sky-50/50 relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* 3. Solutions - 核心业务 (✨ 视觉升级：毛玻璃 Glassmorphism) */}
+      <section id="solutions" className="py-24 relative z-10 overflow-hidden">
+        {/* 背景动态光斑，让毛玻璃更明显 */}
+        <div className="absolute inset-0 bg-slate-50">
+             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/40 rounded-full blur-[100px] animate-pulse"></div>
+             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-200/40 rounded-full blur-[100px] animate-pulse [animation-delay:1s]"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{t.solutionsTitle}</h2>
             <div className="w-16 h-1.5 bg-gradient-to-r from-sky-400 to-cyan-400 mx-auto rounded-full"></div>
@@ -305,17 +322,24 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {t.solutions.map((item, idx) => (
               <div key={idx} className="gsap-fade-up h-full">
-                <div className="group h-full bg-white rounded-[24px] p-8 border border-slate-100 shadow-lg hover:shadow-2xl hover:shadow-sky-100/50 transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden">
-                  <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r ${idx === 0 ? 'from-sky-400 to-blue-500' : idx === 1 ? 'from-cyan-400 to-sky-500' : 'from-blue-400 to-indigo-500'}`}></div>
+                {/* 
+                  毛玻璃核心 CSS: 
+                  bg-white/70 (半透明白) 
+                  backdrop-blur-xl (背景模糊)
+                  border-white/60 (半透明边框)
+                */}
+                <div className="group h-full rounded-[24px] p-8 border border-white/60 bg-white/70 backdrop-blur-xl shadow-xl hover:shadow-2xl hover:shadow-sky-200/40 transition-all duration-500 hover:-translate-y-2 flex flex-col relative overflow-hidden">
                   
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${idx === 0 ? 'bg-sky-50 text-sky-600 group-hover:bg-sky-500 group-hover:text-white' : idx === 1 ? 'bg-cyan-50 text-cyan-600 group-hover:bg-cyan-500 group-hover:text-white' : 'bg-blue-50 text-blue-600 group-hover:bg-blue-500 group-hover:text-white'}`}>
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 relative overflow-hidden ${idx === 0 ? 'bg-sky-100 text-sky-600' : idx === 1 ? 'bg-cyan-100 text-cyan-600' : 'bg-blue-100 text-blue-600'}`}>
+                    {/* 图标呼吸背景 */}
+                    <div className="absolute inset-0 bg-current opacity-0 group-hover:opacity-10 transition-opacity"></div>
                     {item.icon}
                   </div>
                   
                   <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors">{item.title}</h3>
-                  <p className="text-slate-500 leading-relaxed mb-6 flex-1 text-sm md:text-base">{item.desc}</p>
+                  <p className="text-slate-600 leading-relaxed mb-6 flex-1 text-sm md:text-base font-medium opacity-80">{item.desc}</p>
                   
-                  <div className="flex items-center text-sm font-bold text-slate-400 group-hover:text-sky-600 transition-colors uppercase tracking-wider mt-auto pt-4 border-t border-slate-50">
+                  <div className="flex items-center text-sm font-bold text-slate-400 group-hover:text-sky-600 transition-colors uppercase tracking-wider mt-auto pt-4 border-t border-slate-200/50">
                     {t.more} <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
@@ -325,8 +349,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* R&D Strength - 研发实力 (ID="tech") */}
-      <section id="tech" className="py-24 lg:py-32 bg-white relative overflow-hidden z-10">
+      {/* 4. ✨ 新增：Why Us - 为什么选择我们 */}
+      <section className="py-20 bg-white relative z-10 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            {/* 左侧文字标题 */}
+            <div className="lg:col-span-4 gsap-fade-up">
+               <h2 className="text-3xl font-bold text-slate-900 mb-4">{t.whyUsTitle}</h2>
+               <p className="text-slate-500 text-lg leading-relaxed mb-8">{t.whyUsDesc}</p>
+               <button onClick={scrollToContact} className="hidden lg:flex items-center gap-2 text-sky-600 font-bold hover:gap-4 transition-all">
+                  {t.contact} <ArrowRight size={20} />
+               </button>
+            </div>
+            
+            {/* 右侧 Grid 特性列表 */}
+            <div className="lg:col-span-8 grid sm:grid-cols-2 gap-6 gsap-fade-up">
+              {t.whyUsFeatures.map((f, i) => (
+                <div key={i} className="flex items-start gap-4 p-6 rounded-2xl bg-slate-50 hover:bg-sky-50 transition-colors duration-300 group cursor-default">
+                  <div className="mt-1 p-3 rounded-xl bg-white text-sky-500 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                    {f.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg text-slate-900 mb-2">{f.title}</h4>
+                    <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. R&D Strength - 研发实力 */}
+      <section id="tech" className="py-24 lg:py-32 bg-slate-50/50 relative overflow-hidden z-10">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
            <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
              <path d="M0 100 L100 0" stroke="#0ea5e9" strokeWidth="0.5" />
@@ -343,7 +398,7 @@ export default function Home() {
                 <span className="text-sky-600 font-bold tracking-widest uppercase text-sm">R&D Center</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight text-slate-900">{t.tech}</h2>
-              <p className="text-slate-600 text-lg leading-relaxed mb-10 border-l-4 border-sky-400 pl-6 bg-slate-50/50 py-2 rounded-r-lg">{t.techDesc}</p>
+              <p className="text-slate-600 text-lg leading-relaxed mb-10 border-l-4 border-sky-400 pl-6 bg-white py-4 rounded-r-lg shadow-sm">{t.techDesc}</p>
               
               <div className="space-y-4">
                 {t.techHighlights.map((h, i) => (
@@ -372,8 +427,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Market Application - 应用领域 */}
-      <section className="py-24 bg-slate-50 relative z-10">
+      {/* 6. Market Application - 应用领域 */}
+      <section className="py-24 bg-white relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gsap-fade-up gap-4">
             <div>
@@ -403,10 +458,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section - 联系我们 (ID="contact") */}
+      {/* 7. CTA Section - 联系我们 */}
       <section id="contact" className="py-24 relative overflow-hidden bg-sky-600">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-600 to-blue-700"></div>
-        {/* 背景纹理 */}
         <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.png')] bg-repeat"></div>
         
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
