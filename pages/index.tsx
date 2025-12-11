@@ -415,11 +415,11 @@ export default function Home() {
 
             <div className="lg:col-span-7 relative h-[400px] lg:h-[500px] gsap-fade-up mt-10 lg:mt-0">
               <div className="absolute top-0 right-0 w-3/4 h-3/4 rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-2xl z-10 gsap-parallax">
-                 <img src="/banner/4.jpg" className="w-full h-full object-cover" alt="Lab Environment" />
+                 <img src="/images/industry1.jpg" className="w-full h-full object-cover" alt="Lab Environment" />
                  <div className="absolute inset-0 bg-sky-900/10 mix-blend-overlay"></div>
               </div>
               <div className="absolute bottom-0 left-0 w-2/3 h-2/3 rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-xl z-20">
-                 <img src="/banner/1.jpg" className="w-full h-full object-cover" alt="Production Line" />
+                 <img src="/images/industry3.jpg" className="w-full h-full object-cover" alt="Production Line" />
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-r from-sky-200 to-cyan-200 blur-3xl -z-10 opacity-60"></div>
             </div>
