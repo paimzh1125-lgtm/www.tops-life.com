@@ -1,488 +1,335 @@
-import React, { useEffect, useRef, lazy, Suspense } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination, Navigation } from "swiper/modules";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  ArrowRight,
-  Activity,
-  Layers,
-  PackageOpen,
-  DraftingCompass,
-  Sprout,
-  CheckCircle2,
-  Globe2,
-  Microscope,
-  Award,
-  Target,
-  Heart,
-  Leaf,
-  Flag,
-  History
-} from "lucide-react";
+// src/pages/About.tsx
+import React, { useEffect, useState } from 'react';
+import { useLanguage } from '../components/LanguageContext';
+import { Link } from 'react-router-dom';
 
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-import { useLanguage } from "../components/LanguageContext";
-
-// 懒加载组件
-const RevealText = lazy(() => import("../components/RevealText"));
-
-// 注册 GSAP 插件
-gsap.registerPlugin(ScrollTrigger);
-
-// --- 数据配置 ---
-
-// 1. 模拟 Banner 图片
-const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
-  id,
-  image: `banner/${id}.jpg`, 
-}));
-
-// 2. 发展历程数据 (已精简文案)
-const HISTORY_DATA = [
-  { 
-    year: "2011", 
-    title: { zh: "淘爱材料科技成立", en: "Founded Tops Life Tech" },
-    subtitle: "Start-up",
-    // 删减：只保留核心业务描述
-    desc: { 
-      zh: "开展洁净软包装研发与制造业务，确立薄膜与袋类产品线。", 
-      en: "Started clean soft packaging R&D and manufacturing business." 
-    },
-    image: "images/application1.png" 
-  },
-  { 
-    year: "2013", 
-    title: { zh: "增加医疗器械 OEM", en: "Medical Device OEM" },
-    subtitle: "Expansion",
-    desc: { 
-      zh: "新增微小注塑与组装产线，具备医疗器械全流程制造能力。", 
-      en: "Added micro-injection molding and assembly lines for medical devices." 
-    },
-    image: "images/application1.png" 
-  },
-  { 
-    year: "2018", 
-    title: { zh: "永爱生命成立", en: "Tops Life Science" },
-    subtitle: "Upgrade",
-    desc: { 
-      zh: "成立苏州永爱生命，全面升级软包装制造体系，确立行业领先地位。", 
-      en: "Established Suzhou Tops Life Science to upgrade packaging systems." 
-    },
-    image: "images/application1.png" 
-  },
-  { 
-    year: "2021", 
-    title: { zh: "新材料部门成立", en: "New Materials Dept." },
-    subtitle: "Innovation",
-    desc: { 
-      zh: "拓展环保水性油墨与纸品包装业务，推出大豆蛋白创新产品。", 
-      en: "Expanded into eco-friendly inks and launched soy protein products." 
-    },
-    image: "images/application1.png" 
-  },
-  { 
-    year: "2023", 
-    title: { zh: "拓展海外业务", en: "Global Expansion" },
-    subtitle: "Global",
-    desc: { 
-      zh: "成立香港公司 (Tops Life HK)，正式布局全球市场。", 
-      en: "Established Hong Kong branch to expand into the global market." 
-    },
-    image: "images/application1.png" 
-  },
-];
-
-// 3. 语言包配置
-const LANG = {
-  zh: {
-    who: "关于我们",
-    companyPrefix: "苏州永爱",
-    companySuffix: "生命科技有限公司",
-    intro: "苏州永爱 Tops-Life 成立于 2011 年，专注软包装、医疗器械及新材料。秉持“质量为先”理念，聚焦洁净软包装、新材料及医疗器械三大业务，为全球客户提供安全、高效的解决方案。", // 简介也稍微精简了一下
-    more: "探索详情",
-    stats: [
-      { num: "15+", label: "年行业经验" },
-      { num: "100k", label: "级洁净车间" },
-      { num: "50+", label: "全球合作伙伴" },
-    ],
-    solutionsTitle: "核心业务解决方案",
-    solutions: [
-      {
-        title: "医疗软包装",
-        desc: "高性能无菌屏障系统，包括医用吸塑盒及特卫强(Tyvek)盖材，确保无菌安全。",
-        icon: <PackageOpen size={32} />,
-      },
-      {
-        title: "精密医疗注塑",
-        desc: "依托全电动注塑与 ISO 13485 体系，制造公差微米级的关键医疗零部件。",
-        icon: <DraftingCompass size={32} />,
-      },
-      {
-        title: "大豆蛋白聚合物",
-        desc: "源自非转基因大豆的生物基材料，为工业包装提供可降解的绿色替代方案。",
-        icon: <Sprout size={32} />,
-      }
-    ],
-    tech: "研发与技术实力",
-    techDesc: "融合高分子科学与精密成型技术，配备自动化生产线及研发实验室。",
-    slides: [
-      { title: "赋能生命科学，筑造坚实无菌屏障", subtitle: "以高性能软包装解决方案，守护药品与医疗器械的每一次安全交付。" },
-      { title: "微米级精密成型，重塑医疗制造标准", subtitle: "全流程 ISO 13485 认证，为关键医疗部件提供极致的稳定与精准。" },
-      { title: "探索材料边界，引领生物基科技未来", subtitle: "源于自然的创新聚合物技术，为全球工业提供可持续的高性能方案。" },
-      { title: "严苛洁净环境，承载卓越品质承诺", subtitle: "持续拓展制造能力边界，从容应对生命科学行业最严格的挑战。" },
-      { title: "智造驱动未来，交付全球可信赖价值", subtitle: "构建透明、可追溯的质量体系，成为全球客户值得托付的长期伙伴。" },
-    ],
-    marketTitle: "应用领域",
-    market: ["医疗器械", "制药生产", "新材料", "大豆蛋白聚合物"],
-    cta: "准备好开启下一个项目了吗？",
-    ctaBtn: "联系我们",
-    historyTitle: "发展历程",
-    values: {
-        vision: { title: "愿景 Vision", desc: "成为全球生命科学及新材料领域的领军企业。" },
-        mission: { title: "使命 Mission", desc: "提供安全创新产品，助力健康与可持续发展。" },
-        concept: { title: "理念 Values", desc: "技术改善生活，尊重环境，合作共赢。" }
-    }
-  },
-  en: {
-    who: "About Us",
-    companyPrefix: "Suzhou Tops Life",
-    companySuffix: " Technology Co., Ltd.",
-    intro: "Established in 2011, Suzhou Tops-Life specializes in medical packaging, precision components, and biomaterials. Adhering to 'Quality First', we focus on Clean Packaging, New Materials, and Medical Devices, delivering safe solutions globally.",
-    more: "Discover More",
-    stats: [
-      { num: "15+", label: "Years Exp." },
-      { num: "100k", label: "Clean Class" },
-      { num: "50+", label: "Global Partners" },
-    ],
-    solutionsTitle: "Core Solutions",
-    solutions: [
-      {
-        title: "Medical Packaging",
-        desc: "High-performance sterile barrier systems ensuring lifecycle safety.",
-        icon: <PackageOpen size={32} />,
-      },
-      {
-        title: "Precision Injection",
-        desc: "Micron-level precision components manufactured under ISO 13485.",
-        icon: <DraftingCompass size={32} />,
-      },
-      {
-        title: "Soy Polymers",
-        desc: "Innovative bio-based materials. A biodegradable green alternative.",
-        icon: <Sprout size={32} />,
-      }
-    ],
-    tech: "R&D Strength",
-    techDesc: "Integrating polymer science and precision molding expertise.",
-    slides: [
-      { title: "Empowering Life Science", subtitle: "Building robust sterile barriers for safety." },
-      { title: "Precision Redefined", subtitle: "Micron-level injection molding reshaping standards." },
-      { title: "Material Innovation", subtitle: "Leading the future with sustainable polymers." },
-      { title: "Purity & Excellence", subtitle: "Strict controlled environments for quality." },
-      { title: "Driven by Intelligence", subtitle: "Delivering trusted value globally." },
-    ],
-    marketTitle: "Market Applications",
-    market: ["Medical Devices", "Pharma", "Advanced Materials", "Bio Polymers"],
-    cta: "Ready to start your next project?",
-    ctaBtn: "Contact Us",
-    historyTitle: "Our History",
-    values: {
-        vision: { title: "Vision", desc: "To be a global leader in life sciences and new materials." },
-        mission: { title: "Mission", desc: "Delivering safe, innovative products for health." },
-        concept: { title: "Values", desc: "Technology for life, environmental respect, win-win." }
-    }
-  },
+// --- 1. SVG Icons (无依赖版本, 统一管理) ---
+const Icons = {
+  Award: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>,
+  Shield: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>,
+  Globe: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+  Factory: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><line x1="17" y1="13" x2="17" y2="13"/><line x1="7" y1="13" x2="7" y2="13"/></svg>,
+  Zap: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+  Target: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
+  Heart: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+  Check: () => <svg className="w-5 h-5 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+  ArrowRight: () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
 };
 
-export default function About() {
-  const { language } = useLanguage(); 
-  const t = LANG[language];
-  const containerRef = useRef<HTMLDivElement>(null);
+const About: React.FC = () => {
+  const { language } = useLanguage();
+  
+  // 简单的页面加载动画状态
+  const [loaded, setLoaded] = useState(false);
+  
+  useEffect(() => { 
+    setLoaded(true); 
+  }, []);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // 基础淡入
-      const fadeUps = document.querySelectorAll(".gsap-fade-up");
-      fadeUps.forEach((el) => {
-        gsap.fromTo(el, { y: 30, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.8, ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 90%" },
-        });
-      });
+  // --- 2. 数据配置 ---
+  const currentYear = new Date().getFullYear();
+  const yearsExp = currentYear - 2011;
 
-      // 头部
-      gsap.from(".header-fade", {
-        y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out"
-      });
+  const content = {
+    zh: {
+      hero: {
+        subtitle: "关于 TOPS LIFE",
+        title: "匠心智造，赋能未来",
+        desc: "自2011年以来，我们始终致力于为全球医疗及新材料行业提供卓越的解决方案。",
+      },
+      stats: [
+        { value: `${yearsExp}+`, label: "年行业经验", icon: <Icons.Award /> },
+        { value: "3", label: "大核心业务", icon: <Icons.Target /> },
+        { value: "Global", label: "全球化布局", icon: <Icons.Globe /> },
+        { value: "100%", label: "品质承诺", icon: <Icons.Shield /> },
+      ],
+      intro: {
+        title: "关于我们",
+        p1: "Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应领域的创新型企业。我们在医疗行业组件、特种纸及油墨行业等领域拥有丰富的经验。公司的生产工艺和解决方案涵盖了多样化的产品与服务。",
+        coreTitle: "核心业务",
+        coreItems: [
+            "洁净软包装 (Clean Flexible Packaging)",
+            "新材料 (New Materials)",
+            "医疗器械 (Medical Devices)"
+        ],
+        p2: "秉承“质量第一，服务市场与应用”的理念，我们为医药、电子、医疗及纸张加工印刷行业提供洁净、高效、环保的定制化产品与解决方案。依托强大的技术研发能力、严苛的质量控制、全球稳定的供应链及灵活的定制服务能力，我们在行业内形成了显著的竞争优势。",
+        p3: "未来，公司将继续深耕核心领域，致力于成为高端包装、医疗注塑解决方案及新材料供应领域独特的市场领导者，为客户创造价值，赋能行业发展。",
+        btn: "联系我们"
+      },
+      timeline: {
+        title: "发展历程",
+        items: [
+          { year: "2011", title: "淘爱材料科技", desc: "公司成立，开展洁净控菌软包装业务，奠定行业基础。" },
+          { year: "2013", title: "业务拓展", desc: "增加医疗器械 OEM 业务，专注于微小注塑和精密组装技术。" },
+          { year: "2018", title: "永爱生命", desc: "成立永爱生命，全面升级智能制造，并启动大豆蛋白研发项目。" },
+          { year: "2023", title: "走向国际", desc: "成立香港淘爱，全面拓展海外业务，建立全球供应链网络。" },
+        ]
+      },
+      values: {
+        title: "核心驱动力",
+        items: [
+          { title: "企业理念", desc: "质量第一，服务市场与应用。", icon: <Icons.Zap /> },
+          { title: "愿景", desc: "成为高端包装、医疗注塑及新材料领域的独特市场领导者。", icon: <Icons.Target /> },
+          { title: "使命", desc: "为客户创造价值，赋能行业发展。", icon: <Icons.Heart /> },
+        ]
+      }
+    },
+    en: {
+      hero: {
+        subtitle: "About TOPS LIFE",
+        title: "Quality First, Innovation Lead",
+        desc: "Since 2011, we have been dedicated to providing exceptional solutions for the global medical and new material industries.",
+      },
+      stats: [
+        { value: `${yearsExp}+`, label: "Years Exp.", icon: <Icons.Award /> },
+        { value: "3", label: "Core Business", icon: <Icons.Target /> },
+        { value: "Global", label: "Supply Chain", icon: <Icons.Globe /> },
+        { value: "100%", label: "Quality First", icon: <Icons.Shield /> },
+      ],
+      intro: {
+        title: "Who We Are",
+        p1: "Tops-Life was founded in 2011. It is an innovative enterprise focusing on the fields of flexible packaging, medical devices, and new material supplying. With rich experience in various components of the medical, specialty paper, and ink industries, our production processes cover a diverse range of products and services.",
+        coreTitle: "Core Businesses",
+        coreItems: [
+            "Clean Flexible Packaging",
+            "New Materials Supplying",
+            "Medical Devices & Components"
+        ],
+        p2: "Adhering to the concept of \"Quality First, Serving Market and Application\", we provide clean, efficient, and environmentally friendly customized solutions for pharmaceuticals, electronics, and printing industries. Relying on technological R&D, strict quality control, and a stable worldwide supply chain, we have established significant competitive advantages.",
+        p3: "In the future, the company will continue to deepen its presence in core fields, commit to becoming a unique market-leading provider of high-end packaging and medical injection molding solutions, creating value for customers and empowering industry development.",
+        btn: "Contact Us"
+      },
+      timeline: {
+        title: "Our History",
+        items: [
+          { year: "2011", title: "Foundation", desc: "Company established, focusing on cleanroom packaging solutions." },
+          { year: "2013", title: "Expansion", desc: "Added Medical Device OEM services, specializing in micro-molding." },
+          { year: "2018", title: "TOPS LIFE", desc: "Rebranded to TOPS LIFE, upgraded manufacturing, and started soy protein R&D." },
+          { year: "2023", title: "Global Reach", desc: "Established Hong Kong branch to expand international business operations." },
+        ]
+      },
+      values: {
+        title: "Core Values",
+        items: [
+          { title: "Philosophy", desc: "Quality First, Serving Market and Application.", icon: <Icons.Zap /> },
+          { title: "Vision", desc: "To be a unique market-leading provider of high-end packaging and medical solutions.", icon: <Icons.Target /> },
+          { title: "Mission", desc: "Create value for customers and empower the development of the industry.", icon: <Icons.Heart /> },
+        ]
+      }
+    }
+  };
 
-      // 数字滚动
-      const counters = document.querySelectorAll(".counter-number");
-      counters.forEach(counter => {
-        const targetText = counter.textContent;
-        gsap.from(counter, {
-          textContent: 0,
-          duration: 1.5,
-          ease: "power2.out",
-          snap: { textContent: 1 },
-          scrollTrigger: { trigger: counter, start: "top 90%" },
-          onUpdate: function() {
-            // @ts-ignore
-            this.targets()[0].textContent = Math.ceil(this.targets()[0].textContent);
-          }
-        });
-      });
-
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [language]); 
+  const t = language === 'zh' ? content.zh : content.en;
 
   return (
-    <div ref={containerRef} className="bg-slate-50 text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
-      
-      {/* 极简背景 */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-         <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-sky-100/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4"></div>
-         <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-blue-50/60 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4"></div>
+    <div className="min-h-screen bg-white relative overflow-hidden font-sans">
+
+      {/* 1. Hero Section 顶部大标题 */}
+      <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-slate-50 overflow-hidden">
+        {/* 背景装饰光斑 */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100 rounded-full mix-blend-multiply blur-3xl opacity-60 translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-indigo-50 rounded-full mix-blend-multiply blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2"></div>
+
+        <div className={`container mx-auto px-6 relative z-10 text-center transition-all duration-1000 transform ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+            <span className="text-sky-600 font-bold tracking-widest uppercase mb-4 block">
+                {t.hero.subtitle}
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
+                {t.hero.title}
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                {t.hero.desc}
+            </p>
+        </div>
+      </section>
+
+      {/* 2. Stats Bar 数据条 */}
+      <section className="container mx-auto px-4 md:px-6 relative z-20 -mt-10 md:-mt-14">
+        <div className="bg-slate-900 text-white py-10 rounded-2xl shadow-xl border-b-4 border-sky-500">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/10">
+                {t.stats.map((stat, idx) => (
+                    <div key={idx} className="flex flex-col items-center group cursor-default">
+                        <div className="text-sky-400 mb-2 transform group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
+                        <span className="text-3xl md:text-4xl font-bold mb-1">{stat.value}</span>
+                        <span className="text-xs md:text-sm text-slate-400 uppercase tracking-wider">{stat.label}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      {/* 3. Main Introduction 核心介绍区域 */}
+      <div className="container mx-auto px-6 py-24">
+        <div className="flex flex-col lg:flex-row gap-16 items-start">
+            
+            {/* 左侧：图片区域 */}
+            <div className="w-full lg:w-5/12 relative group lg:sticky lg:top-32">
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-slate-100 aspect-[4/5] md:aspect-[4/3] lg:aspect-[3/4]">
+                    <img 
+                        src="/banner/outsligth.jpg" 
+                        alt="Tops Life Innovation" 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        onError={(e) => {
+                            // 图片加载失败时回退到 Unsplash 占位图
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2070';
+                        }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                    
+                    {/* 装饰性元素：年份标签 */}
+                    <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border-l-4 border-sky-500 hidden md:block">
+                        <p className="text-slate-500 text-sm uppercase tracking-wider font-bold">Since</p>
+                        <p className="text-4xl font-bold text-slate-900">2011</p>
+                    </div>
+                    
+                    {/* 装饰性边框 */}
+                    <div className="absolute -z-10 top-6 -left-6 w-full h-full border-2 border-slate-200 rounded-2xl"></div>
+                </div>
+            </div>
+
+            {/* 右侧：文案区域 */}
+            <div className="w-full lg:w-7/12">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 relative inline-block">
+                    {t.intro.title}
+                    {/* 标题下划线装饰 */}
+                    <span className="absolute bottom-1 right-0 w-2/3 h-3 bg-sky-200/50 -z-10 rounded-sm"></span>
+                </h2>
+
+                {/* 第一段：成立背景 */}
+                <p className="text-lg text-slate-600 leading-relaxed mb-8 text-justify">
+                    {t.intro.p1}
+                </p>
+
+                {/* 核心业务列表 (视觉重点) */}
+                <div className="bg-sky-50/50 p-6 rounded-xl border border-sky-100 mb-8">
+                    <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <Icons.Target /> {t.intro.coreTitle}
+                    </h3>
+                    <ul className="grid md:grid-cols-1 gap-3">
+                        {t.intro.coreItems.map((item, i) => (
+                            <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
+                                <div className="shrink-0"><Icons.Check /></div>
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* 第二段：优势与服务 */}
+                <p className="text-lg text-slate-600 leading-relaxed mb-6 text-justify">
+                    {t.intro.p2}
+                </p>
+
+                {/* 第三段：未来 */}
+                <p className="text-lg text-slate-600 leading-relaxed mb-10 text-justify font-medium">
+                    {t.intro.p3}
+                </p>
+
+                {/* 按钮 */}
+                <Link to="/contact">
+                     <button className="group flex items-center gap-2 px-8 py-3.5 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-lg hover:shadow-sky-200 active:scale-95">
+                        {t.intro.btn}
+                        <span className="group-hover:translate-x-1 transition-transform"><Icons.ArrowRight /></span>
+                     </button>
+                </Link>
+            </div>
+        </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="h-[85vh] relative overflow-hidden z-10">
-        <Swiper 
-          modules={[Autoplay, EffectFade, Pagination, Navigation]} 
-          autoplay={{ delay: 6000, disableOnInteraction: false }} 
-          effect="fade" 
-          speed={1000} 
-          loop 
-          pagination={{ clickable: true, dynamicBullets: true }} 
-          className="h-full w-full group"
-        >
-          {rawSlides.map((s, i) => (
-            <SwiperSlide key={s.id}>
-              <div className="relative h-full w-full">
-                <img src={s.image} alt={t.slides[i].title} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
-                
-                <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
-                  <div className="max-w-4xl text-white pt-10">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full border border-sky-400/30 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase">
-                         <div className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></div>
-                         Since 2011
-                    </div>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-tight">
-                      {t.slides[i].title}
-                    </h1>
-                    <p className="text-base md:text-lg text-slate-200 max-w-2xl mb-8 font-light">
-                      {t.slides[i].subtitle}
-                    </p>
-                    <button className="px-6 py-3 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all flex items-center gap-2">
-                        {t.more} <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </section>
-
-      {/* Intro Section - 紧凑版 */}
-      <section className="relative py-20 bg-white z-10">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="order-2 lg:order-1 relative gsap-fade-up">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white">
-              <img src="banner/3.jpg" alt="Factory" className="w-full h-auto object-cover" />
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2">
-            <h3 className="header-fade text-2xl md:text-4xl font-extrabold text-slate-900 mb-6">
-              {t.companyPrefix}<span className="text-sky-600">{t.companySuffix}</span>
-            </h3>
-            
-            <div className="header-fade text-slate-600 leading-relaxed text-justify mb-8">
-              <Suspense fallback={<p>{t.intro}</p>}>
-                  {RevealText ? <RevealText text={t.intro} /> : <p>{t.intro}</p>}
-              </Suspense>
-            </div>
-            
-            <div className="header-fade flex gap-8 pt-6 border-t border-slate-100">
-              {t.stats.map((stat, i) => (
-                <div key={i}>
-                  <div className="text-2xl lg:text-3xl font-bold text-slate-900 flex items-baseline">
-                    <span className="counter-number">{stat.num.replace(/\D/g,'')}</span>
-                    <span className="text-sky-500 ml-0.5">{stat.num.replace(/\d/g,'')}</span>
-                  </div>
-                  <div className="text-xs text-slate-400 uppercase">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- History Timeline (横向滑动，节省空间) --- */}
-      <section className="py-20 bg-slate-50 relative">
-         <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center justify-between mb-10 gsap-fade-up">
-                <div>
-                    <h2 className="text-3xl font-bold text-slate-900">{t.historyTitle}</h2>
-                    <div className="h-1 w-12 bg-sky-500 mt-2 rounded-full"></div>
-                </div>
-                {/* 装饰图标 */}
-                <History className="text-slate-200 w-12 h-12" strokeWidth={1} />
-            </div>
-
-            <div className="gsap-fade-up">
-                <Swiper
-                    slidesPerView={1.1}
-                    spaceBetween={20}
-                    breakpoints={{
-                        640: { slidesPerView: 2.2, spaceBetween: 20 },
-                        1024: { slidesPerView: 3.2, spaceBetween: 30 },
-                    }}
-                    className="pb-10"
-                >
-                    {HISTORY_DATA.map((item, i) => (
-                        <SwiperSlide key={i} className="h-auto">
-                            <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-slate-100 h-full flex flex-col group">
-                                {/* 图片区 - 限制高度 */}
-                                <div className="h-40 relative overflow-hidden bg-slate-100">
-                                    <img 
-                                        src={item.image} 
-                                        alt="milestone" 
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                                    />
-                                    <div className="absolute top-0 left-0 bg-sky-600 text-white px-3 py-1 rounded-br-lg text-sm font-bold shadow-md z-10">
-                                        {item.year}
-                                    </div>
-                                </div>
-                                
-                                {/* 内容区 */}
-                                <div className="p-6 flex-1 flex flex-col relative">
-                                    {/* 年份水印 */}
-                                    <span className="absolute right-4 bottom-4 text-6xl font-bold text-slate-100 -z-0 select-none">{item.year}</span>
-                                    
-                                    <h3 className="text-lg font-bold text-slate-900 mb-2 relative z-10">
-                                        {language === 'zh' ? item.title.zh : item.title.en}
-                                    </h3>
-                                    <p className="text-sm text-slate-500 leading-relaxed relative z-10">
-                                        {language === 'zh' ? item.desc.zh : item.desc.en}
-                                    </p>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-         </div>
-      </section>
-
-      {/* Solutions - 卡片式 */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12 gsap-fade-up">
-            <h2 className="text-3xl font-bold text-slate-900">{t.solutionsTitle}</h2>
-            <p className="mt-4 text-slate-500 text-sm">One-stop solutions for medical & new materials.</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {t.solutions.map((item, idx) => (
-              <div key={idx} className="gsap-fade-up p-8 bg-slate-50 rounded-2xl hover:bg-white hover:shadow-xl transition-all border border-slate-100 group">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-6 shadow-sm text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors">
-                  {item.icon}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* R&D Strength */}
-      <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="gsap-fade-up">
-              <div className="flex items-center gap-3 mb-6">
-                <Microscope className="text-sky-400" size={24} />
-                <span className="text-sky-400 font-bold tracking-widest uppercase text-sm">R&D Center</span>
-              </div>
-              <h2 className="text-3xl lg:text-4xl font-bold mb-6">{t.tech}</h2>
-              <p className="text-slate-400 text-lg mb-8 border-l-4 border-sky-500 pl-4">{t.techDesc}</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-                    <Award className="text-sky-400 mb-2" size={20} />
-                    <div className="font-bold text-sm">ISO 13485</div>
-                  </div>
-                  <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-                    <Layers className="text-cyan-400 mb-2" size={20} />
-                    <div className="font-bold text-sm">Class 100k</div>
-                  </div>
-              </div>
-            </div>
-
-            <div className="relative h-[350px] gsap-fade-up hidden lg:block">
-               <img src="banner/4.jpg" className="w-full h-full object-cover rounded-xl opacity-80" alt="Lab" />
-            </div>
-        </div>
-      </section>
-
-      {/* Values Grid - 紧凑型 */}
-      <section className="py-20 container mx-auto px-6 bg-slate-50">
-         <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                <Target className="text-sky-600 mb-4" size={32} />
-                <h3 className="text-xl font-bold mb-2">{t.values.vision.title}</h3>
-                <p className="text-slate-500 text-sm">{t.values.vision.desc}</p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                <Heart className="text-rose-500 mb-4" size={32} />
-                <h3 className="text-xl font-bold mb-2">{t.values.mission.title}</h3>
-                <p className="text-slate-500 text-sm">{t.values.mission.desc}</p>
-            </div>
-            <div className="bg-sky-900 text-white p-8 rounded-2xl shadow-lg">
-                <Leaf className="text-green-400 mb-4" size={32} />
-                <h3 className="text-xl font-bold mb-2">{t.values.concept.title}</h3>
-                <p className="text-slate-300 text-sm">{t.values.concept.desc}</p>
-            </div>
-         </div>
-      </section>
-
-      {/* Market - 仅保留图片网格 */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center mb-8">
-             <h2 className="text-2xl font-bold text-slate-900">{t.marketTitle}</h2>
-             <span className="text-sky-600 font-medium text-sm cursor-pointer hover:underline">View All</span>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {t.market.map((m, i) => (
-              <div key={i} className="relative h-48 rounded-xl overflow-hidden group">
-                <img src={`banner/${(i % 5) + 1}.jpg`} alt={m} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-                <div className="absolute bottom-4 left-4 text-white font-bold">{m}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA - 简化版 */}
-      <section className="py-16 bg-sky-600 text-white text-center">
+      {/* 4. Timeline 发展历程 */}
+      <section className="bg-slate-50 py-24 border-y border-slate-200">
         <div className="container mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">{t.cta}</h2>
-          <button className="px-8 py-3 bg-white text-sky-700 font-bold rounded-full shadow-lg hover:scale-105 transition-transform">
-            {t.ctaBtn}
-          </button>
+            <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-slate-900">{t.timeline.title}</h2>
+                <div className="w-16 h-1.5 bg-sky-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div className="relative">
+                {/* 连接线 (PC端) */}
+                <div className="hidden md:block absolute top-0 left-0 w-full h-0.5 bg-slate-200 mt-3"></div>
+
+                <div className="grid md:grid-cols-4 gap-8">
+                    {t.timeline.items.map((item, i) => (
+                        <div key={i} className="relative pl-8 md:pl-0 md:pt-12 group">
+                            {/* 移动端竖线 */}
+                            <div className="md:hidden absolute left-[11px] top-3 bottom-[-40px] w-0.5 bg-slate-200"></div>
+
+                            {/* 圆点 */}
+                            <div className="absolute left-0 top-1 md:top-0 md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white border-4 border-sky-500 rounded-full z-10 group-hover:scale-125 group-hover:bg-sky-500 transition-all duration-300"></div>
+
+                            <div className="bg-white md:bg-transparent p-6 md:p-0 rounded-xl shadow-sm md:shadow-none border md:border-none border-slate-100 relative md:text-center transition-colors">
+                                <span className="text-4xl md:text-5xl font-bold text-slate-200 group-hover:text-sky-200 transition-colors block mb-3 md:absolute md:-top-16 md:left-1/2 md:-translate-x-1/2 md:-z-10 select-none">
+                                    {item.year}
+                                </span>
+                                <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-sky-600 transition-colors">
+                                    {item.title}
+                                </h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">
+                                    {item.desc}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
       </section>
+
+      {/* 5. Values 核心价值观 */}
+      <section className="py-24 container mx-auto px-6">
+        <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-slate-900">{t.values.title}</h2>
+            <p className="text-slate-500 mt-4 max-w-2xl mx-auto">
+                {language === 'zh' ? '驱动我们不断前行的力量' : 'The values that drive our excellence'}
+            </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+            {/* 深色卡片 (Highlight) */}
+            <div className="bg-slate-900 p-10 rounded-3xl text-white hover:translate-y-[-10px] transition-transform duration-500 shadow-xl relative overflow-hidden group">
+                <div className="absolute -right-4 -top-4 text-white opacity-5 group-hover:opacity-10 transition-opacity transform scale-150 rotate-12">
+                   <Icons.Zap />
+                </div>
+                <div className="relative z-10">
+                    <div className="w-12 h-12 bg-sky-500/20 rounded-2xl flex items-center justify-center text-sky-400 mb-6">
+                        {t.values.items[0].icon}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4">{t.values.items[0].title}</h3>
+                    <p className="text-slate-400 leading-relaxed">{t.values.items[0].desc}</p>
+                </div>
+            </div>
+
+            {/* 浅色卡片 */}
+            {[1, 2].map((idx) => (
+                <div key={idx} className="bg-white border border-slate-100 p-10 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 group hover:border-sky-200">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${idx === 1 ? 'bg-indigo-50 text-indigo-600' : 'bg-rose-50 text-rose-600'}`}>
+                        {t.values.items[idx].icon}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-sky-600 transition-colors">
+                        {t.values.items[idx].title}
+                    </h3>
+                    <p className="text-slate-500 leading-relaxed">
+                        {t.values.items[idx].desc}
+                    </p>
+                </div>
+            ))}
+        </div>
+      </section>
+
+      {/* 6. Simple Trust Strip */}
+      <div className="bg-slate-50 py-10 border-t border-slate-200">
+        <div className="container mx-auto px-6 text-center">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-6">Certifications & Standards</p>
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <div className="flex items-center gap-2 text-lg font-bold text-slate-800"><Icons.Shield /> ISO 13485</div>
+                <div className="flex items-center gap-2 text-lg font-bold text-slate-800"><Icons.Shield /> ISO 9001</div>
+                <div className="flex items-center gap-2 text-lg font-bold text-slate-800"><Icons.Globe /> FDA Registered</div>
+            </div>
+        </div>
+      </div>
+
     </div>
   );
-}
+};
+
+export default About;
