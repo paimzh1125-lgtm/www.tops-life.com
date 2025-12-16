@@ -29,7 +29,7 @@ const HISTORY_DATA = [
       en: "Established Tops Life Technology. Started soft packaging business, providing R&D, design, validation and manufacturing of clean, bacteria-controlled soft packaging (films/bags)." 
     },
     // 图片备注: 淘爱的logo
-    image: "/images/application.png" 
+    image: "/images/application1.png" 
   },
   { 
     year: "2013", 
@@ -40,7 +40,7 @@ const HISTORY_DATA = [
       en: "Expanded into Medical Device OEM business, offering R&D, design, validation, manufacturing, micro-injection molding, and assembly." 
     },
     // 图片备注: 医疗器械OEM能力展示
-    image: "/images/application.png" 
+    image: "/images/application1.png" 
   },
   { 
     year: "2018", 
@@ -51,7 +51,7 @@ const HISTORY_DATA = [
       en: "Established Tops Life Science to comprehensively upgrade soft packaging manufacturing capabilities." 
     },
     // 图片备注: 永爱的logo
-    image: "/images/application.png" 
+    image: "/images/application1.png" 
   },
   { 
     year: "2021", 
@@ -62,7 +62,7 @@ const HISTORY_DATA = [
       en: "Established New Materials Department covering special eco-friendly water-based inks and special paper packaging industries." 
     },
     // 图片备注: 大豆蛋白新产品
-    image: "/images/application.png" 
+    image: "/images/application1.png" 
   },
   { 
     year: "2023", 
@@ -73,7 +73,7 @@ const HISTORY_DATA = [
       en: "Established Tops Life (Hong Kong) Technology Co., Limited to further expand overseas business." 
     },
     // 图片备注: 面向海外市场的图片
-    image: "/images/application.png" 
+    image: "/images/application1.png" 
   },
 ];
 
