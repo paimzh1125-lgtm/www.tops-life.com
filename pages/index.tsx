@@ -271,7 +271,7 @@ export default function Home() {
           {/* 左侧图片区 */}
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              <img src="banner/outsight.jpg" alt="Factory Environment" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000" />
+              <img src="banner/outslight.jpg" alt="Factory Environment" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000" />
             </div>
             
             {/* 浮动数据卡片 */}
