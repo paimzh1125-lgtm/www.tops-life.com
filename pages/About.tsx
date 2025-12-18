@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
@@ -11,7 +11,7 @@ import {
   Factory, 
   CheckCircle2, 
   ArrowRight,
-  Flag 
+  Calendar
 } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 import { Link } from 'react-router-dom';
@@ -22,10 +22,15 @@ gsap.registerPlugin(ScrollTrigger);
 const About: React.FC = () => {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [loaded, setLoaded] = useState(false);
 
   // 计算成立年限
   const currentYear = new Date().getFullYear();
   const yearsExp = currentYear - 2011;
+
+  useEffect(() => { 
+    setLoaded(true); 
+  }, []);
 
   // --- 动画初始化 ---
   useEffect(() => {
@@ -39,18 +44,16 @@ const About: React.FC = () => {
         });
       });
 
-      // 2. 时间轴左右滑入动画
-      const timelineItems = document.querySelectorAll('.timeline-item');
-      timelineItems.forEach((item, index) => {
-        const isLeft = index % 2 === 0;
-        gsap.from(item, {
-          x: isLeft ? -50 : 50, 
-          opacity: 0, 
-          duration: 1.2, 
-          ease: "power3.out", 
-          scrollTrigger: { trigger: item, start: "top 80%" }
-        });
+      // 2. 卡片依次浮现动画 (Stagger)
+      gsap.from(".timeline-card", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2, // 卡片之间间隔0.2秒出现
+        ease: "back.out(1.2)",
+        scrollTrigger: { trigger: "#timeline-grid", start: "top 80%" }
       });
+
     }, containerRef);
 
     return () => ctx.revert();
@@ -83,7 +86,6 @@ const About: React.FC = () => {
         p3: "未来，公司将继续深耕核心领域，致力于成为高端包装、医疗注塑解决方案及新材料供应领域独特的市场领导者。",
         btn: "联系我们"
       },
-      // --- 更新后的发展历程 ---
       timeline: {
         title: "发展历程",
         subtitle: "从初创到卓越的每一步",
@@ -91,36 +93,31 @@ const About: React.FC = () => {
           { 
             year: "2011", 
             title: "淘爱材料科技成立", 
-            subtitle: "Tops Life Technology",
-            desc: "成立淘爱材料科技，开展软包装业务。提供洁净、控菌软包装的研发、设计、验证和制造，产品涵盖医用薄膜与灭菌袋等。", 
+            desc: "成立淘爱材料科技，开展软包装业务。提供洁净、控菌软包装的研发与制造。", 
             image: "/images/application1.png" 
           },
           { 
             year: "2013", 
-            title: "医疗器械 OEM 业务拓展", 
-            subtitle: "Medical Device OEM",
-            desc: "增加医疗器械 OEM 业务板块，具备医疗器械研发、设计、验证及制造能力，专注于微小注塑和精密组装技术。", 
+            title: "OEM 业务拓展", 
+            desc: "增加医疗器械 OEM 业务板块，专注于微小注塑和精密组装技术。", 
             image: "/images/application1.png" 
           },
           { 
             year: "2018", 
             title: "永爱生命成立", 
-            subtitle: "Tops Life Science",
-            desc: "成立永爱生命 Tops Life Science，全面升级软包装制造能力，确立了在医疗包装领域的专业地位。", 
+            desc: "成立永爱生命 Tops Life Science，全面升级制造能力，确立医疗包装专业地位。", 
             image: "/images/application1.png" 
           },
           { 
             year: "2021", 
-            title: "新材料业务部门成立", 
-            subtitle: "New Materials Dept.",
-            desc: "成立新材料业务部门拓展业务，涉足特种环保水性油墨、特种纸品包装等行业，并推出大豆蛋白等创新产品。", 
+            title: "新材料部门成立", 
+            desc: "涉足特种环保水性油墨、特种纸品包装行业，推出大豆蛋白创新产品。", 
             image: "/images/application1.png" 
           },
           { 
             year: "2023", 
-            title: "拓展海外业务 (香港)", 
-            subtitle: "Global Expansion",
-            desc: "成立淘爱材料技术(香港)有限公司 Tops Life (Hong Kong) Technology Co.,Limited，进一步拓展海外市场与全球供应链。", 
+            title: "拓展海外业务", 
+            desc: "成立香港分公司，进一步拓展海外市场与全球供应链网络。", 
             image: "/images/application1.png" 
           },
         ]
@@ -155,48 +152,42 @@ const About: React.FC = () => {
             "New Materials Supplying",
             "Medical Devices & Components"
         ],
-        p2: "Adhering to \"Quality First, Serving Market and Application\", we provide clean, efficient, and eco-friendly solutions for pharmaceutical and electronics industries. Relying on strong R&D and strict quality control, we have established significant competitive advantages.",
+        p2: "Adhering to \"Quality First, Serving Market and Application\", we provide clean, efficient, and eco-friendly solutions. Relying on strong R&D and strict quality control, we have established significant competitive advantages.",
         p3: "We are committed to becoming a unique market leader in high-end packaging and medical injection molding solutions.",
         btn: "Contact Us"
       },
-      // --- Updated History ---
       timeline: {
         title: "Our History",
         subtitle: "Every step from startup to excellence",
         items: [
           { 
             year: "2011", 
-            title: "Tops Life Technology Founded", 
-            subtitle: "The Beginning",
-            desc: "Established Tops Life Technology to launch the soft packaging business. Providing R&D, design, validation, and manufacturing of clean, bacteria-controlled soft packaging (films/bags).", 
+            title: "Foundation", 
+            desc: "Established Tops Life Technology to launch soft packaging business, focusing on clean films/bags.", 
             image: "/images/application1.png" 
           },
           { 
             year: "2013", 
-            title: "Medical Device OEM Expansion", 
-            subtitle: "Capability Growth",
-            desc: "Expanded into Medical Device OEM business, offering R&D, design, validation, manufacturing, micro-injection molding, and assembly services.", 
+            title: "OEM Expansion", 
+            desc: "Expanded into Medical Device OEM business, offering micro-injection molding and assembly.", 
             image: "/images/application1.png" 
           },
           { 
             year: "2018", 
-            title: "Tops Life Science Founded", 
-            subtitle: "Strategic Upgrade",
-            desc: "Established Tops Life Science to comprehensively upgrade soft packaging manufacturing capabilities and solidify industry leadership.", 
+            title: "Strategic Upgrade", 
+            desc: "Established Tops Life Science to upgrade manufacturing capabilities and solidify leadership.", 
             image: "/images/application1.png" 
           },
           { 
             year: "2021", 
-            title: "New Materials Dept. Established", 
-            subtitle: "Innovation",
-            desc: "Established New Materials Department covering special eco-friendly water-based inks and special paper packaging industries, introducing soy protein products.", 
+            title: "New Materials", 
+            desc: "Established New Materials Dept. covering eco-friendly inks and soy protein products.", 
             image: "/images/application1.png" 
           },
           { 
             year: "2023", 
-            title: "Global Expansion (Hong Kong)", 
-            subtitle: "Going Global",
-            desc: "Established Tops Life (Hong Kong) Technology Co., Limited to further expand overseas business and global supply chain networks.", 
+            title: "Global Reach", 
+            desc: "Established Hong Kong branch to expand international business and supply chain.", 
             image: "/images/application1.png" 
           },
         ]
@@ -222,14 +213,14 @@ const About: React.FC = () => {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100 rounded-full mix-blend-multiply blur-3xl opacity-60 translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-indigo-50 rounded-full mix-blend-multiply blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2"></div>
 
-        <div className="container mx-auto px-6 relative z-10 text-center">
-            <span className="text-sky-600 font-bold tracking-widest uppercase mb-4 block animate-slide-up-fade">
+        <div className={`container mx-auto px-6 relative z-10 text-center transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <span className="text-sky-600 font-bold tracking-widest uppercase mb-4 block">
                 {t.hero.subtitle}
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight gsap-fade-up">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
                 {t.hero.title}
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed gsap-fade-up">
+            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
                 {t.hero.desc}
             </p>
         </div>
@@ -302,73 +293,47 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Timeline Section (Zigzag Layout) - 优化后的核心部分 */}
-      <section className="py-24 bg-slate-50 relative overflow-hidden">
+      {/* 4. Timeline Section (Compact Grid Layout) - 修正后的紧凑布局 */}
+      <section className="py-24 bg-slate-50 relative">
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             {/* Section Header */}
-            <div className="text-center mb-20 gsap-fade-up">
+            <div className="text-center mb-16 gsap-fade-up">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{t.timeline.title}</h2>
                 <div className="w-16 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto mt-4 rounded-full"></div>
                 <p className="mt-4 text-slate-500">{t.timeline.subtitle}</p>
             </div>
 
-            <div className="relative">
-                {/* 中间垂直线条 (仅 PC 显示) */}
-                <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-slate-200"></div>
-
-                <div className="space-y-12 md:space-y-0">
-                    {t.timeline.items.map((item, i) => {
-                        const isEven = i % 2 === 0;
-                        return (
-                            <div key={i} className={`timeline-item flex flex-col md:flex-row items-center justify-between md:mb-24 ${isEven ? 'md:flex-row-reverse' : ''}`}>
-                                
-                                {/* A. 文本区域 */}
-                                <div className={`w-full md:w-5/12 ${isEven ? 'md:pl-12 text-left' : 'md:pr-12 md:text-right'} mb-8 md:mb-0 relative group`}>
-                                    {/* 背景年份水印 */}
-                                    <div className={`text-6xl md:text-8xl font-bold text-slate-200/60 mb-2 -mt-4 absolute -z-10 select-none top-0 ${isEven ? 'left-0' : 'right-0'} transition-colors group-hover:text-sky-100`}>
-                                        {item.year}
-                                    </div>
-                                    <div className="relative z-10 pt-4">
-                                        <div className={`flex items-center gap-2 mb-2 ${isEven ? 'justify-start' : 'justify-end'}`}>
-                                            <Flag className="w-5 h-5 text-sky-600" />
-                                            <span className="text-sky-600 font-bold text-xl">{item.year}</span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-slate-800 mb-2">{item.title}</h3>
-                                        <span className="inline-block px-2 py-1 bg-sky-50 text-sky-600 text-xs font-bold uppercase rounded mb-4">
-                                            {item.subtitle}
-                                        </span>
-                                        <p className="text-slate-600 leading-relaxed bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                                            {item.desc}
-                                        </p>
-                                    </div>
+            {/* Grid Layout: 3 Columns -> Compact & Clean */}
+            <div id="timeline-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {t.timeline.items.map((item, i) => (
+                    <div key={i} className="timeline-card group relative bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
+                        {/* 上半部分：图片与年份 */}
+                        <div className="relative h-48 overflow-hidden">
+                            <img 
+                                src={item.image} 
+                                alt={item.title} 
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-80"></div>
+                            <div className="absolute bottom-4 left-6">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <Calendar className="w-4 h-4 text-sky-400" />
+                                    <span className="text-sky-400 font-bold text-xl tracking-wider">{item.year}</span>
                                 </div>
-
-                                {/* B. 中间圆点 (仅 PC 显示) */}
-                                <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-sky-50 border-4 border-white shadow-md z-10 hidden md:flex">
-                                    <div className="w-3 h-3 bg-sky-500 rounded-full"></div>
-                                </div>
-
-                                {/* C. 图片区域 */}
-                                <div className="w-full md:w-5/12 relative group cursor-pointer">
-                                    <div className="overflow-hidden rounded-2xl shadow-lg border-4 border-white bg-white">
-                                        <div className="aspect-[16/10] w-full relative overflow-hidden bg-slate-100 flex items-center justify-center group-hover:shadow-2xl transition-shadow">
-                                            {/* 图片路径使用 application1.png */}
-                                            <img 
-                                                src={item.image} 
-                                                alt={item.title} 
-                                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                            />
-                                            {/* 图片遮罩 */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent opacity-60 group-hover:opacity-30 transition-opacity"></div>
-                                        </div>
-                                    </div>
-                                    {/* 装饰性背景块 */}
-                                    <div className={`absolute top-4 -z-10 w-full h-full bg-sky-100 rounded-2xl ${isEven ? '-left-4' : '-right-4'} transition-transform group-hover:translate-x-1 group-hover:translate-y-1`}></div>
-                                </div>
+                                <h3 className="text-xl font-bold text-white leading-tight">{item.title}</h3>
                             </div>
-                        );
-                    })}
-                </div>
+                        </div>
+
+                        {/* 下半部分：描述文本 */}
+                        <div className="p-6 flex-grow bg-white relative">
+                            {/* 装饰线 */}
+                            <div className="absolute top-0 left-6 w-12 h-1 bg-sky-500 rounded-b-md"></div>
+                            <p className="text-slate-600 leading-relaxed text-sm pt-2">
+                                {item.desc}
+                            </p>
+                        </div>
+                    </div>
+                ))}
             </div>
          </div>
       </section>
