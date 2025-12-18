@@ -11,7 +11,7 @@ import {
   Factory, 
   CheckCircle2, 
   ArrowRight,
-  Calendar, // 新增日历图标
+  Calendar,
   Flag
 } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
@@ -31,39 +31,57 @@ const About: React.FC = () => {
 
   useEffect(() => { 
     setLoaded(true); 
+    // ★ 关键修复：延迟刷新 ScrollTrigger，防止图片加载导致的高度计算错误
+    setTimeout(() => ScrollTrigger.refresh(), 500);
   }, []);
 
   // --- 动画初始化 ---
   useEffect(() => {
+    if (!containerRef.current) return;
+
     const ctx = gsap.context(() => {
       // 1. 通用淡入上浮
-      const fadeUps = document.querySelectorAll(".gsap-fade-up");
-      fadeUps.forEach((el) => {
-        gsap.fromTo(el, { y: 40, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
-        });
+      const fadeUps = gsap.utils.toArray(".gsap-fade-up");
+      fadeUps.forEach((el: any) => {
+        gsap.fromTo(el, 
+          { y: 40, opacity: 0 }, 
+          {
+            y: 0, opacity: 1, duration: 1, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%" },
+          }
+        );
       });
 
-      // 2. 卡片依次浮现动画 (Stagger) - 专为新版网格布局设计
-      gsap.from(".timeline-card", {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15, // 卡片之间间隔0.15秒出现，形成流水般的视觉感
-        ease: "back.out(1.2)",
-        scrollTrigger: { 
-            trigger: "#timeline-grid", 
-            start: "top 85%" 
-        }
-      });
+      // 2. 发展历程卡片动画 (★ 修复版：防止隐身 Bug)
+      const cards = gsap.utils.toArray(".timeline-card");
+      if (cards.length > 0) {
+        gsap.fromTo(cards, 
+          { y: 60, opacity: 0 }, // 明确初始状态
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "back.out(1.2)",
+            scrollTrigger: { 
+                trigger: "#timeline-grid", 
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            onComplete: () => {
+               // ★ 关键修复：动画结束后清除内联样式，避免 CSS 冲突
+               gsap.set(cards, { clearProps: "transform,opacity" }); 
+            }
+          }
+        );
+      }
 
     }, containerRef);
 
     return () => ctx.revert();
   }, [language]);
 
-  // --- 核心数据配置 ---
+  // --- 核心数据配置 (已更新你的图片路径) ---
   const content = {
     zh: {
       hero: {
@@ -297,7 +315,7 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Timeline Section (Compact Grid Layout) - 修正后的横向卡片布局 */}
+      {/* 4. Timeline Section (Compact Grid Layout) - 横向卡片布局 */}
       <section className="py-24 bg-slate-50 relative">
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             {/* Section Header */}
