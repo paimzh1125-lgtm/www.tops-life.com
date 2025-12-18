@@ -404,7 +404,7 @@ export default function Home() {
             {t.market.map((m, i) => (
               <div key={i} className="gsap-fade-up group relative h-64 rounded-2xl overflow-hidden cursor-pointer shadow-md">
                 <img 
-                  src={`application/${(i % 4) + 1}.png`} 
+                  src={`public/images/application/${(i % 4) + 1}.png`} 
                   alt={m} 
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                 />
