@@ -12,7 +12,8 @@ import {
   CheckCircle2, 
   ArrowRight,
   Calendar,
-  Flag
+  Flag,
+  CheckCheck
 } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 import { Link } from 'react-router-dom';
@@ -31,7 +32,7 @@ const About: React.FC = () => {
 
   useEffect(() => { 
     setLoaded(true); 
-    // ★ 关键修复：延迟刷新 ScrollTrigger，防止图片加载导致的高度计算错误
+    // 延迟刷新 ScrollTrigger，防止图片加载导致的高度计算错误
     setTimeout(() => ScrollTrigger.refresh(), 500);
   }, []);
 
@@ -52,36 +53,37 @@ const About: React.FC = () => {
         );
       });
 
-      // 2. 发展历程卡片动画 (★ 修复版：防止隐身 Bug)
+      // 2. 发展历程卡片动画
       const cards = gsap.utils.toArray(".timeline-card");
       if (cards.length > 0) {
         gsap.fromTo(cards, 
-          { y: 60, opacity: 0 }, // 明确初始状态
+          { y: 60, opacity: 0 },
           {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "back.out(1.2)",
-            scrollTrigger: { 
-                trigger: "#timeline-grid", 
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-            },
-            onComplete: () => {
-               // ★ 关键修复：动画结束后清除内联样式，避免 CSS 冲突
-               gsap.set(cards, { clearProps: "transform,opacity" }); 
-            }
+            y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)",
+            scrollTrigger: { trigger: "#timeline-grid", start: "top 85%", toggleActions: "play none none reverse" },
+            onComplete: () => { gsap.set(cards, { clearProps: "transform,opacity" }); }
           }
         );
       }
+
+      // 3. 底部 CTA 区域视差背景
+      gsap.to("#cta-bg", {
+        yPercent: 20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#cta-section",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
 
     }, containerRef);
 
     return () => ctx.revert();
   }, [language]);
 
-  // --- 核心数据配置 (已更新你的图片路径) ---
+  // --- 核心数据配置 ---
   const content = {
     zh: {
       hero: {
@@ -105,42 +107,43 @@ const About: React.FC = () => {
             "医疗器械 (Medical Devices)"
         ],
         p2: "秉承“质量第一，服务市场与应用”的理念，我们为医药、电子、医疗及纸张加工印刷行业提供洁净、高效、环保的定制化产品与解决方案。依托强大的技术研发能力与严苛的质量控制，我们在行业内形成了显著的竞争优势。",
-        p3: "未来，公司将继续深耕核心领域，致力于成为高端包装、医疗注塑解决方案及新材料供应领域独特的市场领导者。",
-        btn: "联系我们"
+        btn: "了解我们的解决方案"
       },
       timeline: {
         title: "发展历程",
         subtitle: "从初创到卓越的每一步",
         items: [
           { 
-            year: "2011", 
-            title: "淘爱材料科技成立", 
+            year: "2011", title: "淘爱材料科技成立", 
             desc: "成立淘爱材料科技，开展软包装业务。提供洁净、控菌软包装的研发与制造。", 
             image: "/images/taoai.png" 
           },
           { 
-            year: "2013", 
-            title: "OEM 业务拓展", 
+            year: "2013", title: "OEM 业务拓展", 
             desc: "增加医疗器械 OEM 业务板块，专注于微小注塑和精密组装技术。", 
             image: "/images/injection.jpg" 
           },
           { 
-            year: "2018", 
-            title: "永爱生命成立", 
+            year: "2018", title: "永爱生命成立", 
             desc: "成立永爱生命 Tops Life Science，全面升级制造能力，确立医疗包装专业地位。", 
             image: "/images/yongai.jpg" 
           },
           { 
-            year: "2021", 
-            title: "新材料部门成立", 
+            year: "2021", title: "新材料部门成立", 
             desc: "涉足特种环保水性油墨、特种纸品包装行业，推出大豆蛋白创新产品。", 
             image: "/images/soy.jpg" 
           },
           { 
-            year: "2023", 
-            title: "拓展海外业务", 
+            year: "2023", title: "拓展海外业务", 
             desc: "成立香港分公司，进一步拓展海外市场与全球供应链网络。", 
             image: "/images/oversea.jpg" 
+          },
+          // --- 新增节点 ---
+          { 
+            year: "2023", 
+            title: "洁净室升级扩建", 
+            desc: "全面升级 ISO 7 级 (十万级) 洁净车间，进一步提升医疗器械与包装的生产环境标准与产能。", 
+            image: "/images/industry3.jpg" 
           },
         ]
       },
@@ -151,6 +154,13 @@ const About: React.FC = () => {
           { title: "愿景", desc: "成为高端包装、医疗注塑及新材料领域的独特市场领导者。", icon: <Target className="w-10 h-10" /> },
           { title: "使命", desc: "为客户创造价值，赋能行业发展。", icon: <Heart className="w-10 h-10" /> },
         ]
+      },
+      // --- 新增底部 CTA 文案 ---
+      cta: {
+        title: "值得信赖的全球合作伙伴",
+        desc: "我们的制造与管理体系严格遵循国际标准，确保每一份交付都安全、合规、高效。",
+        certs: ["ISO 13485 医疗器械质量管理", "ISO 9001 质量管理体系", "FDA 注册工厂"],
+        btn: "联系我们开启合作"
       }
     },
     en: {
@@ -175,42 +185,43 @@ const About: React.FC = () => {
             "Medical Devices & Components"
         ],
         p2: "Adhering to \"Quality First, Serving Market and Application\", we provide clean, efficient, and eco-friendly solutions. Relying on strong R&D and strict quality control, we have established significant competitive advantages.",
-        p3: "We are committed to becoming a unique market leader in high-end packaging and medical injection molding solutions.",
-        btn: "Contact Us"
+        btn: "Explore Our Solutions"
       },
       timeline: {
         title: "Our History",
         subtitle: "Every step from startup to excellence",
         items: [
           { 
-            year: "2011", 
-            title: "Foundation", 
+            year: "2011", title: "Foundation", 
             desc: "Established Tops Life Technology to launch soft packaging business, focusing on clean films/bags.", 
             image: "/images/taoai.png" 
           },
           { 
-            year: "2013", 
-            title: "OEM Expansion", 
+            year: "2013", title: "OEM Expansion", 
             desc: "Expanded into Medical Device OEM business, offering micro-injection molding and assembly.", 
             image: "/images/injection.jpg" 
           },
           { 
-            year: "2018", 
-            title: "Strategic Upgrade", 
+            year: "2018", title: "Strategic Upgrade", 
             desc: "Established Tops Life Science to upgrade manufacturing capabilities and solidify leadership.", 
             image: "/images/yongai.jpg" 
           },
           { 
-            year: "2021", 
-            title: "New Materials", 
+            year: "2021", title: "New Materials", 
             desc: "Established New Materials Dept. covering eco-friendly inks and soy protein products.", 
             image: "/images/soy.jpg" 
           },
           { 
-            year: "2023", 
-            title: "Global Reach", 
+            year: "2023", title: "Global Reach", 
             desc: "Established Hong Kong branch to expand international business and supply chain.", 
             image: "/images/oversea.jpg" 
+          },
+          // --- New Node ---
+          { 
+            year: "2023", 
+            title: "Clean Room Expansion", 
+            desc: "Upgraded to ISO Class 7 cleanrooms, boosting production standards and capacity for medical devices and packaging.", 
+            image: "/images/industry3.jpg" 
           },
         ]
       },
@@ -221,6 +232,13 @@ const About: React.FC = () => {
           { title: "Vision", desc: "To be a unique market-leading provider of high-end packaging and medical solutions.", icon: <Target className="w-10 h-10" /> },
           { title: "Mission", desc: "Create value for customers and empower industry development.", icon: <Heart className="w-10 h-10" /> },
         ]
+      },
+      // --- New Footer CTA ---
+      cta: {
+        title: "Your Trusted Global Partner",
+        desc: "Our manufacturing and management systems strictly adhere to international standards, ensuring safety, compliance, and efficiency in every delivery.",
+        certs: ["ISO 13485 for Medical Devices", "ISO 9001 Quality Management", "FDA Registered Facility"],
+        btn: "Contact Us to Collaborate"
       }
     }
   };
@@ -270,7 +288,7 @@ const About: React.FC = () => {
             <div className="w-full lg:w-5/12 relative group lg:sticky lg:top-32 gsap-fade-up">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-slate-100 aspect-[4/3]">
                     <img 
-                        src="/banner/outslight.jpg" 
+                        src="/banner/3.jpg" 
                         alt="Tops Life Innovation" 
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2070'; }}
@@ -305,7 +323,7 @@ const About: React.FC = () => {
                     </ul>
                 </div>
                 <p className="text-lg text-slate-600 leading-relaxed mb-6 text-justify">{t.intro.p2}</p>
-                <Link to="/contact">
+                <Link to="/products">
                      <button className="group flex items-center gap-2 px-8 py-3.5 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-lg hover:shadow-sky-200 active:scale-95">
                         {t.intro.btn}
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -315,21 +333,18 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Timeline Section (Compact Grid Layout) - 横向卡片布局 */}
+      {/* 4. Timeline Section (Compact Grid Layout) - 加入新节点 */}
       <section className="py-24 bg-slate-50 relative">
          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            {/* Section Header */}
             <div className="text-center mb-16 gsap-fade-up">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{t.timeline.title}</h2>
                 <div className="w-16 h-1 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto mt-4 rounded-full"></div>
                 <p className="mt-4 text-slate-500">{t.timeline.subtitle}</p>
             </div>
 
-            {/* Grid Layout: 3 Columns -> Compact & Clean */}
             <div id="timeline-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {t.timeline.items.map((item, i) => (
                     <div key={i} className="timeline-card group relative bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
-                        {/* 上半部分：图片与年份 */}
                         <div className="relative h-48 overflow-hidden">
                             <img 
                                 src={item.image} 
@@ -337,10 +352,7 @@ const About: React.FC = () => {
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1576091160550-217358c7e618?auto=format&fit=crop&q=80&w=2070'; }}
                             />
-                            {/* 渐变遮罩 */}
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-80"></div>
-                            
-                            {/* 年份标签 */}
                             <div className="absolute bottom-4 left-6">
                                 <div className="flex items-center gap-2 mb-1">
                                     <Calendar className="w-4 h-4 text-sky-400" />
@@ -349,10 +361,7 @@ const About: React.FC = () => {
                                 <h3 className="text-xl font-bold text-white leading-tight">{item.title}</h3>
                             </div>
                         </div>
-
-                        {/* 下半部分：描述文本 */}
                         <div className="p-6 flex-grow bg-white relative">
-                            {/* 装饰线 */}
                             <div className="absolute top-0 left-6 w-12 h-1 bg-sky-500 rounded-b-md"></div>
                             <p className="text-slate-600 leading-relaxed text-sm pt-2">
                                 {item.desc}
@@ -402,17 +411,56 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. Simple Trust Strip */}
-      <div className="bg-slate-50 py-12 border-t border-slate-200">
-        <div className="container mx-auto px-6 text-center">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">Certifications & Standards</p>
-            <div className="flex flex-wrap justify-center gap-12 md:gap-20 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                <div className="flex items-center gap-3 text-lg font-bold text-slate-800"><Shield className="w-6 h-6 text-sky-600" /> ISO 13485</div>
-                <div className="flex items-center gap-3 text-lg font-bold text-slate-800"><Shield className="w-6 h-6 text-sky-600" /> ISO 9001</div>
-                <div className="flex items-center gap-3 text-lg font-bold text-slate-800"><Factory className="w-6 h-6 text-sky-600" /> FDA Registered</div>
+      {/* 6. [全新设计] Trust & CTA Section - 替代原有的空旷底部 */}
+      <section id="cta-section" className="relative py-24 bg-slate-900 overflow-hidden">
+        {/* 视差背景图 - 建议使用一张高质量的工厂或实验室暗调图片 */}
+        <div id="cta-bg" className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" 
+             style={{ 
+               backgroundImage: 'url(/banner/3.jpg)', // 使用现有的工厂图作为背景纹理
+               backgroundSize: 'cover',
+               backgroundPosition: 'center'
+             }}>
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+                {/* 左侧：信任背书 */}
+                <div className="lg:w-1/2 text-center lg:text-left">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                        {t.cta.title}
+                    </h2>
+                    <p className="text-lg text-slate-300 mb-8 leading-relaxed">
+                        {t.cta.desc}
+                    </p>
+                    {/* 认证列表 */}
+                    <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8 lg:mb-0">
+                        {t.cta.certs.map((cert, i) => (
+                            <div key={i} className="flex items-center gap-2 bg-sky-900/30 border border-sky-700/50 rounded-full px-4 py-2 text-sm text-sky-200">
+                                <CheckCheck className="w-4 h-4" />
+                                {cert}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 右侧：行动号召 */}
+                <div className="lg:w-1/3 text-center">
+                    {/* 模拟一个认证徽章效果 */}
+                    <div className="inline-flex gap-4 mb-8 opacity-60 grayscale hover:grayscale-0 transition-all">
+                        <Shield className="w-12 h-12 text-sky-500" />
+                        <Factory className="w-12 h-12 text-sky-500" />
+                        <Flag className="w-12 h-12 text-sky-500" />
+                    </div>
+                    <Link to="/contact">
+                        <button className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-sky-600 rounded-full hover:bg-sky-500 hover:scale-105 shadow-lg hover:shadow-sky-500/50 w-full sm:w-auto">
+                            <span>{t.cta.btn}</span>
+                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                    </Link>
+                </div>
             </div>
         </div>
-      </div>
+      </section>
 
     </div>
   );
