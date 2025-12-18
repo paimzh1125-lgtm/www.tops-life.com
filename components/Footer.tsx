@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
             <div className="flex flex-wrap gap-3">
               <div className="px-3 py-1.5 border border-slate-200 rounded text-xs font-semibold text-tops-blue bg-slate-50">ISO 9001</div>
               <div className="px-3 py-1.5 border border-slate-200 rounded text-xs font-semibold text-tops-blue bg-slate-50">ISO 13485</div>
-              <div className="px-3 py-1.5 border border-slate-200 rounded text-xs font-semibold text-tops-blue bg-slate-50">Class 100k</div>
+              <div className="px-3 py-1.5 border border-slate-200 rounded text-xs font-semibold text-tops-blue bg-slate-50">Class 10k</div>
             </div>
           </div>
         </div>
