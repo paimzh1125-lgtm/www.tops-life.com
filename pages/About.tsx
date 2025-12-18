@@ -11,7 +11,8 @@ import {
   Factory, 
   CheckCircle2, 
   ArrowRight,
-  Calendar
+  Calendar, // 新增日历图标
+  Flag
 } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 import { Link } from 'react-router-dom';
@@ -44,14 +45,17 @@ const About: React.FC = () => {
         });
       });
 
-      // 2. 卡片依次浮现动画 (Stagger)
+      // 2. 卡片依次浮现动画 (Stagger) - 专为新版网格布局设计
       gsap.from(".timeline-card", {
-        y: 50,
+        y: 60,
         opacity: 0,
         duration: 0.8,
-        stagger: 0.2, // 卡片之间间隔0.2秒出现
+        stagger: 0.15, // 卡片之间间隔0.15秒出现，形成流水般的视觉感
         ease: "back.out(1.2)",
-        scrollTrigger: { trigger: "#timeline-grid", start: "top 80%" }
+        scrollTrigger: { 
+            trigger: "#timeline-grid", 
+            start: "top 85%" 
+        }
       });
 
     }, containerRef);
@@ -94,31 +98,31 @@ const About: React.FC = () => {
             year: "2011", 
             title: "淘爱材料科技成立", 
             desc: "成立淘爱材料科技，开展软包装业务。提供洁净、控菌软包装的研发与制造。", 
-            image: "/images/application1.png" 
+            image: "/images/taoai.png" 
           },
           { 
             year: "2013", 
             title: "OEM 业务拓展", 
             desc: "增加医疗器械 OEM 业务板块，专注于微小注塑和精密组装技术。", 
-            image: "/images/application1.png" 
+            image: "/images/injection.jpg" 
           },
           { 
             year: "2018", 
             title: "永爱生命成立", 
             desc: "成立永爱生命 Tops Life Science，全面升级制造能力，确立医疗包装专业地位。", 
-            image: "/images/application1.png" 
+            image: "/images/yongai.jpg" 
           },
           { 
             year: "2021", 
             title: "新材料部门成立", 
             desc: "涉足特种环保水性油墨、特种纸品包装行业，推出大豆蛋白创新产品。", 
-            image: "/images/application1.png" 
+            image: "/images/soy.jpg" 
           },
           { 
             year: "2023", 
             title: "拓展海外业务", 
             desc: "成立香港分公司，进一步拓展海外市场与全球供应链网络。", 
-            image: "/images/application1.png" 
+            image: "/images/oversea.jpg" 
           },
         ]
       },
@@ -164,31 +168,31 @@ const About: React.FC = () => {
             year: "2011", 
             title: "Foundation", 
             desc: "Established Tops Life Technology to launch soft packaging business, focusing on clean films/bags.", 
-            image: "/images/application1.png" 
+            image: "/images/taoai.png" 
           },
           { 
             year: "2013", 
             title: "OEM Expansion", 
             desc: "Expanded into Medical Device OEM business, offering micro-injection molding and assembly.", 
-            image: "/images/application1.png" 
+            image: "/images/injection.jpg" 
           },
           { 
             year: "2018", 
             title: "Strategic Upgrade", 
             desc: "Established Tops Life Science to upgrade manufacturing capabilities and solidify leadership.", 
-            image: "/images/application1.png" 
+            image: "/images/yongai.jpg" 
           },
           { 
             year: "2021", 
             title: "New Materials", 
             desc: "Established New Materials Dept. covering eco-friendly inks and soy protein products.", 
-            image: "/images/application1.png" 
+            image: "/images/soy.jpg" 
           },
           { 
             year: "2023", 
             title: "Global Reach", 
             desc: "Established Hong Kong branch to expand international business and supply chain.", 
-            image: "/images/application1.png" 
+            image: "/images/oversea.jpg" 
           },
         ]
       },
@@ -248,7 +252,7 @@ const About: React.FC = () => {
             <div className="w-full lg:w-5/12 relative group lg:sticky lg:top-32 gsap-fade-up">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-slate-100 aspect-[4/3]">
                     <img 
-                        src="/banner/3.jpg" 
+                        src="/banner/outslight.jpg" 
                         alt="Tops Life Innovation" 
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2070'; }}
@@ -293,7 +297,7 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Timeline Section (Compact Grid Layout) - 修正后的紧凑布局 */}
+      {/* 4. Timeline Section (Compact Grid Layout) - 修正后的横向卡片布局 */}
       <section className="py-24 bg-slate-50 relative">
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             {/* Section Header */}
@@ -313,8 +317,12 @@ const About: React.FC = () => {
                                 src={item.image} 
                                 alt={item.title} 
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1576091160550-217358c7e618?auto=format&fit=crop&q=80&w=2070'; }}
                             />
+                            {/* 渐变遮罩 */}
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-80"></div>
+                            
+                            {/* 年份标签 */}
                             <div className="absolute bottom-4 left-6">
                                 <div className="flex items-center gap-2 mb-1">
                                     <Calendar className="w-4 h-4 text-sky-400" />
