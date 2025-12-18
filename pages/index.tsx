@@ -45,8 +45,8 @@ const LANG = {
     intro: "永爱 Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应等领域的创新型企业。公司在医疗行业、特种纸、油墨行业等多个领域的各类组件方面拥有丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
     more: "探索详情",
     stats: [
-      { num: "15+", label: "年行业经验" },
-      { num: "100k", label: "级洁净车间" },
+      { num: "14+", label: "年行业经验" },
+      { num: "10k", label: "级洁净车间" },
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务板块",
@@ -94,8 +94,8 @@ const LANG = {
     intro: "Established in 2011, Suzhou Tops-Life is a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience across medical and specialty paper industries, we adhere to 'Quality First' philosophy to deliver safer, more efficient solutions globally.",
     more: "Discover More",
     stats: [
-      { num: "15+", label: "Years Exp." },
-      { num: "100k", label: "Clean Class" },
+      { num: "14+", label: "Years Exp." },
+      { num: "10k", label: "Clean Class" },
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -271,7 +271,7 @@ export default function Home() {
           {/* 左侧图片区 */}
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              <img src="banner/3.jpg" alt="Factory Environment" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000" />
+              <img src="banner/outsight.jpg" alt="Factory Environment" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000" />
             </div>
             
             {/* 浮动数据卡片 */}
