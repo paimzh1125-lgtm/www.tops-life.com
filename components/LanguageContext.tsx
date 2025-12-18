@@ -1,32 +1,49 @@
-// components/LanguageContext.tsx ---
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-// 定义支持的语言类型
+// 定义语言类型
 type Language = 'zh' | 'en';
 
 interface LanguageContextType {
   language: Language;
   toggleLanguage: () => void;
+  setLanguage: (lang: Language) => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('zh');
+  // 默认语言设置
+  const [language, setLanguageState] = useState<Language>('zh');
 
+  // 1. 第一次打开时，检查浏览器缓存有没有存过语言设置
+  useEffect(() => {
+    const savedLang = localStorage.getItem('app-language') as Language;
+    if (savedLang) {
+      setLanguageState(savedLang);
+    }
+  }, []);
+
+  // 2. 切换语言的功能（带记忆存储）
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'zh' ? 'en' : 'zh'));
+    const newLang = language === 'zh' ? 'en' : 'zh';
+    setLanguageState(newLang);
+    localStorage.setItem('app-language', newLang); // 存入缓存
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // 切换后回到顶部
+  };
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem('app-language', lang);
   };
 
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language, toggleLanguage, setLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-// 自定义 Hook，方便组件调用
+// 让其他组件能用这个功能的“钩子”
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {
