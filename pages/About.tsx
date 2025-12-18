@@ -93,35 +93,35 @@ const About: React.FC = () => {
             title: "淘爱材料科技成立", 
             subtitle: "Tops Life Technology",
             desc: "成立淘爱材料科技，开展软包装业务。提供洁净、控菌软包装的研发、设计、验证和制造，产品涵盖医用薄膜与灭菌袋等。", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2013", 
             title: "医疗器械 OEM 业务拓展", 
             subtitle: "Medical Device OEM",
             desc: "增加医疗器械 OEM 业务板块，具备医疗器械研发、设计、验证及制造能力，专注于微小注塑和精密组装技术。", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2018", 
             title: "永爱生命成立", 
             subtitle: "Tops Life Science",
             desc: "成立永爱生命 Tops Life Science，全面升级软包装制造能力，确立了在医疗包装领域的专业地位。", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2021", 
             title: "新材料业务部门成立", 
             subtitle: "New Materials Dept.",
             desc: "成立新材料业务部门拓展业务，涉足特种环保水性油墨、特种纸品包装等行业，并推出大豆蛋白等创新产品。", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2023", 
             title: "拓展海外业务 (香港)", 
             subtitle: "Global Expansion",
             desc: "成立淘爱材料技术(香港)有限公司 Tops Life (Hong Kong) Technology Co.,Limited，进一步拓展海外市场与全球供应链。", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
         ]
       },
@@ -169,35 +169,35 @@ const About: React.FC = () => {
             title: "Tops Life Technology Founded", 
             subtitle: "The Beginning",
             desc: "Established Tops Life Technology to launch the soft packaging business. Providing R&D, design, validation, and manufacturing of clean, bacteria-controlled soft packaging (films/bags).", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2013", 
             title: "Medical Device OEM Expansion", 
             subtitle: "Capability Growth",
             desc: "Expanded into Medical Device OEM business, offering R&D, design, validation, manufacturing, micro-injection molding, and assembly services.", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2018", 
             title: "Tops Life Science Founded", 
             subtitle: "Strategic Upgrade",
             desc: "Established Tops Life Science to comprehensively upgrade soft packaging manufacturing capabilities and solidify industry leadership.", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2021", 
             title: "New Materials Dept. Established", 
             subtitle: "Innovation",
             desc: "Established New Materials Department covering special eco-friendly water-based inks and special paper packaging industries, introducing soy protein products.", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
           { 
             year: "2023", 
             title: "Global Expansion (Hong Kong)", 
             subtitle: "Going Global",
             desc: "Established Tops Life (Hong Kong) Technology Co., Limited to further expand overseas business and global supply chain networks.", 
-            image: "images/application1.png" 
+            image: "/images/application1.png" 
           },
         ]
       },
@@ -257,7 +257,7 @@ const About: React.FC = () => {
             <div className="w-full lg:w-5/12 relative group lg:sticky lg:top-32 gsap-fade-up">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-slate-100 aspect-[4/3]">
                     <img 
-                        src="/banner/outsligth.jpg" 
+                        src="/banner/3.jpg" 
                         alt="Tops Life Innovation" 
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2070'; }}
