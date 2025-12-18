@@ -32,7 +32,6 @@ const About: React.FC = () => {
 
   useEffect(() => { 
     setLoaded(true); 
-    // 延迟刷新 ScrollTrigger，防止图片加载导致的高度计算错误
     setTimeout(() => ScrollTrigger.refresh(), 500);
   }, []);
 
@@ -138,7 +137,6 @@ const About: React.FC = () => {
             desc: "成立香港分公司，进一步拓展海外市场与全球供应链网络。", 
             image: "/images/oversea.jpg" 
           },
-          // --- 新增节点 ---
           { 
             year: "2023", 
             title: "洁净室升级扩建", 
@@ -155,7 +153,6 @@ const About: React.FC = () => {
           { title: "使命", desc: "为客户创造价值，赋能行业发展。", icon: <Heart className="w-10 h-10" /> },
         ]
       },
-      // --- 新增底部 CTA 文案 ---
       cta: {
         title: "值得信赖的全球合作伙伴",
         desc: "我们的制造与管理体系严格遵循国际标准，确保每一份交付都安全、合规、高效。",
@@ -216,7 +213,6 @@ const About: React.FC = () => {
             desc: "Established Hong Kong branch to expand international business and supply chain.", 
             image: "/images/oversea.jpg" 
           },
-          // --- New Node ---
           { 
             year: "2023", 
             title: "Clean Room Expansion", 
@@ -233,7 +229,6 @@ const About: React.FC = () => {
           { title: "Mission", desc: "Create value for customers and empower industry development.", icon: <Heart className="w-10 h-10" /> },
         ]
       },
-      // --- New Footer CTA ---
       cta: {
         title: "Your Trusted Global Partner",
         desc: "Our manufacturing and management systems strictly adhere to international standards, ensuring safety, compliance, and efficiency in every delivery.",
@@ -281,24 +276,37 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. Main Introduction */}
+      {/* 3. Main Introduction - [全新设计] 左侧图片区域 */}
       <div className="container mx-auto px-6 py-24">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
-            {/* 左侧图片 */}
-            <div className="w-full lg:w-5/12 relative group lg:sticky lg:top-32 gsap-fade-up">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-slate-100 aspect-[4/3]">
+            
+            {/* 左侧图片 - 重新设计：更现代、融合的风格 */}
+            <div className="w-full lg:w-5/12 relative group lg:sticky lg:top-32 gsap-fade-up pl-6 pb-6">
+                {/* 背景装饰层，制造层次感 */}
+                <div className="absolute inset-0 bg-sky-100/60 rounded-[2rem] -rotate-2 scale-[1.02] -z-10 group-hover:rotate-0 transition-all duration-500"></div>
+                
+                <div className="relative rounded-[2rem] overflow-hidden shadow-[0_25px_50px_-12px_rgba(8,112,184,0.25)] aspect-[4/3] bg-white">
                     <img 
-                        src="/banner/3.jpg" 
+                        src="/banner/outslight.jpg" // 已更新路径
                         alt="Tops Life Innovation" 
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2070'; }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-                </div>
-                {/* 装饰元素 */}
-                <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border-l-4 border-sky-500 hidden md:block">
-                    <p className="text-slate-500 text-sm uppercase tracking-wider font-bold">Since</p>
-                    <p className="text-4xl font-bold text-slate-900">2011</p>
+                    {/* 更通透的渐变遮罩 */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/30 via-transparent to-transparent"></div>
+                    
+                    {/* 重新设计的“Since 2011”徽章 - 内嵌融合式 */}
+                    <div className="absolute bottom-0 right-0 bg-slate-900/80 backdrop-blur-md p-6 rounded-tl-3xl text-white border-t border-l border-white/10">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-sky-500/20 p-2 rounded-full">
+                                <Award className="text-sky-400 w-6 h-6" />
+                            </div>
+                            <div>
+                                <p className="text-sky-200 text-xs uppercase tracking-widest font-bold mb-1 opacity-80">Established</p>
+                                <p className="text-3xl font-extrabold tracking-tight leading-none">2011</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -333,7 +341,7 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Timeline Section (Compact Grid Layout) - 加入新节点 */}
+      {/* 4. Timeline Section (Compact Grid Layout) */}
       <section className="py-24 bg-slate-50 relative">
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="text-center mb-16 gsap-fade-up">
@@ -411,12 +419,11 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. [全新设计] Trust & CTA Section - 替代原有的空旷底部 */}
+      {/* 6. Trust & CTA Section */}
       <section id="cta-section" className="relative py-24 bg-slate-900 overflow-hidden">
-        {/* 视差背景图 - 建议使用一张高质量的工厂或实验室暗调图片 */}
         <div id="cta-bg" className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" 
              style={{ 
-               backgroundImage: 'url(/banner/3.jpg)', // 使用现有的工厂图作为背景纹理
+               backgroundImage: 'url(/banner/3.jpg)',
                backgroundSize: 'cover',
                backgroundPosition: 'center'
              }}>
@@ -424,7 +431,6 @@ const About: React.FC = () => {
         
         <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-                {/* 左侧：信任背书 */}
                 <div className="lg:w-1/2 text-center lg:text-left">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                         {t.cta.title}
@@ -432,7 +438,6 @@ const About: React.FC = () => {
                     <p className="text-lg text-slate-300 mb-8 leading-relaxed">
                         {t.cta.desc}
                     </p>
-                    {/* 认证列表 */}
                     <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8 lg:mb-0">
                         {t.cta.certs.map((cert, i) => (
                             <div key={i} className="flex items-center gap-2 bg-sky-900/30 border border-sky-700/50 rounded-full px-4 py-2 text-sm text-sky-200">
@@ -443,9 +448,7 @@ const About: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 右侧：行动号召 */}
                 <div className="lg:w-1/3 text-center">
-                    {/* 模拟一个认证徽章效果 */}
                     <div className="inline-flex gap-4 mb-8 opacity-60 grayscale hover:grayscale-0 transition-all">
                         <Shield className="w-12 h-12 text-sky-500" />
                         <Factory className="w-12 h-12 text-sky-500" />
