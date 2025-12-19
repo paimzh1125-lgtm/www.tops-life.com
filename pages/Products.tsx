@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
 
-// --- 1. SVG 图标库 (无依赖) ---
+// --- 1. SVG 图标库 ---
 const Icons = {
   ArrowRight: () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
   Check: () => <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
@@ -15,7 +15,9 @@ const Icons = {
   Layer: () => <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
   Tool: () => <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>,
   Beaker: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4.5 3h15"/><path d="M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3"/><path d="M6 14h12"/></svg>,
-  ShieldCheck: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+  ShieldCheck: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>,
+  // 新增：外部链接小图标 (用于增强交互感)
+  ExternalLink: () => <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 };
 
 const Products: React.FC = () => {
@@ -43,7 +45,7 @@ const Products: React.FC = () => {
     return () => ctx.revert();
   }, [language]);
 
-  // --- 2. 丰富的内容数据 (中英) ---
+  // --- 2. 内容数据 ---
   const content = {
     zh: {
       hero: {
@@ -65,7 +67,7 @@ const Products: React.FC = () => {
           category: "核心业务 01",
           title: "医用洁净软包装系统",
           desc: "专为医疗器械终端灭菌设计的无菌屏障系统（SBS）。我们提供从材料选型、结构设计到灭菌适应性验证的全流程服务，确保产品在有效期内的无菌完整性。",
-          // 修改：这里将纯文本数组改为对象数组，支持 link 属性
+          // 支持链接的对象数组
           subProducts: [
             { name: "PE袋和卷材", link: "https://www.tops-life.cn/pe-bag-0/" },
             { name: "医用级薄膜", link: "https://www.tops-life.cn/pe-film-0/" },
@@ -73,7 +75,7 @@ const Products: React.FC = () => {
             { name: "EVA和TPU (Lidding)", link: "https://www.tops-life.cn/eva-film/" }
           ],
           applications: ["医疗器械包装", "药品包装", "手术器械包", "医疗耗材包装"],
-          features: ["符合 ISO 13485 标准", "适应 EO/Gamma/蒸汽灭菌", "极低的微粒污染风险"],
+          features: ["符合 ISO 11607 标准", "适应 EO/Gamma/蒸汽灭菌", "极低的微粒污染风险"],
           imgDesc: "ISO Class 8 洁净车间生产环境",
           image: "/images/taoai.png"
         },
@@ -126,10 +128,10 @@ const Products: React.FC = () => {
           category: "Core Business 01",
           title: "Medical Flexible Packaging",
           desc: "Sterile Barrier Systems (SBS) designed for terminal sterilization. We offer full-process services from material selection to validation, ensuring sterility integrity throughout shelf life.",
-          subProducts: ["PE Bags and Rolls", "Medical-grade Film", "Aluminum Foil/Nylon High Barrier Packaging", "EVA and TPU (for Medical Device Packaging)"],
-          applications: ["Pharmaceutical Packaging", "Surgical Instrument Kits", "Medical Consumables Packaging", "Medical Device Packaging"],
+          subProducts: ["PE Bags and Rolls", "Medical-grade Film", "High Barrier Packaging", "EVA and TPU"],
+          applications: ["Pharma Packaging", "Surgical Kits", "Consumables Packaging", "Device Packaging"],
           features: ["ISO 11607 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
-          imgDesc: "ISO Class 7 Cleanroom Production",
+          imgDesc: "ISO Class 7 Production",
           image: "/images/taoai.png"
         },
         {
@@ -137,10 +139,10 @@ const Products: React.FC = () => {
           category: "Core Business 02",
           title: "Medical Injection Molding",
           desc: "Operating in Class 100k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
-          subProducts: ["Microfluidic chip substrate", "Surgical stapler assembly", " In vitro diagnostic (IVD) consumables", "Precision gears/transmission parts"],
-          applications: ["medical device structural components", "Life science experiments", "Core components of diagnostic equipment", "Minimally invasive medical device components"],
-          features: ["All-electric Molding", "Mold Tolerance < 0.005mm", "Full Traceability"],
-          imgDesc: "Precision Mold & Automated Production",
+          subProducts: ["Microfluidic Chips", "Surgical Staplers", "IVD Consumables", "Precision Gears"],
+          applications: ["Device Structural Parts", "Life Science", "Diagnostic Components", "Minimally Invasive Tools"],
+          features: ["All-electric Molding", "Tolerance < 0.005mm", "Full Traceability"],
+          imgDesc: "Precision Mold & Production",
           image: "/images/injection.jpg"
         },
         {
@@ -148,15 +150,15 @@ const Products: React.FC = () => {
           category: "Core Business 03",
           title: "Soy Protein Bio-Materials",
           desc: "Sustainable solutions for the future. Utilizing modified soy protein technology to create high-performance, formaldehyde-free plant-based binders and coatings replacing petrochemicals.",
-          subProducts: [" Plant-based formaldehyde-free adhesive", "Degradable barrier coating", "Environmentally friendly paper-plastic composite material", "Special functional additives"],
-          applications: ["high-end consumer product packaging", "Environmentally friendly packaging materials", "Compostable food packaging", "Biomedical auxiliary materials"],
-          features: ["100% Biodegradable", "Zero Formaldehyde", "Superior Wet/Dry Strength"],
-          imgDesc: "Green Chemistry & Sustainability Lab",
+          subProducts: ["Plant-based Adhesives", "Degradable Coatings", "Eco Paper-Plastic", "Functional Additives"],
+          applications: ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
+          features: ["100% Biodegradable", "Zero Formaldehyde", "High Wet/Dry Strength"],
+          imgDesc: "Green Chemistry Lab",
           image: "/images/soy.jpg"
         }
       ],
       cta: {
-        text: "Looking for specific specs or customization?",
+        text: "Looking for customization?",
         sub: "Our engineering team is ready to provide technical support.",
         btn: "Contact Consultants"
       }
@@ -182,7 +184,6 @@ const Products: React.FC = () => {
                 {t.hero.desc}
             </p>
         </div>
-        {/* 底部渐变分割线 */}
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-50 to-transparent"></div>
       </section>
 
@@ -205,10 +206,12 @@ const Products: React.FC = () => {
       <div className="container mx-auto px-6 py-20 space-y-24">
         {t.products.map((product, i) => (
           <div key={i} id={product.id} className="scroll-mt-32 gsap-fade-up">
-             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 hover:border-sky-200 transition-colors duration-500">
+             {/* 语义化标签优化: div -> article */}
+             <article className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 hover:border-sky-200 transition-colors duration-500">
                 
                 {/* 顶部：标题与描述 */}
-                <div className="flex flex-col lg:flex-row gap-12 mb-12">
+                {/* 间距优化: gap-12 -> gap-12 md:gap-16 增加呼吸感 */}
+                <div className="flex flex-col lg:flex-row gap-12 md:gap-16 mb-12">
                    <div className="lg:w-1/2">
                        <span className="text-sky-500 font-bold tracking-widest uppercase text-sm mb-2 block">{product.category}</span>
                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">{product.title}</h2>
@@ -235,38 +238,43 @@ const Products: React.FC = () => {
                                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2070';
                              }}
                            />
-                           {/* 图片说明角标 */}
                            <div className="absolute bottom-0 right-0 bg-slate-900/80 text-white text-xs px-4 py-2 rounded-tl-xl backdrop-blur-md">
                               {product.imgDesc}
                            </div>
                        </div>
-                       {/* 装饰框 */}
                        <div className="absolute -top-4 -right-4 w-20 h-20 border-t-2 border-r-2 border-sky-200 rounded-tr-3xl -z-10"></div>
                    </div>
                 </div>
 
-                {/* 底部：详情列表 (分割线下方) */}
+                {/* 底部：详情列表 */}
                 <div className="border-t border-slate-100 pt-8 grid md:grid-cols-2 gap-8">
-                    {/* 左侧：具体产品系列 (支持链接跳转) */}
+                    {/* 左侧：产品系列 (含交互链接) */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                            <Icons.Layer /> {language === 'zh' ? '产品系列' : 'Product Series'}
                         </h4>
-                        <ul className="grid grid-cols-2 gap-2">
+                        <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
                             {product.subProducts.map((sub: any, idx: number) => (
                                 <li key={idx} className="text-slate-600 text-sm flex items-start gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mt-1.5 shrink-0"></span>
-                                    {/* 智能渲染：如果是字符串则直接显示，如果是对象(带链接)则显示为链接 */}
+                                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mt-2 shrink-0"></span>
+                                    
+                                    {/* 智能渲染：支持带链接的对象或纯字符串 */}
                                     {typeof sub === 'string' ? (
-                                        <span className="hover:text-sky-600 transition-colors cursor-default">{sub}</span>
+                                        <span className="cursor-default">{sub}</span>
                                     ) : (
                                         <a 
                                             href={sub.link} 
                                             target="_blank" 
                                             rel="noopener noreferrer" 
-                                            className="hover:text-sky-600 transition-colors hover:underline"
+                                            className="group/link flex items-center gap-1 hover:text-sky-600 transition-colors"
                                         >
-                                            {sub.name}
+                                            <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
+                                                {sub.name}
+                                            </span>
+                                            {/* 悬停时显示的外部链接微动画图标 */}
+                                            <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
+                                                <Icons.ExternalLink />
+                                            </span>
                                         </a>
                                     )}
                                 </li>
@@ -288,19 +296,18 @@ const Products: React.FC = () => {
                     </div>
                 </div>
 
-             </div>
+             </article>
           </div>
         ))}
       </div>
 
       {/* 4. CTA Section */}
       <section className="bg-slate-900 py-20 relative overflow-hidden">
-          {/* 背景纹理 */}
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
           
           <div className="container mx-auto px-6 text-center relative z-10">
               <h2 className="text-3xl font-bold text-white mb-4">{t.cta.text}</h2>
-              <p className="text-slate-400 mb-10 text-lg">{t.cta.sub}</p>
+              <p className="text-slate-400 mb-10 text-lg max-w-2xl mx-auto">{t.cta.sub}</p>
               <Link to="/contact">
                 <button className="group relative inline-flex items-center gap-3 px-8 py-4 bg-sky-600 text-white rounded-full font-bold overflow-hidden hover:bg-sky-500 transition-all shadow-xl shadow-sky-900/50">
                     <span>{t.cta.btn}</span>
