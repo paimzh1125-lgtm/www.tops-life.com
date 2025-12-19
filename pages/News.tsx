@@ -55,7 +55,7 @@ const News: React.FC = () => {
       list: [
         { 
           year: "2025", date: "01月", tag: "可持续发展", title: "荣获法国 EcoVadis 可持续发展评分", 
-          desc: "托普斯在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。",
+          desc: "永爱在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。",
           icon: <Leaf className="w-5 h-5" />, isHighlight: true 
         },
         { 
