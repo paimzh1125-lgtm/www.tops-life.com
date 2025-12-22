@@ -38,7 +38,7 @@ const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
   image: `banner/${id}.jpg`, 
 }));
 
-// 模拟首页新闻数据 (取自 News 页面)
+// 模拟首页新闻数据
 const LATEST_NEWS = [
   {
     id: 1,
@@ -69,6 +69,16 @@ const LATEST_NEWS = [
   }
 ];
 
+// ✨ 辅助函数：日期格式化
+const formatDate = (dateStr: string, lang: string) => {
+  const [year, month] = dateStr.split('-');
+  if (lang === 'zh') {
+    return `${year}年${month}月`;
+  }
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${monthNames[parseInt(month) - 1]} ${year}`;
+};
+
 // 语言包配置
 const LANG = {
   zh: {
@@ -82,7 +92,7 @@ const LANG = {
     more: "探索详情",
     stats: [
       { num: "15+", label: "年行业经验" },
-      { num: "10k", label: "级洁净车间" },
+      { num: "100k", label: "级洁净车间" },
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务解决方案",
@@ -137,7 +147,7 @@ const LANG = {
     more: "Discover More",
     stats: [
       { num: "15+", label: "Years Exp." },
-      { num: "10k", label: "Clean Class" },
+      { num: "100k", label: "Clean Class" },
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -189,7 +199,6 @@ export default function Home() {
   const containerRef = useRef(null);
   const navigate = useNavigate(); 
 
-  // SEO: 设置页面标题
   useEffect(() => {
     document.title = t.metaTitle;
   }, [language, t.metaTitle]);
@@ -211,7 +220,6 @@ export default function Home() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. 通用淡入上浮
       const fadeUps = document.querySelectorAll(".gsap-fade-up");
       fadeUps.forEach((el) => {
         gsap.fromTo(el, { y: 30, opacity: 0 }, {
@@ -220,7 +228,6 @@ export default function Home() {
         });
       });
 
-      // 2. 视差效果
       const parallaxEls = document.querySelectorAll(".gsap-parallax");
       parallaxEls.forEach((el) => {
         gsap.to(el, {
@@ -230,7 +237,6 @@ export default function Home() {
         });
       });
       
-      // 3. 数字滚动动画
       const counters = document.querySelectorAll(".counter-number");
       counters.forEach(counter => {
         gsap.from(counter, {
@@ -249,7 +255,6 @@ export default function Home() {
   return (
     <div ref={containerRef} className="bg-slate-50 text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
       
-      {/* 极简背景装饰 */}
       <div className="fixed inset-0 pointer-events-none z-0">
          <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-sky-100/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 animate-float"></div>
          <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-blue-50/60 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4 animate-float [animation-delay:2s]"></div>
@@ -264,6 +269,7 @@ export default function Home() {
           speed={1000} 
           loop 
           pagination={{ clickable: true, dynamicBullets: true }} 
+          navigation={true} // ✨ 开启左右箭头导航
           className="h-full w-full group"
         >
           {rawSlides.map((s, i) => (
@@ -276,7 +282,6 @@ export default function Home() {
                 
                 <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
                   <div className="max-w-4xl text-white pt-12">
-                    {/* Tagline */}
                     <div className="overflow-hidden mb-6">
                       <div className="animate-slide-up-fade [animation-delay:100ms] inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
                          <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
@@ -284,7 +289,6 @@ export default function Home() {
                       </div>
                     </div>
                     
-                    {/* Title */}
                     <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] animate-slide-up-fade [animation-delay:300ms]">
                       {t.slides[i].title.split("，")[0]}<br/>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
@@ -292,12 +296,10 @@ export default function Home() {
                       </span>
                     </h1>
                     
-                    {/* Subtitle */}
                     <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed animate-slide-up-fade [animation-delay:500ms] border-l-2 border-sky-500 pl-6">
                       {t.slides[i].subtitle}
                     </p>
                     
-                    {/* Buttons */}
                     <div className="flex flex-wrap gap-4 animate-slide-up-fade [animation-delay:700ms]">
                       <button 
                         onClick={() => handleSolutionClick('/products')}
@@ -320,12 +322,13 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* Trust Strip - 信任背书滚动条 */}
+      {/* Trust Strip */}
       <div className="bg-white border-b border-slate-100 py-6 relative z-10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
+              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Globe2 className="text-sky-600" /> FDA Registered</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
            </div>
         </div>
@@ -340,7 +343,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              <img src="banner/outsight.jpg" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
+              {/* ✨ 性能优化: lazy loading */}
+              <img src="banner/3.jpg" loading="lazy" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
             </div>
             
@@ -350,7 +354,7 @@ export default function Home() {
                   <Award size={28} />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-slate-800">ISO 9001</div>
+                  <div className="text-2xl font-bold text-slate-800">ISO 13485</div>
                   <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Certified Quality</div>
                 </div>
               </div>
@@ -379,7 +383,8 @@ export default function Home() {
                ))}
             </div>
 
-            <div className="flex gap-10 pt-8 border-t border-slate-100">
+            {/* ✨ 优化：使用 flex-wrap 防止移动端挤压 */}
+            <div className="flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-slate-100">
               {t.stats.map((stat, i) => (
                 <div key={i}>
                   <div className="text-3xl lg:text-4xl font-bold text-slate-900 mb-1 flex items-baseline">
@@ -473,7 +478,14 @@ export default function Home() {
 
             <div className="lg:col-span-7 relative h-[450px] gsap-fade-up">
               <div className="absolute top-0 right-0 w-[90%] h-[85%] rounded-2xl overflow-hidden border border-white/20 shadow-2xl z-10">
-                 <img src="images/industry1.jpg" className="w-full h-full object-cover" alt="Lab" />
+                 {/* ✨ 容错优化：确保图片存在，或回退到占位图 */}
+                 <img 
+                    src="images/industry1.jpg" 
+                    loading="lazy" 
+                    className="w-full h-full object-cover" 
+                    alt="Lab" 
+                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000'; }}
+                 />
                  <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
               </div>
               <div className="absolute bottom-8 -left-4 w-[40%] bg-white text-slate-900 p-6 rounded-xl shadow-xl z-20 hidden md:block animate-float">
@@ -505,8 +517,14 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.market.map((m, i) => (
               <div key={i} className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500">
-                {/* 修正：Market Images 使用 images/application1.png 到 4.png */}
-                <img src={`images/application${i + 1}.png`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                {/* ✨ 核心优化：动态图片路径 + 错误处理 + 懒加载 */}
+                <img 
+                    src={`images/application${i + 1}.png`} 
+                    loading="lazy"
+                    alt={m} 
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
                 
                 <div className="absolute inset-0 p-6 flex flex-col justify-end">
@@ -539,7 +557,10 @@ export default function Home() {
                  <div key={i} className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onClick={() => navigate('/news')}>
                     <div className="flex justify-between items-start mb-4">
                        <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">{news.tag}</span>
-                       <span className="text-sm text-slate-400 flex items-center gap-1"><Calendar size={14} /> {news.date}</span>
+                       {/* ✨ 优化：日期格式化 */}
+                       <span className="text-sm text-slate-400 flex items-center gap-1">
+                           <Calendar size={14} /> {formatDate(news.date, language)}
+                       </span>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2">
                        {language === 'zh' ? news.title_zh : news.title_en}
