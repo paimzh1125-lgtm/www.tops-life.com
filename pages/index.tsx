@@ -137,7 +137,7 @@ const LANG = {
     more: "Discover More",
     stats: [
       { num: "15+", label: "Years Exp." },
-      { num: "100k", label: "Clean Class" },
+      { num: "10k", label: "Clean Class" },
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -341,7 +341,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              <img src="images/outslight.jpg" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
+              <img src="banner/outsight.jpg" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
             </div>
             
