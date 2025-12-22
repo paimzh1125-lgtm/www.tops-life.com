@@ -69,7 +69,7 @@ const LATEST_NEWS = [
   }
 ];
 
-// ✨ 辅助函数：日期格式化
+// 辅助函数：日期格式化
 const formatDate = (dateStr: string, lang: string) => {
   const [year, month] = dateStr.split('-');
   if (lang === 'zh') {
@@ -88,11 +88,11 @@ const LANG = {
     companyPrefix: "永爱",
     companySuffix: "生命科技有限公司",
     intro: "永爱 Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应等领域的创新型企业。公司在医疗行业、特种纸、油墨行业等多个领域的各类组件方面拥有丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
-    introPoints: ["医疗级洁净车间", "全流程质量追溯"],
+    introPoints: ["ISO 7 (万级) 洁净车间", "全流程质量追溯"],
     more: "探索详情",
     stats: [
       { num: "15+", label: "年行业经验" },
-      { num: "100k", label: "级洁净车间" },
+      { num: "10k", label: "级洁净车间" }, // 修改点：100k -> 10k
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务解决方案",
@@ -128,8 +128,13 @@ const LANG = {
     ],
     marketTitle: "应用领域",
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
-    market: ["医疗器械", "制药生产", "新材料", "大豆蛋白聚合物"],
-    marketCardDesc: "提供专业、安全的行业解决方案。",
+    // 修改点：market 升级为对象数组，包含特定文案
+    market: [
+      { title: "医疗器械", desc: "为二类/三类医疗器械提供符合 ISO 11607 标准的无菌屏障包装。" },
+      { title: "制药生产", desc: "提供符合 GMP 标准的药用级过程保护与一次性耗材。" },
+      { title: "新材料应用", desc: "探索高性能生物基材料在环保包装与工业领域的创新应用。" },
+      { title: "生物聚合物", desc: "源自天然的改性大豆蛋白材料，助力全球碳中和目标。" }
+    ],
     marketBtn: "查看所有行业",
     newsTitle: "最新动态",
     newsBtn: "查看更多新闻",
@@ -143,11 +148,11 @@ const LANG = {
     companyPrefix: "Suzhou Tops Life",
     companySuffix: " Technology Co., Ltd.",
     intro: "Established in 2011, Suzhou Tops-Life is a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience across medical, specialty paper, and ink industries, we adhere to 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
-    introPoints: ["Medical Grade Cleanroom", "Full Quality Traceability"],
+    introPoints: ["ISO 7 Cleanroom", "Full Quality Traceability"],
     more: "Discover More",
     stats: [
       { num: "15+", label: "Years Exp." },
-      { num: "100k", label: "Clean Class" },
+      { num: "10k", label: "Clean Class" }, // 修改点：100k -> 10k
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -183,8 +188,13 @@ const LANG = {
     ],
     marketTitle: "Market Applications",
     marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
-    market: ["Medical Devices", "Pharma", "Advanced Materials", "Bio Polymers"],
-    marketCardDesc: "Professional solutions ensuring safety and compliance.",
+    // 修改点：英文对应文案
+    market: [
+      { title: "Medical Devices", desc: "ISO 11607 compliant sterile barrier packaging for Class II/III devices." },
+      { title: "Pharma", desc: "GMP-compliant process protection and single-use consumables." },
+      { title: "Advanced Materials", desc: "Innovative applications of high-performance bio-based materials." },
+      { title: "Bio Polymers", desc: "Natural modified soy protein materials aiding carbon neutrality." }
+    ],
     marketBtn: "View All Industries",
     newsTitle: "Latest News",
     newsBtn: "View All News",
@@ -269,7 +279,7 @@ export default function Home() {
           speed={1000} 
           loop 
           pagination={{ clickable: true, dynamicBullets: true }} 
-          navigation={true} // ✨ 开启左右箭头导航
+          navigation={true}
           className="h-full w-full group"
         >
           {rawSlides.map((s, i) => (
@@ -343,8 +353,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              {/* ✨ 性能优化: lazy loading */}
-              <img src="banner/3.jpg" loading="lazy" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
+              {/* ✨ 修改点：图片路径修正 */}
+              <img src="banner/outsight.jpg" loading="lazy" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
             </div>
             
@@ -383,7 +393,6 @@ export default function Home() {
                ))}
             </div>
 
-            {/* ✨ 优化：使用 flex-wrap 防止移动端挤压 */}
             <div className="flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-slate-100">
               {t.stats.map((stat, i) => (
                 <div key={i}>
@@ -469,7 +478,8 @@ export default function Home() {
                 <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-default group">
                   <Layers className="text-cyan-400 group-hover:scale-110 transition-transform" size={24} />
                   <div>
-                    <h4 className="font-bold text-lg text-white">100,000 Class Cleanroom</h4>
+                    {/* 修改点：100,000 -> 10,000 Class */}
+                    <h4 className="font-bold text-lg text-white">10,000 Class Cleanroom</h4>
                     <p className="text-sm text-slate-400">高标准洁净生产环境</p>
                   </div>
                 </div>
@@ -478,7 +488,6 @@ export default function Home() {
 
             <div className="lg:col-span-7 relative h-[450px] gsap-fade-up">
               <div className="absolute top-0 right-0 w-[90%] h-[85%] rounded-2xl overflow-hidden border border-white/20 shadow-2xl z-10">
-                 {/* ✨ 容错优化：确保图片存在，或回退到占位图 */}
                  <img 
                     src="images/industry1.jpg" 
                     loading="lazy" 
@@ -515,13 +524,12 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {t.market.map((m, i) => (
+            {t.market.map((item, i) => (
               <div key={i} className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500">
-                {/* ✨ 核心优化：动态图片路径 + 错误处理 + 懒加载 */}
                 <img 
                     src={`images/application${i + 1}.png`} 
                     loading="lazy"
-                    alt={m} 
+                    alt={item.title} 
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
                 />
@@ -529,10 +537,11 @@ export default function Home() {
                 
                 <div className="absolute inset-0 p-6 flex flex-col justify-end">
                   <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-xl font-bold text-white mb-2">{m}</h3>
+                    <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                     <div className="w-8 h-1 bg-sky-500 rounded-full mb-3 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    {/* 修改点：显示各领域专属描述 */}
                     <p className="text-slate-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 leading-snug">
-                      {t.marketCardDesc}
+                      {item.desc}
                     </p>
                   </div>
                 </div>
@@ -557,7 +566,6 @@ export default function Home() {
                  <div key={i} className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onClick={() => navigate('/news')}>
                     <div className="flex justify-between items-start mb-4">
                        <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">{news.tag}</span>
-                       {/* ✨ 优化：日期格式化 */}
                        <span className="text-sm text-slate-400 flex items-center gap-1">
                            <Calendar size={14} /> {formatDate(news.date, language)}
                        </span>
