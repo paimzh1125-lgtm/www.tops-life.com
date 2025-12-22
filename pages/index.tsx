@@ -326,7 +326,6 @@ export default function Home() {
            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
-              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Globe2 className="text-sky-600" /> FDA Registered</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
            </div>
         </div>
@@ -351,7 +350,7 @@ export default function Home() {
                   <Award size={28} />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-slate-800">ISO 13485</div>
+                  <div className="text-2xl font-bold text-slate-800">ISO 9001</div>
                   <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Certified Quality</div>
                 </div>
               </div>
