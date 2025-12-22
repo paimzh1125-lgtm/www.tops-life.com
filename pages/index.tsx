@@ -45,7 +45,7 @@ const LATEST_NEWS = [
     date: "2025-01",
     title_zh: "荣获法国 EcoVadis 可持续发展银牌认证",
     title_en: "Achieved EcoVadis Sustainability Silver Rating",
-    desc_zh: "托普斯在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
+    desc_zh: "永爱在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
     desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights.",
     tag: "CSR"
   },
@@ -82,7 +82,7 @@ const LANG = {
     more: "探索详情",
     stats: [
       { num: "15+", label: "年行业经验" },
-      { num: "100k", label: "级洁净车间" },
+      { num: "10k", label: "级洁净车间" },
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务解决方案",
@@ -473,7 +473,7 @@ export default function Home() {
 
             <div className="lg:col-span-7 relative h-[450px] gsap-fade-up">
               <div className="absolute top-0 right-0 w-[90%] h-[85%] rounded-2xl overflow-hidden border border-white/20 shadow-2xl z-10">
-                 <img src="banner/4.jpg" className="w-full h-full object-cover" alt="Lab" />
+                 <img src="images/industry1.jpg" className="w-full h-full object-cover" alt="Lab" />
                  <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
               </div>
               <div className="absolute bottom-8 -left-4 w-[40%] bg-white text-slate-900 p-6 rounded-xl shadow-xl z-20 hidden md:block animate-float">
