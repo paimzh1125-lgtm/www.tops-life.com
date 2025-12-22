@@ -45,7 +45,7 @@ const LATEST_NEWS = [
     date: "2025-01",
     title_zh: "荣获法国 EcoVadis 可持续发展银牌认证",
     title_en: "Achieved EcoVadis Sustainability Silver Rating",
-    desc_zh: "托普斯在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
+    desc_zh: "永爱在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
     desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights.",
     tag: "CSR"
   },
@@ -82,7 +82,7 @@ const LANG = {
     more: "探索详情",
     stats: [
       { num: "15+", label: "年行业经验" },
-      { num: "100k", label: "级洁净车间" },
+      { num: "10k", label: "级洁净车间" },
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务解决方案",
@@ -137,7 +137,7 @@ const LANG = {
     more: "Discover More",
     stats: [
       { num: "15+", label: "Years Exp." },
-      { num: "100k", label: "Clean Class" },
+      { num: "10k", label: "Clean Class" },
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -322,7 +322,6 @@ export default function Home() {
            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
-              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Globe2 className="text-sky-600" /> FDA Registered</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
            </div>
         </div>
@@ -337,7 +336,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              <img src="banner/3.jpg" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
+              <img src="images/outslight.jpg" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
             </div>
             
@@ -470,7 +469,7 @@ export default function Home() {
 
             <div className="lg:col-span-7 relative h-[450px] gsap-fade-up">
               <div className="absolute top-0 right-0 w-[90%] h-[85%] rounded-2xl overflow-hidden border border-white/20 shadow-2xl z-10">
-                 <img src="banner/4.jpg" className="w-full h-full object-cover" alt="Lab" />
+                 <img src="images/industry1.jpg" className="w-full h-full object-cover" alt="Lab" />
                  <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
               </div>
               <div className="absolute bottom-8 -left-4 w-[40%] bg-white text-slate-900 p-6 rounded-xl shadow-xl z-20 hidden md:block animate-float">
@@ -502,7 +501,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.market.map((m, i) => (
               <div key={i} className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500">
-                <img src={`banner/${(i % 5) + 1}.jpg`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <img src={`images/${(i % 4) + 1}.png`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
                 
                 <div className="absolute inset-0 p-6 flex flex-col justify-end">
