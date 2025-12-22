@@ -130,7 +130,7 @@ const LANG = {
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
     // 修改点：market 升级为对象数组，包含特定文案
     market: [
-      { title: "医疗器械", desc: "为二类/三类医疗器械提供符合 ISO 11607 标准的无菌屏障包装。" },
+      { title: "医疗器械", desc: "为二类/三类医疗器械提供符合 ISO 13485 标准的无菌屏障包装。" },
       { title: "制药生产", desc: "提供符合 GMP 标准的药用级过程保护与一次性耗材。" },
       { title: "新材料应用", desc: "探索高性能生物基材料在环保包装与工业领域的创新应用。" },
       { title: "生物聚合物", desc: "源自天然的改性大豆蛋白材料，助力全球碳中和目标。" }
@@ -190,7 +190,7 @@ const LANG = {
     marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
     // 修改点：英文对应文案
     market: [
-      { title: "Medical Devices", desc: "ISO 11607 compliant sterile barrier packaging for Class II/III devices." },
+      { title: "Medical Devices", desc: "ISO 13485 compliant sterile barrier packaging for Class II/III devices." },
       { title: "Pharma", desc: "GMP-compliant process protection and single-use consumables." },
       { title: "Advanced Materials", desc: "Innovative applications of high-performance bio-based materials." },
       { title: "Bio Polymers", desc: "Natural modified soy protein materials aiding carbon neutrality." }
@@ -338,7 +338,6 @@ export default function Home() {
            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
-              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Globe2 className="text-sky-600" /> FDA Registered</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
            </div>
         </div>
