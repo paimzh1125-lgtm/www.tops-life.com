@@ -45,7 +45,7 @@ const LATEST_NEWS = [
     date: "2025-01",
     title_zh: "荣获法国 EcoVadis 可持续发展银牌认证",
     title_en: "Achieved EcoVadis Sustainability Silver Rating",
-    desc_zh: "永爱在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
+    desc_zh: "托普斯在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
     desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights.",
     tag: "CSR"
   },
@@ -82,7 +82,7 @@ const LANG = {
     more: "探索详情",
     stats: [
       { num: "15+", label: "年行业经验" },
-      { num: "10k", label: "级洁净车间" },
+      { num: "100k", label: "级洁净车间" },
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务解决方案",
@@ -137,7 +137,7 @@ const LANG = {
     more: "Discover More",
     stats: [
       { num: "15+", label: "Years Exp." },
-      { num: "10k", label: "Clean Class" },
+      { num: "100k", label: "Clean Class" },
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -276,6 +276,7 @@ export default function Home() {
                 
                 <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
                   <div className="max-w-4xl text-white pt-12">
+                    {/* Tagline */}
                     <div className="overflow-hidden mb-6">
                       <div className="animate-slide-up-fade [animation-delay:100ms] inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
                          <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
@@ -283,6 +284,7 @@ export default function Home() {
                       </div>
                     </div>
                     
+                    {/* Title */}
                     <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] animate-slide-up-fade [animation-delay:300ms]">
                       {t.slides[i].title.split("，")[0]}<br/>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
@@ -290,10 +292,12 @@ export default function Home() {
                       </span>
                     </h1>
                     
+                    {/* Subtitle */}
                     <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed animate-slide-up-fade [animation-delay:500ms] border-l-2 border-sky-500 pl-6">
                       {t.slides[i].subtitle}
                     </p>
                     
+                    {/* Buttons */}
                     <div className="flex flex-wrap gap-4 animate-slide-up-fade [animation-delay:700ms]">
                       <button 
                         onClick={() => handleSolutionClick('/products')}
@@ -316,12 +320,13 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* [NEW] Trust Strip - 信任背书滚动条 */}
+      {/* Trust Strip - 信任背书滚动条 */}
       <div className="bg-white border-b border-slate-100 py-6 relative z-10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
+              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Globe2 className="text-sky-600" /> FDA Registered</div>
               <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
            </div>
         </div>
@@ -469,7 +474,7 @@ export default function Home() {
 
             <div className="lg:col-span-7 relative h-[450px] gsap-fade-up">
               <div className="absolute top-0 right-0 w-[90%] h-[85%] rounded-2xl overflow-hidden border border-white/20 shadow-2xl z-10">
-                 <img src="images/industry1.jpg" className="w-full h-full object-cover" alt="Lab" />
+                 <img src="banner/4.jpg" className="w-full h-full object-cover" alt="Lab" />
                  <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
               </div>
               <div className="absolute bottom-8 -left-4 w-[40%] bg-white text-slate-900 p-6 rounded-xl shadow-xl z-20 hidden md:block animate-float">
@@ -501,7 +506,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.market.map((m, i) => (
               <div key={i} className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500">
-                <img src={`images/application${(i + 1}.png`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                {/* 修正：Market Images 使用 images/application1.png 到 4.png */}
+                <img src={`images/application${i + 1}.png`} alt={m} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
                 
                 <div className="absolute inset-0 p-6 flex flex-col justify-end">
@@ -519,7 +525,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* [NEW] Latest News Preview */}
+      {/* Latest News Preview */}
       <section className="py-24 bg-slate-50 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex justify-between items-center mb-12 gsap-fade-up">
