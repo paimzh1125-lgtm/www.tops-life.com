@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, Suspense, lazy, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination, Navigation } from "swiper/modules";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useNavigate } from "react-router-dom"; // 路由跳转
+import { useNavigate } from "react-router-dom"; 
 import {
   ArrowRight,
   PackageOpen,    // 软包装
@@ -15,7 +15,9 @@ import {
   Award,          // 资质
   Activity,
   Layers,
-  ShieldCheck     // 盾牌
+  ShieldCheck,    // 盾牌
+  Calendar,       // 日历
+  Newspaper       // 新闻
 } from "lucide-react";
 
 import "swiper/css";
@@ -25,6 +27,9 @@ import "swiper/css/navigation";
 
 import { useLanguage } from "../components/LanguageContext";
 
+// 懒加载组件
+const RevealText = lazy(() => import("../components/RevealText"));
+
 gsap.registerPlugin(ScrollTrigger);
 
 // 模拟 Hero Banner 图片数据
@@ -33,15 +38,45 @@ const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
   image: `banner/${id}.jpg`, 
 }));
 
-// --- 语言包配置 (已补全英文缺失) ---
+// 模拟首页新闻数据 (取自 News 页面)
+const LATEST_NEWS = [
+  {
+    id: 1,
+    date: "2025-01",
+    title_zh: "荣获法国 EcoVadis 可持续发展银牌认证",
+    title_en: "Achieved EcoVadis Sustainability Silver Rating",
+    desc_zh: "托普斯在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
+    desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights.",
+    tag: "CSR"
+  },
+  {
+    id: 2,
+    date: "2024-12",
+    title_zh: "成功开发三层易揭自封袋",
+    title_en: "Developed 3-Layer Easy-Peel Self-Sealing Bag",
+    desc_zh: "创新解决细胞培养瓶开包存放痛点，提升实验室无菌操作体验。",
+    desc_en: "Innovatively solved the storage issues of cell culture flasks after opening.",
+    tag: "R&D"
+  },
+  {
+    id: 3,
+    date: "2023-11",
+    title_zh: "升级扩建 ISO Class 7 洁净室",
+    title_en: "Upgraded to ISO Class 7 Cleanroom",
+    desc_zh: "全面提升医疗器械与包装的生产环境标准与产能。",
+    desc_en: "Boosting production standards and capacity for medical devices.",
+    tag: "Expansion"
+  }
+];
+
+// 语言包配置
 const LANG = {
   zh: {
+    metaTitle: "首页 | 苏州永爱生命科技有限公司 - 医用软包装与生物材料专家",
     heroTag: "创新医疗科技合作伙伴",
     who: "关于我们",
-    // 标题拆分：用于双色显示
     companyPrefix: "永爱",
     companySuffix: "生命科技有限公司",
-    // 优化后的中文介绍，移除可能导致断层的特殊符号
     intro: "永爱 Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应等领域的创新型企业。公司在医疗行业、特种纸、油墨行业等多个领域的各类组件方面拥有丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
     introPoints: ["医疗级洁净车间", "全流程质量追溯"],
     more: "探索详情",
@@ -84,17 +119,19 @@ const LANG = {
     marketTitle: "应用领域",
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
     market: ["医疗器械", "制药生产", "新材料", "大豆蛋白聚合物"],
-    marketCardDesc: "提供专业、安全的行业解决方案。", // 新增：卡片悬浮文案
+    marketCardDesc: "提供专业、安全的行业解决方案。",
     marketBtn: "查看所有行业",
+    newsTitle: "最新动态",
+    newsBtn: "查看更多新闻",
     cta: "准备好开启下一个项目了吗？",
     ctaBtn: "联系我们",
   },
   en: {
+    metaTitle: "Home | Suzhou Tops Life Technology - Medical Packaging & Biomaterials Expert",
     heroTag: "Innovative MedTech Partner",
     who: "About Us",
     companyPrefix: "Suzhou Tops Life",
     companySuffix: " Technology Co., Ltd.",
-    // 英文介绍：确保与中文语意一致
     intro: "Established in 2011, Suzhou Tops-Life is a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience across medical, specialty paper, and ink industries, we adhere to 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
     introPoints: ["Medical Grade Cleanroom", "Full Quality Traceability"],
     more: "Discover More",
@@ -137,8 +174,10 @@ const LANG = {
     marketTitle: "Market Applications",
     marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
     market: ["Medical Devices", "Pharma", "Advanced Materials", "Bio Polymers"],
-    marketCardDesc: "Professional solutions ensuring safety and compliance.", // 新增：英文卡片文案
+    marketCardDesc: "Professional solutions ensuring safety and compliance.",
     marketBtn: "View All Industries",
+    newsTitle: "Latest News",
+    newsBtn: "View All News",
     cta: "Ready to start your next project?",
     ctaBtn: "Contact Us",
   },
@@ -150,7 +189,11 @@ export default function Home() {
   const containerRef = useRef(null);
   const navigate = useNavigate(); 
 
-  // 处理平滑跳转逻辑
+  // SEO: 设置页面标题
+  useEffect(() => {
+    document.title = t.metaTitle;
+  }, [language, t.metaTitle]);
+
   const handleSolutionClick = (path: string) => {
     if (path.includes('#')) {
       const [pagePath, hash] = path.split('#');
@@ -233,7 +276,6 @@ export default function Home() {
                 
                 <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
                   <div className="max-w-4xl text-white pt-12">
-                    {/* Tagline */}
                     <div className="overflow-hidden mb-6">
                       <div className="animate-slide-up-fade [animation-delay:100ms] inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
                          <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
@@ -241,7 +283,6 @@ export default function Home() {
                       </div>
                     </div>
                     
-                    {/* Title */}
                     <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] animate-slide-up-fade [animation-delay:300ms]">
                       {t.slides[i].title.split("，")[0]}<br/>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
@@ -249,12 +290,10 @@ export default function Home() {
                       </span>
                     </h1>
                     
-                    {/* Subtitle */}
                     <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed animate-slide-up-fade [animation-delay:500ms] border-l-2 border-sky-500 pl-6">
                       {t.slides[i].subtitle}
                     </p>
                     
-                    {/* Buttons */}
                     <div className="flex flex-wrap gap-4 animate-slide-up-fade [animation-delay:700ms]">
                       <button 
                         onClick={() => handleSolutionClick('/products')}
@@ -277,21 +316,31 @@ export default function Home() {
         </Swiper>
       </section>
 
-      {/* About Section - 修正文字断层 */}
+      {/* [NEW] Trust Strip - 信任背书滚动条 */}
+      <div className="bg-white border-b border-slate-100 py-6 relative z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
+              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
+              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
+              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Globe2 className="text-sky-600" /> FDA Registered</div>
+              <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
+           </div>
+        </div>
+      </div>
+
+      {/* About Section */}
       <section className="relative py-24 lg:py-32 bg-white z-10 overflow-hidden">
         <div className="absolute right-0 top-0 w-1/2 h-full opacity-[0.03] pointer-events-none">
            <Globe2 className="w-full h-full text-slate-900" strokeWidth={0.5} />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* 左侧图片区域 */}
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
               <img src="banner/3.jpg" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
             </div>
             
-            {/* 悬浮卡片 */}
             <div className="absolute -bottom-8 -right-4 md:right-8 bg-white/95 backdrop-blur p-6 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-slate-50 animate-float max-w-xs z-20 hidden md:block">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-sky-50 rounded-full text-sky-600">
@@ -305,7 +354,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 右侧内容区域 */}
           <div className="order-1 lg:order-2 gsap-fade-up">
             <div className="flex items-center gap-3 mb-5">
               <span className="w-8 h-[3px] bg-sky-500 inline-block rounded-full"></span>
@@ -316,7 +364,6 @@ export default function Home() {
               {t.companyPrefix}<span className="text-sky-600">{t.companySuffix}</span>
             </h3>
             
-            {/* 修复点：移除 RevealText，使用标准 p 标签解决中文断层 */}
             <p className="text-slate-600 text-[1.05rem] leading-[1.8] text-justify mb-8">
               {t.intro}
             </p>
@@ -366,7 +413,6 @@ export default function Home() {
                   </div>
                   
                   <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors">{item.title}</h3>
-                  {/* 使用 flex-1 自动填充高度，避免文字截断 */}
                   <p className="text-slate-500 leading-relaxed mb-8 flex-1">{item.desc}</p>
                   
                   <button 
@@ -463,7 +509,6 @@ export default function Home() {
                   <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-xl font-bold text-white mb-2">{m}</h3>
                     <div className="w-8 h-1 bg-sky-500 rounded-full mb-3 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                    {/* 修复：使用语言包中的英文描述，避免英文版空白 */}
                     <p className="text-slate-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 leading-snug">
                       {t.marketCardDesc}
                     </p>
@@ -472,6 +517,35 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* [NEW] Latest News Preview */}
+      <section className="py-24 bg-slate-50 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+           <div className="flex justify-between items-center mb-12 gsap-fade-up">
+              <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.newsTitle}</h2>
+              <button onClick={() => navigate('/news')} className="text-sky-600 font-bold hover:gap-2 flex items-center gap-1 transition-all">
+                 {t.newsBtn} <ArrowRight size={18} />
+              </button>
+           </div>
+           
+           <div className="grid md:grid-cols-3 gap-8">
+              {LATEST_NEWS.map((news, i) => (
+                 <div key={i} className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onClick={() => navigate('/news')}>
+                    <div className="flex justify-between items-start mb-4">
+                       <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">{news.tag}</span>
+                       <span className="text-sm text-slate-400 flex items-center gap-1"><Calendar size={14} /> {news.date}</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2">
+                       {language === 'zh' ? news.title_zh : news.title_en}
+                    </h3>
+                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
+                       {language === 'zh' ? news.desc_zh : news.desc_en}
+                    </p>
+                 </div>
+              ))}
+           </div>
         </div>
       </section>
 
