@@ -2,40 +2,46 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="/images/logo.png" />
-    <!-- 必须保留这一行，否则手机端还会变小 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
-    <meta name="theme-color" content="#0F172A" />
-    <meta name="description" content="苏州永爱生命科技有限公司 - 医用软包装与精密注塑专家" />
     <title>苏州永爱 Tops Life | 医用软包装与生物材料专家</title>
+    <meta name="description" content="苏州永爱生命科技有限公司 - 专注于医用软包装、精密注塑件及大豆蛋白产品的研发与制造。10年行业经验，致力于医疗和新材料行业创新。" />
+    <meta name="keywords" content="苏州永爱, Tops Life, 医用软包装, 医疗注塑, 生物材料, 医疗器械, 苏州医疗科技" />
+    <meta name="author" content="Suzhou Tops Life Technology Co.,Ltd." />
+    <meta name="theme-color" content="#0F172A" />
+    <link rel="icon" type="image/png" href="/images/logo.png" />
 
-    <!-- 【关键修复步骤】 -->
-    <!-- 1. 引入 Tailwind CSS 在线编译引擎 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="苏州永爱 Tops Life | 医用软包装与生物材料专家" />
+    <meta property="og:description" content="专业从事医疗软包装、注塑件与新材料研发。品质卓越，服务全球。" />
+    <meta property="og:image" content="/images/logo.png" />
+    <meta property="og:url" content="https://www.tops-life.com" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 2. 配置自定义颜色和字体 (这样 tops-blue 等颜色才能生效) -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
               tops: {
-                blue: '#40C4FF', // 天空蓝
+                blue: '#40C4FF', // 品牌主色：天空蓝
                 dark: '#0F172A', // 深空蓝
                 white: '#F8FAFC', // 纯净白
-                gray: '#94A3B8',
+                gray: '#94A3B8', // 辅助灰
               }
             },
             fontFamily: {
               sans: ['"HarmonyOS Sans"', '"MiSans"', '"Microsoft YaHei"', 'sans-serif'],
+            },
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
             }
           }
         }
       }
     </script>
 
-    <!-- Swiper 轮播图样式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
@@ -45,10 +51,13 @@
         background-color: #F8FAFC;
         font-family: "HarmonyOS Sans", "MiSans", "Microsoft YaHei", sans-serif;
         -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
+
       /* 滚动条美化 */
       ::-webkit-scrollbar {
         width: 8px;
+        height: 8px;
       }
       ::-webkit-scrollbar-track {
         background: #F8FAFC;
@@ -56,13 +65,37 @@
       ::-webkit-scrollbar-thumb {
         background: #CBD5E1;
         border-radius: 4px;
+        transition: background 0.3s;
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #40C4FF;
       }
+
+      /* 初始加载动画样式 (React加载前显示) */
+      .initial-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #F8FAFC;
+        flex-direction: column;
+        color: #0F172A;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #E2E8F0;
+        border-top: 3px solid #40C4FF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
 
-    <!-- 依赖包引入 -->
     <script type="importmap">
     {
       "imports": {
@@ -78,10 +111,17 @@
       }
     }
     </script>
+    
     <link rel="stylesheet" href="/index.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="initial-loader">
+        <div class="spinner"></div>
+        <p style="font-size: 14px; font-weight: 500;">Tops Life Loading...</p>
+      </div>
+    </div>
+
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
