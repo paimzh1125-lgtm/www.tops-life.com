@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// 1. 引入语言钩子
 import { useLanguage } from '../components/LanguageContext';
 
 // 注册 GSAP 插件
@@ -15,8 +14,205 @@ const Icons = {
   Tech: () => <svg className="w-6 h-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
 };
 
-// --- 2. 产品数据字典 (包含中英文) ---
+// --- 产品数据字典 (包含中英文) ---
 const PRODUCT_DATABASE: any = {
+  // === 医用洁净软包装 ===
+  "pe-bag": {
+    zh: {
+      title: "PE 袋和卷材 (Medical PE Bags & Rolls)",
+      subtitle: "无菌屏障系统 (SBS) 的核心组成部分",
+      description: "专为医疗器械、耗材及无菌产品的终端灭菌设计。采用医疗级聚乙烯原料，通过多层共挤工艺制造，具备优异的厚度均匀性和热封窗口稳定性，构成完整的无菌屏障系统。",
+      features: [
+        "医疗级原料：低析出、低气味，确保药物与器械安全",
+        "性能优异：良好的抗穿刺与抗撕裂性能",
+        "灭菌稳定：EO / Gamma / 蒸汽灭菌后不脆化、不收缩",
+        "洁净生产：ISO Class 8 (万级) 环境生产"
+      ],
+      specs: [
+        { label: "材料结构", value: "LDPE / HDPE 多层共挤" },
+        { label: "灭菌兼容性", value: "EO, Gamma, Steam" },
+        { label: "符合标准", value: "ISO 11607, ISO 13485" },
+        { label: "应用", value: "手术器械包, 一次性耗材" },
+        { label: "生产环境", value: "ISO Class 8 Cleanroom" }
+      ],
+      btnText: "联系我们的工程师",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要定制规格或索取样品？"
+    },
+    en: {
+      title: "Medical PE Bags & Rolls",
+      subtitle: "Core Component of Sterile Barrier Systems (SBS)",
+      description: "Designed for terminal sterilization of medical devices and consumables. Manufactured from medical-grade polyethylene using multi-layer co-extrusion technology, ensuring uniform thickness and stable heat-sealing windows.",
+      features: [
+        "Medical Grade: Low extractables, low odor",
+        "Performance: Excellent puncture and tear resistance",
+        "Stability: No embrittlement or shrinkage after EO/Gamma/Steam sterilization",
+        "Clean Mfg: Produced in ISO Class 8 environment"
+      ],
+      specs: [
+        { label: "Structure", value: "LDPE / HDPE Co-extrusion" },
+        { label: "Sterilization", value: "EO, Gamma, Steam" },
+        { label: "Standard", value: "ISO 11607, ISO 13485" },
+        { label: "Applications", value: "Surgical Kits, Disposables" },
+        { label: "Environment", value: "ISO Class 8 Cleanroom" }
+      ],
+      btnText: "Contact Engineers",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need customization or samples?"
+    },
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=1200"
+  },
+  "medical-film": {
+    zh: {
+      title: "医用级薄膜 (Medical-grade Films)",
+      subtitle: "高性能医疗包装与功能性覆膜",
+      description: "广泛用于医疗包装、诊断耗材及功能性覆膜。我们支持 PE、EVA、TPU 等多种体系的多层共挤设计，可根据客户需求定制厚度、雾度及表面摩擦系数。",
+      features: [
+        "洁净度高：极低的微粒和生物负载风险",
+        "定制化设计：支持多层共挤结构",
+        "加工性能：稳定的热封强度与剥离性能",
+        "广泛应用：适合 IVD 试剂封装与医用盖膜"
+      ],
+      specs: [
+        { label: "材料体系", value: "PE, EVA, TPU" },
+        { label: "工艺", value: "多层共挤 (Co-extrusion)" },
+        { label: "特性", value: "可定制雾度 / COF" },
+        { label: "洁净度", value: "低生物负载 (Low Bioburden)" },
+        { label: "应用", value: "IVD 耗材, 医用盖膜" }
+      ],
+      btnText: "联系技术顾问",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要特殊功能薄膜？"
+    },
+    en: {
+      title: "Medical-grade Films",
+      subtitle: "High-Performance Films for Packaging & Lamination",
+      description: "Used for medical packaging, diagnostic consumables, and functional lamination. We support multi-layer co-extrusion of PE, EVA, TPU systems, with customizable thickness, haze, and coefficient of friction (COF).",
+      features: [
+        "High Cleanliness: Ultra-low particulate and bioburden risk",
+        "Custom Design: Multi-layer co-extrusion capabilities",
+        "Processability: Stable heat seal strength and peelability",
+        "Versatile: Ideal for IVD reagents and medical lidding"
+      ],
+      specs: [
+        { label: "Materials", value: "PE, EVA, TPU" },
+        { label: "Technology", value: "Multi-layer Co-extrusion" },
+        { label: "Features", value: "Custom Haze / COF" },
+        { label: "Cleanliness", value: "Low Bioburden" },
+        { label: "Applications", value: "IVD Consumables, Lidding" }
+      ],
+      btnText: "Contact Consultants",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need specialized films?"
+    },
+    image: "https://images.unsplash.com/photo-1605609284543-c2229e62553a?auto=format&fit=crop&q=80&w=1200"
+  },
+  "high-barrier": {
+    zh: {
+      title: "铝箔 / 尼龙高阻隔包装",
+      subtitle: "针对高敏感度产品的极致防护",
+      description: "专为对湿氧极度敏感的药品原料、中间体及高附加值医疗耗材设计。采用铝箔、尼龙与 PE 的多层复合结构，提供卓越的气体与水汽阻隔性能。",
+      features: [
+        "极低渗透率：优异的 OTR (氧气透过率) 和 WVTR (水蒸气透过率)",
+        "全方位防护：抗光、抗氧化、抗化学渗透",
+        "长期存储：确保内容物在有效期内的绝对稳定",
+        "结构强韧：尼龙层提供优异的机械强度"
+      ],
+      specs: [
+        { label: "结构", value: "AL / NY / PE 复合" },
+        { label: "阻隔性", value: "超低 OTR / WVTR" },
+        { label: "防护功能", value: "避光, 防潮, 防氧化" },
+        { label: "应用领域", value: "原料药 (API), 高端耗材" }
+      ],
+      btnText: "获取阻隔数据",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要高阻隔包装方案？"
+    },
+    en: {
+      title: "High Barrier Packaging",
+      subtitle: "Ultimate Protection for Sensitive Products",
+      description: "Designed for moisture and oxygen-sensitive APIs, intermediates, and high-value consumables. Features a multi-layer composite of Aluminum Foil, Nylon, and PE to provide superior gas and moisture barrier properties.",
+      features: [
+        "Low Permeability: Excellent OTR and WVTR performance",
+        "Full Protection: Light, oxidation, and chemical resistance",
+        "Long-term Storage: Ensures stability throughout shelf life",
+        "Durability: Nylon layer provides high mechanical strength"
+      ],
+      specs: [
+        { label: "Structure", value: "AL / NY / PE Composite" },
+        { label: "Barrier", value: "Ultra-low OTR / WVTR" },
+        { label: "Protection", value: "Light/Moisture/Oxidation barrier" },
+        { label: "Applications", value: "APIs, High-value Devices" }
+      ],
+      btnText: "Get Barrier Data",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need high-barrier solutions?"
+    },
+    image: "https://images.unsplash.com/photo-1624916223253-128c707d8533?auto=format&fit=crop&q=80&w=1200"
+  },
+  "lidding": {
+    zh: {
+      title: "EVA 和 TPU 盖膜 (Lidding Films)",
+      subtitle: "托盘与泡罩系统的理想封合材料",
+      description: "用于医疗器械托盘、诊断耗材泡罩的封合盖膜。EVA 提供宽热封窗口和良好柔韧性，而 TPU 则具备高弹性与耐磨性。支持 Peel (易剥离) 或 Lock (牢固封合) 开启方式。",
+      features: [
+        "开启方式可选：可定制易剥离或不可剥离配方",
+        "灭菌稳定性：灭菌后封合强度保持一致",
+        "表面处理：支持印刷及功能性涂层",
+        "广泛适配：适用于各种硬吸塑托盘材料"
+      ],
+      specs: [
+        { label: "材料基材", value: "EVA, TPU" },
+        { label: "封合类型", value: "Easy Peel / Lock Seal" },
+        { label: "灭菌兼容", value: "EO, Gamma" },
+        { label: "特性", value: "高透光, 柔韧性好" },
+        { label: "应用", value: "吸塑托盘盖膜, 试剂盒" }
+      ],
+      btnText: "咨询封合方案",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "寻找特定封合材料？"
+    },
+    en: {
+      title: "EVA & TPU Lidding Films",
+      subtitle: "Ideal Sealing for Trays and Blisters",
+      description: "Lidding materials for medical trays and diagnostic blisters. EVA offers a wide heat-sealing window and flexibility, while TPU provides high elasticity and abrasion resistance. Supports both Peel and Lock opening mechanisms.",
+      features: [
+        "Opening Mechanism: Customizable Easy Peel or Lock Seal",
+        "Sterility: Consistent seal strength after sterilization",
+        "Surface: Printable and coating-ready",
+        "Compatibility: Fits various rigid blister tray materials"
+      ],
+      specs: [
+        { label: "Base Material", value: "EVA, TPU" },
+        { label: "Seal Type", value: "Easy Peel / Lock Seal" },
+        { label: "Sterilization", value: "EO, Gamma" },
+        { label: "Features", value: "High Clarity, Flexible" },
+        { label: "Applications", value: "Blister Trays, Reagent Kits" }
+      ],
+      btnText: "Seal Solutions",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Looking for lidding materials?"
+    },
+    image: "https://images.unsplash.com/photo-1583912267550-d44d8319c701?auto=format&fit=crop&q=80&w=1200"
+  },
+
+  // === 精密医疗注塑 (原有) ===
   "microfluidic": {
     zh: {
       title: "微流控芯片基底 (Microfluidic Chips)",
@@ -212,19 +408,205 @@ const PRODUCT_DATABASE: any = {
       ctaTitle: "Need customization or samples?"
     },
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200"
+  },
+
+  // === 生物基与环保材料 ===
+  "plant-adhesive": {
+    zh: {
+      title: "植物基无醛胶黏剂",
+      subtitle: "改性大豆蛋白核心技术",
+      description: "以改性大豆蛋白为核心的生物基环保胶黏剂，彻底替代传统石油基和含醛体系。无甲醛、无苯、低 VOC，同时具备高干湿强度和良好的耐老化性能。",
+      features: [
+        "核心技术：植物蛋白改性技术",
+        "环保安全：无甲醛 (Formaldehyde-free)，无苯",
+        "性能优越：优异的干湿强度与耐老化性",
+        "适应性强：对纸、木、复合材料具有良好粘接力"
+      ],
+      specs: [
+        { label: "基材", value: "改性大豆蛋白" },
+        { label: "环保等级", value: "无醛, 低 VOC" },
+        { label: "粘接强度", value: "高干/湿强度" },
+        { label: "应用", value: "食品/医疗包装, 复合材料" }
+      ],
+      btnText: "获取样品",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "寻求环保胶黏剂替代方案？"
+    },
+    en: {
+      title: "Plant-based Adhesives",
+      subtitle: "Modified Soy Protein Core Technology",
+      description: "Bio-based eco-friendly adhesives centered on modified soy protein, replacing traditional petrochemical and formaldehyde-based systems. Formaldehyde-free, Benzene-free, low VOC, with high wet/dry strength.",
+      features: [
+        "Technology: Protein Modification",
+        "Eco-Safety: Formaldehyde-free, Benzene-free",
+        "Performance: Excellent wet/dry strength & aging resistance",
+        "Versatility: Strong adhesion to paper, wood, composites"
+      ],
+      specs: [
+        { label: "Base", value: "Modified Soy Protein" },
+        { label: "Eco Level", value: "No Formaldehyde, Low VOC" },
+        { label: "Strength", value: "High Dry/Wet Strength" },
+        { label: "Applications", value: "Food/Medical Packaging" }
+      ],
+      btnText: "Request Samples",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Looking for eco-adhesive alternatives?"
+    },
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=1200"
+  },
+  "degradable-coating": {
+    zh: {
+      title: "可降解阻隔涂层",
+      subtitle: "阻隔性与可持续性的完美平衡",
+      description: "兼具阻隔性能与环保属性的功能性涂层。采用生物基或可降解配方，为纸基材料赋予防水、防油、防气体性能，替代传统塑料覆膜，实现完全可回收或可堆肥。",
+      features: [
+        "功能性：防水、防油、气体阻隔",
+        "环保属性：生物基配方，可堆肥 (Compostable)",
+        "替代塑膜：完美替代 PE/PP 淋膜",
+        "加工友好：不影响后续印刷与加工"
+      ],
+      specs: [
+        { label: "类型", value: "水性 / 生物基涂层" },
+        { label: "功能", value: "防水, 防油 (Grease Proof)" },
+        { label: "环保", value: "可回收, 可堆肥" },
+        { label: "应用", value: "食品包装, 纸塑复合" }
+      ],
+      btnText: "了解涂层方案",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要去塑化包装方案？"
+    },
+    en: {
+      title: "Degradable Barrier Coatings",
+      subtitle: "Balance of Barrier Performance & Sustainability",
+      description: "Functional coatings combining barrier properties with eco-friendliness. Bio-based or degradable formulas provide water, grease, and gas resistance to paper, replacing traditional plastic laminates for full recyclability.",
+      features: [
+        "Function: Water/Grease/Gas Barrier",
+        "Eco-friendly: Bio-based, Compostable",
+        "Plastic Replacement: Replaces PE/PP coating",
+        "Process: Print-friendly"
+      ],
+      specs: [
+        { label: "Type", value: "Water-based / Bio-based" },
+        { label: "Function", value: "Water/Grease Resistance" },
+        { label: "End of Life", value: "Recyclable, Compostable" },
+        { label: "Applications", value: "Food Packaging, Paper Cups" }
+      ],
+      btnText: "Coating Solutions",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need plastic-free packaging?"
+    },
+    image: "https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?auto=format&fit=crop&q=80&w=1200"
+  },
+  "eco-paper": {
+    zh: {
+      title: "环保纸塑复合材料",
+      subtitle: "减塑设计，提升可回收性",
+      description: "兼顾机械强度、阻隔性能与环保属性的新型复合材料。通过纸基与生物基涂层/薄膜的结合，大幅减少塑料使用量，符合全球绿色包装与减碳趋势。",
+      features: [
+        "结构创新：纸基 + 生物基涂层/薄膜",
+        "减塑环保：显著降低塑料含量，易于回收",
+        "性能定制：阻隔性能可按需调整",
+        "加工适应性：良好的成型与热封性能"
+      ],
+      specs: [
+        { label: "结构", value: "纸基复合材料" },
+        { label: "特性", value: "减塑 (Plastic Reduction)" },
+        { label: "加工", value: "热封, 成型" },
+        { label: "应用", value: "医疗/消费品包装" }
+      ],
+      btnText: "联系我们",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "寻找可持续复合材料？"
+    },
+    en: {
+      title: "Eco Paper-Plastic Composites",
+      subtitle: "Plastic Reduction & Recyclability",
+      description: "Novel composites balancing strength, barrier, and ecology. Combining paper base with bio-coatings/films to drastically reduce plastic usage, aligning with global green packaging trends.",
+      features: [
+        "Innovation: Paper base + Bio-layer",
+        "Eco: Reduced plastic, Recyclable",
+        "Custom: Adjustable barrier properties",
+        "Process: Good forming and heat sealing"
+      ],
+      specs: [
+        { label: "Structure", value: "Paper-based Composite" },
+        { label: "Feature", value: "Plastic Reduction" },
+        { label: "Process", value: "Heat Seal, Forming" },
+        { label: "Applications", value: "Medical/Consumer Packaging" }
+      ],
+      btnText: "Contact Us",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Looking for sustainable composites?"
+    },
+    image: "https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&q=80&w=1200"
+  },
+  "functional-additives": {
+    zh: {
+      title: "特种功能助剂",
+      subtitle: "材料性能的定制化增强引擎",
+      description: "为材料体系提供定制化性能增强的功能性添加剂。涵盖阻隔增强、粘结改性、耐老化等多种类型，精准解决材料性能痛点，提升成品稳定性。",
+      features: [
+        "功能多样：阻隔、粘结、耐候、表面改性",
+        "精准解决：针对特定材料痛点开发",
+        "提升品质：增强成品的一致性与稳定性",
+        "定制开发：可按应用场景专属配方"
+      ],
+      specs: [
+        { label: "类型", value: "阻隔剂, 增粘剂, 改性剂" },
+        { label: "功能", value: "性能增强 (Performance Boosting)" },
+        { label: "形态", value: "粉末 / 液体 / 母粒" },
+        { label: "服务", value: "定制配方开发" }
+      ],
+      btnText: "咨询助剂方案",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要改善材料性能？"
+    },
+    en: {
+      title: "Specialty Functional Additives",
+      subtitle: "Custom Performance Boosting Engine",
+      description: "Functional additives for customized performance enhancement. Covering barrier improvement, adhesion modification, and aging resistance to precisely solve material issues and enhance stability.",
+      features: [
+        "Versatile: Barrier, Adhesion, Weathering",
+        "Precise: Targeted problem solving",
+        "Quality: Enhances consistency and stability",
+        "Custom: Scene-specific formulation"
+      ],
+      specs: [
+        { label: "Type", value: "Barrier/Adhesion Promoters" },
+        { label: "Function", value: "Performance Boosting" },
+        { label: "Form", value: "Powder / Liquid / Masterbatch" },
+        { label: "Service", value: "Custom Formulation" }
+      ],
+      btnText: "Consult Additives",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need to enhance material performance?"
+    },
+    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=1200"
   }
 };
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  // 3. 获取当前语言
   const { language } = useLanguage(); 
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // 4. 根据 ID 获取产品对象，但此时不直接获取内容，而是获取整个中英文包
   const productData = id ? PRODUCT_DATABASE[id] : null;
-  // 5. 根据 language ('zh' 或 'en') 获取具体文案
-  // 使用类型断言避免 TypeScript 报错，假设数据结构一定是 { zh:..., en:... }
   const content = productData ? productData[language] : null;
   const image = productData ? productData.image : "";
 
@@ -244,7 +626,7 @@ const ProductDetail: React.FC = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [id, content]); // 依赖项加入 content，这样切换语言时也会触发刷新
+  }, [id, content]);
 
   if (!content) {
     return (
@@ -263,16 +645,12 @@ const ProductDetail: React.FC = () => {
     <div ref={containerRef} className="pt-32 pb-20 bg-slate-50 min-h-screen font-sans">
       <div className="container mx-auto px-6">
         
-        {/* 返回按钮 */}
         <Link to="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
           <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
           {content.backText}
         </Link>
 
-        {/* 顶部区域：图片 + 核心描述 */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
-          
-          {/* 左侧图片 */}
           <div className="hero-anim relative">
             <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100">
               <img 
@@ -287,14 +665,12 @@ const ProductDetail: React.FC = () => {
             <div className="absolute -z-10 top-10 -left-10 w-full h-full bg-[radial-gradient(#e0f2fe_1px,transparent_1px)] [background-size:20px_20px] opacity-70"></div>
           </div>
 
-          {/* 右侧文本 */}
           <div className="hero-anim flex flex-col justify-center">
              <div className="mb-4 text-sky-600 font-bold tracking-widest uppercase text-sm">Product Detail</div>
              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{content.title}</h1>
              <p className="text-lg font-medium text-slate-700 mb-6 border-l-4 border-sky-500 pl-4">{content.subtitle}</p>
              <p className="text-slate-600 leading-relaxed mb-8 text-justify">{content.description}</p>
              
-             {/* 核心特性 Tag */}
              <div className="space-y-3">
                {content.features.map((feature: string, index: number) => (
                  <div key={index} className="flex items-start gap-3">
@@ -306,7 +682,6 @@ const ProductDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* 底部详细参数区域 */}
         <div className="content-section detail-anim bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
           <div className="flex items-center gap-3 mb-8 pb-4 border-b border-slate-100">
             <Icons.Tech />
@@ -322,7 +697,6 @@ const ProductDetail: React.FC = () => {
              ))}
           </div>
 
-          {/* CTA 区域 */}
           <div className="mt-12 pt-8 text-center">
             <p className="text-slate-500 mb-6">{content.ctaTitle}</p>
             <Link to="/contact">
