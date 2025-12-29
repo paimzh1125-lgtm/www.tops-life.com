@@ -10,10 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 // --- 类型定义 ---
 interface SubProductObj {
   name: string;
-  link?: string; // 可选链接
+  link?: string;
 }
 
-// 支持 纯字符串 或 对象格式
 type SubProduct = string | SubProductObj;
 
 interface ProductItem {
@@ -35,7 +34,7 @@ interface ContentState {
   cta: { text: string; sub: string; btn: string };
 }
 
-// --- 1. SVG 图标库 ---
+// --- Icons ---
 const Icons = {
   ArrowRight: () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
   Check: () => <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
@@ -47,7 +46,7 @@ const Icons = {
   ExternalLink: () => <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 };
 
-// --- 2. 静态内容数据 (从组件中拆分) ---
+// --- 静态内容数据 ---
 const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
   zh: {
     hero: {
@@ -69,12 +68,11 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         category: "核心业务 01",
         title: "医用洁净软包装系统",
         desc: "专为医疗器械终端灭菌设计的无菌屏障系统（SBS）。我们提供从材料选型、结构设计到灭菌适应性验证的全流程服务，确保产品在有效期内的无菌完整性。",
-        // [预留位置]：未来如果新建了详情页，只需将 link 改为 "/products/xxx"
         subProducts: [
-          { name: "PE袋和卷材", link: "https://www.tops-life.cn/pe-bag-0/" },
-          { name: "医用级薄膜", link: "https://www.tops-life.cn/pe-film-0/" },
-          { name: "铝箔/尼龙高阻隔包装", link: "https://www.tops-life.cn/composite-aluminum-foil-gusseted-bag/" },
-          { name: "EVA和TPU (Lidding)", link: "https://www.tops-life.cn/eva-film/" }
+          { name: "PE 袋和卷材", link: "/products/pe-bag" },
+          { name: "医用级薄膜", link: "/products/medical-film" },
+          { name: "铝箔 / 尼龙高阻隔包装", link: "/products/high-barrier" },
+          { name: "EVA 和 TPU (Lidding)", link: "/products/lidding" }
         ],
         applications: ["医疗器械包装", "药品包装", "手术器械包", "医疗耗材包装"],
         features: ["符合 ISO 11607 标准", "适应 EO/Gamma/蒸汽灭菌", "极低的微粒污染风险"],
@@ -86,7 +84,6 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         category: "核心业务 02",
         title: "精密医疗注塑与组装",
         desc: "依托 10 万级洁净注塑车间，我们专注于高难度、高精度的医疗高分子部件制造。具备双色注塑、包胶注塑及嵌件注塑能力，并提供移印、超声波焊接等后道工艺。",
-        // [当前状态]：已启用内部路由跳转
         subProducts: [
           { name: "微流控芯片基底", link: "/products/microfluidic" },
           { name: "外科吻合器组件", link: "/products/stapler" },
@@ -103,12 +100,11 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         category: "核心业务 03",
         title: "大豆蛋白生物基新材料",
         desc: "面向未来的可持续解决方案。我们利用改性大豆蛋白技术，开发出高性能、无甲醛的植物基胶黏剂与功能涂层，完美替代传统石油基材料，助力碳中和。",
-        // [预留位置]：已统一为对象格式，目前 link 为空或 #，待新建详情页后填入
         subProducts: [
-          { name: "植物基无醛胶黏剂", link: "#" },
-          { name: "可降解阻隔涂层", link: "#" },
-          { name: "环保纸塑复合材料", link: "#" },
-          { name: "特种功能助剂", link: "#" }
+          { name: "植物基无醛胶黏剂", link: "/products/plant-adhesive" },
+          { name: "可降解阻隔涂层", link: "/products/degradable-coating" },
+          { name: "环保纸塑复合材料", link: "/products/eco-paper" },
+          { name: "特种功能助剂", link: "/products/functional-additives" }
         ],
         applications: ["高端消费品包装", "环保包装材料", "可堆肥食品包装", "生物医用辅助材料"],
         features: ["100% 生物降解", "零甲醛 / 零苯", "优异的干湿强度"],
@@ -143,10 +139,10 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         title: "Medical Flexible Packaging",
         desc: "Sterile Barrier Systems (SBS) designed for terminal sterilization. We offer full-process services from material selection to validation, ensuring sterility integrity throughout shelf life.",
         subProducts: [
-          { name: "PE Bags and Rolls", link: "https://www.tops-life.cn/pe-bag-0/" },
-          { name: "Medical-grade Film", link: "https://www.tops-life.cn/pe-film-0/" },
-          { name: "High Barrier Packaging", link: "https://www.tops-life.cn/composite-aluminum-foil-gusseted-bag/" },
-          { name: "EVA and TPU", link: "https://www.tops-life.cn/eva-film/" }
+          { name: "PE Bags and Rolls", link: "/products/pe-bag" },
+          { name: "Medical-grade Films", link: "/products/medical-film" },
+          { name: "High Barrier Packaging", link: "/products/high-barrier" },
+          { name: "EVA and TPU (Lidding)", link: "/products/lidding" }
         ],
         applications: ["Pharma Packaging", "Surgical Kits", "Consumables Packaging", "Device Packaging"],
         features: ["ISO 11607 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
@@ -175,10 +171,10 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         title: "Soy Protein Bio-Materials",
         desc: "Sustainable solutions for the future. Utilizing modified soy protein technology to create high-performance, formaldehyde-free plant-based binders and coatings replacing petrochemicals.",
         subProducts: [
-          { name: "Plant-based Adhesives", link: "#" },
-          { name: "Degradable Coatings", link: "#" },
-          { name: "Eco Paper-Plastic", link: "#" },
-          { name: "Functional Additives", link: "#" }
+          { name: "Plant-based Adhesives", link: "/products/plant-adhesive" },
+          { name: "Degradable Coatings", link: "/products/degradable-coating" },
+          { name: "Eco Paper-Plastic", link: "/products/eco-paper" },
+          { name: "Functional Additives", link: "/products/functional-additives" }
         ],
         applications: ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
         features: ["100% Biodegradable", "Zero Formaldehyde", "High Wet/Dry Strength"],
@@ -197,15 +193,10 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
 const Products: React.FC = () => {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // 获取当前语言内容
   const t = language === 'zh' ? CONTENT_DATA.zh : CONTENT_DATA.en;
 
-  // --- GSAP 动画 ---
   useEffect(() => {
     if (!containerRef.current) return;
-    
-    // 使用 context 确保在组件卸载或更新时清理动画
     const ctx = gsap.context(() => {
       const fadeUps = gsap.utils.toArray(".gsap-fade-up");
       fadeUps.forEach((el: any) => {
@@ -216,65 +207,54 @@ const Products: React.FC = () => {
             scrollTrigger: { 
               trigger: el, 
               start: "top 85%",
-              // 确保滚动过快时也能触发
               toggleActions: "play none none reverse" 
             },
           }
         );
       });
     }, containerRef);
+    return () => ctx.revert();
+  }, [language]);
 
-    return () => ctx.revert(); // 清理动画
-  }, [language]); // 当语言切换时，重新计算动画（因为内容高度可能变化）
-
-  // --- 辅助函数：渲染链接 ---
   const renderLink = (sub: SubProduct) => {
-    // 1. 如果是纯字符串 (兼容旧数据)
-    if (typeof sub === 'string') {
-      return <span className="cursor-default">{sub}</span>;
-    }
-
-    // 2. 如果 Link 为空或 # (暂无链接)
-    if (!sub.link || sub.link === '#') {
-      return <span className="cursor-default hover:text-sky-600 transition-colors">{sub.name}</span>;
-    }
-
-    // 3. 如果是外部链接 (以 http 开头)
-    if (sub.link.startsWith('http')) {
-      return (
-        <a 
-          href={sub.link} 
-          target="_blank" 
-          rel="noopener noreferrer" 
+    if (typeof sub === 'string') return <span className="cursor-default">{sub}</span>;
+    
+    // 如果是内部路由链接
+    if (sub.link && !sub.link.startsWith('http') && sub.link !== '#') {
+       return (
+        <Link 
+          to={sub.link}
           className="group/link flex items-center gap-1 hover:text-sky-600 transition-colors"
         >
           <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
             {sub.name}
           </span>
-          <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
-            <Icons.ExternalLink />
-          </span>
-        </a>
+        </Link>
       );
     }
-
-    // 4. 如果是内部链接 (React Router)
+    
+    // 默认回退（外部链接或无链接）
     return (
-      <Link 
-        to={sub.link}
-        className="group/link flex items-center gap-1 hover:text-sky-600 transition-colors"
+      <a 
+        href={sub.link || '#'} 
+        target={sub.link?.startsWith('http') ? "_blank" : "_self"}
+        rel="noopener noreferrer" 
+        className={`group/link flex items-center gap-1 hover:text-sky-600 transition-colors ${!sub.link || sub.link === '#' ? 'cursor-default' : ''}`}
       >
         <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
           {sub.name}
         </span>
-      </Link>
+        {sub.link?.startsWith('http') && (
+          <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
+            <Icons.ExternalLink />
+          </span>
+        )}
+      </a>
     );
   };
 
   return (
     <div ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
-      
-      {/* 1. Header Hero */}
       <section className="pt-32 pb-20 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-50 via-white to-white opacity-60"></div>
         <div className="container mx-auto px-6 relative z-10 text-center">
@@ -291,7 +271,6 @@ const Products: React.FC = () => {
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-50 to-transparent"></div>
       </section>
 
-      {/* 2. Technical Strengths */}
       <section className="py-12 container mx-auto px-6 relative z-20 -mt-10">
          <div className="grid md:grid-cols-3 gap-6">
             {t.tech.items.map((item, idx) => (
@@ -306,19 +285,15 @@ const Products: React.FC = () => {
          </div>
       </section>
 
-      {/* 3. Main Products Loop */}
       <div className="container mx-auto px-6 py-20 space-y-24">
         {t.products.map((product, i) => (
           <div key={i} id={product.id} className="scroll-mt-32 gsap-fade-up">
              <article className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 hover:border-sky-200 transition-colors duration-500">
-                
-                {/* 顶部：标题与描述 */}
                 <div className="flex flex-col lg:flex-row gap-12 md:gap-16 mb-12">
                    <div className="lg:w-1/2">
                        <span className="text-sky-500 font-bold tracking-widest uppercase text-sm mb-2 block">{product.category}</span>
                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">{product.title}</h2>
                        <p className="text-slate-600 text-lg leading-relaxed text-justify">{product.desc}</p>
-                       
                        <div className="flex flex-wrap gap-3 mt-6">
                           {product.features.map((f, idx) => (
                               <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 text-sm font-medium rounded-lg">
@@ -327,7 +302,6 @@ const Products: React.FC = () => {
                           ))}
                        </div>
                    </div>
-
                    <div className="lg:w-1/2 relative group">
                        <div className="aspect-video w-full rounded-2xl overflow-hidden bg-slate-200 shadow-lg relative">
                            <img 
@@ -345,8 +319,6 @@ const Products: React.FC = () => {
                        <div className="absolute -top-4 -right-4 w-20 h-20 border-t-2 border-r-2 border-sky-200 rounded-tr-3xl -z-10"></div>
                    </div>
                 </div>
-
-                {/* 底部：详情列表 */}
                 <div className="border-t border-slate-100 pt-8 grid md:grid-cols-2 gap-8">
                     <div>
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
@@ -374,16 +346,12 @@ const Products: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
              </article>
           </div>
         ))}
       </div>
-
-      {/* 4. CTA Section */}
       <section className="bg-slate-900 py-20 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-          
           <div className="container mx-auto px-6 text-center relative z-10">
               <h2 className="text-3xl font-bold text-white mb-4">{t.cta.text}</h2>
               <p className="text-slate-400 mb-10 text-lg max-w-2xl mx-auto">{t.cta.sub}</p>
@@ -395,7 +363,6 @@ const Products: React.FC = () => {
               </Link>
           </div>
       </section>
-
     </div>
   );
 };
