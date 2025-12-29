@@ -45,7 +45,7 @@ const AnimatedCounter = ({ value, label, icon }: { value: string, label: string,
       <div className="text-sky-400 mb-2 transform group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
-      <div className="text-3xl md:text-4xl font-bold mb-1 font-mono">
+      <div className="text-3xl md:text-4xl font-bold mb-1 font-mono text-white">
         <span ref={ref}>{numericValue}</span>
         <span>{suffix}</span>
       </div>
@@ -57,8 +57,8 @@ const AnimatedCounter = ({ value, label, icon }: { value: string, label: string,
 const About: React.FC = () => {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-  const timelineSectionRef = useRef<HTMLDivElement>(null); // 整个区域容器
-  const timelineTrackRef = useRef<HTMLDivElement>(null);   // 滚动的长条轨道
+  const timelineSectionRef = useRef<HTMLDivElement>(null); 
+  const timelineTrackRef = useRef<HTMLDivElement>(null);   
   const [loaded, setLoaded] = useState(false);
 
   const currentYear = new Date().getFullYear();
@@ -85,23 +85,22 @@ const About: React.FC = () => {
         );
       });
 
-      // 2. 发展历程 - 仅桌面端启用 GSAP Pin (手机端使用原生 CSS 滚动)
+      // 2. 发展历程 - 仅桌面端启用 GSAP 横向滚动 (≥1024px)
       const mm = gsap.matchMedia();
       
       mm.add("(min-width: 1024px)", () => {
         const track = timelineTrackRef.current;
         if (!track) return;
 
-        // 计算需要滚动的距离：轨道总宽度 - 屏幕宽度 (预留一点右边距)
-        const scrollAmount = track.scrollWidth - window.innerWidth + 100;
+        const scrollAmount = track.scrollWidth - window.innerWidth + 200; // 增加右侧余量
 
         gsap.to(track, {
           x: -scrollAmount, 
           ease: "none",
           scrollTrigger: {
             trigger: timelineSectionRef.current,
-            pin: true, // 只有电脑端才钉住屏幕
-            scrub: 1,  // 跟随鼠标滚轮丝滑移动
+            pin: true,
+            scrub: 1,
             end: () => `+=${scrollAmount}`, 
             invalidateOnRefresh: true,
           }
@@ -125,7 +124,9 @@ const About: React.FC = () => {
     return () => ctx.revert();
   }, [language]);
 
-  // --- 数据配置 (已把图片加回来) ---
+  // --- 数据配置 ---
+  const unifiedImage = "/images/industry2.jpg"; // 统一图片路径
+
   const content = {
     zh: {
       hero: {
@@ -151,17 +152,15 @@ const About: React.FC = () => {
         p2: "依托 ISO 7 (万级) 洁净车间与先进的自动化生产线，我们构建了从原料到成品的严苛质量控制体系，确保每一件产品都符合医疗级安全标准。",
         btn: "了解我们的解决方案"
       },
-      // ✅ 图片已回归，对应您上传的文件名
       timeline: {
         title: "发展历程",
         subtitle: "见证从初创到卓越的每一步",
         items: [
-          { year: "2011", title: "起步", desc: "淘爱材料科技成立，开展软包装业务。", image: "/images/application1.jpg" },
-          { year: "2013", title: "拓展", desc: "增加医疗器械 OEM 业务，专注微小注塑。", image: "/images/application2.jpg" },
-          { year: "2018", title: "升级", desc: "永爱生命 Tops Life Science 成立，确立专业地位。", image: "/images/application4.jpg" },
-          { year: "2021", title: "创新", desc: "新材料部门成立，涉足环保油墨与大豆蛋白产品。", image: "/images/application3.jpg" },
-          { year: "2023", title: "出海", desc: "香港分公司成立，构建全球供应链网络。", image: "/images/industry1.jpg" },
-          { year: "2023", title: "智造", desc: "升级扩建 ISO Class 7 洁净车间。", image: "/images/industry2.jpg" },
+          { year: "2011", title: "起步", desc: "淘爱材料科技成立，开展软包装业务。", image: "images/taoai.png" },
+          { year: "2013", title: "拓展", desc: "增加医疗器械 OEM 业务，专注微小注塑。", image: "images/injection.jpg" },
+          { year: "2018", title: "升级", desc: "永爱生命 Tops Life Science 成立，确立专业地位。", image:  "images/yongai.jpg" },
+          { year: "2021", title: "创新", desc: "新材料部门成立，涉足环保油墨与大豆蛋白产品。", image: "images/soy.jpg" },
+          { year: "2023", title: "出海", desc: "香港分公司成立，构建全球供应链网络。", image: "images/oversea.jpg" },
         ]
       },
       cert: {
@@ -215,12 +214,11 @@ const About: React.FC = () => {
         title: "Our History",
         subtitle: "Every step from startup to excellence",
         items: [
-          { year: "2011", title: "Foundation", desc: "Established Tops Life Technology.", image: "/images/application1.jpg" },
-          { year: "2013", title: "Expansion", desc: "Started Medical Device OEM business.", image: "/images/application2.jpg" },
-          { year: "2018", title: "Upgrade", desc: "Established Tops Life Science.", image: "/images/application4.jpg" },
-          { year: "2021", title: "Innovation", desc: "New Materials Dept. established.", image: "/images/application3.jpg" },
-          { year: "2023", title: "Global", desc: "Hong Kong branch established.", image: "/images/industry1.jpg" },
-          { year: "2023", title: "Facility", desc: "Upgraded to ISO Class 7 cleanrooms.", image: "/images/industry2.jpg" },
+          { year: "2011", title: "Foundation", desc: "Established Tops Life Technology.", image:  "images/taoai.png" },
+          { year: "2013", title: "Expansion", desc: "Started Medical Device OEM business.", image: "images/injection.jpg" },
+          { year: "2018", title: "Upgrade", desc: "Established Tops Life Science.", image: "images/yongai.jpg" },
+          { year: "2021", title: "Innovation", desc: "New Materials Dept. established.", image: "images/soy.jpg" },
+          { year: "2023", title: "Global", desc: "Hong Kong branch established.", image: "images/oversea.jpg" },
         ]
       },
       cert: {
@@ -346,41 +344,42 @@ const About: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Timeline Section (手机端原生滚动优化版) */}
-      <section id="timeline-section" ref={timelineSectionRef} className="py-24 bg-slate-900 text-white overflow-hidden relative">
+      {/* 4. Timeline Section (白色背景修正版) */}
+      <section id="timeline-section" ref={timelineSectionRef} className="py-24 bg-white overflow-hidden relative border-t border-slate-100">
          <div className="container mx-auto px-6 mb-12">
             <div className="max-w-3xl">
-                <h2 className="text-3xl md:text-5xl font-bold mb-4">{t.timeline.title}</h2>
-                <p className="text-slate-400 text-lg">{t.timeline.subtitle}</p>
+                <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900">{t.timeline.title}</h2>
+                <p className="text-slate-500 text-lg">{t.timeline.subtitle}</p>
             </div>
          </div>
 
-         {/* 核心修改：
-            1. overflow-x-auto: 允许手机原生横向滚动
-            2. snap-x: 滚动时自动吸附对齐
-            3. scrollbar-hide: 隐藏滚动条 (需在 CSS 中支持或接受原生滚动条)
+         {/* 电脑端 (lg): Flex Row + GSAP Horizontal Scroll
+            移动端 (default): Flex Column (垂直列表)
          */}
          <div 
             ref={timelineTrackRef}
-            className="flex gap-6 px-6 lg:px-24 overflow-x-auto lg:overflow-visible snap-x snap-mandatory scroll-smooth pb-8 no-scrollbar"
-            style={{ WebkitOverflowScrolling: 'touch' }} // iOS 流畅滚动优化
+            className="flex flex-col lg:flex-row gap-12 lg:gap-8 px-6 lg:px-24 w-full lg:w-max"
          >
             {t.timeline.items.map((item, i) => (
-                <div key={i} className="flex-shrink-0 w-[85vw] sm:w-[400px] snap-center group">
-                    {/* 卡片容器 */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-colors h-full flex flex-col">
+                <div key={i} className="flex-shrink-0 w-full lg:w-[450px] lg:pr-16 group">
+                    {/* 时间轴线 (仅电脑端显示) */}
+                    <div className="hidden lg:block w-full h-[1px] bg-slate-200 mb-8 relative">
+                        <div className="absolute left-0 -top-1.5 w-4 h-4 rounded-full bg-sky-500 border-4 border-white shadow-sm group-hover:scale-150 transition-transform duration-300"></div>
+                    </div>
+                    
+                    {/* 卡片容器 (白底深色字) */}
+                    <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col shadow-sm">
                         
-                        {/* 图片区域 */}
-                        <div className="h-48 sm:h-56 overflow-hidden relative">
+                        {/* 图片区域 (统一使用 industry2.jpg) */}
+                        <div className="h-56 overflow-hidden relative">
                            <img 
                               src={item.image} 
                               alt={item.title} 
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                              // 错误处理：如果图片加载失败，显示备用图
-                              onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80'; }}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                            />
-                           {/* 渐变遮罩 */}
-                           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                           {/* 浅色渐变遮罩 */}
+                           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                           
                            {/* 年份标签 */}
                            <div className="absolute bottom-4 left-4 text-4xl font-bold text-white tracking-widest drop-shadow-md">
                               {item.year}
@@ -388,23 +387,23 @@ const About: React.FC = () => {
                         </div>
 
                         {/* 文字内容区域 */}
-                        <div className="p-6 flex-1 flex flex-col">
-                            <h3 className="text-xl font-bold mb-3 text-sky-400">{item.title}</h3>
-                            <p className="text-slate-300 leading-relaxed text-sm">
+                        <div className="p-8 flex-1 flex flex-col bg-white">
+                            <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-sky-600 transition-colors">{item.title}</h3>
+                            <p className="text-slate-500 leading-relaxed">
                                 {item.desc}
                             </p>
                         </div>
                     </div>
+                    
+                    {/* 移动端连接线 (仅手机显示) */}
+                    <div className="lg:hidden w-1 h-12 bg-slate-100 mx-auto my-4 last:hidden"></div>
                 </div>
             ))}
-            
-            {/* 占位符：让最后一个元素也能被完整滚动出来 */}
-            <div className="w-6 shrink-0 lg:hidden"></div>
          </div>
       </section>
 
       {/* 5. Values Section */}
-      <section className="py-24 container mx-auto px-6 bg-white">
+      <section className="py-24 container mx-auto px-6 bg-slate-50">
         <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">{t.values.title}</h2>
         </div>
@@ -424,8 +423,8 @@ const About: React.FC = () => {
             </div>
 
             {[1, 2].map((idx) => (
-                <div key={idx} className="bg-slate-50 p-10 rounded-[2rem] hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-300 group border border-transparent hover:border-slate-100">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform ${idx === 1 ? 'bg-indigo-100 text-indigo-600' : 'bg-rose-100 text-rose-600'}`}>
+                <div key={idx} className="bg-white p-10 rounded-[2rem] hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-300 group border border-slate-100">
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform ${idx === 1 ? 'bg-indigo-50 text-indigo-600' : 'bg-rose-50 text-rose-600'}`}>
                         {t.values.items[idx].icon}
                     </div>
                     <h3 className="text-2xl font-bold mb-4 text-slate-900">
@@ -440,7 +439,7 @@ const About: React.FC = () => {
       </section>
 
       {/* 6. Certifications Section */}
-      <section className="py-20 bg-slate-50 border-t border-slate-200">
+      <section className="py-20 bg-white border-t border-slate-100">
           <div className="container mx-auto px-6">
               <div className="flex flex-col md:flex-row items-center justify-between mb-12">
                   <div className="max-w-xl mb-8 md:mb-0">
@@ -451,8 +450,8 @@ const About: React.FC = () => {
               
               <div className="grid md:grid-cols-2 gap-8">
                   {t.cert.items.map((item, idx) => (
-                      <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-6 hover:shadow-md transition-shadow">
-                          <div className="w-24 h-24 shrink-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 p-2">
+                      <div key={idx} className="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-6 hover:shadow-md transition-shadow">
+                          <div className="w-24 h-24 shrink-0 bg-white rounded-xl overflow-hidden border border-slate-200 p-2">
                              <img src={item.img} alt={item.title} className="w-full h-full object-contain" />
                           </div>
                           <div>
@@ -510,17 +509,6 @@ const About: React.FC = () => {
             </div>
         </div>
       </section>
-
-      {/* 内联样式：隐藏水平滚动条，但保留滚动功能 */}
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </div>
   );
 };
