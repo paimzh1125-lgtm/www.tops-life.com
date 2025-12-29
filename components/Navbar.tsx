@@ -103,8 +103,12 @@ const Navbar: React.FC = () => {
         {/* Buttons */}
         <div className="flex items-center gap-5">
           <button 
-            onClick={toggleLanguage}
-            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 ${
+            type="button" // 明确指定为按钮，防止意外提交
+            onClick={(e) => {
+              e.preventDefault(); // 阻止默认行为，确保不刷新页面
+              toggleLanguage();
+            }}
+            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 cursor-pointer ${
               isTransparentMode
                 ? "border-white/40 bg-white/20 text-white backdrop-blur-md hover:bg-white/30" 
                 : "border-slate-200 bg-white text-slate-800 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300"
@@ -115,6 +119,7 @@ const Navbar: React.FC = () => {
           </button>
           
           <button 
+            type="button"
             className={`md:hidden transition-colors hover:scale-110 ${isTransparentMode ? 'text-white' : 'text-slate-900'}`}
             onClick={() => setIsMobileOpen(!isMobileOpen)}
           >
@@ -124,7 +129,11 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Menu */}
         <div className={`fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}>
-            <button className="absolute top-8 right-8 text-white/80 hover:text-white" onClick={() => setIsMobileOpen(false)}>
+            <button 
+              type="button"
+              className="absolute top-8 right-8 text-white/80 hover:text-white" 
+              onClick={() => setIsMobileOpen(false)}
+            >
                 <Icons.X />
             </button>
             {navLinks.map((link) => (
@@ -138,8 +147,13 @@ const Navbar: React.FC = () => {
                </Link>
             ))}
              <button 
-              onClick={() => { toggleLanguage(); setIsMobileOpen(false); }}
-              className="mt-8 flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-lg font-medium text-white hover:bg-white/10 hover:border-white/40 transition-all"
+              type="button" // 明确指定为按钮
+              onClick={(e) => { 
+                e.preventDefault(); // 阻止刷新
+                toggleLanguage(); 
+                setIsMobileOpen(false); 
+              }}
+              className="mt-8 flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-lg font-medium text-white hover:bg-white/10 hover:border-white/40 transition-all cursor-pointer"
             >
               <Icons.Globe /> {language === 'zh' ? 'Switch to English' : '切换到中文'}
             </button>
