@@ -287,7 +287,7 @@ const About: React.FC = () => {
                 
                 <div className="relative rounded-[2rem] overflow-hidden shadow-[0_25px_50px_-12px_rgba(8,112,184,0.25)] aspect-[4/3] bg-white">
                     <img 
-                        src="/banner/outslight.jpg" // 已更新路径
+                        src="/banner/outsight.jpg" // 已更新路径
                         alt="Tops Life Innovation" 
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=2070'; }}
