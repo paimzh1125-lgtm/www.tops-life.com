@@ -1,6 +1,6 @@
-import React, { useEffect, Suspense, lazy, useRef } from "react";
+import React, { useEffect, useRef, lazy } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom"; 
@@ -16,27 +16,17 @@ import {
   Activity,
   Layers,
   ShieldCheck,    // 盾牌
-  Calendar,       // 日历
-  Newspaper       // 新闻
+  Calendar        // 日历
 } from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 import { useLanguage } from "../components/LanguageContext";
 
-// 懒加载组件
-const RevealText = lazy(() => import("../components/RevealText"));
-
+// 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
-
-// 模拟 Hero Banner 图片数据
-const rawSlides = [1, 2, 3, 4, 5].map((id) => ({
-  id,
-  image: `banner/${id}.jpg`, 
-}));
 
 // 模拟首页新闻数据
 const LATEST_NEWS = [
@@ -92,7 +82,7 @@ const LANG = {
     more: "探索详情",
     stats: [
       { num: "15+", label: "年行业经验" },
-      { num: "10k", label: "级洁净车间" }, // 修改点：100k -> 10k
+      { num: "10k", label: "级洁净车间" }, 
       { num: "50+", label: "全球合作伙伴" },
     ],
     solutionsTitle: "核心业务解决方案",
@@ -119,16 +109,31 @@ const LANG = {
     ],
     tech: "研发与技术实力",
     techDesc: "融合高分子科学、材料工程及精密成型专业知识，配备洁净室、自动化生产线及内部研发实验室。",
+    // ✅ 新版环保/科技主题文案 (中文)
     slides: [
-      { title: "赋能生命科学，筑造坚实无菌屏障", subtitle: "以高性能软包装解决方案，守护药品与医疗器械的每一次安全交付。" },
-      { title: "微米级精密成型，重塑医疗制造标准", subtitle: "全流程 ISO 13485 认证，为关键医疗部件提供极致的稳定与精准。" },
-      { title: "探索材料边界，引领生物基科技未来", subtitle: "源于自然的创新聚合物技术，为全球工业提供可持续的高性能方案。" },
-      { title: "严苛洁净环境，承载卓越品质承诺", subtitle: "持续拓展制造能力边界，从容应对生命科学行业最严格的挑战。" },
-      { title: "智造驱动未来，交付全球可信赖价值", subtitle: "构建透明、可追溯的质量体系，成为全球客户值得托付的长期伙伴。" },
+      { 
+        title: "融汇绿色科技，守护生命未来", 
+        subtitle: "从生物基新材料到无菌屏障，我们以可持续方案重新定义医疗制造。" 
+      },
+      { 
+        title: "源于自然馈赠，重塑工业材料", 
+        subtitle: "创新大豆蛋白聚合物技术，为全球工业提供高性能、可降解的环保替代方案。" 
+      },
+      { 
+        title: "构建透明屏障，兼顾安全与环保", 
+        subtitle: "高性能医用包装系统，在确保无菌安全的同时，致力于降低碳足迹。" 
+      },
+      { 
+        title: "精密制造智慧，赋能低碳生产", 
+        subtitle: "微米级注塑工艺配合全电动设备，以极致的能效与良品率减少资源浪费。" 
+      },
+      { 
+        title: "携手全球伙伴，共筑可持续生态", 
+        subtitle: "以透明可追溯的质量体系，成为全球客户值得托付的长期ESG战略伙伴。" 
+      },
     ],
     marketTitle: "应用领域",
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
-    // 修改点：market 升级为对象数组，包含特定文案
     market: [
       { title: "医疗器械", desc: "为二类/三类医疗器械提供符合 ISO 13485 标准的无菌屏障包装。" },
       { title: "制药生产", desc: "提供符合 GMP 标准的药用级过程保护与一次性耗材。" },
@@ -152,7 +157,7 @@ const LANG = {
     more: "Discover More",
     stats: [
       { num: "15+", label: "Years Exp." },
-      { num: "10k", label: "Clean Class" }, // 修改点：100k -> 10k
+      { num: "10k", label: "Clean Class" }, 
       { num: "50+", label: "Global Partners" },
     ],
     solutionsTitle: "Core Solutions",
@@ -179,16 +184,31 @@ const LANG = {
     ],
     tech: "R&D Strength",
     techDesc: "Integrating polymer science, materials engineering, and precision molding expertise.",
+    // ✅ 新版环保/科技主题文案 (英文)
     slides: [
-      { title: "Empowering Life Science", subtitle: "Building robust sterile barriers for the safety of every medical delivery." },
-      { title: "Precision Redefined", subtitle: "Micron-level injection molding reshaping medical manufacturing standards." },
-      { title: "Material Innovation", subtitle: "Leading the future of bio-based technology with sustainable polymer solutions." },
-      { title: "Purity & Excellence", subtitle: "Strict controlled environments carrying the promise of superior quality." },
-      { title: "Driven by Intelligence", subtitle: "Delivering trusted value globally with traceable manufacturing systems." },
+      { 
+        title: "Green Tech, Guarding the Future", 
+        subtitle: "Redefining medical manufacturing with sustainable solutions, from bio-materials to sterile barriers." 
+      },
+      { 
+        title: "Inspired by Nature, Reshaping Industry", 
+        subtitle: "Innovative soy protein polymers offering high-performance, biodegradable alternatives globally." 
+      },
+      { 
+        title: "Clear Protection, Sustainable Care", 
+        subtitle: "High-performance packaging systems ensuring sterility while committed to reducing carbon footprints." 
+      },
+      { 
+        title: "Precision Molding, Low-Carbon Production", 
+        subtitle: "Micron-level precision with all-electric efficiency, minimizing waste through superior quality." 
+      },
+      { 
+        title: "Global Partners, Sustainable Ecosystem", 
+        subtitle: "Building a transparent quality system to be your trusted long-term partner in ESG strategies." 
+      },
     ],
     marketTitle: "Market Applications",
     marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
-    // 修改点：英文对应文案
     market: [
       { title: "Medical Devices", desc: "ISO 13485 compliant sterile barrier packaging for Class II/III devices." },
       { title: "Pharma", desc: "GMP-compliant process protection and single-use consumables." },
@@ -238,15 +258,6 @@ export default function Home() {
         });
       });
 
-      const parallaxEls = document.querySelectorAll(".gsap-parallax");
-      parallaxEls.forEach((el) => {
-        gsap.to(el, {
-          y: -40,
-          ease: "none",
-          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.5 }
-        });
-      });
-      
       const counters = document.querySelectorAll(".counter-number");
       counters.forEach(counter => {
         gsap.from(counter, {
@@ -265,65 +276,78 @@ export default function Home() {
   return (
     <div ref={containerRef} className="bg-slate-50 text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
       
+      {/* 装饰性背景光斑 */}
       <div className="fixed inset-0 pointer-events-none z-0">
          <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-sky-100/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 animate-float"></div>
          <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-blue-50/60 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4 animate-float [animation-delay:2s]"></div>
       </div>
 
-      {/* Hero Section */}
+      {/* Hero Section - 升级版：静态背景 + 动态文字 */}
       <section className="h-screen relative overflow-hidden z-10">
+        
+        {/* === 1. 静态背景层 (Fixed Hero Image) === */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="banner/hero-bg.webp" 
+            alt="Eco-friendly Medical Technology" 
+            className="w-full h-full object-cover object-center opacity-90 animate-ken-burns" 
+          />
+          {/* 遮罩层：从左向右的渐变，保证左侧文字清晰，同时保留右侧图片通透感 */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
+        </div>
+
+        {/* === 2. 动态文字轮播层 (Text Swiper) === */}
         <Swiper 
-          modules={[Autoplay, EffectFade, Pagination, Navigation]} 
-          autoplay={{ delay: 6000, disableOnInteraction: false }} 
+          modules={[Autoplay, EffectFade, Pagination]} 
+          // 开启自动播放，每 5 秒切换文案
+          autoplay={{ delay: 5000, disableOnInteraction: false }} 
           effect="fade" 
+          fadeEffect={{ crossFade: true }}
           speed={1000} 
-          loop 
+          loop={true}
           pagination={{ clickable: true, dynamicBullets: true }} 
-          navigation={true}
-          className="h-full w-full group"
+          className="h-full w-full relative z-10 group"
         >
-          {rawSlides.map((s, i) => (
-            <SwiperSlide key={s.id}>
-              <div className="relative h-full w-full">
-                <div className="absolute inset-0 bg-slate-900">
-                  <img src={s.image} alt={t.slides[i].title} className="w-full h-full object-cover opacity-80 animate-ken-burns" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/50 to-transparent" />
-                
-                <div className="absolute inset-0 flex items-center px-6 md:px-12 lg:px-24">
-                  <div className="max-w-4xl text-white pt-12">
-                    <div className="overflow-hidden mb-6">
-                      <div className="animate-slide-up-fade [animation-delay:100ms] inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
-                         <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
-                         {t.heroTag}
-                      </div>
+          {[1, 2, 3, 4, 5].map((id, i) => (
+            <SwiperSlide key={id}>
+              <div className="h-full w-full flex items-center px-6 md:px-12 lg:px-24">
+                <div className="max-w-4xl text-white pt-12">
+                  
+                  {/* Tag */}
+                  <div className="overflow-hidden mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
+                       <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
+                       {t.heroTag}
                     </div>
-                    
-                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] animate-slide-up-fade [animation-delay:300ms]">
-                      {t.slides[i].title.split("，")[0]}<br/>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
-                        {t.slides[i].title.split("，")[1] || ""}
-                      </span>
-                    </h1>
-                    
-                    <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed animate-slide-up-fade [animation-delay:500ms] border-l-2 border-sky-500 pl-6">
-                      {t.slides[i].subtitle}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-4 animate-slide-up-fade [animation-delay:700ms]">
-                      <button 
-                        onClick={() => handleSolutionClick('/products')}
-                        className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95"
-                      >
-                        {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                      </button>
-                      <button 
-                        onClick={() => navigate('/contact')}
-                        className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95"
-                      >
-                        {t.ctaBtn}
-                      </button>
-                    </div>
+                  </div>
+                  
+                  {/* Headline */}
+                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
+                    {t.slides[i].title.split("，")[0]}<br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
+                      {t.slides[i].title.split("，")[1] || ""}
+                    </span>
+                  </h1>
+                  
+                  {/* Subtitle */}
+                  <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6">
+                    {t.slides[i].subtitle}
+                  </p>
+                  
+                  {/* Buttons */}
+                  <div className="flex flex-wrap gap-4">
+                    <button 
+                      onClick={() => handleSolutionClick('/products')}
+                      className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95"
+                    >
+                      {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                    <button 
+                      onClick={() => navigate('/contact')}
+                      className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95"
+                    >
+                      {t.ctaBtn}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -352,7 +376,6 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="order-2 lg:order-1 relative gsap-fade-up">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-              {/* ✨ 修改点：图片路径修正 */}
               <img src="banner/outsight.jpg" loading="lazy" alt="About Factory" className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
             </div>
@@ -477,7 +500,6 @@ export default function Home() {
                 <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-default group">
                   <Layers className="text-cyan-400 group-hover:scale-110 transition-transform" size={24} />
                   <div>
-                    {/* 修改点：100,000 -> 10,000 Class */}
                     <h4 className="font-bold text-lg text-white">10,000 Class Cleanroom</h4>
                     <p className="text-sm text-slate-400">高标准洁净生产环境</p>
                   </div>
@@ -538,7 +560,6 @@ export default function Home() {
                   <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                     <div className="w-8 h-1 bg-sky-500 rounded-full mb-3 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                    {/* 修改点：显示各领域专属描述 */}
                     <p className="text-slate-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 leading-snug">
                       {item.desc}
                     </p>
@@ -600,8 +621,8 @@ export default function Home() {
 
       {/* CSS 动画定义 */}
       <style>{`
-        @keyframes ken-burns { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
-        .animate-ken-burns { animation: ken-burns 25s ease-out infinite alternate; }
+        @keyframes ken-burns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        .animate-ken-burns { animation: ken-burns 20s ease-out infinite alternate; }
         
         @keyframes slide-up-fade { 
           0% { opacity: 0; transform: translateY(20px); } 
