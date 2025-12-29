@@ -1,18 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../components/LanguageContext';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// 注册 GSAP 插件
+// 注册插件
 gsap.registerPlugin(ScrollTrigger);
 
-// --- 类型定义 ---
+// ==========================================
+// 1. 类型定义 (Type Definitions)
+// ==========================================
 interface SubProductObj {
   name: string;
   link?: string;
 }
-
 type SubProduct = string | SubProductObj;
 
 interface ProductItem {
@@ -34,7 +35,9 @@ interface ContentState {
   cta: { text: string; sub: string; btn: string };
 }
 
-// --- Icons ---
+// ==========================================
+// 2. 图标组件 (Icons)
+// ==========================================
 const Icons = {
   ArrowRight: () => <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
   Check: () => <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
@@ -46,7 +49,54 @@ const Icons = {
   ExternalLink: () => <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 };
 
-// --- 静态内容数据 ---
+// ==========================================
+// 3. 辅助组件：智能链接 (SmartLink)
+//    解决：判断字符串/对象、内部/外部链接的复杂逻辑
+// ==========================================
+const SmartLink: React.FC<{ item: SubProduct }> = ({ item }) => {
+  // 情况1: 纯文本
+  if (typeof item === 'string') {
+    return <span className="cursor-default text-slate-600">{item}</span>;
+  }
+
+  const { name, link } = item;
+
+  // 情况2: 无链接或占位符
+  if (!link || link === '#') {
+    return <span className="cursor-default text-slate-600 hover:text-sky-600 transition-colors">{name}</span>;
+  }
+
+  // 情况3: 外部链接 (http 开头)
+  if (link.startsWith('http')) {
+    return (
+      <a 
+        href={link} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="group/link flex items-center gap-1 text-slate-600 hover:text-sky-600 transition-colors"
+      >
+        <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">{name}</span>
+        <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
+          <Icons.ExternalLink />
+        </span>
+      </a>
+    );
+  }
+
+  // 情况4: 内部路由 (Router Link)
+  return (
+    <Link 
+      to={link}
+      className="group/link flex items-center gap-1 text-slate-600 hover:text-sky-600 transition-colors"
+    >
+      <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">{name}</span>
+    </Link>
+  );
+};
+
+// ==========================================
+// 4. 静态数据 (DATA) - 移出组件外部以提升性能
+// ==========================================
 const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
   zh: {
     hero: {
@@ -190,16 +240,30 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
   }
 };
 
+// ==========================================
+// 5. 主组件 (Main Component)
+// ==========================================
 const Products: React.FC = () => {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-  const t = language === 'zh' ? CONTENT_DATA.zh : CONTENT_DATA.en;
 
+  // 使用 useMemo 获取当前语言数据，避免重复计算
+  const t = useMemo(() => {
+    return language === 'zh' ? CONTENT_DATA.zh : CONTENT_DATA.en;
+  }, [language]);
+
+  // --- GSAP 动画 ---
   useEffect(() => {
     if (!containerRef.current) return;
+    
+    // 使用 gsap.context 进行作用域管理，确保清理干净
     const ctx = gsap.context(() => {
-      const fadeUps = gsap.utils.toArray(".gsap-fade-up");
-      fadeUps.forEach((el: any) => {
+      const fadeUps = gsap.utils.toArray<HTMLElement>(".gsap-fade-up");
+      
+      fadeUps.forEach((el) => {
+        // 先重置状态，防止切换语言时样式残留
+        gsap.set(el, { clearProps: "all" });
+        
         gsap.fromTo(el, 
           { y: 50, opacity: 0 }, 
           {
@@ -212,49 +276,19 @@ const Products: React.FC = () => {
           }
         );
       });
+      
+      // 强制刷新 ScrollTrigger，防止内容高度变化导致定位不准
+      ScrollTrigger.refresh();
+      
     }, containerRef);
-    return () => ctx.revert();
-  }, [language]);
 
-  const renderLink = (sub: SubProduct) => {
-    if (typeof sub === 'string') return <span className="cursor-default">{sub}</span>;
-    
-    // 如果是内部路由链接
-    if (sub.link && !sub.link.startsWith('http') && sub.link !== '#') {
-       return (
-        <Link 
-          to={sub.link}
-          className="group/link flex items-center gap-1 hover:text-sky-600 transition-colors"
-        >
-          <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
-            {sub.name}
-          </span>
-        </Link>
-      );
-    }
-    
-    // 默认回退（外部链接或无链接）
-    return (
-      <a 
-        href={sub.link || '#'} 
-        target={sub.link?.startsWith('http') ? "_blank" : "_self"}
-        rel="noopener noreferrer" 
-        className={`group/link flex items-center gap-1 hover:text-sky-600 transition-colors ${!sub.link || sub.link === '#' ? 'cursor-default' : ''}`}
-      >
-        <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
-          {sub.name}
-        </span>
-        {sub.link?.startsWith('http') && (
-          <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
-            <Icons.ExternalLink />
-          </span>
-        )}
-      </a>
-    );
-  };
+    return () => ctx.revert(); // 组件卸载或语言变化时清理动画
+  }, [language]); // 依赖 language，切换语言时重新执行动画
 
   return (
     <div ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
+      
+      {/* --- Section 1: Hero --- */}
       <section className="pt-32 pb-20 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-50 via-white to-white opacity-60"></div>
         <div className="container mx-auto px-6 relative z-10 text-center">
@@ -271,6 +305,7 @@ const Products: React.FC = () => {
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-50 to-transparent"></div>
       </section>
 
+      {/* --- Section 2: Tech Strengths --- */}
       <section className="py-12 container mx-auto px-6 relative z-20 -mt-10">
          <div className="grid md:grid-cols-3 gap-6">
             {t.tech.items.map((item, idx) => (
@@ -285,15 +320,20 @@ const Products: React.FC = () => {
          </div>
       </section>
 
+      {/* --- Section 3: Product List --- */}
       <div className="container mx-auto px-6 py-20 space-y-24">
-        {t.products.map((product, i) => (
-          <div key={i} id={product.id} className="scroll-mt-32 gsap-fade-up">
+        {t.products.map((product) => (
+          <div key={product.id} id={product.id} className="scroll-mt-32 gsap-fade-up">
              <article className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 hover:border-sky-200 transition-colors duration-500">
+                
+                {/* 顶部：标题与描述 */}
                 <div className="flex flex-col lg:flex-row gap-12 md:gap-16 mb-12">
+                   {/* 左侧文字 */}
                    <div className="lg:w-1/2">
                        <span className="text-sky-500 font-bold tracking-widest uppercase text-sm mb-2 block">{product.category}</span>
                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">{product.title}</h2>
                        <p className="text-slate-600 text-lg leading-relaxed text-justify">{product.desc}</p>
+                       
                        <div className="flex flex-wrap gap-3 mt-6">
                           {product.features.map((f, idx) => (
                               <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 text-sm font-medium rounded-lg">
@@ -302,6 +342,8 @@ const Products: React.FC = () => {
                           ))}
                        </div>
                    </div>
+
+                   {/* 右侧图片 */}
                    <div className="lg:w-1/2 relative group">
                        <div className="aspect-video w-full rounded-2xl overflow-hidden bg-slate-200 shadow-lg relative">
                            <img 
@@ -319,26 +361,32 @@ const Products: React.FC = () => {
                        <div className="absolute -top-4 -right-4 w-20 h-20 border-t-2 border-r-2 border-sky-200 rounded-tr-3xl -z-10"></div>
                    </div>
                 </div>
+
+                {/* 底部：详情列表 */}
                 <div className="border-t border-slate-100 pt-8 grid md:grid-cols-2 gap-8">
+                    {/* 产品系列列表 */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                            <Icons.Layer /> {language === 'zh' ? '产品系列' : 'Product Series'}
                         </h4>
                         <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
                             {product.subProducts.map((sub, idx) => (
-                                <li key={idx} className="text-slate-600 text-sm flex items-start gap-2">
+                                <li key={idx} className="text-sm flex items-start gap-2">
                                     <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mt-2 shrink-0"></span>
-                                    {renderLink(sub)}
+                                    {/* 使用 SmartLink 组件处理复杂的链接逻辑 */}
+                                    <SmartLink item={sub} />
                                 </li>
                             ))}
                         </ul>
                     </div>
+                    
+                    {/* 应用领域标签 */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                            <Icons.Beaker /> {language === 'zh' ? '应用领域' : 'Applications'}
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                            {product.applications.map((app: string, idx: number) => (
+                            {product.applications.map((app, idx) => (
                                 <span key={idx} className="px-3 py-1 bg-slate-50 text-slate-600 border border-slate-200 rounded text-xs hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200 transition-colors cursor-default">
                                     {app}
                                 </span>
@@ -346,12 +394,16 @@ const Products: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
              </article>
           </div>
         ))}
       </div>
+
+      {/* --- Section 4: CTA --- */}
       <section className="bg-slate-900 py-20 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+          
           <div className="container mx-auto px-6 text-center relative z-10">
               <h2 className="text-3xl font-bold text-white mb-4">{t.cta.text}</h2>
               <p className="text-slate-400 mb-10 text-lg max-w-2xl mx-auto">{t.cta.sub}</p>
@@ -363,6 +415,7 @@ const Products: React.FC = () => {
               </Link>
           </div>
       </section>
+
     </div>
   );
 };
