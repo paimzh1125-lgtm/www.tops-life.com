@@ -133,17 +133,6 @@ const Footer: React.FC = () => {
                   </a>
                   <div className="tooltip">WeChat</div>
                 </li>
-
-                {/* GitHub (可选，如果不需要可以删除) */}
-                <li className="icon-content">
-                  <a href="#" aria-label="GitHub" data-social="github">
-                    <div className="filled"></div>
-                    <Github />
-                  </a>
-                  <div className="tooltip">GitHub</div>
-                </li>
-              </ul>
-            </div>
             
             {/* 快速链接 */}
             <div>
