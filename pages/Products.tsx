@@ -16,7 +16,6 @@ const Icons = {
   Tool: () => <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>,
   Beaker: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4.5 3h15"/><path d="M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3"/><path d="M6 14h12"/></svg>,
   ShieldCheck: () => <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>,
-  // 新增：外部链接小图标 (用于增强交互感)
   ExternalLink: () => <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 };
 
@@ -67,7 +66,6 @@ const Products: React.FC = () => {
           category: "核心业务 01",
           title: "医用洁净软包装系统",
           desc: "专为医疗器械终端灭菌设计的无菌屏障系统（SBS）。我们提供从材料选型、结构设计到灭菌适应性验证的全流程服务，确保产品在有效期内的无菌完整性。",
-          // 支持链接的对象数组
           subProducts: [
             { name: "PE袋和卷材", link: "https://www.tops-life.cn/pe-bag-0/" },
             { name: "医用级薄膜", link: "https://www.tops-life.cn/pe-film-0/" },
@@ -84,7 +82,14 @@ const Products: React.FC = () => {
           category: "核心业务 02",
           title: "精密医疗注塑与组装",
           desc: "依托 10 万级洁净注塑车间，我们专注于高难度、高精度的医疗高分子部件制造。具备双色注塑、包胶注塑及嵌件注塑能力，并提供移印、超声波焊接等后道工艺。",
-          subProducts: ["微流控芯片基底", "外科吻合器组件", "体外诊断耗材", "精密齿轮/传动件"],
+          // --- 修改开始：使用内部路由链接 ---
+          subProducts: [
+            { name: "微流控芯片基底", link: "/products/microfluidic" },
+            { name: "外科吻合器组件", link: "/products/stapler" },
+            { name: "体外诊断耗材", link: "/products/ivd" },
+            { name: "精密齿轮/传动件", link: "/products/gear" }
+          ],
+          // --- 修改结束 ---
           applications: ["医疗设备结构件", "生命科学实验", "诊断设备核心部件", "微创医疗器械部件"],
           features: ["全电动注塑机生产", "模具公差 < 0.005mm", "全程可追溯体系"],
           imgDesc: "精密模具开发与自动化生产",
@@ -206,18 +211,15 @@ const Products: React.FC = () => {
       <div className="container mx-auto px-6 py-20 space-y-24">
         {t.products.map((product, i) => (
           <div key={i} id={product.id} className="scroll-mt-32 gsap-fade-up">
-             {/* 语义化标签优化: div -> article */}
              <article className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 hover:border-sky-200 transition-colors duration-500">
                 
                 {/* 顶部：标题与描述 */}
-                {/* 间距优化: gap-12 -> gap-12 md:gap-16 增加呼吸感 */}
                 <div className="flex flex-col lg:flex-row gap-12 md:gap-16 mb-12">
                    <div className="lg:w-1/2">
                        <span className="text-sky-500 font-bold tracking-widest uppercase text-sm mb-2 block">{product.category}</span>
                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">{product.title}</h2>
                        <p className="text-slate-600 text-lg leading-relaxed text-justify">{product.desc}</p>
                        
-                       {/* 核心特性 Tags */}
                        <div className="flex flex-wrap gap-3 mt-6">
                           {product.features.map((f, idx) => (
                               <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 text-sm font-medium rounded-lg">
@@ -227,7 +229,6 @@ const Products: React.FC = () => {
                        </div>
                    </div>
 
-                   {/* 右侧：图片 */}
                    <div className="lg:w-1/2 relative group">
                        <div className="aspect-video w-full rounded-2xl overflow-hidden bg-slate-200 shadow-lg relative">
                            <img 
@@ -248,7 +249,6 @@ const Products: React.FC = () => {
 
                 {/* 底部：详情列表 */}
                 <div className="border-t border-slate-100 pt-8 grid md:grid-cols-2 gap-8">
-                    {/* 左侧：产品系列 (含交互链接) */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                            <Icons.Layer /> {language === 'zh' ? '产品系列' : 'Product Series'}
@@ -258,36 +258,46 @@ const Products: React.FC = () => {
                                 <li key={idx} className="text-slate-600 text-sm flex items-start gap-2">
                                     <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mt-2 shrink-0"></span>
                                     
-                                    {/* 智能渲染：支持带链接的对象或纯字符串 */}
+                                    {/* --- 智能链接渲染逻辑 --- */}
                                     {typeof sub === 'string' ? (
                                         <span className="cursor-default">{sub}</span>
                                     ) : (
-                                        <a 
-                                            href={sub.link} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer" 
+                                        // 判断是外部链接 (http开头) 还是内部链接 (Link组件)
+                                        sub.link.startsWith('http') ? (
+                                          <a 
+                                              href={sub.link} 
+                                              target="_blank" 
+                                              rel="noopener noreferrer" 
+                                              className="group/link flex items-center gap-1 hover:text-sky-600 transition-colors"
+                                          >
+                                              <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
+                                                  {sub.name}
+                                              </span>
+                                              <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
+                                                  <Icons.ExternalLink />
+                                              </span>
+                                          </a>
+                                        ) : (
+                                          <Link 
+                                            to={sub.link}
                                             className="group/link flex items-center gap-1 hover:text-sky-600 transition-colors"
-                                        >
-                                            <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
-                                                {sub.name}
-                                            </span>
-                                            {/* 悬停时显示的外部链接微动画图标 */}
-                                            <span className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300">
-                                                <Icons.ExternalLink />
-                                            </span>
-                                        </a>
+                                          >
+                                              <span className="border-b border-transparent group-hover/link:border-sky-600 transition-all">
+                                                  {sub.name}
+                                              </span>
+                                          </Link>
+                                        )
                                     )}
                                 </li>
                             ))}
                         </ul>
                     </div>
-                    {/* 右侧：应用领域 */}
                     <div>
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                            <Icons.Beaker /> {language === 'zh' ? '应用领域' : 'Applications'}
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                            {product.applications.map((app, idx) => (
+                            {product.applications.map((app: string, idx: number) => (
                                 <span key={idx} className="px-3 py-1 bg-slate-50 text-slate-600 border border-slate-200 rounded text-xs hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200 transition-colors cursor-default">
                                     {app}
                                 </span>
