@@ -1,5 +1,5 @@
 // src/components/Navbar.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from './LanguageContext'; // 确保路径正确
 
@@ -40,19 +40,22 @@ const Navbar: React.FC = () => {
     setIsMobileOpen(false);
   }, [location]);
 
-  const navLinks = language === 'zh' ? [
-    { name: '首页', path: '/' },
-    { name: '关于我们', path: '/about' },
-    { name: '业务板块', path: '/products' },
-    { name: '新闻动态', path: '/news' },
-    { name: '联系我们', path: '/contact' },
-  ] : [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Products', path: '/products' },
-    { name: 'News', path: '/news' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  // 使用 useMemo 优化导航链接数组，确保语言切换时正确更新
+  const navLinks = useMemo(() => {
+    return language === 'zh' ? [
+      { name: '首页', path: '/' },
+      { name: '关于我们', path: '/about' },
+      { name: '业务板块', path: '/products' },
+      { name: '新闻动态', path: '/news' },
+      { name: '联系我们', path: '/contact' },
+    ] : [
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+      { name: 'Products', path: '/products' },
+      { name: 'News', path: '/news' },
+      { name: 'Contact', path: '/contact' },
+    ];
+  }, [language]);
 
   return (
     <header 
@@ -65,7 +68,7 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-6 flex justify-between items-center relative">
         
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none">
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
           <img 
             src="/banner/logo.png" 
             alt="TOPS LIFE Logo" 
@@ -103,12 +106,9 @@ const Navbar: React.FC = () => {
         {/* Buttons */}
         <div className="flex items-center gap-5">
           <button 
-            type="button" // 明确指定为按钮，防止意外提交
-            onClick={(e) => {
-              e.preventDefault(); // 阻止默认行为，确保不刷新页面
-              toggleLanguage();
-            }}
-            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 cursor-pointer ${
+            onClick={toggleLanguage}
+            aria-label={language === 'zh' ? "Switch to English" : "切换到中文"}
+            className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 ${
               isTransparentMode
                 ? "border-white/40 bg-white/20 text-white backdrop-blur-md hover:bg-white/30" 
                 : "border-slate-200 bg-white text-slate-800 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300"
@@ -119,20 +119,24 @@ const Navbar: React.FC = () => {
           </button>
           
           <button 
-            type="button"
             className={`md:hidden transition-colors hover:scale-110 ${isTransparentMode ? 'text-white' : 'text-slate-900'}`}
             onClick={() => setIsMobileOpen(!isMobileOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileOpen}
           >
             {isMobileOpen ? <Icons.X /> : <Icons.Menu />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        <div className={`fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}>
+        <div 
+          className={`fixed inset-0 bg-slate-900/98 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`} 
+          style={{ top: 0, left: 0, height: '100vh', width: '100vw' }}
+        >
             <button 
-              type="button"
               className="absolute top-8 right-8 text-white/80 hover:text-white" 
               onClick={() => setIsMobileOpen(false)}
+              aria-label="Close menu"
             >
                 <Icons.X />
             </button>
@@ -147,15 +151,11 @@ const Navbar: React.FC = () => {
                </Link>
             ))}
              <button 
-              type="button" // 明确指定为按钮
-              onClick={(e) => { 
-                e.preventDefault(); // 阻止刷新
-                toggleLanguage(); 
-                setIsMobileOpen(false); 
-              }}
-              className="mt-8 flex items-center gap-3 px-6 py-3 border border-white/20 rounded-full text-lg font-medium text-white hover:bg-white/10 hover:border-white/40 transition-all cursor-pointer"
+              onClick={() => { toggleLanguage(); setIsMobileOpen(false); }}
+              aria-label={language === 'zh' ? "Switch to English" : "切换到中文"}
+              className="mt-8 flex items-center gap-2 px-6 py-2 border border-white/20 rounded-full text-lg font-bold text-white hover:bg-white/10 hover:border-white/40 transition-all"
             >
-              <Icons.Globe /> {language === 'zh' ? 'Switch to English' : '切换到中文'}
+              <Icons.Globe /> {language === 'zh' ? 'EN' : '中文'}
             </button>
         </div>
       </div>
