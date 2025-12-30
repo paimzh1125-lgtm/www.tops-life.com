@@ -1,7 +1,4 @@
-import React, { useEffect, useRef, useState, Suspense, useCallback } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
-import { Autoplay, EffectFade, Pagination, A11y } from "swiper/modules";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
@@ -17,16 +14,10 @@ import {
   Activity,
   Layers,
   ShieldCheck,
-  Calendar,
-  Pause,
-  Play
+  Calendar
 } from "lucide-react";
 
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/pagination";
-
-// Assuming this context exists based on original file
+// Context
 import { useLanguage } from "../components/LanguageContext";
 
 // Register GSAP Plugin
@@ -111,28 +102,11 @@ const LANG = {
     ],
     tech: "研发与技术实力",
     techDesc: "融合高分子科学、材料工程及精密成型专业知识，配备洁净室、自动化生产线及内部研发实验室。",
-    slides: [
-      { 
-        title: "融汇绿色科技，守护生命未来", 
-        subtitle: "从生物基新材料到无菌屏障，我们以可持续方案重新定义医疗制造。" 
-      },
-      { 
-        title: "源于自然馈赠，重塑工业材料", 
-        subtitle: "创新大豆蛋白聚合物技术，为全球工业提供高性能、可降解的环保替代方案。" 
-      },
-      { 
-        title: "构建透明屏障，兼顾安全与环保", 
-        subtitle: "高性能医用包装系统，在确保无菌安全的同时，致力于降低碳足迹。" 
-      },
-      { 
-        title: "精密制造智慧，赋能低碳生产", 
-        subtitle: "微米级注塑工艺配合全电动设备，以极致的能效与良品率减少资源浪费。" 
-      },
-      { 
-        title: "携手全球伙伴，共筑可持续生态", 
-        subtitle: "以透明可追溯的质量体系，成为全球客户值得托付的长期ESG战略伙伴。" 
-      },
-    ],
+    // Static Hero Content (Consolidated from Slide 1)
+    hero: { 
+      title: "融汇绿色科技，守护生命未来", 
+      subtitle: "从生物基新材料到无菌屏障，我们以可持续方案重新定义医疗制造。" 
+    },
     marketTitle: "应用领域",
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
     market: [
@@ -147,8 +121,6 @@ const LANG = {
     cta: "准备好开启下一个项目了吗？",
     ctaBtn: "联系我们",
     skipLink: "跳转至主要内容",
-    pause: "暂停自动播放",
-    play: "恢复自动播放",
   },
   en: {
     metaTitle: "Home | Suzhou Tops Life Technology - Medical Packaging & Biomaterials Expert",
@@ -189,28 +161,11 @@ const LANG = {
     ],
     tech: "R&D Strength",
     techDesc: "Integrating polymer science, materials engineering, and precision molding expertise.",
-    slides: [
-      { 
-        title: "Green Tech, Guarding the Future", 
-        subtitle: "Redefining medical manufacturing with sustainable solutions, from bio-materials to sterile barriers." 
-      },
-      { 
-        title: "Inspired by Nature, Reshaping Industry", 
-        subtitle: "Innovative soy protein polymers offering high-performance, biodegradable alternatives globally." 
-      },
-      { 
-        title: "Clear Protection, Sustainable Care", 
-        subtitle: "High-performance packaging systems ensuring sterility while committed to reducing carbon footprints." 
-      },
-      { 
-        title: "Precision Molding, Low-Carbon Production", 
-        subtitle: "Micron-level precision with all-electric efficiency, minimizing waste through superior quality." 
-      },
-      { 
-        title: "Global Partners, Sustainable Ecosystem", 
-        subtitle: "Building a transparent quality system to be your trusted long-term partner in ESG strategies." 
-      },
-    ],
+    // Static Hero Content (Consolidated from Slide 1)
+    hero: { 
+      title: "Green Tech, Guarding the Future", 
+      subtitle: "Redefining medical manufacturing with sustainable solutions, from bio-materials to sterile barriers." 
+    },
     marketTitle: "Market Applications",
     marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
     market: [
@@ -225,26 +180,14 @@ const LANG = {
     cta: "Ready to start your next project?",
     ctaBtn: "Contact Us",
     skipLink: "Skip to content",
-    pause: "Pause Autoplay",
-    play: "Start Autoplay",
   },
 };
-
-// --- Sub-components (Internal for optimization) ---
-
-const LoadingFallback = () => (
-  <div className="w-full h-full bg-slate-100 flex items-center justify-center animate-pulse">
-    <div className="w-12 h-12 border-4 border-sky-200 border-t-sky-500 rounded-full animate-spin"></div>
-  </div>
-);
 
 export default function Home() {
   const { language } = useLanguage(); 
   const t = LANG[language];
   const containerRef = useRef<HTMLDivElement>(null);
-  const swiperRef = useRef<SwiperType | null>(null);
   const navigate = useNavigate(); 
-  const [isPaused, setIsPaused] = useState(false);
 
   // SEO & Meta Handling
   useEffect(() => {
@@ -259,18 +202,6 @@ export default function Home() {
     }
     metaDescription.setAttribute('content', t.metaDesc);
   }, [language, t.metaTitle, t.metaDesc]);
-
-  // Accessibility: Toggle Autoplay
-  const toggleAutoplay = useCallback(() => {
-    if (!swiperRef.current) return;
-    if (isPaused) {
-      swiperRef.current.autoplay.start();
-      setIsPaused(false);
-    } else {
-      swiperRef.current.autoplay.stop();
-      setIsPaused(true);
-    }
-  }, [isPaused]);
 
   // Navigation Logic
   const handleNavigation = (path: string) => {
@@ -360,96 +291,66 @@ export default function Home() {
       </div>
 
       <main id="main-content">
-        {/* === Hero Section === */}
+        
+        {/* === Hero Section (Static Image, Single Content) === */}
         <section 
           aria-labelledby="hero-heading" 
           className="h-screen relative overflow-hidden z-10"
         >
+          {/* Static Background */}
           <div className="absolute inset-0 z-0">
-            {/* Optimized Image Loading */}
             <img 
               src="banner/hero-bg.webp" 
-              alt="Medical manufacturing facility background" 
+              alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
               className="w-full h-full object-cover object-center opacity-90 animate-ken-burns" 
               fetchPriority="high"
             />
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
           </div>
 
-          <Suspense fallback={<LoadingFallback />}>
-            <Swiper 
-              modules={[Autoplay, EffectFade, Pagination, A11y]} 
-              onSwiper={(swiper) => (swiperRef.current = swiper)}
-              autoplay={{ delay: 5000, disableOnInteraction: false }} 
-              effect="fade" 
-              fadeEffect={{ crossFade: true }}
-              speed={1000} 
-              loop={true}
-              pagination={{ 
-                clickable: true, 
-                dynamicBullets: true,
-                renderBullet: (index, className) => {
-                  return `<span class="${className}" aria-label="Go to slide ${index + 1}"></span>`;
-                }
-              }} 
-              a11y={{
-                prevSlideMessage: 'Previous slide',
-                nextSlideMessage: 'Next slide',
-              }}
-              className="h-full w-full relative z-10 group"
-            >
-              {[1, 2, 3, 4, 5].map((id, i) => (
-                <SwiperSlide key={id}>
-                  <div className="h-full w-full flex items-center px-6 md:px-12 lg:px-24">
-                    <div className="max-w-4xl text-white pt-12">
-                      
-                      <div className="overflow-hidden mb-6">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
-                          <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
-                          {t.heroTag}
-                        </div>
-                      </div>
-                      
-                      <h1 id={i === 0 ? "hero-heading" : undefined} className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
-                        {t.slides[i].title.split("，")[0]}<br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
-                          {t.slides[i].title.split("，")[1] || ""}
-                        </span>
-                      </h1>
-                      
-                      <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6">
-                        {t.slides[i].subtitle}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-4">
-                        <button 
-                          onClick={() => handleNavigation('/products')}
-                          className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/50"
-                        >
-                          {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                        <button 
-                          onClick={() => navigate('/contact')}
-                          className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
-                        >
-                          {t.ctaBtn}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+          {/* Static Content (No Slider) */}
+          <div className="h-full w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10">
+            <div className="max-w-4xl text-white pt-12">
               
-              {/* Autoplay Control Button (Accessibility) */}
-              <button 
-                onClick={toggleAutoplay}
-                aria-label={isPaused ? t.play : t.pause}
-                className="absolute bottom-8 right-8 z-50 p-3 rounded-full bg-black/30 text-white backdrop-blur-sm hover:bg-black/50 transition-colors opacity-0 focus:opacity-100 group-hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-              >
-                {isPaused ? <Play size={20} /> : <Pause size={20} />}
-              </button>
-            </Swiper>
-          </Suspense>
+              {/* Tag */}
+              <div className="overflow-hidden mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
+                  <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
+                  {t.heroTag}
+                </div>
+              </div>
+              
+              {/* Headline */}
+              <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
+                {t.hero.title.split("，")[0]}<br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
+                  {t.hero.title.split("，")[1] || ""}
+                </span>
+              </h1>
+              
+              {/* Subtitle */}
+              <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6">
+                {t.hero.subtitle}
+              </p>
+              
+              {/* Buttons */}
+              <div className="flex flex-wrap gap-4">
+                <button 
+                  onClick={() => handleNavigation('/products')}
+                  className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/50"
+                >
+                  {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button 
+                  onClick={() => navigate('/contact')}
+                  className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
+                >
+                  {t.ctaBtn}
+                </button>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Trust Strip */}
@@ -572,7 +473,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* === R&D Strength Section === */}
+        {/* === R&D Strength Section (Unified Sky Palette) === */}
         <section aria-labelledby="rnd-title" className="py-24 lg:py-32 bg-slate-900 text-white relative overflow-hidden z-10">
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -602,7 +503,8 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-default group">
-                    <Layers className="text-cyan-400 group-hover:scale-110 transition-transform" size={24} />
+                    {/* Updated to sky-400 for consistency */}
+                    <Layers className="text-sky-400 group-hover:scale-110 transition-transform" size={24} />
                     <div>
                       <h4 className="font-bold text-lg text-white">10,000 Class Cleanroom</h4>
                       <p className="text-sm text-slate-400">高标准洁净生产环境</p>
@@ -711,8 +613,6 @@ export default function Home() {
                       <h3>
                         <button 
                           onClick={(e) => {
-                            // If user clicks the text specifically, allow bubble up; 
-                            // This button is mainly for screen readers to have a specific focus target.
                             if(e.target === e.currentTarget) navigate('/news'); 
                           }}
                           className="text-left text-xl font-bold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2 focus:outline-none after:absolute after:inset-0"
