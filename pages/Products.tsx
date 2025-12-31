@@ -348,7 +348,7 @@ const Products: React.FC = () => {
       </section>
 
       {/* --- Section 3: Product List --- */}
-      <div className="container mx-auto px-6 py-20 space-y-24">
+      <section className="container mx-auto px-6 py-20 space-y-24">
         {t.products.map((product) => (
           <div key={product.id} id={product.id} className="scroll-mt-32 gsap-fade-up">
              <article className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 hover:border-sky-200 transition-colors duration-500">
@@ -425,7 +425,7 @@ const Products: React.FC = () => {
              </article>
           </div>
         ))}
-      </div>
+      </section>
 
       {/* --- Section 4: CTA --- */}
       <section className="bg-slate-900 py-20 relative overflow-hidden">

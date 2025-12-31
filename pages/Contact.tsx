@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
     <main className="min-h-screen bg-slate-50 relative font-sans">
 
       {/* Hero */}
-      <div className="h-[45vh] w-full relative overflow-hidden bg-slate-900">
+      <section className="h-[45vh] w-full relative overflow-hidden bg-slate-900">
         <img src="/banner/outsligth.jpg" className="w-full h-full object-cover opacity-60" alt="Contact Banner" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 mt-10">
@@ -131,9 +131,9 @@ const Contact: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">{t.hero.title}</h1>
           <p className="text-slate-300 max-w-2xl text-lg">{t.hero.desc}</p>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-6 py-20 -mt-20 relative z-10 grid lg:grid-cols-2 gap-12">
+      <section className="container mx-auto px-6 py-20 -mt-20 relative z-10 grid lg:grid-cols-2 gap-12">
 
         {/* Left Column */}
         <div className="space-y-8">
@@ -234,7 +234,7 @@ const Contact: React.FC = () => {
             </form>
           )}
         </div>
-      </div>
+      </section>
 
     </main>
   );

@@ -311,7 +311,7 @@ const About: React.FC = () => {
       </section>
 
       {/* 3. Main Introduction & Factory Collage */}
-      <div className="container mx-auto px-6 py-24 lg:py-32">
+      <section className="container mx-auto px-6 py-24 lg:py-32">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
             
             <div className="w-full lg:w-1/2 relative gsap-fade-up">
@@ -367,7 +367,7 @@ const About: React.FC = () => {
                 </Link>
             </div>
         </div>
-      </div>
+      </section>
 
       {/* 4. Timeline Section (白色背景修正版) */}
       <section id="timeline-section" ref={timelineSectionRef} className="py-24 bg-white overflow-hidden relative border-t border-slate-100">
