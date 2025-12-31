@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../components/LanguageContext';
@@ -610,11 +610,6 @@ const ProductDetail: React.FC = () => {
   const content = productData ? productData[language] : null;
   const image = productData ? productData.image : "";
 
-  // 1. 仅在 ID 变化时滚动到顶部 (切换产品时)
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
-
   // 2. 动画逻辑 (内容变化时触发，如切换语言)
   useEffect(() => {
     if (!content) return;
@@ -632,7 +627,7 @@ const ProductDetail: React.FC = () => {
     return () => ctx.revert();
   }, [content]);
 
-  // --- SEO 配置 (动态) ---
+  // --- SEO 配置 (客户端动态渲染) ---
   useEffect(() => {
     if (!content) return;
 
@@ -676,7 +671,7 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <main className="container mx-auto px-6">
+      <main className="container mx-auto px-6">
         
         <Link to="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
           <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
