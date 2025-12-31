@@ -206,6 +206,9 @@ export default function Home() {
   const { language } = useLanguage(); 
   const t = LANG[language];
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const heroBgRef = useRef<HTMLDivElement>(null);
+  const heroContentRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate(); 
 
   // 智能处理标题分行与渐变色逻辑 (优化：支持中英文逗号混用，更稳健)
@@ -310,6 +313,36 @@ export default function Home() {
     return () => ctx.revert();
   }, [language]); 
 
+  // Hero Parallax Effect (鼠标视差交互)
+  useEffect(() => {
+    const section = heroSectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      
+      // 仅在桌面端 (宽度 >= 1024px) 启用视差效果，避免手机端误触
+      mm.add("(min-width: 1024px)", () => {
+        const onMove = (e: MouseEvent) => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 2;
+          const y = (e.clientY / window.innerHeight - 0.5) * 2;
+          
+          if (heroBgRef.current) {
+            // 背景反向移动，幅度较大
+            gsap.to(heroBgRef.current, { x: -x * 20, y: -y * 20, duration: 1.5, ease: "power2.out" });
+          }
+          if (heroContentRef.current) {
+            // 内容同向微动，幅度较小
+            gsap.to(heroContentRef.current, { x: x * 10, y: y * 10, duration: 1.5, ease: "power2.out" });
+          }
+        };
+        section.addEventListener("mousemove", onMove);
+        return () => section.removeEventListener("mousemove", onMove);
+      });
+    }, heroSectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div ref={containerRef} className="bg-slate-50 text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
       
@@ -331,23 +364,26 @@ export default function Home() {
         
         {/* === Hero Section (Static Image, Single Content) === */}
         <section 
+          ref={heroSectionRef}
           aria-labelledby="hero-heading" 
           className="min-h-screen relative overflow-hidden z-10 flex flex-col"
         >
           {/* Static Background */}
           <div className="absolute inset-0 z-0">
-            <img 
-              src="banner/hero-bg.webp" 
-              alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
-              className="w-full h-full object-cover object-center opacity-90 animate-ken-burns" 
-              fetchPriority="high"
-            />
+            <div ref={heroBgRef} className="w-full h-full scale-110">
+              <img 
+                src="banner/hero-bg.webp" 
+                alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
+                className="w-full h-full object-cover object-center opacity-90 animate-ken-burns" 
+                fetchPriority="high"
+              />
+            </div>
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
           </div>
 
           {/* Static Content (No Slider) */}
-          <div className="flex-grow w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10 py-20">
+          <div ref={heroContentRef} className="flex-grow w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10 py-20">
             <div className="max-w-4xl text-white pt-12">
               
               {/* Tag */}
