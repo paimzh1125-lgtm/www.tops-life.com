@@ -672,7 +672,7 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <ca-iv className="container mx-auto px-6">
+    <main className="container mx-auto px-6">
         
         <Link to="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
           <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
@@ -736,8 +736,8 @@ const ProductDetail: React.FC = () => {
           </div>
         </div>
 
-      </div>
-</  );
+      </main>
+  );
 };
 
 export default ProductDetail;
