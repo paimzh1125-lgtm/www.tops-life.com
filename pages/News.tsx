@@ -10,7 +10,7 @@ import { useLanguage } from '../components/LanguageContext';
 
 type CategoryType = 'All' | 'Corporate' | 'Products' | 'Events';
 
-const ALL_NEWS = [
+export const ALL_NEWS = [
   { 
     id: 1,
     year: "2025", 
