@@ -643,12 +643,12 @@ export default function Home() {
                 </Link>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8">
-                {ALL_NEWS.slice(0, 3).map((news, i) => (
+            <div className="flex overflow-x-auto pb-8 gap-6 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
+                {ALL_NEWS.map((news, i) => (
                   <Link 
                     key={news.id} 
                     to="/news"
-                    className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 hover:border-sky-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200" 
+                    className="gsap-fade-up min-w-[85vw] md:min-w-[380px] snap-center bg-white rounded-2xl p-8 border border-slate-100 hover:border-sky-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200 flex flex-col" 
                   >
                       <div className="flex justify-between items-start mb-4">
                         <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">
@@ -666,7 +666,7 @@ export default function Home() {
                           {language === 'zh' ? news.title_zh : news.title_en}
                         </div>
                       </h3>
-                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
+                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mt-auto">
                         {language === 'zh' ? news.desc_zh : news.desc_en}
                       </p>
                   </Link>
@@ -719,6 +719,10 @@ export default function Home() {
           100% { transform: translateX(100%) skewX(-12deg); }
         }
         .animate-shine-flow { animation: shine-flow 6s linear infinite; }
+
+        /* 隐藏横向滚动条但保留滚动功能 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </div>
   );
