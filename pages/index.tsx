@@ -678,6 +678,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-sky-600 to-blue-600 z-0"></div>
           <div className="absolute -top-[50%] -right-[10%] w-[600px] h-[600px] bg-white/10 rounded-full blur-[80px]"></div>
+          
+          {/* 流光背景动画 */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine-flow"></div>
+          </div>
 
           <div className="max-w-4xl mx-auto px-6 text-center relative z-10 text-white gsap-fade-up">
             <h2 id="cta-title" className="text-3xl md:text-5xl font-bold mb-8 tracking-tight drop-shadow-sm">{t.cta}</h2>
@@ -706,6 +711,12 @@ export default function Home() {
           50% { transform: translateY(-15px); } 
         }
         .animate-float { animation: float 6s ease-in-out infinite; }
+
+        @keyframes shine-flow {
+          0% { transform: translateX(-100%) skewX(-12deg); }
+          100% { transform: translateX(100%) skewX(-12deg); }
+        }
+        .animate-shine-flow { animation: shine-flow 6s linear infinite; }
       `}</style>
     </div>
   );
