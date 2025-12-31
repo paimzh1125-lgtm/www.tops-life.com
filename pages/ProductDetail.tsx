@@ -628,6 +628,36 @@ const ProductDetail: React.FC = () => {
     return () => ctx.revert();
   }, [id, content]);
 
+  // --- SEO 配置 (动态) ---
+  useEffect(() => {
+    if (!content) return;
+
+    // 动态生成标题和描述
+    const seoTitle = language === 'zh' 
+      ? `${content.title} | 永爱生命产品详情` 
+      : `${content.title} | Tops Life Products`;
+    const seoDesc = content.description.substring(0, 150) + "...";
+
+    document.title = seoTitle;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', seoDesc);
+
+    // Canonical (指向当前产品页)
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
+  }, [language, content]);
+
   if (!content) {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
@@ -642,8 +672,7 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <div ref={containerRef} className="pt-32 pb-20 bg-slate-50 min-h-screen font-sans">
-      <div className="container mx-auto px-6">
+    <ca-iv className="container mx-auto px-6">
         
         <Link to="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
           <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
@@ -708,8 +737,7 @@ const ProductDetail: React.FC = () => {
         </div>
 
       </div>
-    </div>
-  );
+</  );
 };
 
 export default ProductDetail;

@@ -175,6 +175,15 @@ export default function Home() {
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute('content', t.metaDesc);
+
+    // Canonical Tag (防重复)
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
   }, [language, t.metaTitle, t.metaDesc]);
 
   // Navigation Logic

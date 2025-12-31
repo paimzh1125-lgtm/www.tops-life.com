@@ -78,6 +78,8 @@ const News: React.FC = () => {
   // --- 2. 数据内容 (已为每条新闻添加 category) ---
   const content = useMemo(() => ({
     zh: {
+      metaTitle: "新闻动态 | 永爱生命 - 行业资讯与企业新闻",
+      metaDesc: "关注 Tops-Life 最新企业动态、展会信息及医疗行业技术趋势。了解我们在可持续发展与医疗制造领域的最新突破。",
       hero: {
         label: "新闻中心",
         title: "企业动态与行业洞察",
@@ -112,6 +114,8 @@ const News: React.FC = () => {
       }
     },
     en: {
+      metaTitle: "News & Insights | Tops Life Technology",
+      metaDesc: "Stay updated with Tops-Life's latest corporate news, event information, and insights into medical manufacturing and sustainability.",
       hero: {
         label: "News Center",
         title: "Latest Updates & Insights",
@@ -173,8 +177,29 @@ const News: React.FC = () => {
     { key: 'Events', label: t.filters.events },
   ];
 
+  // --- SEO 配置 ---
+  useEffect(() => {
+    document.title = t.metaTitle;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', t.metaDesc);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
+  }, [language, t.metaTitle, t.metaDesc]);
+
   return (
-    <div ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
+    <main ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
       
       {/* 1. Hero Section */}
       <section className="pt-32 pb-16 bg-white border-b border-slate-100">
@@ -363,7 +388,7 @@ const News: React.FC = () => {
          </div>
       </section>
 
-    </div>
+    </main>
   );
 };
 

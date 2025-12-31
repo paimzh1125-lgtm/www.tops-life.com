@@ -129,6 +129,8 @@ const About: React.FC = () => {
 
   const content = {
     zh: {
+      metaTitle: "关于我们 | 永爱生命 - 专注医疗软包装与精密注塑",
+      metaDesc: "永爱生命 (Tops-Life) 成立于2011年，拥有ISO 7级洁净车间，致力于为全球客户提供医疗器械包装、精密注塑组件及生物基新材料的一站式解决方案。",
       hero: {
         subtitle: "关于 TOPS LIFE",
         title: "匠心智造，赋能未来",
@@ -187,6 +189,8 @@ const About: React.FC = () => {
       }
     },
     en: {
+      metaTitle: "About Us | Tops Life - Medical Packaging & Molding Expert",
+      metaDesc: "Founded in 2011, Tops-Life specializes in medical flexible packaging, precision injection molding, and bio-based materials with ISO Class 7 cleanrooms.",
       hero: {
         subtitle: "About TOPS LIFE",
         title: "Quality First, Innovation Lead",
@@ -248,8 +252,29 @@ const About: React.FC = () => {
 
   const t = language === 'zh' ? content.zh : content.en;
 
+  // --- SEO 配置 ---
+  useEffect(() => {
+    document.title = t.metaTitle;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', t.metaDesc);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
+  }, [language, t.metaTitle, t.metaDesc]);
+
   return (
-    <div ref={containerRef} className="min-h-screen bg-white font-sans overflow-x-hidden selection:bg-sky-200 selection:text-sky-900">
+    <main ref={containerRef} className="min-h-screen bg-white font-sans overflow-x-hidden selection:bg-sky-200 selection:text-sky-900">
 
       {/* 1. Hero Section */}
       <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-slate-50 overflow-hidden">
@@ -509,7 +534,7 @@ const About: React.FC = () => {
             </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

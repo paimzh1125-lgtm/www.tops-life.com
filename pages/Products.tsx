@@ -29,6 +29,8 @@ interface ProductItem {
 }
 
 interface ContentState {
+  metaTitle: string;
+  metaDesc: string;
   hero: { title: string; subtitle: string; desc: string };
   tech: { title: string; items: { icon: JSX.Element; title: string; desc: string }[] };
   products: ProductItem[];
@@ -99,6 +101,8 @@ const SmartLink: React.FC<{ item: SubProduct }> = ({ item }) => {
 // ==========================================
 const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
   zh: {
+    metaTitle: "产品中心 | 医疗软包装_精密注塑_生物基材料 - 永爱生命",
+    metaDesc: "探索永爱生命的核心产品：医用无菌屏障包装系统（PE袋/卷材）、精密医疗注塑件（微流控/吻合器）及大豆蛋白生物基环保材料。",
     hero: {
       title: "专业解决方案",
       subtitle: "从材料科学到精密制造",
@@ -169,6 +173,8 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
     }
   },
   en: {
+    metaTitle: "Products | Medical Packaging, Injection Molding & Bio-Materials",
+    metaDesc: "Explore Tops-Life's core solutions: Sterile Barrier Systems (Medical PE Bags/Films), Precision Medical Injection Molding, and Soy Protein Bio-Materials.",
     hero: {
       title: "Our Solutions",
       subtitle: "From Material Science to Manufacturing",
@@ -285,8 +291,29 @@ const Products: React.FC = () => {
     return () => ctx.revert(); // 组件卸载或语言变化时清理动画
   }, [language]); // 依赖 language，切换语言时重新执行动画
 
+  // --- SEO 配置 ---
+  useEffect(() => {
+    document.title = t.metaTitle;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', t.metaDesc);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
+  }, [language, t.metaTitle, t.metaDesc]);
+
   return (
-    <div ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
+    <main ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
       
       {/* --- Section 1: Hero --- */}
       <section className="pt-32 pb-20 bg-white relative overflow-hidden">
@@ -416,7 +443,7 @@ const Products: React.FC = () => {
           </div>
       </section>
 
-    </div>
+    </main>
   );
 };
 

@@ -51,6 +51,8 @@ const Contact: React.FC = () => {
 
   const content = {
     zh: {
+      metaTitle: "联系我们 | 永爱生命 - 业务咨询与技术支持",
+      metaDesc: "获取苏州永爱生命科技有限公司的地址、电话及邮箱。我们提供专业的医疗包装与注塑解决方案咨询，期待与您的合作。",
       hero: { title: "联系我们", subtitle: "开启合作新篇章", desc: "无论是产品咨询、技术合作还是商务洽谈，我们随时准备为您提供专业支持。" },
       info: {
         title: "联系方式",
@@ -71,6 +73,8 @@ const Contact: React.FC = () => {
       map: { btn: "在地图中查看" }
     },
     en: {
+      metaTitle: "Contact Us | Tops Life - Get in Touch",
+      metaDesc: "Contact Suzhou Tops Life Technology. Find our address, phone number, and email for inquiries regarding medical packaging and manufacturing solutions.",
       hero: { title: "Contact Us", subtitle: "Start a Conversation", desc: "Whether for product inquiries, technical cooperation, or business negotiation, we are ready to provide professional support." },
       info: {
         title: "Get in Touch",
@@ -94,8 +98,29 @@ const Contact: React.FC = () => {
 
   const t = language === 'zh' ? content.zh : content.en;
 
+  // --- SEO 配置 ---
+  useEffect(() => {
+    document.title = t.metaTitle;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', t.metaDesc);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
+  }, [language, t.metaTitle, t.metaDesc]);
+
   return (
-    <div className="min-h-screen bg-slate-50 relative font-sans">
+    <main className="min-h-screen bg-slate-50 relative font-sans">
 
       {/* Hero */}
       <div className="h-[45vh] w-full relative overflow-hidden bg-slate-900">
@@ -211,7 +236,7 @@ const Contact: React.FC = () => {
         </div>
       </div>
 
-    </div>
+    </main>
   );
 };
 
