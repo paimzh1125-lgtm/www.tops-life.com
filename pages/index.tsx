@@ -189,15 +189,14 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate(); 
 
-  // 智能处理标题分行与渐变色逻辑 (修复英文版标题样式问题)
+  // 智能处理标题分行与渐变色逻辑 (优化：支持中英文逗号混用，更稳健)
   const heroTitleParts = useMemo(() => {
-    const separator = language === 'zh' ? '，' : ',';
-    const parts = t.hero.title.split(separator);
+    const parts = t.hero.title.split(/,|，/);
     return {
       main: parts[0],
       sub: (parts[1] || "").trim() // 去除可能存在的多余空格
     };
-  }, [language, t.hero.title]);
+  }, [t.hero.title]);
 
   // SEO & Meta Handling
   useEffect(() => {
@@ -305,7 +304,7 @@ export default function Home() {
         {/* === Hero Section (Static Image, Single Content) === */}
         <section 
           aria-labelledby="hero-heading" 
-          className="h-screen relative overflow-hidden z-10"
+          className="min-h-screen relative overflow-hidden z-10 flex flex-col"
         >
           {/* Static Background */}
           <div className="absolute inset-0 z-0">
@@ -320,7 +319,7 @@ export default function Home() {
           </div>
 
           {/* Static Content (No Slider) */}
-          <div className="h-full w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10">
+          <div className="flex-grow w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10 py-20">
             <div className="max-w-4xl text-white pt-12">
               
               {/* Tag */}
