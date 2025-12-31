@@ -5,9 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
   ArrowRight, 
   Award, 
-  Zap, 
-  Building2, 
-  Leaf, 
   Download, 
   FileText, 
   Image as ImageIcon, 
@@ -15,22 +12,11 @@ import {
   Newspaper,
   Calendar
 } from 'lucide-react';
+import { ALL_NEWS, CategoryType } from '../data/news';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // --- 类型定义 ---
-type CategoryType = 'All' | 'Corporate' | 'Products' | 'Events';
-
-interface NewsItem {
-  year: string;
-  date: string;
-  tag: string;
-  title: string;
-  desc: string;
-  icon: JSX.Element;
-  category: CategoryType; // 新增分类字段
-  isHighlight?: boolean;
-}
 
 interface ResourceItem {
   title: string;
@@ -102,33 +88,6 @@ const News: React.FC = () => {
           { value: "Global", label: "服务全球客户" },
         ]
       },
-      // === 在这里维护新闻列表 ===
-      list: [
-        { 
-          year: "2025", date: "01月", tag: "可持续发展", title: "荣获法国 EcoVadis 可持续发展评分", 
-          desc: "永爱在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。",
-          icon: <Leaf className="w-4 h-4" />, isHighlight: true,
-          category: "Corporate" // 分类：企业
-        },
-        { 
-          year: "2024", date: "年度创新", tag: "产品研发", title: "成功开发三层易揭自封袋", 
-          desc: "针对细胞培养瓶开包后的存放痛点，我们研发出创新的三层结构易揭自封袋。该产品有效解决了二次污染问题，极大提升了实验室无菌操作的便利性与安全性。",
-          icon: <Zap className="w-4 h-4" />,
-          category: "Products" // 分类：产品
-        },
-        { 
-          year: "2023", date: "年度基建", tag: "产能升级", title: "升级扩建 ISO Class 7 洁净室", 
-          desc: "完成十万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
-          icon: <Building2 className="w-4 h-4" />,
-          category: "Corporate" // 分类：企业
-        },
-        { 
-          year: "2019", date: "03月", tag: "质量体系", title: "取得 ISO 13485 & 9001 双重认证", 
-          desc: "质量管理体系正式通过国际标准认证。这不仅是对我们生产管理水平的认可，更意味着我们的产品获得了进入全球医疗供应链的“通行证”。",
-          icon: <Award className="w-4 h-4" />,
-          category: "Corporate" // 分类：企业
-        }
-      ] as NewsItem[],
       // === 在这里维护资源下载 ===
       resources: {
         title: "媒体资源中心",
@@ -163,32 +122,6 @@ const News: React.FC = () => {
           { value: "Global", label: "Service Network" },
         ]
       },
-      list: [
-        { 
-          year: "2025", date: "Jan", tag: "Sustainability", title: "Achieved EcoVadis Sustainability Rating", 
-          desc: "Recognized internationally for excellence in Environment, Labor & Human Rights, Ethics, and Sustainable Procurement. A solid step forward in our CSR journey.",
-          icon: <Leaf className="w-4 h-4" />, isHighlight: true,
-          category: "Corporate"
-        },
-        { 
-          year: "2024", date: "Innovation", tag: "R&D", title: "Developed 3-Layer Easy-Peel Self-Sealing Bag", 
-          desc: "Innovatively solved storage and contamination issues for cell culture flasks. This product significantly improves safety and convenience in sterile labs.",
-          icon: <Zap className="w-4 h-4" />,
-          category: "Products"
-        },
-        { 
-          year: "2023", date: "Expansion", tag: "Upgrade", title: "Upgraded to ISO Class 7 Cleanroom", 
-          desc: "Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.",
-          icon: <Building2 className="w-4 h-4" />,
-          category: "Corporate"
-        },
-        { 
-          year: "2019", date: "Mar", tag: "Quality", title: "Obtained ISO 13485 & 9001 Certificates", 
-          desc: "Officially certified by international quality standards. This accreditation serves as a global passport for our products to enter the medical supply chain.",
-          icon: <Award className="w-4 h-4" />,
-          category: "Corporate"
-        }
-      ] as NewsItem[],
       resources: {
         title: "Media Resources",
         subtitle: "Access official brochures, brand assets, and certificates.",
@@ -216,10 +149,21 @@ const News: React.FC = () => {
   const t = language === 'zh' ? content.zh : content.en;
 
   // --- 3. 筛选逻辑 ---
+  // 将原始数据转换为当前语言的显示格式
+  const displayList = useMemo(() => {
+    return ALL_NEWS.map(item => ({
+      ...item,
+      date: language === 'zh' ? item.dateLabel_zh : item.dateLabel_en,
+      tag: language === 'zh' ? item.tag_zh : item.tag_en,
+      title: language === 'zh' ? item.title_zh : item.title_en,
+      desc: language === 'zh' ? item.desc_zh : item.desc_en,
+    }));
+  }, [language]);
+
   const filteredList = useMemo(() => {
-    if (activeCategory === 'All') return t.list;
-    return t.list.filter(item => item.category === activeCategory);
-  }, [activeCategory, t.list]);
+    if (activeCategory === 'All') return displayList;
+    return displayList.filter(item => item.category === activeCategory);
+  }, [activeCategory, displayList]);
 
   // 筛选按钮配置
   const filterTabs = [

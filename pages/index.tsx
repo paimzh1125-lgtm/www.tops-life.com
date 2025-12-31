@@ -19,48 +19,13 @@ import {
 
 // Context
 import { useLanguage } from "../components/LanguageContext";
+// Data
+import { ALL_NEWS } from "../data/news";
 
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // --- Data & Config ---
-
-const LATEST_NEWS = [
-  {
-    id: 1,
-    date: "2025-01",
-    title_zh: "荣获法国 EcoVadis 可持续发展银牌认证",
-    title_en: "Achieved EcoVadis Sustainability Silver Rating",
-    desc_zh: "永爱在环境、劳工与人权、商业道德等方面的卓越表现获得国际认可。",
-    desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights.",
-    tag: "CSR"
-  },
-  {
-    id: 2,
-    date: "2024-12",
-    title_zh: "成功开发三层易揭自封袋",
-    title_en: "Developed 3-Layer Easy-Peel Self-Sealing Bag",
-    desc_zh: "创新解决细胞培养瓶开包存放痛点，提升实验室无菌操作体验。",
-    desc_en: "Innovatively solved the storage issues of cell culture flasks after opening.",
-    tag: "R&D"
-  },
-  {
-    id: 3,
-    date: "2023-11",
-    title_zh: "升级扩建 ISO Class 7 洁净室",
-    title_en: "Upgraded to ISO Class 7 Cleanroom",
-    desc_zh: "全面提升医疗器械与包装的生产环境标准与产能。",
-    desc_en: "Boosting production standards and capacity for medical devices.",
-    tag: "Expansion"
-  }
-];
-
-const formatDate = (dateStr: string, lang: string) => {
-  const [year, month] = dateStr.split('-');
-  if (lang === 'zh') return `${year}年${month}月`;
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  return `${monthNames[parseInt(month) - 1]} ${year}`;
-};
 
 const LANG = {
   zh: {
@@ -607,16 +572,19 @@ export default function Home() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-                {LATEST_NEWS.map((news, i) => (
+                {ALL_NEWS.slice(0, 3).map((news, i) => (
                   <article 
                     key={i} 
                     className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200" 
                     onClick={() => navigate('/news')}
                   >
                       <div className="flex justify-between items-start mb-4">
-                        <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">{news.tag}</span>
-                        <time dateTime={news.date} className="text-sm text-slate-400 flex items-center gap-1">
-                            <Calendar size={14} aria-hidden="true" /> {formatDate(news.date, language)}
+                        <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">
+                          {language === 'zh' ? news.tag_zh : news.tag_en}
+                        </span>
+                        <time className="text-sm text-slate-400 flex items-center gap-1">
+                            <Calendar size={14} aria-hidden="true" /> 
+                            {news.year} {language === 'zh' ? news.dateLabel_zh : news.dateLabel_en}
                         </time>
                       </div>
                       <h3>
