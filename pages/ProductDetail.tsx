@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { X, ZoomIn } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 
 // 注册 GSAP 插件
@@ -624,6 +625,7 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { language } = useLanguage(); 
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   
   const productData = id ? PRODUCT_DATABASE[id] : null;
   const content = productData ? productData[language] : null;
@@ -676,6 +678,18 @@ const ProductDetail: React.FC = () => {
     canonical.setAttribute('href', window.location.href.split('#')[0]);
   }, [language, content]);
 
+  // Lightbox Animation & Scroll Lock
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.style.overflow = 'hidden';
+      gsap.fromTo(".lightbox-overlay", { opacity: 0 }, { opacity: 1, duration: 0.3 });
+      gsap.fromTo(".lightbox-img", { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.1 });
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isLightboxOpen]);
+
   if (!content) {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
@@ -699,7 +713,10 @@ const ProductDetail: React.FC = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
           <div className="hero-anim relative">
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100">
+            <div 
+              className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100 group cursor-zoom-in relative"
+              onClick={() => setIsLightboxOpen(true)}
+            >
               <img 
                 src={image} 
                 alt={content.title} 
@@ -709,6 +726,12 @@ const ProductDetail: React.FC = () => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=2000';
                 }}
               />
+              {/* Zoom Icon Overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                 <div className="bg-white/90 p-4 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-lg text-slate-800">
+                    <ZoomIn size={24} />
+                 </div>
+              </div>
             </div>
             <div className="absolute -z-10 top-10 -left-10 w-full h-full bg-[radial-gradient(#e0f2fe_1px,transparent_1px)] [background-size:20px_20px] opacity-70"></div>
           </div>
@@ -754,6 +777,27 @@ const ProductDetail: React.FC = () => {
             </Link>
           </div>
         </div>
+
+        {/* Lightbox Overlay */}
+        {isLightboxOpen && (
+          <div 
+            className="lightbox-overlay fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <button 
+              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full z-10"
+              onClick={() => setIsLightboxOpen(false)}
+            >
+              <X size={32} />
+            </button>
+            <img 
+              src={image} 
+              alt={content.title} 
+              className="lightbox-img max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl cursor-default"
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
+        )}
 
       </main>
   );
