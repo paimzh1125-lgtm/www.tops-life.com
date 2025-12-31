@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
@@ -189,6 +189,16 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate(); 
 
+  // 智能处理标题分行与渐变色逻辑 (修复英文版标题样式问题)
+  const heroTitleParts = useMemo(() => {
+    const separator = language === 'zh' ? '，' : ',';
+    const parts = t.hero.title.split(separator);
+    return {
+      main: parts[0],
+      sub: (parts[1] || "").trim() // 去除可能存在的多余空格
+    };
+  }, [language, t.hero.title]);
+
   // SEO & Meta Handling
   useEffect(() => {
     document.title = t.metaTitle;
@@ -323,9 +333,9 @@ export default function Home() {
               
               {/* Headline */}
               <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
-                {t.hero.title.split("，")[0]}<br/>
+                {heroTitleParts.main}<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
-                  {t.hero.title.split("，")[1] || ""}
+                  {heroTitleParts.sub}
                 </span>
               </h1>
               
