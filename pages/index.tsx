@@ -1,723 +1,747 @@
-import React, { useEffect, useRef, useMemo } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useNavigate, Link } from "react-router-dom";
-import {
-  ArrowRight,
-  PackageOpen,
-  DraftingCompass,
-  Sprout,
-  CheckCircle2,
-  Globe2,
-  Microscope,
-  Award,
-  Activity,
-  Layers,
-  ShieldCheck,
-  Calendar
-} from "lucide-react";
+import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../components/LanguageContext';
 
-// Context
-import { useLanguage } from "../components/LanguageContext";
-// Data
-
-const ALL_NEWS = [
-  { 
-    id: 1,
-    year: "2025", 
-    dateLabel_zh: "01月", 
-    dateLabel_en: "Jan",
-    tag_zh: "可持续发展", 
-    tag_en: "Sustainability",
-    title_zh: "荣获法国 EcoVadis 可持续发展银牌认证", 
-    title_en: "Achieved EcoVadis Sustainability Silver Rating",
-    desc_zh: "永爱在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。",
-    desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights, Ethics, and Sustainable Procurement. A solid step forward in our CSR journey.",
-    category: "Corporate"
-  },
-  { 
-    id: 2,
-    year: "2024", 
-    dateLabel_zh: "年度创新", 
-    dateLabel_en: "Innovation",
-    tag_zh: "产品研发", 
-    tag_en: "R&D",
-    title_zh: "成功开发三层易揭自封袋", 
-    title_en: "Developed 3-Layer Easy-Peel Self-Sealing Bag",
-    desc_zh: "针对细胞培养瓶开包后的存放痛点，我们研发出创新的三层结构易揭自封袋。该产品有效解决了二次污染问题，极大提升了实验室无菌操作的便利性与安全性。",
-    desc_en: "Innovatively solved storage and contamination issues for cell culture flasks. This product significantly improves safety and convenience in sterile labs.",
-    category: "Products"
-  },
-  { 
-    id: 3,
-    year: "2023", 
-    dateLabel_zh: "年度基建", 
-    dateLabel_en: "Expansion",
-    tag_zh: "产能升级", 
-    tag_en: "Upgrade",
-    title_zh: "升级扩建 ISO Class 7 洁净室", 
-    title_en: "Upgraded to ISO Class 7 Cleanroom",
-    desc_zh: "完成十万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
-    desc_en: "Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.",
-    category: "Corporate"
-  },
-  { 
-    id: 4,
-    year: "2019", 
-    dateLabel_zh: "03月", 
-    dateLabel_en: "Mar",
-    tag_zh: "质量体系", 
-    tag_en: "Quality",
-    title_zh: "取得 ISO 13485 & 9001 双重认证", 
-    title_en: "Obtained ISO 13485 & 9001 Certificates",
-    desc_zh: "质量管理体系正式通过国际标准认证。这不仅是对我们生产管理水平的认可，更意味着我们的产品获得了进入全球医疗供应链的“通行证”。",
-    desc_en: "Officially certified by international quality standards. This accreditation serves as a global passport for our products to enter the medical supply chain.",
-    category: "Corporate"
-  }
-];
-
-// Register GSAP Plugin
+// 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Data & Config ---
-
-const LANG = {
-  zh: {
-    metaTitle: "首页 | 苏州永爱生命科技有限公司 - 医用软包装与生物材料专家",
-    metaDesc: "永爱生命科技专注医疗软包装、精密注塑及生物基新材料。拥有ISO 7级洁净车间，提供无菌屏障系统与可持续医疗解决方案。",
-    heroTag: "创新医疗科技合作伙伴",
-    who: "关于我们",
-    companyPrefix: "永爱",
-    companySuffix: "生命科技有限公司",
-    intro: "永爱 Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应等领域的创新型企业。公司在医疗行业、特种纸、油墨行业等多个领域的各类组件方面拥有丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
-    introPoints: ["ISO 7 (万级) 洁净车间", "全流程质量追溯"],
-    more: "探索详情",
-    stats: [
-      { num: "15+", label: "年行业经验" },
-      { num: "10k", label: "级洁净车间" }, 
-      { num: "50+", label: "全球合作伙伴" },
-    ],
-    solutionsTitle: "核心业务解决方案",
-    solutionsDesc: "以专业技术满足不同业务需求，提供一站式解决方案。",
-    solutions: [
-      {
-        title: "医疗软包装解决方案",
-        desc: "提供高性能无菌屏障系统。包括医用级薄膜和医用级PE袋子，确保全生命周期无菌安全。",
-        icon: <PackageOpen size={32} />,
-        link: "/products#packaging"
-      },
-      {
-        title: "精密医疗注塑件",
-        desc: "依托全电动注塑工艺与 ISO 13485 体系，制造公差微米级的关键医疗零部件，广泛应用于微创手术器械。",
-        icon: <DraftingCompass size={32} />,
-        link: "/products#molding"
-      },
-      {
-        title: "大豆蛋白聚合物",
-        desc: "源自非转基因大豆的革新性生物基材料。为纸张涂布、水性油墨及工业包装领域提供可降解的绿色替代方案。",
-        icon: <Sprout size={32} />,
-        link: "/products#material"
-      }
-    ],
-    tech: "研发与技术实力",
-    techDesc: "融合高分子科学、材料工程及精密成型专业知识，配备洁净室、自动化生产线及内部研发实验室。",
-    // Static Hero Content (Consolidated from Slide 1)
-    hero: { 
-      title: "融汇绿色科技，守护生命未来", 
-      subtitle: "从生物基新材料到无菌屏障，我们以可持续方案重新定义医疗制造。" 
-    },
-    marketTitle: "应用领域",
-    marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
-    market: [
-      { title: "医疗器械", desc: "为二类/三类医疗器械提供符合 ISO 13485 标准的无菌屏障包装。" },
-      { title: "制药生产", desc: "提供符合 GMP 标准的药用级过程保护与一次性耗材。" },
-      { title: "新材料应用", desc: "探索高性能生物基材料在环保包装与工业领域的创新应用。" },
-      { title: "生物聚合物", desc: "源自天然的改性大豆蛋白材料，助力全球碳中和目标。" }
-    ],
-    marketBtn: "查看所有行业",
-    newsTitle: "最新动态",
-    newsBtn: "查看更多新闻",
-    cta: "准备好开启下一个项目了吗？",
-    ctaBtn: "联系我们",
-    skipLink: "跳转至主要内容",
-  },
-  en: {
-    metaTitle: "Home | Suzhou Tops Life Technology - Medical Packaging & Biomaterials Expert",
-    metaDesc: "Tops Life specializes in medical soft packaging, precision injection molding, and soy protein polymers. ISO 7 cleanroom certified sustainable solutions.",
-    heroTag: "Innovative MedTech Partner",
-    who: "About Us",
-    companyPrefix: "Suzhou Tops Life",
-    companySuffix: " Technology Co., Ltd.",
-    intro: "Established in 2011, Suzhou Tops-Life is a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience across medical, specialty paper, and ink industries, we adhere to 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
-    introPoints: ["ISO 7 Cleanroom", "Full Quality Traceability"],
-    more: "Discover More",
-    stats: [
-      { num: "15+", label: "Years Exp." },
-      { num: "10k", label: "Clean Class" }, 
-      { num: "50+", label: "Global Partners" },
-    ],
-    solutionsTitle: "Core Solutions",
-    solutionsDesc: "Meeting diverse business needs with professional technology and one-stop solutions.",
-    solutions: [
-      {
-        title: "Medical Soft Packaging",
-        desc: "High-performance sterile barrier systems. Including medical-grade films and PE bags, ensuring sterility integrity throughout the lifecycle.",
-        icon: <PackageOpen size={32} />,
-        link: "/products#packaging"
-      },
-      {
-        title: "Precision Injection Molding",
-        desc: "Micron-level precision components manufactured under ISO 13485. Utilizing all-electric injection molding for critical medical parts.",
-        icon: <DraftingCompass size={32} />,
-        link: "/products#molding"
-      },
-      {
-        title: "Soy Protein Polymers",
-        desc: "Innovative bio-based materials derived from non-GMO soy. Providing biodegradable alternatives for paper coating, inks, and packaging.",
-        icon: <Sprout size={32} />,
-        link: "/products#material"
-      }
-    ],
-    tech: "R&D Strength",
-    techDesc: "Integrating polymer science, materials engineering, and precision molding expertise.",
-    // Static Hero Content (Consolidated from Slide 1)
-    hero: { 
-      title: "Green Tech, Guarding the Future", 
-      subtitle: "Redefining medical manufacturing with sustainable solutions, from bio-materials to sterile barriers." 
-    },
-    marketTitle: "Market Applications",
-    marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
-    market: [
-      { title: "Medical Devices", desc: "ISO 13485 compliant sterile barrier packaging for Class II/III devices." },
-      { title: "Pharma", desc: "GMP-compliant process protection and single-use consumables." },
-      { title: "Advanced Materials", desc: "Innovative applications of high-performance bio-based materials." },
-      { title: "Bio Polymers", desc: "Natural modified soy protein materials aiding carbon neutrality." }
-    ],
-    marketBtn: "View All Industries",
-    newsTitle: "Latest News",
-    newsBtn: "View All News",
-    cta: "Ready to start your next project?",
-    ctaBtn: "Contact Us",
-    skipLink: "Skip to content",
-  },
+// --- 图标组件 ---
+const Icons = {
+  Back: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>,
+  Check: () => <svg className="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>,
+  Tech: () => <svg className="w-6 h-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
 };
 
-export default function Home() {
+// --- 产品数据字典 (包含中英文) ---
+const PRODUCT_DATABASE: any = {
+  // === 医用洁净软包装 ===
+  "pe-bag": {
+    zh: {
+      title: "PE 袋和卷材 (Medical PE Bags & Rolls)",
+      subtitle: "无菌屏障系统 (SBS) 的核心组成部分",
+      description: "专为医疗器械、耗材及无菌产品的终端灭菌设计。采用医疗级聚乙烯原料，通过多层共挤工艺制造，具备优异的厚度均匀性和热封窗口稳定性，构成完整的无菌屏障系统。",
+      features: [
+        "医疗级原料：低析出、低气味，确保药物与器械安全",
+        "性能优异：良好的抗穿刺与抗撕裂性能",
+        "灭菌稳定：EO / Gamma / 蒸汽灭菌后不脆化、不收缩",
+        "洁净生产：ISO Class 8 (万级) 环境生产"
+      ],
+      specs: [
+        { label: "材料结构", value: "LDPE / HDPE 多层共挤" },
+        { label: "灭菌兼容性", value: "EO, Gamma, Steam" },
+        { label: "符合标准", value: "ISO 11607, ISO 13485" },
+        { label: "应用", value: "手术器械包, 一次性耗材" },
+        { label: "生产环境", value: "ISO Class 8 Cleanroom" }
+      ],
+      btnText: "联系我们的工程师",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要定制规格或索取样品？"
+    },
+    en: {
+      title: "Medical PE Bags & Rolls",
+      subtitle: "Core Component of Sterile Barrier Systems (SBS)",
+      description: "Designed for terminal sterilization of medical devices and consumables. Manufactured from medical-grade polyethylene using multi-layer co-extrusion technology, ensuring uniform thickness and stable heat-sealing windows.",
+      features: [
+        "Medical Grade: Low extractables, low odor",
+        "Performance: Excellent puncture and tear resistance",
+        "Stability: No embrittlement or shrinkage after EO/Gamma/Steam sterilization",
+        "Clean Mfg: Produced in ISO Class 8 environment"
+      ],
+      specs: [
+        { label: "Structure", value: "LDPE / HDPE Co-extrusion" },
+        { label: "Sterilization", value: "EO, Gamma, Steam" },
+        { label: "Standard", value: "ISO 11607, ISO 13485" },
+        { label: "Applications", value: "Surgical Kits, Disposables" },
+        { label: "Environment", value: "ISO Class 8 Cleanroom" }
+      ],
+      btnText: "Contact Engineers",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need customization or samples?"
+    },
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=1200"
+  },
+  "medical-film": {
+    zh: {
+      title: "医用级薄膜 (Medical-grade Films)",
+      subtitle: "高性能医疗包装与功能性覆膜",
+      description: "广泛用于医疗包装、诊断耗材及功能性覆膜。我们支持 PE、EVA、TPU 等多种体系的多层共挤设计，可根据客户需求定制厚度、雾度及表面摩擦系数。",
+      features: [
+        "洁净度高：极低的微粒和生物负载风险",
+        "定制化设计：支持多层共挤结构",
+        "加工性能：稳定的热封强度与剥离性能",
+        "广泛应用：适合 IVD 试剂封装与医用盖膜"
+      ],
+      specs: [
+        { label: "材料体系", value: "PE, EVA, TPU" },
+        { label: "工艺", value: "多层共挤 (Co-extrusion)" },
+        { label: "特性", value: "可定制雾度 / COF" },
+        { label: "洁净度", value: "低生物负载 (Low Bioburden)" },
+        { label: "应用", value: "IVD 耗材, 医用盖膜" }
+      ],
+      btnText: "联系技术顾问",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要特殊功能薄膜？"
+    },
+    en: {
+      title: "Medical-grade Films",
+      subtitle: "High-Performance Films for Packaging & Lamination",
+      description: "Used for medical packaging, diagnostic consumables, and functional lamination. We support multi-layer co-extrusion of PE, EVA, TPU systems, with customizable thickness, haze, and coefficient of friction (COF).",
+      features: [
+        "High Cleanliness: Ultra-low particulate and bioburden risk",
+        "Custom Design: Multi-layer co-extrusion capabilities",
+        "Processability: Stable heat seal strength and peelability",
+        "Versatile: Ideal for IVD reagents and medical lidding"
+      ],
+      specs: [
+        { label: "Materials", value: "PE, EVA, TPU" },
+        { label: "Technology", value: "Multi-layer Co-extrusion" },
+        { label: "Features", value: "Custom Haze / COF" },
+        { label: "Cleanliness", value: "Low Bioburden" },
+        { label: "Applications", value: "IVD Consumables, Lidding" }
+      ],
+      btnText: "Contact Consultants",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need specialized films?"
+    },
+    image: "https://images.unsplash.com/photo-1605609284543-c2229e62553a?auto=format&fit=crop&q=80&w=1200"
+  },
+  "high-barrier": {
+    zh: {
+      title: "铝箔 / 尼龙高阻隔包装",
+      subtitle: "针对高敏感度产品的极致防护",
+      description: "专为对湿氧极度敏感的药品原料、中间体及高附加值医疗耗材设计。采用铝箔、尼龙与 PE 的多层复合结构，提供卓越的气体与水汽阻隔性能。",
+      features: [
+        "极低渗透率：优异的 OTR (氧气透过率) 和 WVTR (水蒸气透过率)",
+        "全方位防护：抗光、抗氧化、抗化学渗透",
+        "长期存储：确保内容物在有效期内的绝对稳定",
+        "结构强韧：尼龙层提供优异的机械强度"
+      ],
+      specs: [
+        { label: "结构", value: "AL / NY / PE 复合" },
+        { label: "阻隔性", value: "超低 OTR / WVTR" },
+        { label: "防护功能", value: "避光, 防潮, 防氧化" },
+        { label: "应用领域", value: "原料药 (API), 高端耗材" }
+      ],
+      btnText: "获取阻隔数据",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要高阻隔包装方案？"
+    },
+    en: {
+      title: "High Barrier Packaging",
+      subtitle: "Ultimate Protection for Sensitive Products",
+      description: "Designed for moisture and oxygen-sensitive APIs, intermediates, and high-value consumables. Features a multi-layer composite of Aluminum Foil, Nylon, and PE to provide superior gas and moisture barrier properties.",
+      features: [
+        "Low Permeability: Excellent OTR and WVTR performance",
+        "Full Protection: Light, oxidation, and chemical resistance",
+        "Long-term Storage: Ensures stability throughout shelf life",
+        "Durability: Nylon layer provides high mechanical strength"
+      ],
+      specs: [
+        { label: "Structure", value: "AL / NY / PE Composite" },
+        { label: "Barrier", value: "Ultra-low OTR / WVTR" },
+        { label: "Protection", value: "Light/Moisture/Oxidation barrier" },
+        { label: "Applications", value: "APIs, High-value Devices" }
+      ],
+      btnText: "Get Barrier Data",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need high-barrier solutions?"
+    },
+    image: "https://images.unsplash.com/photo-1624916223253-128c707d8533?auto=format&fit=crop&q=80&w=1200"
+  },
+  "lidding": {
+    zh: {
+      title: "EVA 和 TPU 盖膜 (Lidding Films)",
+      subtitle: "托盘与泡罩系统的理想封合材料",
+      description: "用于医疗器械托盘、诊断耗材泡罩的封合盖膜。EVA 提供宽热封窗口和良好柔韧性，而 TPU 则具备高弹性与耐磨性。支持 Peel (易剥离) 或 Lock (牢固封合) 开启方式。",
+      features: [
+        "开启方式可选：可定制易剥离或不可剥离配方",
+        "灭菌稳定性：灭菌后封合强度保持一致",
+        "表面处理：支持印刷及功能性涂层",
+        "广泛适配：适用于各种硬吸塑托盘材料"
+      ],
+      specs: [
+        { label: "材料基材", value: "EVA, TPU" },
+        { label: "封合类型", value: "Easy Peel / Lock Seal" },
+        { label: "灭菌兼容", value: "EO, Gamma" },
+        { label: "特性", value: "高透光, 柔韧性好" },
+        { label: "应用", value: "吸塑托盘盖膜, 试剂盒" }
+      ],
+      btnText: "咨询封合方案",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "寻找特定封合材料？"
+    },
+    en: {
+      title: "EVA & TPU Lidding Films",
+      subtitle: "Ideal Sealing for Trays and Blisters",
+      description: "Lidding materials for medical trays and diagnostic blisters. EVA offers a wide heat-sealing window and flexibility, while TPU provides high elasticity and abrasion resistance. Supports both Peel and Lock opening mechanisms.",
+      features: [
+        "Opening Mechanism: Customizable Easy Peel or Lock Seal",
+        "Sterility: Consistent seal strength after sterilization",
+        "Surface: Printable and coating-ready",
+        "Compatibility: Fits various rigid blister tray materials"
+      ],
+      specs: [
+        { label: "Base Material", value: "EVA, TPU" },
+        { label: "Seal Type", value: "Easy Peel / Lock Seal" },
+        { label: "Sterilization", value: "EO, Gamma" },
+        { label: "Features", value: "High Clarity, Flexible" },
+        { label: "Applications", value: "Blister Trays, Reagent Kits" }
+      ],
+      btnText: "Seal Solutions",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Looking for lidding materials?"
+    },
+    image: "https://images.unsplash.com/photo-1583912267550-d44d8319c701?auto=format&fit=crop&q=80&w=1200"
+  },
+
+  // === 精密医疗注塑 (原有) ===
+  "microfluidic": {
+    zh: {
+      title: "微流控芯片基底 (Microfluidic Chips)",
+      subtitle: "Lab-on-a-Chip 核心载体：微结构 + 材料 + 流体稳定性",
+      description: "专为 POCT、IVD 及高端生物分析领域设计。我们利用微注塑、热压及激光蚀刻技术，在 PMMA、COC/COP 等高性能材料上实现微米级通道的精准复制，确保流体动力学的一致性与低吸附性能。",
+      features: [
+        "微结构复制精度：通道宽度/深度误差控制在微米级",
+        "表面处理技术：亲疏水改性，适应不同生化反应需求",
+        "材料多样性：支持 PMMA / COC / COP / 玻璃 / 硅",
+        "批量一致性：优化的模具流道设计，确保百万级产能下的品质均一"
+      ],
+      specs: [
+        { label: "常用材料", value: "PMMA, COC, COP, PC" },
+        { label: "微通道精度", value: "±2 μm" },
+        { label: "表面粗糙度", value: "Ra < 0.05 μm" },
+        { label: "加工工艺", value: "精密微注塑 / 激光蚀刻" },
+        { label: "应用领域", value: "基因测序, 免疫分析, 器官芯片" }
+      ],
+      btnText: "联系我们的工程师",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要定制规格或索取样品？"
+    },
+    en: {
+      title: "Microfluidic Chip Substrate",
+      subtitle: "Lab-on-a-Chip Core: Microstructure + Material + Stability",
+      description: "Designed for POCT, IVD, and high-end bioanalysis. Utilizing micro-injection molding, hot embossing, and laser etching, we achieve precise replication of micron-level channels on PMMA, COC/COP materials, ensuring fluid dynamic consistency and low adsorption.",
+      features: [
+        "Micro-replication Accuracy: Channel width/depth error controlled within microns",
+        "Surface Treatment: Hydrophilic/hydrophobic modification for various reactions",
+        "Material Diversity: Supports PMMA / COC / COP / Glass / Silicon",
+        "Batch Consistency: Optimized mold flow design ensures quality in mass production"
+      ],
+      specs: [
+        { label: "Materials", value: "PMMA, COC, COP, PC" },
+        { label: "Channel Accuracy", value: "±2 μm" },
+        { label: "Roughness", value: "Ra < 0.05 μm" },
+        { label: "Process", value: "Micro-Injection / Laser Etching" },
+        { label: "Applications", value: "Gene Sequencing, Immunoassay, Organ-on-Chip" }
+      ],
+      btnText: "Contact Engineers",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need customization or samples?"
+    },
+    image: "https://images.unsplash.com/photo-1628595351029-c2bf17511435?auto=format&fit=crop&q=80&w=1200"
+  },
+  "stapler": {
+    zh: {
+      title: "外科吻合器组件 (Surgical Stapler Parts)",
+      subtitle: "安全性 + 强度 + 装配可靠性",
+      description: "提供刀片、钉仓、壳体及精密传动件的整体制造方案。我们深知微创外科手术对器械安全性的极致要求，产品经过严格的疲劳寿命测试与 ISO 13485 体系管控，确保手术过程中的触发稳定与组织缝合安全。",
+      features: [
+        "高强度结构：医疗级不锈钢结合高性能工程塑料，确保机械强度",
+        "失效风险控制：严格的公差配合，防止卡钉或击发失败",
+        "灭菌适配：材料耐受 EO / Gamma 射线灭菌",
+        "全程可追溯：符合 UDI 要求，关键尺寸 100% 全检"
+      ],
+      specs: [
+        { label: "组件类型", value: "钉仓, 推钉片, 环形刀, 壳体" },
+        { label: "关键材料", value: "LCP, PEEK, 医疗级不锈钢" },
+        { label: "制造工艺", value: "精密注塑 + 嵌件成型 + CNC" },
+        { label: "公差等级", value: "ISO 2768-m / 特殊部位 ±0.01mm" },
+        { label: "合规标准", value: "ISO 13485, FDA Master File" }
+      ],
+      btnText: "联系我们的工程师",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要定制规格或索取样品？"
+    },
+    en: {
+      title: "Surgical Stapler Components",
+      subtitle: "Safety + Strength + Assembly Reliability",
+      description: "We provide comprehensive manufacturing solutions for blades, cartridges, housings, and precision transmission parts. Understanding the critical safety requirements of minimally invasive surgery, our products undergo strict fatigue testing under ISO 13485 control to ensure firing stability and suture safety.",
+      features: [
+        "High Strength: Medical-grade stainless steel combined with high-performance plastics",
+        "Risk Control: Strict tolerance fits to prevent jamming or firing failure",
+        "Sterilization: Materials compatible with EO / Gamma sterilization",
+        "Traceability: UDI compliant, 100% inspection on critical dimensions"
+      ],
+      specs: [
+        { label: "Components", value: "Cartridge, Pusher, Circular Knife, Housing" },
+        { label: "Materials", value: "LCP, PEEK, Medical Stainless Steel" },
+        { label: "Process", value: "Precision Injection + Insert Molding + CNC" },
+        { label: "Tolerance", value: "ISO 2768-m / Critical ±0.01mm" },
+        { label: "Compliance", value: "ISO 13485, FDA Master File" }
+      ],
+      btnText: "Contact Engineers",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need customization or samples?"
+    },
+    image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&q=80&w=1200"
+  },
+  "ivd": {
+    zh: {
+      title: "体外诊断耗材 (IVD Consumables)",
+      subtitle: "洁净度 + 生物安全 + 批量稳定",
+      description: "在 ISO Class 8 (10万级) 洁净环境下生产的试剂杯、深孔板及反应卡匣。我们专注于生物负载 (Bioburden) 控制，确保产品无 DNase/RNase、无热原，并具备极佳的光学性能与低吸附特性，保障检测结果的准确性。",
+      features: [
+        "严格的洁净制造：全自动封闭式供料与生产",
+        "生物安全性：无酶、无热原、低析出物",
+        "高腔数模具：实现大规模量产的同时保持尺寸一致性",
+        "光学性能：高透光率材料，满足荧光定量检测需求"
+      ],
+      specs: [
+        { label: "产品类型", value: "PCR管, 深孔板, 发光杯, 卡匣" },
+        { label: "材料", value: "医疗级 PP, PS (高透)" },
+        { label: "生产环境", value: "ISO Class 8 (10万级洁净室)" },
+        { label: "质量控制", value: "气密性测试, 光学检测" },
+        { label: "包装", value: "医疗级吸塑 / 灭菌袋" }
+      ],
+      btnText: "联系我们的工程师",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要定制规格或索取样品？"
+    },
+    en: {
+      title: "IVD Consumables",
+      subtitle: "Cleanliness + Bio-safety + Batch Stability",
+      description: "Reagent cups, deep well plates, and cartridges produced in ISO Class 8 cleanrooms. We focus on Bioburden control, ensuring products are DNase/RNase-free and pyrogen-free, with excellent optical properties and low adsorption to guarantee diagnostic accuracy.",
+      features: [
+        "Clean Mfg: Fully automated closed-loop feeding and production",
+        "Bio-safety: Enzyme-free, Pyrogen-free, Low extractables",
+        "High Cavity Molds: Mass production with consistent dimensions",
+        "Optical Performance: High transmittance materials for fluorescence detection"
+      ],
+      specs: [
+        { label: "Products", value: "PCR Tubes, Deep Well Plates, Cuvettes" },
+        { label: "Materials", value: "Medical Grade PP, PS (High Clarity)" },
+        { label: "Environment", value: "ISO Class 8 Cleanroom" },
+        { label: "QC", value: "Airtightness Test, Optical Inspection" },
+        { label: "Packaging", value: "Medical Blister / Sterilization Pouch" }
+      ],
+      btnText: "Contact Engineers",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need customization or samples?"
+    },
+    image: "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=1200"
+  },
+  "gear": {
+    zh: {
+      title: "精密齿轮 / 传动件 (Precision Gears)",
+      subtitle: "精度 + 传动稳定性 + 长寿命",
+      description: "专注于医疗给药装置与手术机器人的微型动力传输系统。利用 POM、PEEK 及金属粉末冶金技术，制造高模数精度 (JGMA/ISO标准) 的微型齿轮，实现低噪音、耐磨损且高效的动力传递。",
+      features: [
+        "高精度等级：模数小、跳动极低，确保传动平稳",
+        "低噪音设计：优化的齿形设计与材料配对",
+        "耐磨长寿命：自润滑材料应用，适应高频使用场景",
+        "微型化能力：具备直径 < 5mm 的微型齿轮量产能力"
+      ],
+      specs: [
+        { label: "类型", value: "直齿轮, 蜗轮蜗杆, 行星齿轮箱" },
+        { label: "材料", value: "POM, PEEK, 金属粉末冶金" },
+        { label: "精度等级", value: "JGMA 0级 / ISO 5级" },
+        { label: "性能指标", value: "低噪音 (<45dB), 高传动效率" },
+        { label: "应用", value: "胰岛素泵, 吻合器, 康复设备" }
+      ],
+      btnText: "联系我们的工程师",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要定制规格或索取样品？"
+    },
+    en: {
+      title: "Precision Gears & Transmission",
+      subtitle: "Precision + Stability + Long Life",
+      description: "Micro power transmission systems for drug delivery devices and surgical robots. Utilizing POM, PEEK, and MIM technology to manufacture high-module precision micro-gears (JGMA/ISO standards), achieving low noise, wear resistance, and high efficiency.",
+      features: [
+        "High Precision: Small module, low runout for smooth transmission",
+        "Low Noise: Optimized tooth profile and material pairing",
+        "Long Life: Self-lubricating materials for high-frequency use",
+        "Miniaturization: Capability for micro-gears < 5mm diameter"
+      ],
+      specs: [
+        { label: "Types", value: "Spur Gears, Worm Gears, Planetary Gearbox" },
+        { label: "Materials", value: "POM, PEEK, MIM" },
+        { label: "Precision", value: "JGMA Grade 0 / ISO Grade 5" },
+        { label: "Performance", value: "Low Noise (<45dB), High Efficiency" },
+        { label: "Applications", value: "Insulin Pumps, Staplers, Rehab Devices" }
+      ],
+      btnText: "Contact Engineers",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need customization or samples?"
+    },
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200"
+  },
+
+  // === 生物基与环保材料 ===
+  "plant-adhesive": {
+    zh: {
+      title: "植物基无醛胶黏剂",
+      subtitle: "改性大豆蛋白核心技术",
+      description: "以改性大豆蛋白为核心的生物基环保胶黏剂，彻底替代传统石油基和含醛体系。无甲醛、无苯、低 VOC，同时具备高干湿强度和良好的耐老化性能。",
+      features: [
+        "核心技术：植物蛋白改性技术",
+        "环保安全：无甲醛 (Formaldehyde-free)，无苯",
+        "性能优越：优异的干湿强度与耐老化性",
+        "适应性强：对纸、木、复合材料具有良好粘接力"
+      ],
+      specs: [
+        { label: "基材", value: "改性大豆蛋白" },
+        { label: "环保等级", value: "无醛, 低 VOC" },
+        { label: "粘接强度", value: "高干/湿强度" },
+        { label: "应用", value: "食品/医疗包装, 复合材料" }
+      ],
+      btnText: "获取样品",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "寻求环保胶黏剂替代方案？"
+    },
+    en: {
+      title: "Plant-based Adhesives",
+      subtitle: "Modified Soy Protein Core Technology",
+      description: "Bio-based eco-friendly adhesives centered on modified soy protein, replacing traditional petrochemical and formaldehyde-based systems. Formaldehyde-free, Benzene-free, low VOC, with high wet/dry strength.",
+      features: [
+        "Technology: Protein Modification",
+        "Eco-Safety: Formaldehyde-free, Benzene-free",
+        "Performance: Excellent wet/dry strength & aging resistance",
+        "Versatility: Strong adhesion to paper, wood, composites"
+      ],
+      specs: [
+        { label: "Base", value: "Modified Soy Protein" },
+        { label: "Eco Level", value: "No Formaldehyde, Low VOC" },
+        { label: "Strength", value: "High Dry/Wet Strength" },
+        { label: "Applications", value: "Food/Medical Packaging" }
+      ],
+      btnText: "Request Samples",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Looking for eco-adhesive alternatives?"
+    },
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=1200"
+  },
+  "degradable-coating": {
+    zh: {
+      title: "可降解阻隔涂层",
+      subtitle: "阻隔性与可持续性的完美平衡",
+      description: "兼具阻隔性能与环保属性的功能性涂层。采用生物基或可降解配方，为纸基材料赋予防水、防油、防气体性能，替代传统塑料覆膜，实现完全可回收或可堆肥。",
+      features: [
+        "功能性：防水、防油、气体阻隔",
+        "环保属性：生物基配方，可堆肥 (Compostable)",
+        "替代塑膜：完美替代 PE/PP 淋膜",
+        "加工友好：不影响后续印刷与加工"
+      ],
+      specs: [
+        { label: "类型", value: "水性 / 生物基涂层" },
+        { label: "功能", value: "防水, 防油 (Grease Proof)" },
+        { label: "环保", value: "可回收, 可堆肥" },
+        { label: "应用", value: "食品包装, 纸塑复合" }
+      ],
+      btnText: "了解涂层方案",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要去塑化包装方案？"
+    },
+    en: {
+      title: "Degradable Barrier Coatings",
+      subtitle: "Balance of Barrier Performance & Sustainability",
+      description: "Functional coatings combining barrier properties with eco-friendliness. Bio-based or degradable formulas provide water, grease, and gas resistance to paper, replacing traditional plastic laminates for full recyclability.",
+      features: [
+        "Function: Water/Grease/Gas Barrier",
+        "Eco-friendly: Bio-based, Compostable",
+        "Plastic Replacement: Replaces PE/PP coating",
+        "Process: Print-friendly"
+      ],
+      specs: [
+        { label: "Type", value: "Water-based / Bio-based" },
+        { label: "Function", value: "Water/Grease Resistance" },
+        { label: "End of Life", value: "Recyclable, Compostable" },
+        { label: "Applications", value: "Food Packaging, Paper Cups" }
+      ],
+      btnText: "Coating Solutions",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need plastic-free packaging?"
+    },
+    image: "https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?auto=format&fit=crop&q=80&w=1200"
+  },
+  "eco-paper": {
+    zh: {
+      title: "环保纸塑复合材料",
+      subtitle: "减塑设计，提升可回收性",
+      description: "兼顾机械强度、阻隔性能与环保属性的新型复合材料。通过纸基与生物基涂层/薄膜的结合，大幅减少塑料使用量，符合全球绿色包装与减碳趋势。",
+      features: [
+        "结构创新：纸基 + 生物基涂层/薄膜",
+        "减塑环保：显著降低塑料含量，易于回收",
+        "性能定制：阻隔性能可按需调整",
+        "加工适应性：良好的成型与热封性能"
+      ],
+      specs: [
+        { label: "结构", value: "纸基复合材料" },
+        { label: "特性", value: "减塑 (Plastic Reduction)" },
+        { label: "加工", value: "热封, 成型" },
+        { label: "应用", value: "医疗/消费品包装" }
+      ],
+      btnText: "联系我们",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "寻找可持续复合材料？"
+    },
+    en: {
+      title: "Eco Paper-Plastic Composites",
+      subtitle: "Plastic Reduction & Recyclability",
+      description: "Novel composites balancing strength, barrier, and ecology. Combining paper base with bio-coatings/films to drastically reduce plastic usage, aligning with global green packaging trends.",
+      features: [
+        "Innovation: Paper base + Bio-layer",
+        "Eco: Reduced plastic, Recyclable",
+        "Custom: Adjustable barrier properties",
+        "Process: Good forming and heat sealing"
+      ],
+      specs: [
+        { label: "Structure", value: "Paper-based Composite" },
+        { label: "Feature", value: "Plastic Reduction" },
+        { label: "Process", value: "Heat Seal, Forming" },
+        { label: "Applications", value: "Medical/Consumer Packaging" }
+      ],
+      btnText: "Contact Us",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Looking for sustainable composites?"
+    },
+    image: "https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&q=80&w=1200"
+  },
+  "functional-additives": {
+    zh: {
+      title: "特种功能助剂",
+      subtitle: "材料性能的定制化增强引擎",
+      description: "为材料体系提供定制化性能增强的功能性添加剂。涵盖阻隔增强、粘结改性、耐老化等多种类型，精准解决材料性能痛点，提升成品稳定性。",
+      features: [
+        "功能多样：阻隔、粘结、耐候、表面改性",
+        "精准解决：针对特定材料痛点开发",
+        "提升品质：增强成品的一致性与稳定性",
+        "定制开发：可按应用场景专属配方"
+      ],
+      specs: [
+        { label: "类型", value: "阻隔剂, 增粘剂, 改性剂" },
+        { label: "功能", value: "性能增强 (Performance Boosting)" },
+        { label: "形态", value: "粉末 / 液体 / 母粒" },
+        { label: "服务", value: "定制配方开发" }
+      ],
+      btnText: "咨询助剂方案",
+      specTitle: "技术规格 Technical Specifications",
+      backText: "返回产品列表",
+      notFound: "产品未找到",
+      ctaTitle: "需要改善材料性能？"
+    },
+    en: {
+      title: "Specialty Functional Additives",
+      subtitle: "Custom Performance Boosting Engine",
+      description: "Functional additives for customized performance enhancement. Covering barrier improvement, adhesion modification, and aging resistance to precisely solve material issues and enhance stability.",
+      features: [
+        "Versatile: Barrier, Adhesion, Weathering",
+        "Precise: Targeted problem solving",
+        "Quality: Enhances consistency and stability",
+        "Custom: Scene-specific formulation"
+      ],
+      specs: [
+        { label: "Type", value: "Barrier/Adhesion Promoters" },
+        { label: "Function", value: "Performance Boosting" },
+        { label: "Form", value: "Powder / Liquid / Masterbatch" },
+        { label: "Service", value: "Custom Formulation" }
+      ],
+      btnText: "Consult Additives",
+      specTitle: "Technical Specifications",
+      backText: "Back to Products",
+      notFound: "Product Not Found",
+      ctaTitle: "Need to enhance material performance?"
+    },
+    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=1200"
+  }
+};
+
+const ProductDetail: React.FC<{ id: string, productData: any }> = ({ id, productData }) => {
   const { language } = useLanguage(); 
-  const t = LANG[language];
   const containerRef = useRef<HTMLDivElement>(null);
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const heroBgRef = useRef<HTMLDivElement>(null);
-  const heroContentRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate(); 
+  
+  const content = productData ? productData[language] : null;
+  const image = productData ? productData.image : "";
 
-  // 智能处理标题分行与渐变色逻辑 (优化：支持中英文逗号混用，更稳健)
-  const heroTitleParts = useMemo(() => {
-    const parts = t.hero.title.split(/,|，/);
-    return {
-      main: parts[0],
-      sub: (parts[1] || "").trim() // 去除可能存在的多余空格
-    };
-  }, [t.hero.title]);
-
-  // SEO & Meta Handling
+  // 2. 动画逻辑 (内容变化时触发，如切换语言)
   useEffect(() => {
-    document.title = t.metaTitle;
-    
-    // Update or create meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t.metaDesc);
+    if (!content) return;
 
-    // Canonical Tag (防重复)
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, t.metaTitle, t.metaDesc]);
-
-  // GSAP Animations with Mobile Check
-  useEffect(() => {
     const ctx = gsap.context(() => {
-      // Use matchMedia to skip heavy animations on mobile
-      const mm = gsap.matchMedia();
-      
-      mm.add("(min-width: 768px)", () => {
-        const fadeUps = document.querySelectorAll(".gsap-fade-up");
-        fadeUps.forEach((el) => {
-          gsap.fromTo(el, { y: 30, opacity: 0 }, {
-            y: 0, opacity: 1, duration: 1, ease: "power3.out",
-            scrollTrigger: { 
-              trigger: el, 
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            },
-          });
-        });
-
-        const counters = document.querySelectorAll(".counter-number");
-        counters.forEach(counter => {
-          gsap.from(counter, {
-            textContent: 0,
-            duration: 1.5,
-            ease: "power2.out",
-            snap: { textContent: 1 },
-            scrollTrigger: { trigger: counter, start: "top 90%" },
-          });
-        });
+      gsap.from(".hero-anim", {
+        y: 30, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power2.out"
       });
-      
-      // Simpler animations for mobile
-      mm.add("(max-width: 767px)", () => {
-        const fadeUps = document.querySelectorAll(".gsap-fade-up");
-        fadeUps.forEach((el) => {
-          gsap.fromTo(el, { opacity: 0 }, {
-            opacity: 1, duration: 0.8,
-            scrollTrigger: { trigger: el, start: "top 90%" },
-          });
-        });
+      gsap.from(".detail-anim", {
+        y: 50, opacity: 0, duration: 0.8, stagger: 0.2, 
+        scrollTrigger: { trigger: ".content-section", start: "top 80%" }
       });
-
     }, containerRef);
-    return () => ctx.revert();
-  }, [language]); 
 
-  // Hero Parallax Effect (鼠标视差交互)
-  useEffect(() => {
-    const section = heroSectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-      
-      // 仅在桌面端 (宽度 >= 1024px) 启用视差效果，避免手机端误触
-      mm.add("(min-width: 1024px)", () => {
-        const onMove = (e: MouseEvent) => {
-          const x = (e.clientX / window.innerWidth - 0.5) * 2;
-          const y = (e.clientY / window.innerHeight - 0.5) * 2;
-          
-          if (heroBgRef.current) {
-            // 背景反向移动，幅度较大
-            gsap.to(heroBgRef.current, { x: -x * 20, y: -y * 20, duration: 1.5, ease: "power2.out" });
-          }
-          if (heroContentRef.current) {
-            // 内容同向微动，幅度较小
-            gsap.to(heroContentRef.current, { x: x * 10, y: y * 10, duration: 1.5, ease: "power2.out" });
-          }
-        };
-        section.addEventListener("mousemove", onMove);
-        return () => section.removeEventListener("mousemove", onMove);
-      });
-    }, heroSectionRef);
     return () => ctx.revert();
-  }, []);
+  }, [content]);
+
+  if (!content) {
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
+            <h2 className="text-2xl font-bold text-slate-800 mb-4">
+              {language === 'zh' ? '产品未找到' : 'Product Not Found'}
+            </h2>
+            <Link href="/products" className="text-sky-600 hover:underline">
+              {language === 'zh' ? '返回产品列表' : 'Back to Products'}
+            </Link>
+        </div>
+    );
+  }
+
+  // SEO Data (服务端渲染时直接生效)
+  const seoTitle = language === 'zh' 
+    ? `${content.title} | 永爱生命产品详情` 
+    : `${content.title} | Tops Life Products`;
+  const seoDesc = content.description.substring(0, 150) + "...";
 
   return (
-    <div ref={containerRef} className="bg-slate-50 text-slate-800 min-h-screen font-sans selection:bg-sky-200 selection:text-sky-900 overflow-x-hidden">
-      
-      {/* Accessibility Skip Link */}
-      <a 
-        href="#main-content"
-        className="fixed top-0 left-0 p-3 bg-sky-600 text-white transform -translate-y-full transition-transform focus:translate-y-0 z-[100] outline-none ring-2 ring-white"
-      >
-        {t.skipLink}
-      </a>
+    <>
+      <Head>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDesc} />
+        <link rel="canonical" href={`https://www.tops-life.com/products/${id}`} />
+      </Head>
 
-      {/* Decorative Background */}
-      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
-         <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-sky-100/40 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 animate-float"></div>
-         <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-blue-50/60 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4 animate-float [animation-delay:2s]"></div>
-      </div>
-
-      <main id="main-content">
+      <main className="container mx-auto px-6">
         
-        {/* === Hero Section (Static Image, Single Content) === */}
-        <section 
-          ref={heroSectionRef}
-          aria-labelledby="hero-heading" 
-          className="min-h-screen relative overflow-hidden z-10 flex flex-col"
-        >
-          {/* Static Background */}
-          <div className="absolute inset-0 z-0">
-            <div ref={heroBgRef} className="w-full h-full scale-110">
+        <Link href="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
+          <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
+          {content.backText}
+        </Link>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
+          <div className="hero-anim relative">
+            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100">
               <img 
-                src="banner/hero-bg.webp" 
-                alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
-                className="w-full h-full object-cover object-center opacity-90 animate-ken-burns" 
-                fetchPriority="high"
+                src={image} 
+                alt={content.title} 
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=2000';
+                }}
               />
             </div>
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
+            <div className="absolute -z-10 top-10 -left-10 w-full h-full bg-[radial-gradient(#e0f2fe_1px,transparent_1px)] [background-size:20px_20px] opacity-70"></div>
           </div>
 
-          {/* Static Content (No Slider) */}
-          <div ref={heroContentRef} className="flex-grow w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10 py-20">
-            <div className="max-w-4xl text-white pt-12">
-              
-              {/* Tag */}
-              <div className="overflow-hidden mb-6">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
-                  <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
-                  {t.heroTag}
-                </div>
-              </div>
-              
-              {/* Headline */}
-              <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
-                {heroTitleParts.main}<br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
-                  {heroTitleParts.sub}
-                </span>
-              </h1>
-              
-              {/* Subtitle */}
-              <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6">
-                {t.hero.subtitle}
-              </p>
-              
-              {/* Buttons */}
-              <div className="flex flex-wrap gap-4">
-                <Link 
-                  to="/products"
-                  className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/50"
-                >
-                  {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link 
-                  to="/contact"
-                  className="relative px-8 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white rounded-full font-medium transition-all group overflow-hidden hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
-                >
-                  <span className="relative z-10">{t.ctaBtn}</span>
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"></div>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Trust Strip */}
-        <div className="bg-white border-b border-slate-100 py-6 relative z-10 overflow-hidden" role="complementary" aria-label="Certifications">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500 cursor-default">
-                <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 13485</div>
-                <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><ShieldCheck className="text-sky-600" /> ISO 9001</div>
-                <div className="flex items-center gap-2 text-slate-600 font-bold text-lg"><Activity className="text-sky-600" /> EcoVadis Silver</div>
-            </div>
+          <div className="hero-anim flex flex-col justify-center">
+             <div className="mb-4 text-sky-600 font-bold tracking-widest uppercase text-sm">Product Detail</div>
+             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{content.title}</h1>
+             <p className="text-lg font-medium text-slate-700 mb-6 border-l-4 border-sky-500 pl-4">{content.subtitle}</p>
+             <p className="text-slate-600 leading-relaxed mb-8 text-justify">{content.description}</p>
+             
+             <div className="space-y-3">
+               {content.features.map((feature: string, index: number) => (
+                 <div key={index} className="flex items-start gap-3">
+                    <span className="mt-1 shrink-0"><Icons.Check /></span>
+                    <span className="text-slate-700 text-sm">{feature}</span>
+                 </div>
+               ))}
+             </div>
           </div>
         </div>
 
-        {/* === About Section === */}
-        <section aria-labelledby="about-title" className="relative py-24 lg:py-32 bg-white z-10 overflow-hidden">
-          <div className="absolute right-0 top-0 w-1/2 h-full opacity-[0.03] pointer-events-none">
-            <Globe2 className="w-full h-full text-slate-900" strokeWidth={0.5} />
-          </div>
-
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="order-2 lg:order-1 relative gsap-fade-up">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-[6px] border-white shadow-slate-200/50">
-                <img 
-                  src="banner/outsight.jpg" 
-                  loading="lazy" 
-                  alt="Modern factory exterior showing the Tops-Life facility" 
-                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
-              </div>
-              
-              <div className="absolute -bottom-8 -right-4 md:right-8 bg-white/95 backdrop-blur p-6 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-slate-50 animate-float max-w-xs z-20 hidden md:block">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-sky-50 rounded-full text-sky-600">
-                    <Award size={28} />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-slate-800">ISO 13485</div>
-                    <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Certified Quality</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="order-1 lg:order-2 gsap-fade-up">
-              <div className="flex items-center gap-3 mb-5">
-                <span className="w-8 h-[3px] bg-sky-500 inline-block rounded-full"></span>
-                <span className="text-sky-600 font-bold tracking-widest uppercase text-sm">{t.who}</span>
-              </div>
-              
-              <h2 id="about-title" className="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold text-slate-900 mb-8 leading-tight">
-                {t.companyPrefix}<span className="text-sky-600">{t.companySuffix}</span>
-              </h2>
-              
-              <p className="text-slate-600 text-[1.05rem] leading-[1.8] text-justify mb-8">
-                {t.intro}
-              </p>
-              
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-                {t.introPoints.map((point, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-slate-700 font-medium bg-slate-50 p-3 rounded-lg border border-slate-100">
-                      <CheckCircle2 size={18} className="text-sky-500 shrink-0" /> <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-slate-100">
-                {t.stats.map((stat, i) => (
-                  <div key={i}>
-                    <div className="text-3xl lg:text-4xl font-bold text-slate-900 mb-1 flex items-baseline">
-                      <span className="counter-number">{stat.num.replace(/\D/g,'')}</span>
-                      <span className="text-lg text-sky-500 ml-0.5">{stat.num.replace(/\d/g,'')}</span>
-                    </div>
-                    <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* === Solutions Section === */}
-        <section aria-labelledby="solutions-title" className="py-24 bg-slate-50 relative z-10">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
-              <h2 id="solutions-title" className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">{t.solutionsTitle}</h2>
-              <div className="w-16 h-1.5 bg-gradient-to-r from-sky-500 to-cyan-400 mx-auto rounded-full"></div>
-              <p className="mt-6 text-slate-500">{t.solutionsDesc}</p>
-            </div>
-
-            <div className="grid lg:grid-cols-3 gap-8">
-              {t.solutions.map((item, idx) => (
-                <Link 
-                  key={idx} 
-                  to={item.link}
-                  className="gsap-fade-up group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:shadow-sky-100/50 transition-all duration-300 border border-slate-100 hover:-translate-y-2 overflow-hidden flex flex-col h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
-                >
-                  <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
-                  
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ${
-                        idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
-                      }`} aria-hidden="true">
-                      {item.icon}
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors">{item.title}</h3>
-                    <p className="text-slate-500 leading-relaxed mb-8 flex-1">{item.desc}</p>
-                    
-                    <div className="flex items-center text-sm font-bold text-slate-400 group-hover:text-sky-600 transition-colors uppercase tracking-wider mt-auto">
-                      {t.more} <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* === R&D Strength Section (Unified Sky Palette) === */}
-        <section aria-labelledby="rnd-title" className="py-24 lg:py-32 bg-white text-slate-900 relative overflow-hidden z-10">
-          <div className="absolute inset-0 opacity-30 pointer-events-none">
-            <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path d="M0 100 L100 0" stroke="#e2e8f0" strokeWidth="0.2" />
-              <path d="M-20 100 L80 0" stroke="#e2e8f0" strokeWidth="0.2" />
-            </svg>
+        <div className="content-section detail-anim bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
+          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-slate-100">
+            <Icons.Tech />
+            <h2 className="text-2xl font-bold text-slate-900">{content.specTitle}</h2>
           </div>
           
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="grid lg:grid-cols-12 gap-16 items-center">
-              <div className="lg:col-span-5 gsap-fade-up">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="p-2 bg-sky-50 border border-sky-100 rounded-lg text-sky-600"><Microscope size={24} /></span>
-                  <span className="text-sky-600 font-bold tracking-widest uppercase">R&D Center</span>
-                </div>
-                <h2 id="rnd-title" className="text-4xl lg:text-5xl font-bold mb-8 leading-tight text-slate-900">
-                  {t.tech} <span className="text-sky-500">.</span>
-                </h2>
-                <p className="text-slate-600 text-lg leading-relaxed mb-10 border-l-4 border-sky-500 pl-6">{t.techDesc}</p>
-                
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-md transition-all cursor-default group">
-                    <Activity className="text-sky-500 group-hover:scale-110 transition-transform" size={24} />
-                    <div>
-                      <h4 className="font-bold text-lg text-slate-900">ISO 13485 Certified</h4>
-                      <p className="text-sm text-slate-500">国际医疗器械质量管理体系</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-md transition-all cursor-default group">
-                    {/* Updated to sky-400 for consistency */}
-                    <Layers className="text-sky-500 group-hover:scale-110 transition-transform" size={24} />
-                    <div>
-                      <h4 className="font-bold text-lg text-slate-900">10,000 Class Cleanroom</h4>
-                      <p className="text-sm text-slate-500">高标准洁净生产环境</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-7 relative h-[450px] gsap-fade-up">
-                <div className="absolute top-0 right-0 w-[90%] h-[85%] rounded-2xl overflow-hidden border border-white/20 shadow-2xl z-10">
-                  <img 
-                      src="images/industry1.jpg" 
-                      loading="lazy" 
-                      className="w-full h-full object-cover" 
-                      alt="Laboratory technicians working in a sterile environment" 
-                      onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000'; }}
-                  />
-                  <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
-                </div>
-                <div className="absolute bottom-8 -left-4 w-[40%] bg-white text-slate-900 p-6 rounded-xl shadow-xl z-20 hidden md:block animate-float">
-                  <div className="text-3xl font-bold text-sky-600 mb-1">99.9%</div>
-                  <div className="text-sm font-bold text-slate-800">Quality Assurance</div>
-                  <div className="text-xs text-slate-500 mt-1">Strict control in every step.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* === Market Application === */}
-        <section aria-labelledby="market-title" className="py-24 bg-white relative z-10">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gsap-fade-up gap-4">
-              <div>
-                <h2 id="market-title" className="text-3xl lg:text-4xl font-bold text-slate-900 mb-3">{t.marketTitle}</h2>
-                <p className="text-slate-500 max-w-lg">{t.marketDesc}</p>
-              </div>
-              <Link 
-                to="/products"
-                className="flex items-center gap-2 text-sky-600 font-bold hover:text-sky-700 hover:gap-3 transition-all px-4 py-2 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-              >
-                {t.marketBtn} <ArrowRight size={20} />
-              </Link>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {t.market.map((item, i) => (
-                <Link 
-                  key={i} 
-                  className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
-                  to="/products"
-                >
-                  <img 
-                      src={`images/application${i + 1}.png`} 
-                      loading="lazy"
-                      alt={`${item.title} application example`} 
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                      onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
-                  
-                  <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                    <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                      <div className="w-8 h-1 bg-sky-500 rounded-full mb-3 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                      <p className="text-slate-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 leading-snug">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* === Latest News === */}
-        <section aria-labelledby="news-title" className="py-24 bg-slate-50 relative z-10">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex justify-between items-center mb-12 gsap-fade-up">
-                <h2 id="news-title" className="text-3xl lg:text-4xl font-bold text-slate-900">{t.newsTitle}</h2>
-                <Link 
-                  to="/news" 
-                  className="text-sky-600 font-bold hover:gap-2 flex items-center gap-1 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-lg px-2 py-1"
-                >
-                  {t.newsBtn} <ArrowRight size={18} />
-                </Link>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-                {ALL_NEWS.slice(0, 3).map((news, i) => (
-                  <Link 
-                    key={i} 
-                    to="/news"
-                    className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200" 
-                  >
-                      <div className="flex justify-between items-start mb-4">
-                        <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">
-                          {language === 'zh' ? news.tag_zh : news.tag_en}
-                        </span>
-                        <time className="text-sm text-slate-400 flex items-center gap-1">
-                            <Calendar size={14} aria-hidden="true" /> 
-                            {news.year} {language === 'zh' ? news.dateLabel_zh : news.dateLabel_en}
-                        </time>
-                      </div>
-                      <h3>
-                        <div 
-                          className="text-left text-xl font-bold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2"
-                        >
-                          {language === 'zh' ? news.title_zh : news.title_en}
-                        </div>
-                      </h3>
-                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
-                        {language === 'zh' ? news.desc_zh : news.desc_en}
-                      </p>
-                  </Link>
-                ))}
-            </div>
-          </div>
-        </section>
-
-        {/* === CTA Section === */}
-        <section aria-labelledby="cta-title" className="py-20 relative overflow-hidden bg-sky-600">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-sky-600 to-blue-600 z-0"></div>
-          <div className="absolute -top-[50%] -right-[10%] w-[600px] h-[600px] bg-white/10 rounded-full blur-[80px]"></div>
-          
-          {/* 流光背景动画 */}
-          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine-flow"></div>
+          <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
+             {content.specs.map((spec: any, index: number) => (
+               <div key={index} className="flex flex-col sm:flex-row justify-between sm:items-center py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors px-2 rounded">
+                  <span className="text-slate-500 font-medium text-sm">{spec.label}</span>
+                  <span className="text-slate-900 font-bold mt-1 sm:mt-0">{spec.value}</span>
+               </div>
+             ))}
           </div>
 
-          <div className="max-w-4xl mx-auto px-6 text-center relative z-10 text-white gsap-fade-up">
-            <h2 id="cta-title" className="text-3xl md:text-5xl font-bold mb-8 tracking-tight drop-shadow-sm">{t.cta}</h2>
-            <Link 
-              to="/contact"
-              className="px-12 py-4 bg-white text-sky-700 font-bold rounded-full text-lg shadow-xl hover:shadow-2xl hover:bg-slate-50 hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300"
-            >
-              {t.ctaBtn}
+          <div className="mt-12 pt-8 text-center">
+            <p className="text-slate-500 mb-6">{content.ctaTitle}</p>
+            <Link href="/contact">
+              <button className="px-10 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-full shadow-lg shadow-sky-600/30 transition-all hover:-translate-y-1">
+                {content.btnText}
+              </button>
             </Link>
           </div>
-        </section>
+        </div>
+
       </main>
-
-      <style>{`
-        @keyframes ken-burns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-        .animate-ken-burns { animation: ken-burns 20s ease-out infinite alternate; }
-        
-        @keyframes slide-up-fade { 
-          0% { opacity: 0; transform: translateY(20px); } 
-          100% { opacity: 1; transform: translateY(0); } 
-        }
-        .animate-slide-up-fade { animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
-
-        @keyframes float { 
-          0%, 100% { transform: translateY(0); } 
-          50% { transform: translateY(-15px); } 
-        }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-
-        @keyframes shine-flow {
-          0% { transform: translateX(-100%) skewX(-12deg); }
-          100% { transform: translateX(100%) skewX(-12deg); }
-        }
-        .animate-shine-flow { animation: shine-flow 6s linear infinite; }
-      `}</style>
-    </div>
+    </>
   );
-}
+};
+
+// --- Next.js SSG 配置 ---
+// 1. 生成所有产品路径 (告诉 Next.js 有哪些页面需要预渲染)
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = Object.keys(PRODUCT_DATABASE).map((id) => ({
+    params: { id },
+  }));
+  return { paths, fallback: false };
+};
+
+// 2. 获取单个产品数据 (构建时执行，数据直接注入 HTML)
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const id = params?.id as string;
+  const productData = PRODUCT_DATABASE[id];
+  return {
+    props: {
+      id,
+      productData,
+    },
+  };
+};
+
+export default ProductDetail;
