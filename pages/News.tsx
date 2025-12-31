@@ -179,7 +179,7 @@ const News: React.FC = () => {
                     <span className="px-3 py-1 bg-sky-50 text-sky-600 text-xs font-bold uppercase rounded-full">
                       {language === 'zh' ? item.tag_zh : item.tag_en}
                     </span>
-                    <div className="flex items-center gap-2 text-slate-400 text-sm">
+                    <div className="flex items-center gap-2 text-slate-400 text-sm group-hover:text-sky-600 transition-colors">
                       <Calendar size={14} />
                       <span>{item.year} {language === 'zh' ? item.dateLabel_zh : item.dateLabel_en}</span>
                     </div>
