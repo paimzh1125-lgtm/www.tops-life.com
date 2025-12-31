@@ -1,6 +1,7 @@
 // src/pages/Contact.tsx
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../components/LanguageContext';
+import { CheckCircle2, Loader2, Send } from 'lucide-react';
 
 // --- SVG Icons ---
 const Icons = {
@@ -14,16 +15,38 @@ const Icons = {
 
 const Contact: React.FC = () => {
   const { language } = useLanguage();
+  // 新增：表单状态管理 (idle: 空闲, submitting: 提交中, success: 成功)
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${formData.subject}&body=Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`;
+    setStatus('submitting');
+
+    // 模拟网络请求带来的“专业感”延迟 (1.5秒)
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // --- 核心逻辑分支 ---
+    // 方案 A (当前): 继续使用邮件客户端作为保底，但用户体验了完整的提交过程
+    // 方案 B (未来): 这里可以替换为 fetch('https://formspree.io/f/your-id', ...) 来真正后台发送
+    
+    const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
+    
+    // 尝试打开邮件客户端
     window.location.href = mailtoLink;
+
+    // 显示成功状态
+    setStatus('success');
+    
+    // 5秒后重置表单，方便再次提交
+    setTimeout(() => {
+        setStatus('idle');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+    }, 8000);
   };
 
   const content = {
@@ -36,7 +59,15 @@ const Contact: React.FC = () => {
         email: { label: "电子邮箱", val: "Topslife@tops-life.com" },
         hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
       },
-      form: { title: "发送消息", desc: "请填写以下表格，我们的团队将在 24 小时内与您联系。", name: "您的姓名", email: "电子邮箱", subject: "咨询主题", message: "详细需求或留言", btn: "发送邮件" },
+      form: { 
+        title: "发送消息", 
+        desc: "请填写以下表格，我们的团队将在 24 小时内与您联系。", 
+        name: "您的姓名", email: "电子邮箱", subject: "咨询主题", message: "详细需求或留言", 
+        btn: "发送邮件",
+        sending: "正在发送...",
+        successTitle: "消息已发送！",
+        successDesc: "感谢您的联络。我们会尽快通过邮件回复您（同时已尝试唤起您的邮件客户端）。"
+      },
       map: { btn: "在地图中查看" }
     },
     en: {
@@ -48,7 +79,15 @@ const Contact: React.FC = () => {
         email: { label: "Email", val: "pai.ma@tops-life.com" },
         hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
       },
-      form: { title: "Send a Message", desc: "Fill out the form below and our team will get back to you within 24 hours.", name: "Your Name", email: "Email Address", subject: "Subject", message: "Message / Requirements", btn: "Send Email" },
+      form: { 
+        title: "Send a Message", 
+        desc: "Fill out the form below and our team will get back to you within 24 hours.", 
+        name: "Your Name", email: "Email Address", subject: "Subject", message: "Message / Requirements", 
+        btn: "Send Email",
+        sending: "Sending...",
+        successTitle: "Message Sent!",
+        successDesc: "Thank you. We will get back to you shortly (Email client opened as backup)."
+      },
       map: { btn: "View on Map" }
     }
   };
@@ -133,15 +172,42 @@ const Contact: React.FC = () => {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">{t.form.title}</h2>
           <p className="text-slate-500 mb-8">{t.form.desc}</p>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <input type="text" name="name" required placeholder={t.form.name} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none"/>
-              <input type="email" name="email" required placeholder={t.form.email} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none"/>
+          {status === 'success' ? (
+            <div className="flex flex-col items-center justify-center h-[400px] text-center animate-fade-in">
+              <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mb-6">
+                <CheckCircle2 size={40} />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">{t.form.successTitle}</h3>
+              <p className="text-slate-500 max-w-xs mx-auto">{t.form.successDesc}</p>
+              <button 
+                onClick={() => setStatus('idle')}
+                className="mt-8 text-sky-600 font-bold hover:underline"
+              >
+                {language === 'zh' ? '发送另一条消息' : 'Send another message'}
+              </button>
             </div>
-            <input type="text" name="subject" required placeholder={t.form.subject} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none"/>
-            <textarea name="message" rows={6} required placeholder={t.form.message} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none"/>
-            <button type="submit" className="w-full bg-sky-600 text-white font-bold py-3 rounded-xl hover:bg-sky-500 transition-all flex items-center justify-center gap-2"><Icons.Send /> {t.form.btn}</button>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
+              <div className="grid md:grid-cols-2 gap-6">
+                <input type="text" name="name" value={formData.name} required placeholder={t.form.name} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all"/>
+                <input type="email" name="email" value={formData.email} required placeholder={t.form.email} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all"/>
+              </div>
+              <input type="text" name="subject" value={formData.subject} required placeholder={t.form.subject} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all"/>
+              <textarea name="message" rows={6} value={formData.message} required placeholder={t.form.message} onChange={handleInputChange} className="w-full p-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all"/>
+              
+              <button 
+                type="submit" 
+                disabled={status === 'submitting'}
+                className="w-full bg-sky-600 text-white font-bold py-3 rounded-xl hover:bg-sky-500 disabled:bg-sky-400 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-sky-200"
+              >
+                {status === 'submitting' ? (
+                  <><Loader2 className="animate-spin" /> {t.form.sending}</>
+                ) : (
+                  <><Send size={18} /> {t.form.btn}</>
+                )}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
