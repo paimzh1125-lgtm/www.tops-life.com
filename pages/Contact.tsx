@@ -180,14 +180,36 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Map Card */}
-          <div className="bg-white rounded-2xl overflow-hidden h-[300px] relative shadow-lg border border-slate-100">
-            <iframe
-              title="Gaode Map"
-              src="https://uri.amap.com/marker?position=120.757,31.298&name=%E8%8B%8F%E5%B7%9E%E6%B0%B8%E7%88%B1%E7%94%9F%E5%91%BD%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
-              className="w-full h-full border-0"
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
+          <div className="bg-white rounded-2xl overflow-hidden h-[300px] relative shadow-lg border border-slate-100 group cursor-pointer">
+            <a 
+              href="https://uri.amap.com/marker?position=120.757,31.298&name=%E8%8B%8F%E5%B7%9E%E6%B0%B8%E7%88%B1%E7%94%9F%E5%91%BD%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block w-full h-full relative"
+            >
+              {/* 静态地图图片 (如果本地没有 map-preview.jpg，会自动加载 Unsplash 的兜底图) */}
+              <img 
+                src="/images/map-preview.jpg" 
+                alt="Location Map" 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000'; 
+                }}
+              />
+              
+              {/* 悬停遮罩与按钮 */}
+              <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition-colors flex items-center justify-center">
+                <div className="bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-xl flex items-center gap-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                  <Icons.ExternalLink />
+                  <span className="font-bold text-slate-900 text-sm">{t.map.btn}</span>
+                </div>
+              </div>
+
+              {/* 常驻定位图标 */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-sky-600 text-white rounded-full flex items-center justify-center shadow-lg border-4 border-white group-hover:-translate-y-8 transition-transform duration-300">
+                 <Icons.MapPin />
+              </div>
+            </a>
           </div>
 
         </div>
