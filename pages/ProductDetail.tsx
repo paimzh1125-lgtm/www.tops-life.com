@@ -610,9 +610,13 @@ const ProductDetail: React.FC = () => {
   const content = productData ? productData[language] : null;
   const image = productData ? productData.image : "";
 
+  // 1. 仅在 ID 变化时滚动到顶部 (切换产品时)
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [id]);
 
+  // 2. 动画逻辑 (内容变化时触发，如切换语言)
+  useEffect(() => {
     if (!content) return;
 
     const ctx = gsap.context(() => {
@@ -626,7 +630,7 @@ const ProductDetail: React.FC = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [id, content]);
+  }, [content]);
 
   // --- SEO 配置 (动态) ---
   useEffect(() => {
