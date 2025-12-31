@@ -393,9 +393,10 @@ export default function Home() {
                 </Link>
                 <Link 
                   to="/contact"
-                  className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
+                  className="relative px-8 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white rounded-full font-medium transition-all group overflow-hidden hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
                 >
-                  {t.ctaBtn}
+                  <span className="relative z-10">{t.ctaBtn}</span>
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"></div>
                 </Link>
               </div>
             </div>
@@ -500,7 +501,7 @@ export default function Home() {
                   <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
                   
                   <div className="relative z-10 flex flex-col h-full">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-white shadow-lg transition-transform duration-500 group-hover:rotate-6 ${
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ${
                         idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
                       }`} aria-hidden="true">
                       {item.icon}
@@ -610,7 +611,7 @@ export default function Home() {
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
                   
                   <div className="absolute inset-0 p-6 flex flex-col justify-end">
                     <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
