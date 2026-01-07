@@ -18,7 +18,17 @@ const Footer: React.FC = () => {
       desc: "专注于医疗软包装、精密注塑及生物基新材料的创新型企业。",
       icp: "苏ICP备XXXXXXXX号",
       privacy: "隐私政策",
-      terms: "使用条款"
+      terms: "使用条款",
+      productLinks: [
+        { name: "医用软包装", link: "/products#packaging" },
+        { name: "精密注塑", link: "/products#molding" },
+        { name: "生物基材料", link: "/products#material" }
+      ],
+      aboutLinks: [
+        { name: "公司简介", link: "/about" },
+        { name: "新闻中心", link: "/news" },
+        { name: "联系我们", link: "/contact" }
+      ]
     },
     en: {
       about: "About Us",
@@ -31,7 +41,17 @@ const Footer: React.FC = () => {
       desc: "Innovative enterprise focusing on medical flexible packaging, precision injection molding, and bio-based materials.",
       icp: "Suzhou ICP No. XXXXXXXX",
       privacy: "Privacy Policy",
-      terms: "Terms of Use"
+      terms: "Terms of Use",
+      productLinks: [
+        { name: "Medical Packaging", link: "/products#packaging" },
+        { name: "Injection Molding", link: "/products#molding" },
+        { name: "Bio-Materials", link: "/products#material" }
+      ],
+      aboutLinks: [
+        { name: "Company Profile", link: "/about" },
+        { name: "News Center", link: "/news" },
+        { name: "Contact Us", link: "/contact" }
+      ]
     }
   }[language];
 
@@ -42,7 +62,7 @@ const Footer: React.FC = () => {
           {/* Brand & Logo */}
           <div className="col-span-1 md:col-span-1">
             {/* Logo: 白色背景下直接显示原图 */}
-            <img src="/images/yongai.jpg" alt="Tops Life" className="h-12 mb-4 mx-auto md:mx-0 object-contain" />
+            <img src="/images/yongai.jpg" alt="Tops Life" className="h-20 mb-4 mx-auto md:mx-0 object-contain" />
             <h3 className="text-lg font-bold text-slate-900 mb-4">{t.companyName}</h3>
             <p className="text-sm leading-relaxed mb-6">{t.desc}</p>
             <div className="flex gap-4 justify-center md:justify-start">
@@ -78,9 +98,9 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-slate-900 font-bold mb-6">{t.products}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/products#packaging" className="hover:text-sky-600 transition-colors">Medical Packaging</Link></li>
-              <li><Link to="/products#molding" className="hover:text-sky-600 transition-colors">Injection Molding</Link></li>
-              <li><Link to="/products#material" className="hover:text-sky-600 transition-colors">Bio-Materials</Link></li>
+              {t.productLinks.map((item, index) => (
+                <li key={index}><Link to={item.link} className="hover:text-sky-600 transition-colors">{item.name}</Link></li>
+              ))}
             </ul>
           </div>
 
@@ -88,9 +108,9 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-slate-900 font-bold mb-6">{t.about}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/about" className="hover:text-sky-600 transition-colors">Company Profile</Link></li>
-              <li><Link to="/news" className="hover:text-sky-600 transition-colors">News Center</Link></li>
-              <li><Link to="/contact" className="hover:text-sky-600 transition-colors">Contact Us</Link></li>
+              {t.aboutLinks.map((item, index) => (
+                <li key={index}><Link to={item.link} className="hover:text-sky-600 transition-colors">{item.name}</Link></li>
+              ))}
             </ul>
           </div>
 
