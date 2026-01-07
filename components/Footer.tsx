@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
       address: "江苏省苏州市苏州工业园区方泾路 8 号",
       copyright: "© 2025 苏州永爱生命科技有限公司 版权所有",
       desc: "专注于医疗软包装、精密注塑及生物基新材料的创新型企业。",
-      icp: "苏ICP备XXXXXXXX号",
+      icp: "苏ICP备17054569号-2",
       privacy: "隐私政策",
       terms: "使用条款",
       productLinks: [
