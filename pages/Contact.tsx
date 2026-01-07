@@ -189,7 +189,7 @@ const Contact: React.FC = () => {
             >
               {/* 静态地图图片 (如果本地没有 map-preview.jpg，会自动加载 Unsplash 的兜底图) */}
               <img 
-                src="/images/map-preview.jpg" 
+                src="/images/banner.jpg" 
                 alt="Location Map" 
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0"
