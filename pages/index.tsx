@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate, Link } from "react-router-dom";
@@ -150,11 +150,66 @@ const LANG = {
   },
 };
 
+// --- Typewriter Component (打字机组件) ---
+const Typewriter = ({ 
+  text, 
+  speed = 100, 
+  delay = 0, 
+  className = "", 
+  showCursor = true,
+  onComplete 
+}: { 
+  text: string; 
+  speed?: number; 
+  delay?: number; 
+  className?: string; 
+  showCursor?: boolean;
+  onComplete?: () => void;
+}) => {
+  const [display, setDisplay] = useState('');
+  const [started, setStarted] = useState(false);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => { onCompleteRef.current = onComplete; }, [onComplete]);
+
+  useEffect(() => {
+    setDisplay('');
+    setStarted(false);
+    const startTimeout = setTimeout(() => {
+      setStarted(true);
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i < text.length) {
+          setDisplay(text.substring(0, i + 1));
+          i++;
+        } else {
+          clearInterval(timer);
+          if (onCompleteRef.current) onCompleteRef.current();
+        }
+      }, speed);
+      return () => clearInterval(timer);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [text, speed, delay]);
+
+  return (
+    <span className={className}>
+      {display}
+      {showCursor && started && display.length < text.length && (
+        <span className="animate-pulse ml-1 inline-block w-1 h-[1em] bg-current align-middle opacity-80"></span>
+      )}
+    </span>
+  );
+};
+
 export default function Home() {
   const { language } = useLanguage(); 
   const t = LANG[language];
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate(); 
+  
+  // 0: Start, 1: Main Title Done, 2: Sub Title Done
+  const [typingStage, setTypingStage] = useState(0);
 
   // 智能处理标题分行与渐变色逻辑 (优化：支持中英文逗号混用，更稳健)
   const heroTitleParts = useMemo(() => {
@@ -164,6 +219,11 @@ export default function Home() {
       sub: (parts[1] || "").trim() // 去除可能存在的多余空格
     };
   }, [t.hero.title]);
+
+  // Reset animation when language changes
+  useEffect(() => {
+    setTypingStage(0);
+  }, [language]);
 
   // SEO & Meta Handling
   useEffect(() => {
@@ -286,15 +346,32 @@ export default function Home() {
               
               {/* Headline */}
               <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
-                {heroTitleParts.main}<br/>
+                <Typewriter 
+                  text={heroTitleParts.main} 
+                  speed={80} 
+                  onComplete={() => setTypingStage(1)} 
+                />
+                <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
-                  {heroTitleParts.sub}
+                  {typingStage >= 1 && (
+                    <Typewriter 
+                      text={heroTitleParts.sub} 
+                      speed={80} 
+                      onComplete={() => setTypingStage(2)} 
+                    />
+                  )}
                 </span>
               </h1>
               
               {/* Subtitle */}
               <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6">
-                {t.hero.subtitle}
+                {typingStage >= 2 && (
+                  <Typewriter 
+                    text={t.hero.subtitle} 
+                    speed={30} 
+                    showCursor={false} 
+                  />
+                )}
               </p>
               
               {/* Buttons */}
@@ -419,6 +496,23 @@ export default function Home() {
                         idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
                       }`} aria-hidden="true">
                       {item.icon}
+                <div key={idx} className="gsap-fade-up group [perspective:1000px] h-[400px]">
+                  <Link 
+                    to={item.link}
+                    className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] block focus:outline-none"
+                  >
+                    {/* Front Face (正面：简洁大气) */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-xl hover:border-sky-200 transition-all duration-300">
+                      <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
+                      
+                      <div className={`relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg ${
+                          idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
+                        }`}>
+                        {item.icon}
+                      </div>
+                      
+                      <h3 className="relative z-10 text-2xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                      <div className="relative z-10 mt-4 w-12 h-1 bg-slate-100 rounded-full group-hover:bg-sky-500 transition-colors duration-300"></div>
                     </div>
                     
                     <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors">{item.title}</h3>
@@ -426,9 +520,20 @@ export default function Home() {
                     
                     <div className="flex items-center text-sm font-bold text-slate-400 group-hover:text-sky-600 transition-colors uppercase tracking-wider mt-auto">
                       {t.more} <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+
+                    {/* Back Face (背面：深色详情) */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-3xl p-8 shadow-xl border border-slate-700 flex flex-col items-center justify-center text-center">
+                      <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
+                      <p className="text-slate-300 leading-relaxed mb-8 text-sm">{item.desc}</p>
+                      
+                      <div className="flex items-center text-sm font-bold text-sky-400 uppercase tracking-wider">
+                        {t.more} <ArrowRight size={16} className="ml-2" />
+                      </div>
                     </div>
                   </div>
                 </Link>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
