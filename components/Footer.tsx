@@ -10,45 +10,54 @@ const Footer: React.FC = () => {
     zh: {
       about: "关于我们",
       products: "产品中心",
+      companyName: "苏州永爱生命科技有限公司",
       news: "新闻动态",
       contact: "联系我们",
       address: "江苏省苏州市苏州工业园区方泾路 8 号",
       copyright: "© 2025 苏州永爱生命科技有限公司 版权所有",
-      desc: "专注于医疗软包装、精密注塑及生物基新材料的创新型企业。"
+      desc: "专注于医疗软包装、精密注塑及生物基新材料的创新型企业。",
+      icp: "苏ICP备XXXXXXXX号",
+      privacy: "隐私政策",
+      terms: "使用条款"
     },
     en: {
       about: "About Us",
       products: "Products",
+      companyName: "Suzhou Tops Life Technology Co., Ltd.",
       news: "News",
       contact: "Contact Us",
       address: "No. 8 Fangjing Road, SIP, Suzhou, Jiangsu, China",
       copyright: "© 2025 Suzhou Tops Life Technology Co., Ltd. All Rights Reserved.",
-      desc: "Innovative enterprise focusing on medical flexible packaging, precision injection molding, and bio-based materials."
+      desc: "Innovative enterprise focusing on medical flexible packaging, precision injection molding, and bio-based materials.",
+      icp: "Suzhou ICP No. XXXXXXXX",
+      privacy: "Privacy Policy",
+      terms: "Terms of Use"
     }
   }[language];
 
   return (
-    <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 font-sans">
+    <footer className="bg-white text-slate-600 py-12 border-t border-slate-100 font-sans">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
           {/* Brand & Logo */}
           <div className="col-span-1 md:col-span-1">
-            {/* Logo: 使用 brightness-0 invert 将黑色 Logo 转为白色，适应深色底 */}
-            <img src="/banner/logo.png" alt="Tops Life" className="h-10 mb-6 brightness-0 invert opacity-90" />
+            {/* Logo: 白色背景下直接显示原图 */}
+            <img src="/images/yongai.jpg" alt="Tops Life" className="h-12 mb-4 mx-auto md:mx-0 object-contain" />
+            <h3 className="text-lg font-bold text-slate-900 mb-4">{t.companyName}</h3>
             <p className="text-sm leading-relaxed mb-6">{t.desc}</p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center md:justify-start">
               <a 
                 href="https://www.linkedin.com/company/tops-life" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="hover:text-white transition-colors"
+                className="text-slate-400 hover:text-sky-600 transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={24} />
               </a>
               
               {/* WeChat with Hover QR Code */}
-              <div className="relative group cursor-pointer hover:text-white transition-colors">
+              <div className="relative group cursor-pointer text-slate-400 hover:text-sky-600 transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-label="WeChat">
                   <path d="M8.696 14.93c-4.225 0-7.65-3.15-7.65-7.035 0-3.886 3.425-7.036 7.65-7.036 4.224 0 7.649 3.15 7.649 7.036 0 3.885-3.425 7.036-7.65 7.036zm10.917 2.07c0-.28-.023-.556-.066-.826.54-.83.86-1.805.86-2.847 0-3.09-2.76-5.595-6.165-5.595-3.404 0-6.164 2.505-6.164 5.595 0 3.09 2.76 5.596 6.164 5.596.72 0 1.41-.11 2.055-.31l2.355 1.245-.585-1.858z"/>
                 </svg>
@@ -67,37 +76,37 @@ const Footer: React.FC = () => {
 
           {/* Quick Links - Products */}
           <div>
-            <h4 className="text-white font-bold mb-6">{t.products}</h4>
+            <h4 className="text-slate-900 font-bold mb-6">{t.products}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/products#packaging" className="hover:text-sky-400 transition-colors">Medical Packaging</Link></li>
-              <li><Link to="/products#molding" className="hover:text-sky-400 transition-colors">Injection Molding</Link></li>
-              <li><Link to="/products#material" className="hover:text-sky-400 transition-colors">Bio-Materials</Link></li>
+              <li><Link to="/products#packaging" className="hover:text-sky-600 transition-colors">Medical Packaging</Link></li>
+              <li><Link to="/products#molding" className="hover:text-sky-600 transition-colors">Injection Molding</Link></li>
+              <li><Link to="/products#material" className="hover:text-sky-600 transition-colors">Bio-Materials</Link></li>
             </ul>
           </div>
 
           {/* Quick Links - About */}
           <div>
-            <h4 className="text-white font-bold mb-6">{t.about}</h4>
+            <h4 className="text-slate-900 font-bold mb-6">{t.about}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link to="/about" className="hover:text-sky-400 transition-colors">Company Profile</Link></li>
-              <li><Link to="/news" className="hover:text-sky-400 transition-colors">News Center</Link></li>
-              <li><Link to="/contact" className="hover:text-sky-400 transition-colors">Contact Us</Link></li>
+              <li><Link to="/about" className="hover:text-sky-600 transition-colors">Company Profile</Link></li>
+              <li><Link to="/news" className="hover:text-sky-600 transition-colors">News Center</Link></li>
+              <li><Link to="/contact" className="hover:text-sky-600 transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-white font-bold mb-6">{t.contact}</h4>
+            <h4 className="text-slate-900 font-bold mb-6">{t.contact}</h4>
             <ul className="space-y-4 text-sm">
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 justify-center md:justify-start">
                 <MapPin size={18} className="mt-0.5 shrink-0 text-sky-500" />
                 <span>{t.address}</span>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 justify-center md:justify-start">
                 <Mail size={18} className="shrink-0 text-sky-500" />
-                <a href="mailto:Topslife@tops-life.com" className="hover:text-white transition-colors">Topslife@tops-life.com</a>
+                <a href="mailto:Topslife@tops-life.com" className="hover:text-sky-600 transition-colors">Topslife@tops-life.com</a>
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-3 justify-center md:justify-start">
                 <Phone size={18} className="shrink-0 text-sky-500" />
                 <span>+86 0512-66185798</span>
               </li>
@@ -106,8 +115,15 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-slate-800 pt-8 text-center text-xs text-slate-600">
-          <p>{t.copyright}</p>
+        <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+          <div className="text-center md:text-left">
+            <p>{t.copyright}</p>
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" className="mt-1 block hover:text-sky-600 transition-colors">{t.icp}</a>
+          </div>
+          <div className="flex gap-6">
+             <span className="hover:text-sky-600 transition-colors cursor-pointer">{t.privacy}</span>
+             <span className="hover:text-sky-600 transition-colors cursor-pointer">{t.terms}</span>
+          </div>
         </div>
       </div>
     </footer>
