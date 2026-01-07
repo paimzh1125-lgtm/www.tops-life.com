@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../components/LanguageContext';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -252,6 +252,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
 const Products: React.FC = () => {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   // 使用 useMemo 获取当前语言数据，避免重复计算
   const t = useMemo(() => {
@@ -290,6 +291,20 @@ const Products: React.FC = () => {
 
     return () => ctx.revert(); // 组件卸载或语言变化时清理动画
   }, [language]); // 依赖 language，切换语言时重新执行动画
+
+  // --- 锚点滚动逻辑 (SEO 优化版) ---
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        // 给予一点延迟确保 DOM 渲染完成
+        setTimeout(() => element.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
 
   // --- SEO 配置 ---
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   ArrowRight,
   PackageOpen,
@@ -243,30 +243,6 @@ export default function Home() {
     canonical.setAttribute('href', window.location.href.split('#')[0]);
   }, [language, t.metaTitle, t.metaDesc]);
 
-  // Navigation Logic
-  const handleNavigation = (path: string) => {
-    if (path.includes('#')) {
-      const [pagePath, hash] = path.split('#');
-      navigate(pagePath);
-      setTimeout(() => {
-        const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
-    } else {
-      navigate(path);
-    }
-  };
-
-  // Keyboard Navigation Handler
-  const handleKeyDown = (e: React.KeyboardEvent, path: string) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleNavigation(path);
-    }
-  };
-
   // GSAP Animations with Mobile Check
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -409,18 +385,18 @@ export default function Home() {
               
               {/* Buttons */}
               <div className="flex flex-wrap gap-4">
-                <button 
-                  onClick={() => handleNavigation('/products')}
+                <Link 
+                  to="/products"
                   className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/50"
                 >
                   {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button 
-                  onClick={() => navigate('/contact')}
+                </Link>
+                <Link 
+                  to="/contact"
                   className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
                 >
                   {t.ctaBtn}
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -516,12 +492,9 @@ export default function Home() {
 
             <div className="grid lg:grid-cols-3 gap-8">
               {t.solutions.map((item, idx) => (
-                <div 
+                <Link 
                   key={idx} 
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => handleKeyDown(e, item.link)}
-                  onClick={() => handleNavigation(item.link)}
+                  to={item.link}
                   className="gsap-fade-up group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:shadow-sky-100/50 transition-all duration-300 border border-slate-100 hover:-translate-y-2 overflow-hidden flex flex-col h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
                 >
                   <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
@@ -540,7 +513,7 @@ export default function Home() {
                       {t.more} <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -615,23 +588,20 @@ export default function Home() {
                 <h2 id="market-title" className="text-3xl lg:text-4xl font-bold text-slate-900 mb-3">{t.marketTitle}</h2>
                 <p className="text-slate-500 max-w-lg">{t.marketDesc}</p>
               </div>
-              <button 
-                onClick={() => handleNavigation('/products')}
+              <Link 
+                to="/products"
                 className="flex items-center gap-2 text-sky-600 font-bold hover:text-sky-700 hover:gap-3 transition-all px-4 py-2 rounded-lg hover:bg-sky-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
               >
                 {t.marketBtn} <ArrowRight size={20} />
-              </button>
+              </Link>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {t.market.map((item, i) => (
-                <div 
+                <Link 
                   key={i} 
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => handleKeyDown(e, '/products')}
                   className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
-                  onClick={() => handleNavigation('/products')}
+                  to="/products"
                 >
                   <img 
                       src={`images/application${i + 1}.png`} 
@@ -651,7 +621,7 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -662,20 +632,20 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex justify-between items-center mb-12 gsap-fade-up">
                 <h2 id="news-title" className="text-3xl lg:text-4xl font-bold text-slate-900">{t.newsTitle}</h2>
-                <button 
-                  onClick={() => navigate('/news')} 
+                <Link 
+                  to="/news" 
                   className="text-sky-600 font-bold hover:gap-2 flex items-center gap-1 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-lg px-2 py-1"
                 >
                   {t.newsBtn} <ArrowRight size={18} />
-                </button>
+                </Link>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
                 {ALL_NEWS.slice(0, 3).map((news, i) => (
-                  <article 
+                  <Link 
                     key={i} 
+                    to="/news"
                     className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200" 
-                    onClick={() => navigate('/news')}
                   >
                       <div className="flex justify-between items-start mb-4">
                         <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">
@@ -687,19 +657,16 @@ export default function Home() {
                         </time>
                       </div>
                       <h3>
-                        <button 
-                          onClick={(e) => {
-                            if(e.target === e.currentTarget) navigate('/news'); 
-                          }}
-                          className="text-left text-xl font-bold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2 focus:outline-none after:absolute after:inset-0"
+                        <div 
+                          className="text-left text-xl font-bold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2"
                         >
                           {language === 'zh' ? news.title_zh : news.title_en}
-                        </button>
+                        </div>
                       </h3>
                       <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
                         {language === 'zh' ? news.desc_zh : news.desc_en}
                       </p>
-                  </article>
+                  </Link>
                 ))}
             </div>
           </div>
@@ -713,12 +680,12 @@ export default function Home() {
 
           <div className="max-w-4xl mx-auto px-6 text-center relative z-10 text-white gsap-fade-up">
             <h2 id="cta-title" className="text-3xl md:text-5xl font-bold mb-8 tracking-tight drop-shadow-sm">{t.cta}</h2>
-            <button 
-              onClick={() => navigate('/contact')}
+            <Link 
+              to="/contact"
               className="px-12 py-4 bg-white text-sky-700 font-bold rounded-full text-lg shadow-xl hover:shadow-2xl hover:bg-slate-50 hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300"
             >
               {t.ctaBtn}
-            </button>
+            </Link>
           </div>
         </section>
       </main>
