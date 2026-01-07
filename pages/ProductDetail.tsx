@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { X, ZoomIn } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 
 // 注册 GSAP 插件
@@ -14,8 +15,27 @@ const Icons = {
   Tech: () => <svg className="w-6 h-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
 };
 
+interface ProductContent {
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  specs: { label: string; value: string }[];
+  btnText: string;
+  specTitle: string;
+  backText: string;
+  notFound: string;
+  ctaTitle: string;
+}
+
+interface ProductEntry {
+  zh: ProductContent;
+  en: ProductContent;
+  image: string;
+}
+
 // --- 产品数据字典 (包含中英文) ---
-const PRODUCT_DATABASE: any = {
+const PRODUCT_DATABASE: Record<string, ProductEntry> = {
   // === 医用洁净软包装 ===
   "pe-bag": {
     zh: {
@@ -605,14 +625,14 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { language } = useLanguage(); 
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   
   const productData = id ? PRODUCT_DATABASE[id] : null;
   const content = productData ? productData[language] : null;
   const image = productData ? productData.image : "";
 
+  // 2. 动画逻辑 (内容变化时触发，如切换语言)
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     if (!content) return;
 
     const ctx = gsap.context(() => {
@@ -626,9 +646,9 @@ const ProductDetail: React.FC = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [id, content]);
+  }, [content]);
 
-  // --- SEO 配置 (动态) ---
+  // --- SEO 配置 (客户端动态渲染) ---
   useEffect(() => {
     if (!content) return;
 
@@ -658,6 +678,18 @@ const ProductDetail: React.FC = () => {
     canonical.setAttribute('href', window.location.href.split('#')[0]);
   }, [language, content]);
 
+  // Lightbox Animation & Scroll Lock
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.style.overflow = 'hidden';
+      gsap.fromTo(".lightbox-overlay", { opacity: 0 }, { opacity: 1, duration: 0.3 });
+      gsap.fromTo(".lightbox-img", { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.1 });
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isLightboxOpen]);
+
   if (!content) {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
@@ -672,7 +704,7 @@ const ProductDetail: React.FC = () => {
   }
 
   return (
-    <main className="container mx-auto px-6">
+      <main className="container mx-auto px-6">
         
         <Link to="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
           <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
@@ -681,15 +713,25 @@ const ProductDetail: React.FC = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
           <div className="hero-anim relative">
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100">
+            <div 
+              className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100 group cursor-zoom-in relative"
+              onClick={() => setIsLightboxOpen(true)}
+            >
               <img 
                 src={image} 
                 alt={content.title} 
+                fetchPriority="high"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
                 onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=2000';
                 }}
               />
+              {/* Zoom Icon Overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                 <div className="bg-white/90 p-4 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-lg text-slate-800">
+                    <ZoomIn size={24} />
+                 </div>
+              </div>
             </div>
             <div className="absolute -z-10 top-10 -left-10 w-full h-full bg-[radial-gradient(#e0f2fe_1px,transparent_1px)] [background-size:20px_20px] opacity-70"></div>
           </div>
@@ -735,6 +777,27 @@ const ProductDetail: React.FC = () => {
             </Link>
           </div>
         </div>
+
+        {/* Lightbox Overlay */}
+        {isLightboxOpen && (
+          <div 
+            className="lightbox-overlay fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <button 
+              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full z-10"
+              onClick={() => setIsLightboxOpen(false)}
+            >
+              <X size={32} />
+            </button>
+            <img 
+              src={image} 
+              alt={content.title} 
+              className="lightbox-img max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl cursor-default"
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
+        )}
 
       </main>
   );

@@ -20,61 +20,7 @@ import {
 // Context
 import { useLanguage } from "../components/LanguageContext";
 // Data
-
-const ALL_NEWS = [
-  { 
-    id: 1,
-    year: "2025", 
-    dateLabel_zh: "01月", 
-    dateLabel_en: "Jan",
-    tag_zh: "可持续发展", 
-    tag_en: "Sustainability",
-    title_zh: "荣获法国 EcoVadis 可持续发展银牌认证", 
-    title_en: "Achieved EcoVadis Sustainability Silver Rating",
-    desc_zh: "永爱在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。",
-    desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights, Ethics, and Sustainable Procurement. A solid step forward in our CSR journey.",
-    category: "Corporate"
-  },
-  { 
-    id: 2,
-    year: "2024", 
-    dateLabel_zh: "年度创新", 
-    dateLabel_en: "Innovation",
-    tag_zh: "产品研发", 
-    tag_en: "R&D",
-    title_zh: "成功开发三层易揭自封袋", 
-    title_en: "Developed 3-Layer Easy-Peel Self-Sealing Bag",
-    desc_zh: "针对细胞培养瓶开包后的存放痛点，我们研发出创新的三层结构易揭自封袋。该产品有效解决了二次污染问题，极大提升了实验室无菌操作的便利性与安全性。",
-    desc_en: "Innovatively solved storage and contamination issues for cell culture flasks. This product significantly improves safety and convenience in sterile labs.",
-    category: "Products"
-  },
-  { 
-    id: 3,
-    year: "2023", 
-    dateLabel_zh: "年度基建", 
-    dateLabel_en: "Expansion",
-    tag_zh: "产能升级", 
-    tag_en: "Upgrade",
-    title_zh: "升级扩建 ISO Class 7 洁净室", 
-    title_en: "Upgraded to ISO Class 7 Cleanroom",
-    desc_zh: "完成十万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
-    desc_en: "Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.",
-    category: "Corporate"
-  },
-  { 
-    id: 4,
-    year: "2019", 
-    dateLabel_zh: "03月", 
-    dateLabel_en: "Mar",
-    tag_zh: "质量体系", 
-    tag_en: "Quality",
-    title_zh: "取得 ISO 13485 & 9001 双重认证", 
-    title_en: "Obtained ISO 13485 & 9001 Certificates",
-    desc_zh: "质量管理体系正式通过国际标准认证。这不仅是对我们生产管理水平的认可，更意味着我们的产品获得了进入全球医疗供应链的“通行证”。",
-    desc_en: "Officially certified by international quality standards. This accreditation serves as a global passport for our products to enter the medical supply chain.",
-    category: "Corporate"
-  }
-];
+import { ALL_NEWS } from "./News";
 
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -121,6 +67,7 @@ const LANG = {
     ],
     tech: "研发与技术实力",
     techDesc: "融合高分子科学、材料工程及精密成型专业知识，配备洁净室、自动化生产线及内部研发实验室。",
+    qualityCard: { rate: "99.9%", title: "质量保证", desc: "严格把控每一个生产环节。" },
     // Static Hero Content (Consolidated from Slide 1)
     hero: { 
       title: "融汇绿色科技，守护生命未来", 
@@ -180,6 +127,7 @@ const LANG = {
     ],
     tech: "R&D Strength",
     techDesc: "Integrating polymer science, materials engineering, and precision molding expertise.",
+    qualityCard: { rate: "99.9%", title: "Quality Assurance", desc: "Strict control in every step." },
     // Static Hero Content (Consolidated from Slide 1)
     hero: { 
       title: "Green Tech, Guarding the Future", 
@@ -393,9 +341,10 @@ export default function Home() {
                 </Link>
                 <Link 
                   to="/contact"
-                  className="px-8 py-4 bg-white/5 border border-white/20 backdrop-blur-md hover:bg-white hover:text-slate-900 text-white rounded-full font-medium transition-all active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
+                  className="relative px-8 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white rounded-full font-medium transition-all group overflow-hidden hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
                 >
-                  {t.ctaBtn}
+                  <span className="relative z-10">{t.ctaBtn}</span>
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"></div>
                 </Link>
               </div>
             </div>
@@ -495,12 +444,12 @@ export default function Home() {
                 <Link 
                   key={idx} 
                   to={item.link}
-                  className="gsap-fade-up group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:shadow-sky-100/50 transition-all duration-300 border border-slate-100 hover:-translate-y-2 overflow-hidden flex flex-col h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
+                  className="gsap-fade-up group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:shadow-sky-100/50 transition-all duration-300 border border-slate-100 hover:border-sky-200 hover:-translate-y-2 overflow-hidden flex flex-col h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
                 >
                   <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
                   
                   <div className="relative z-10 flex flex-col h-full">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-white shadow-lg transition-transform duration-500 group-hover:rotate-6 ${
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ${
                         idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
                       }`} aria-hidden="true">
                       {item.icon}
@@ -571,9 +520,9 @@ export default function Home() {
                   <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
                 </div>
                 <div className="absolute bottom-8 -left-4 w-[40%] bg-white text-slate-900 p-6 rounded-xl shadow-xl z-20 hidden md:block animate-float">
-                  <div className="text-3xl font-bold text-sky-600 mb-1">99.9%</div>
-                  <div className="text-sm font-bold text-slate-800">Quality Assurance</div>
-                  <div className="text-xs text-slate-500 mt-1">Strict control in every step.</div>
+                  <div className="text-3xl font-bold text-sky-600 mb-1">{t.qualityCard.rate}</div>
+                  <div className="text-sm font-bold text-slate-800">{t.qualityCard.title}</div>
+                  <div className="text-xs text-slate-500 mt-1">{t.qualityCard.desc}</div>
                 </div>
               </div>
             </div>
@@ -610,7 +559,7 @@ export default function Home() {
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
                   
                   <div className="absolute inset-0 p-6 flex flex-col justify-end">
                     <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
@@ -640,18 +589,18 @@ export default function Home() {
                 </Link>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8">
-                {ALL_NEWS.slice(0, 3).map((news, i) => (
+            <div className="flex overflow-x-auto pb-8 gap-6 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
+                {ALL_NEWS.map((news, i) => (
                   <Link 
-                    key={i} 
+                    key={news.id} 
                     to="/news"
-                    className="gsap-fade-up bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200" 
+                    className="gsap-fade-up min-w-[85vw] md:min-w-[380px] snap-center bg-white rounded-2xl p-8 border border-slate-100 hover:border-sky-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200 flex flex-col" 
                   >
                       <div className="flex justify-between items-start mb-4">
                         <span className="text-sm font-bold text-sky-500 bg-sky-50 px-3 py-1 rounded-full">
                           {language === 'zh' ? news.tag_zh : news.tag_en}
                         </span>
-                        <time className="text-sm text-slate-400 flex items-center gap-1">
+                        <time className="text-sm text-slate-400 group-hover:text-sky-600 transition-colors flex items-center gap-1">
                             <Calendar size={14} aria-hidden="true" /> 
                             {news.year} {language === 'zh' ? news.dateLabel_zh : news.dateLabel_en}
                         </time>
@@ -663,7 +612,7 @@ export default function Home() {
                           {language === 'zh' ? news.title_zh : news.title_en}
                         </div>
                       </h3>
-                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
+                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mt-auto">
                         {language === 'zh' ? news.desc_zh : news.desc_en}
                       </p>
                   </Link>
@@ -677,6 +626,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-sky-600 to-blue-600 z-0"></div>
           <div className="absolute -top-[50%] -right-[10%] w-[600px] h-[600px] bg-white/10 rounded-full blur-[80px]"></div>
+          
+          {/* 流光背景动画 */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine-flow"></div>
+          </div>
 
           <div className="max-w-4xl mx-auto px-6 text-center relative z-10 text-white gsap-fade-up">
             <h2 id="cta-title" className="text-3xl md:text-5xl font-bold mb-8 tracking-tight drop-shadow-sm">{t.cta}</h2>
@@ -705,6 +659,16 @@ export default function Home() {
           50% { transform: translateY(-15px); } 
         }
         .animate-float { animation: float 6s ease-in-out infinite; }
+
+        @keyframes shine-flow {
+          0% { transform: translateX(-100%) skewX(-12deg); }
+          100% { transform: translateX(100%) skewX(-12deg); }
+        }
+        .animate-shine-flow { animation: shine-flow 6s linear infinite; }
+
+        /* 隐藏横向滚动条但保留滚动功能 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </div>
   );

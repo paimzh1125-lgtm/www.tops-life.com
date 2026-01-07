@@ -400,6 +400,7 @@ const About: React.FC = () => {
                            <img 
                               src={item.image} 
                               alt={item.title} 
+                              loading="lazy"
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                            />
                            {/* 浅色渐变遮罩 */}
@@ -477,7 +478,7 @@ const About: React.FC = () => {
                   {t.cert.items.map((item, idx) => (
                       <div key={idx} className="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-6 hover:shadow-md transition-shadow">
                           <div className="w-24 h-24 shrink-0 bg-white rounded-xl overflow-hidden border border-slate-200 p-2">
-                             <img src={item.img} alt={item.title} className="w-full h-full object-contain" />
+                             <img src={item.img} alt={item.title} loading="lazy" className="w-full h-full object-contain" />
                           </div>
                           <div>
                               <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
