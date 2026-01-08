@@ -27,26 +27,36 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setStatus('submitting');
 
-    // 模拟网络请求带来的“专业感”延迟 (1.5秒)
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // 1. 尝试通过 Formspree 发送邮件
+      // 请务必去 https://formspree.io/ 注册账号，创建一个 New Form，将目标邮箱设置为 pai.ma@tops-life.com
+      // 然后将获得的 Form ID (例如 xzyqjklm) 替换下面的 "YOUR_FORM_ID_HERE"
+      const response = await fetch("https://formspree.io/f/xpqwvoea", { // 将 xzyqjklm 替换为您真实的 Form ID
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
 
-    // --- 核心逻辑分支 ---
-    // 方案 A (当前): 继续使用邮件客户端作为保底，但用户体验了完整的提交过程
-    // 方案 B (未来): 这里可以替换为 fetch('https://formspree.io/f/your-id', ...) 来真正后台发送
-    
-    const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
-    
-    // 尝试打开邮件客户端
-    window.location.href = mailtoLink;
-
-    // 显示成功状态
-    setStatus('success');
-    
-    // 5秒后重置表单，方便再次提交
-    setTimeout(() => {
-        setStatus('idle');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 8000);
+      if (response.ok) {
+        setStatus('success');
+        setTimeout(() => {
+            setStatus('idle');
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        }, 5000);
+      } else {
+        // 如果 ID 无效或网络错误，抛出异常以触发 catch 中的 mailto
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      // 2. 保底方案：如果网络发送失败，则唤起本地邮件客户端
+      const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
+      window.location.href = mailtoLink;
+      setStatus('idle'); 
+    }
   };
 
   const content = {
