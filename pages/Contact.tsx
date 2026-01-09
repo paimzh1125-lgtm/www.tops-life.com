@@ -74,6 +74,11 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setStatus('submitting');
 
+    // 根据当前语言环境设置自动回复的文案
+    const autoResponseText = language === 'zh' 
+      ? "感谢您的联络。我们已收到您的消息，团队将在 24 小时内与您联系。"
+      : "Thank you for contacting us. We have received your message and our team will get back to you within 24 hours.";
+
     try {
       // 1. 尝试通过 FormSubmit.co 发送邮件
       // 目标邮箱：pai.ma@tops-life.com
@@ -84,10 +89,17 @@ const Contact: React.FC = () => {
           "Accept": "application/json"
         },
         body: JSON.stringify({
-          ...formData,
-          _subject: `[Website Inquiry] ${formData.subject}`, // 自定义邮件标题
-          _template: "table", // 使用表格样式，邮件更好看
-          _captcha: "false"   // 关闭验证码，让用户直接提交成功
+          // 1. 优化字段名：将小写 key 映射为首字母大写，使邮件正文表格更规范易读
+          "Name": formData.name,
+          "Email": formData.email,
+          "Subject": formData.subject,
+          "Message": formData.message,
+          // 2. 配置参数
+          _subject: `[Website Inquiry] ${formData.subject}`, // 邮件标题
+          _template: "box",   // 使用 "box" 模板，样式比 "table" 更现代、正式
+          _captcha: "false",  // 关闭验证码
+          _replyto: formData.email, // 确保在邮箱点“回复”时直接回复给客户
+          _autoresponse: autoResponseText // 自动回复内容 (根据语言动态设置)
         })
       });
 
