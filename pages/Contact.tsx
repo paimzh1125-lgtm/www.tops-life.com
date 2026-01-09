@@ -75,16 +75,20 @@ const Contact: React.FC = () => {
     setStatus('submitting');
 
     try {
-      // 1. 尝试通过 Formspree 发送邮件
-      // 请务必去 https://formspree.io/ 注册账号，创建一个 New Form，将目标邮箱设置为 pai.ma@tops-life.com
-      // 然后将获得的 Form ID (例如 xzyqjklm) 替换下面的 "YOUR_FORM_ID_HERE"
-      const response = await fetch("https://formspree.io/f/xjgknnoa", { // 将 xzyqjklm 替换为您真实的 Form ID
+      // 1. 尝试通过 FormSubmit.co 发送邮件
+      // 目标邮箱：pai.ma@tops-life.com
+      const response = await fetch("https://formsubmit.co/ajax/pai.ma@tops-life.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          _subject: `[Website Inquiry] ${formData.subject}`, // 自定义邮件标题
+          _template: "table", // 使用表格样式，邮件更好看
+          _captcha: "false"   // 关闭验证码，让用户直接提交成功
+        })
       });
 
       if (response.ok) {
