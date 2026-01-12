@@ -45,13 +45,13 @@ const Navbar: React.FC = () => {
     return language === 'zh' ? [
       { name: '首页', path: '/' },
       { name: '关于我们', path: '/about' },
-      { name: '业务板块', path: '/products' },
+      { name: '解决方案', path: '/products' },
       { name: '新闻动态', path: '/news' },
       { name: '联系我们', path: '/contact' },
     ] : [
       { name: 'Home', path: '/' },
       { name: 'About', path: '/about' },
-      { name: 'Products', path: '/products' },
+      { name: 'Solutions', path: '/products' },
       { name: 'News', path: '/news' },
       { name: 'Contact', path: '/contact' },
     ];

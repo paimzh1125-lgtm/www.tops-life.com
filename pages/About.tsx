@@ -144,7 +144,7 @@ const About: React.FC = () => {
       ],
       intro: {
         title: "关于我们",
-        p1: "Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应领域的创新型企业。我们在医疗行业组件、特种纸及油墨行业等领域拥有丰富的经验。",
+        p1: "自 2011 年淘爱（Tops Life）成立以来，我们始终致力于为全球医疗及新材料行业提供卓越的解决方案。作为一家专注于软包装、医疗器械及新材料供应领域的创新型企业，我们在医疗行业组件、特种纸及油墨行业等领域积累了深厚的专业经验。",
         coreTitle: "核心业务",
         coreItems: [
             "洁净软包装 (Clean Flexible Packaging)",
@@ -204,7 +204,7 @@ const About: React.FC = () => {
       ],
       intro: {
         title: "Who We Are",
-        p1: "Founded in 2011, Tops-Life is an innovative enterprise focusing on flexible packaging, medical devices, and new material supply. We have extensive experience in medical components, specialty paper, and ink industries.",
+        p1: "Since the establishment of Tops Life in 2011, we have been committed to delivering exceptional solutions for the global medical and new material industries. As an innovative enterprise focusing on flexible packaging, medical devices, and new material supply, we possess extensive experience across medical components, specialty paper, and ink sectors.",
         coreTitle: "Core Businesses",
         coreItems: [
             "Clean Flexible Packaging",

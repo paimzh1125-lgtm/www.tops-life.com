@@ -27,6 +27,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 // --- Data & Config ---
 
+// 2. 动态年份计算 (Dynamic Year Calculation)
+const CURRENT_YEAR = new Date().getFullYear();
+const YEARS_EXP = CURRENT_YEAR - 2011;
+
 const LANG = {
   zh: {
     metaTitle: "首页 | 苏州永爱生命科技有限公司 - 医用软包装与生物材料专家",
@@ -35,11 +39,11 @@ const LANG = {
     who: "关于我们",
     companyPrefix: "永爱",
     companySuffix: "生命",
-    intro: "自淘爱成立 2011 年以来，始终专注于软包装、医疗器械及新材料供应等领域的创新。我们拥有生物医药、医疗器械、特种纸、水性油墨行业等多领域的丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
+    intro: "自 2011 年淘爱（Tops Life）成立以来，我们始终致力于为全球医疗及新材料行业提供卓越的解决方案。作为无菌屏障系统与精密制造领域的先行者，我们融合生物医药、特种纸及水性油墨等多学科经验，秉持“质量为先”的核心理念，聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，赋能医疗器械的安全与创新。",
     introPoints: ["ISO 7 (万级) 洁净车间", "全流程质量追溯"],
     more: "探索详情",
     stats: [
-      { num: "15+", label: "年行业经验" },
+      { num: `${YEARS_EXP}+`, label: "年行业经验" },
       { num: "10k", label: "级洁净车间" }, 
       { num: "50+", label: "全球合作伙伴" },
     ],
@@ -71,7 +75,7 @@ const LANG = {
     // Static Hero Content (Consolidated from Slide 1)
     hero: { 
       title: "融汇绿色科技，守护生命未来", 
-      subtitle: "从生物基新材料到无菌屏障，我们以可持续方案重新定义医疗制造。" 
+      subtitle: "以符合国际标准的无菌屏障与生物基材料，重塑医疗制造的可持续未来。" 
     },
     marketTitle: "应用领域",
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
@@ -95,11 +99,11 @@ const LANG = {
     who: "About Us",
     companyPrefix: "Tops",
     companySuffix: " Life Science",
-    intro: "Since Zitaoai was founded in 2011, we have been a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience in Biomedicine, Medical Devices, Specialty Paper, and Water-based Ink industries, we adhere to a 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
+    intro: "Since the establishment of Tops Life in 2011, we have been committed to delivering exceptional solutions for the global medical and new material industries. As a pioneer in sterile barrier systems and precision manufacturing, we integrate multidisciplinary expertise in biomedicine, specialty paper, and water-based inks. Adhering to a 'Quality First' philosophy, we focus on clean flexible packaging, precision injection molding, and bio-based materials to empower safety and innovation in medical devices.",
     introPoints: ["ISO 7 Cleanroom", "Full Quality Traceability"],
     more: "Discover More",
     stats: [
-      { num: "15+", label: "Years Exp." },
+      { num: `${YEARS_EXP}+`, label: "Years Exp." },
       { num: "10k", label: "Clean Class" }, 
       { num: "50+", label: "Global Partners" },
     ],
@@ -358,8 +362,8 @@ export default function Home() {
                 fetchPriority="high"
               />
             </div>
-            {/* 2. 背景与遮罩优化: 线性渐变遮罩 (左深右浅) */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+            {/* 3. Banner 视觉提亮: 品牌色渐变遮罩 (Brand Gradient Overlay) */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 via-cyan-800/80 to-transparent mix-blend-multiply md:mix-blend-normal" />
           </div>
 
           {/* 1. 布局重构: Container 容器 + 左侧留白 */}
