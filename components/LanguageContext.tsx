@@ -14,8 +14,13 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   // 初始化状态：优先从 localStorage 读取，默认为 'zh'
   const [language, setLanguageState] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('app_language');
-      return (saved === 'zh' || saved === 'en') ? saved : 'zh';
+      try {
+        const saved = localStorage.getItem('app_language');
+        return (saved === 'zh' || saved === 'en') ? saved : 'zh';
+      } catch (e) {
+        // 忽略 localStorage 访问错误（如隐私模式）
+        return 'zh';
+      }
     }
     return 'zh';
   });
@@ -24,8 +29,11 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('app_language', lang);
-      document.documentElement.lang = lang;
+      try {
+        localStorage.setItem('app_language', lang);
+      } catch (e) {
+        // 忽略写入错误
+      }
     }
   };
 
