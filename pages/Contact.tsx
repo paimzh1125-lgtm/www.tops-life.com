@@ -13,6 +13,53 @@ const Icons = {
   ExternalLink: () => <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 };
 
+const content = {
+  zh: {
+    metaTitle: "联系我们 | 永爱生命 - 业务咨询与技术支持",
+    metaDesc: "获取苏州永爱生命科技有限公司的地址、电话及邮箱。我们提供专业的医疗包装与注塑解决方案咨询，期待与您的合作。",
+    hero: { title: "联系我们", subtitle: "开启合作新篇章", desc: "无论是产品咨询、技术合作还是商务洽谈，我们随时准备为您提供专业支持。" },
+    info: {
+      title: "联系方式",
+      address: { label: "公司地址", val: "江苏省苏州市苏州工业园区方泾路 8 号", zip: "邮编：215121" },
+      phone: { label: "联系电话", val: "+86 0512-66185798" },
+      email: { label: "电子邮箱", val: "Topslife@tops-life.com" },
+      hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
+    },
+    form: { 
+      title: "发送消息", 
+      desc: "请填写以下表格，我们的团队将在 24 小时内与您联系。", 
+      name: "您的姓名", email: "电子邮箱", subject: "咨询主题", message: "详细需求或留言", 
+      btn: "发送邮件",
+      sending: "正在发送...",
+      successTitle: "消息已发送！",
+      successDesc: "感谢您的联络。我们会尽快通过邮件回复您（同时已尝试唤起您的邮件客户端）。"
+    },
+    map: { btn: "在地图中查看" }
+  },
+  en: {
+    metaTitle: "Contact Us | Tops Life - Get in Touch",
+    metaDesc: "Contact Suzhou Tops Life Technology. Find our address, phone number, and email for inquiries regarding medical packaging and manufacturing solutions.",
+    hero: { title: "Contact Us", subtitle: "Start a Conversation", desc: "Whether for product inquiries, technical cooperation, or business negotiation, we are ready to provide professional support." },
+    info: {
+      title: "Get in Touch",
+      address: { label: "Address", val: "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", zip: "Zip: 215121" },
+      phone: { label: "Phone", val: "+86 0512-66185798" },
+      email: { label: "Email", val: "pai.ma@tops-life.com" },
+      hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
+    },
+    form: { 
+      title: "Send a Message", 
+      desc: "Fill out the form below and our team will get back to you within 24 hours.", 
+      name: "Your Name", email: "Email Address", subject: "Subject", message: "Message / Requirements", 
+      btn: "Send Email",
+      sending: "Sending...",
+      successTitle: "Message Sent!",
+      successDesc: "Thank you. We will get back to you shortly (Email client opened as backup)."
+    },
+    map: { btn: "View on Map" }
+  }
+};
+
 const Contact: React.FC = () => {
   const { language } = useLanguage();
   // 新增：表单状态管理 (idle: 空闲, submitting: 提交中, success: 成功)
@@ -27,72 +74,52 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setStatus('submitting');
 
-    // 模拟网络请求带来的“专业感”延迟 (1.5秒)
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // 根据当前语言环境设置自动回复的文案
+    const autoResponseText = language === 'zh' 
+      ? "感谢您的联络。我们已收到您的消息，团队将在 24 小时内与您联系。"
+      : "Thank you for contacting us. We have received your message and our team will get back to you within 24 hours.";
 
-    // --- 核心逻辑分支 ---
-    // 方案 A (当前): 继续使用邮件客户端作为保底，但用户体验了完整的提交过程
-    // 方案 B (未来): 这里可以替换为 fetch('https://formspree.io/f/your-id', ...) 来真正后台发送
-    
-    const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
-    
-    // 尝试打开邮件客户端
-    window.location.href = mailtoLink;
+    try {
+      // 1. 尝试通过 FormSubmit.co 发送邮件
+      // 目标邮箱：pai.ma@tops-life.com
+      const response = await fetch("https://formsubmit.co/ajax/pai.ma@tops-life.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          // 1. 优化字段名：将小写 key 映射为首字母大写，使邮件正文表格更规范易读
+          "Name": formData.name,
+          "Email": formData.email,
+          "Subject": formData.subject,
+          "Message": formData.message,
+          // 2. 配置参数
+          _subject: `[Website Inquiry] ${formData.subject}`, // 邮件标题
+          _template: "box",   // 使用 "box" 模板，样式比 "table" 更现代、正式
+          _captcha: "false",  // 关闭验证码
+          _replyto: formData.email, // 确保在邮箱点“回复”时直接回复给客户
+          _autoresponse: autoResponseText // 自动回复内容 (根据语言动态设置)
+        })
+      });
 
-    // 显示成功状态
-    setStatus('success');
-    
-    // 5秒后重置表单，方便再次提交
-    setTimeout(() => {
-        setStatus('idle');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 8000);
-  };
-
-  const content = {
-    zh: {
-      metaTitle: "联系我们 | 永爱生命 - 业务咨询与技术支持",
-      metaDesc: "获取苏州永爱生命科技有限公司的地址、电话及邮箱。我们提供专业的医疗包装与注塑解决方案咨询，期待与您的合作。",
-      hero: { title: "联系我们", subtitle: "开启合作新篇章", desc: "无论是产品咨询、技术合作还是商务洽谈，我们随时准备为您提供专业支持。" },
-      info: {
-        title: "联系方式",
-        address: { label: "公司地址", val: "江苏省苏州市苏州工业园区方泾路 8 号", zip: "邮编：215121" },
-        phone: { label: "联系电话", val: "+86 0512-66185798" },
-        email: { label: "电子邮箱", val: "Topslife@tops-life.com" },
-        hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
-      },
-      form: { 
-        title: "发送消息", 
-        desc: "请填写以下表格，我们的团队将在 24 小时内与您联系。", 
-        name: "您的姓名", email: "电子邮箱", subject: "咨询主题", message: "详细需求或留言", 
-        btn: "发送邮件",
-        sending: "正在发送...",
-        successTitle: "消息已发送！",
-        successDesc: "感谢您的联络。我们会尽快通过邮件回复您（同时已尝试唤起您的邮件客户端）。"
-      },
-      map: { btn: "在地图中查看" }
-    },
-    en: {
-      metaTitle: "Contact Us | Tops Life - Get in Touch",
-      metaDesc: "Contact Suzhou Tops Life Technology. Find our address, phone number, and email for inquiries regarding medical packaging and manufacturing solutions.",
-      hero: { title: "Contact Us", subtitle: "Start a Conversation", desc: "Whether for product inquiries, technical cooperation, or business negotiation, we are ready to provide professional support." },
-      info: {
-        title: "Get in Touch",
-        address: { label: "Address", val: "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", zip: "Zip: 215121" },
-        phone: { label: "Phone", val: "+86 0512-66185798" },
-        email: { label: "Email", val: "pai.ma@tops-life.com" },
-        hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
-      },
-      form: { 
-        title: "Send a Message", 
-        desc: "Fill out the form below and our team will get back to you within 24 hours.", 
-        name: "Your Name", email: "Email Address", subject: "Subject", message: "Message / Requirements", 
-        btn: "Send Email",
-        sending: "Sending...",
-        successTitle: "Message Sent!",
-        successDesc: "Thank you. We will get back to you shortly (Email client opened as backup)."
-      },
-      map: { btn: "View on Map" }
+      if (response.ok) {
+        setStatus('success');
+        setTimeout(() => {
+            setStatus('idle');
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        }, 5000);
+      } else {
+        // 如果 ID 无效或网络错误，抛出异常以触发 catch 中的 mailto
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Form submission failed");
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      // 2. 保底方案：如果网络发送失败，则唤起本地邮件客户端
+      const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
+      window.location.href = mailtoLink;
+      setStatus('idle'); 
     }
   };
 

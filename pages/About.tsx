@@ -280,6 +280,12 @@ const About: React.FC = () => {
       <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-slate-50 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-100 rounded-full mix-blend-multiply blur-[100px] opacity-60 translate-x-1/3 -translate-y-1/3 animate-pulse"></div>
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-indigo-50 rounded-full mix-blend-multiply blur-[80px] opacity-60 -translate-x-1/3 -translate-y-1/3"></div>
+        
+        {/* 新增：背景纹理图片 (增加实业质感) */}
+        <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none mix-blend-multiply grayscale">
+            <img src="/images/industry1.jpg" alt="Background Texture" className="w-full h-full object-cover" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-50/50 to-slate-50 z-0"></div>
 
         <div className={`container mx-auto px-6 relative z-10 text-center transition-all duration-1000 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <span className="inline-block py-1 px-3 rounded-full bg-sky-100 text-sky-600 text-sm font-bold tracking-widest uppercase mb-6 border border-sky-200">
@@ -317,14 +323,14 @@ const About: React.FC = () => {
             <div className="w-full lg:w-1/2 relative gsap-fade-up">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 relative aspect-[16/9] rounded-2xl overflow-hidden shadow-lg group">
-                        <img src="/images/industry2.jpg" alt="Advanced Manufacturing" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <img src="/images/industry2.jpg" alt="Advanced Manufacturing" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors"></div>
                     </div>
                     <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg group">
-                        <img src="/images/industry3.jpg" alt="Cleanroom" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src="/images/industry3.jpg" alt="Cleanroom" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     </div>
                     <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg group">
-                        <img src="/images/industry1.jpg" alt="R&D" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src="/images/industry1.jpg" alt="R&D" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute bottom-0 right-0 bg-sky-600 text-white p-3 rounded-tl-xl">
                             <Factory size={20} />
                         </div>
@@ -435,7 +441,7 @@ const About: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-sky-600 p-10 rounded-[2rem] text-white hover:-translate-y-2 transition-transform duration-300 shadow-xl shadow-sky-200 relative overflow-hidden group">
+            <div className="gsap-fade-up bg-sky-600 p-10 rounded-[2rem] text-white hover:-translate-y-2 transition-transform duration-300 shadow-xl shadow-sky-200 relative overflow-hidden group">
                 <div className="absolute -right-10 -top-10 text-white opacity-10 group-hover:opacity-20 transition-opacity transform scale-[2] rotate-12">
                    <Zap className="w-40 h-40" />
                 </div>
@@ -449,7 +455,7 @@ const About: React.FC = () => {
             </div>
 
             {[1, 2].map((idx) => (
-                <div key={idx} className="bg-white p-10 rounded-[2rem] hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-300 group border border-slate-100">
+                <div key={idx} className="gsap-fade-up bg-white p-10 rounded-[2rem] hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-300 group border border-slate-100">
                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform ${idx === 1 ? 'bg-indigo-50 text-indigo-600' : 'bg-rose-50 text-rose-600'}`}>
                         {t.values.items[idx].icon}
                     </div>

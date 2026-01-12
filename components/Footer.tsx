@@ -1,197 +1,148 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Linkedin, Github, MessageCircle } from 'lucide-react';
-
-// 1. 将样式提取为常量，保持 JSX 干净整洁，避免解析错误
-const customStyles = `
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .example-2 {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: row;
-  }
-  .example-2 .icon-content {
-    margin: 0 10px 0 0;
-    position: relative;
-    padding: 0.5rem;
-    z-index: 20;
-  }
-  .example-2 .icon-content .tooltip {
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 5px;
-    opacity: 0;
-    visibility: hidden;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .example-2 .icon-content:hover .tooltip {
-    opacity: 1;
-    visibility: visible;
-    top: -50px;
-  }
-  .example-2 .icon-content a {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: #4d4d4d;
-    background-color: #f1f5f9;
-    transition: all 0.3s ease-in-out;
-  }
-  .example-2 .icon-content a:hover {
-    box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
-  }
-  .example-2 .icon-content a svg {
-    position: relative;
-    z-index: 1;
-    width: 20px;
-    height: 20px;
-  }
-  .example-2 .icon-content a:hover {
-    color: white;
-  }
-  .example-2 .icon-content a .filled {
-    position: absolute;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background-color: #000;
-    transition: all 0.3s ease-in-out;
-  }
-  .example-2 .icon-content a:hover .filled {
-    height: 100%;
-  }
-
-  /* LinkedIn Color */
-  .example-2 .icon-content a[data-social="linkedin"] .filled,
-  .example-2 .icon-content a[data-social="linkedin"] ~ .tooltip {
-    background-color: #0274b3;
-  }
-
-  /* WeChat Color */
-  .example-2 .icon-content a[data-social="wechat"] .filled,
-  .example-2 .icon-content a[data-social="wechat"] ~ .tooltip {
-    background-color: #07C160;
-  }
-  
-  /* GitHub Color */
-  .example-2 .icon-content a[data-social="github"] .filled,
-  .example-2 .icon-content a[data-social="github"] ~ .tooltip {
-    background-color: #24262a;
-  }
-`;
+import { Link } from 'react-router-dom';
+import { Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { useLanguage } from './LanguageContext';
 
 const Footer: React.FC = () => {
+  const { language } = useLanguage();
+  
+  const t = {
+    zh: {
+      about: "关于我们",
+      products: "产品中心",
+      companyName: "苏州永爱生命科技有限公司",
+      news: "新闻动态",
+      contact: "联系我们",
+      address: "江苏省苏州市苏州工业园区方泾路 8 号",
+      copyright: "© 2025 苏州永爱生命科技有限公司 版权所有",
+      desc: "专注于医疗软包装、精密注塑及生物基新材料的创新型企业。",
+      icp: "苏ICP备17054569号-2",
+      privacy: "隐私政策",
+      terms: "使用条款",
+      productLinks: [
+        { name: "医用软包装", link: "/products#packaging" },
+        { name: "精密注塑", link: "/products#molding" },
+        { name: "生物基材料", link: "/products#material" }
+      ],
+      aboutLinks: [
+        { name: "公司简介", link: "/about" },
+        { name: "新闻中心", link: "/news" },
+        { name: "联系我们", link: "/contact" }
+      ]
+    },
+    en: {
+      about: "About Us",
+      products: "Products",
+      companyName: "Suzhou Tops Life Technology Co., Ltd.",
+      news: "News",
+      contact: "Contact Us",
+      address: "No. 8 Fangjing Road, SIP, Suzhou, Jiangsu, China",
+      copyright: "© 2025 Suzhou Tops Life Technology Co., Ltd. All Rights Reserved.",
+      desc: "Innovative enterprise focusing on medical flexible packaging, precision injection molding, and bio-based materials.",
+      icp: "Suzhou ICP No. XXXXXXXX",
+      privacy: "Privacy Policy",
+      terms: "Terms of Use",
+      productLinks: [
+        { name: "Medical Packaging", link: "/products#packaging" },
+        { name: "Injection Molding", link: "/products#molding" },
+        { name: "Bio-Materials", link: "/products#material" }
+      ],
+      aboutLinks: [
+        { name: "Company Profile", link: "/about" },
+        { name: "News Center", link: "/news" },
+        { name: "Contact Us", link: "/contact" }
+      ]
+    }
+  }[language];
+
   return (
-    <footer className="bg-white text-slate-700 py-12 border-t border-slate-300 relative z-10">
-      {/* 注入样式 */}
-      <style>{customStyles}</style>
-      
+    <footer className="bg-white text-slate-600 py-12 border-t border-slate-100 font-sans">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
-          
-          {/* Column 1: 公司简介与社交图标 */}
-          <div className="md:col-span-1">
-            <h3 className="text-sky-600 text-xl font-bold mb-4">TOPS LIFE</h3>
-            <p className="text-sm leading-relaxed mb-6">
-              致力于推动医疗安全、药用包装性能提升及可持续生物材料解决方案的发展。
-            </p>
-            
-            {/* 社交图标列表 - 确保 ul 正确闭合 */}
-            <ul className="example-2">
-              {/* LinkedIn */}
-              <li className="icon-content">
-                <a href="#" aria-label="LinkedIn" data-social="linkedin">
-                  <div className="filled"></div>
-                  <Linkedin />
-                </a>
-                <div className="tooltip">LinkedIn</div>
-              </li>
-
-              {/* WeChat */}
-              <li className="icon-content">
-                <a href="#" aria-label="WeChat" data-social="wechat">
-                  <div className="filled"></div>
-                  <MessageCircle />
-                </a>
-                <div className="tooltip">WeChat</div>
-              </li>
-
-              {/* GitHub */}
-              <li className="icon-content">
-                <a href="#" aria-label="GitHub" data-social="github">
-                  <div className="filled"></div>
-                  <Github />
-                </a>
-                <div className="tooltip">GitHub</div>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Column 2: 快速链接 */}
-          <div>
-            <h4 className="text-slate-900 font-semibold mb-4">快速链接</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#/" className="hover:text-sky-600 transition-colors">首页</a></li>
-              <li><a href="#/about" className="hover:text-sky-600 transition-colors">关于我们</a></li>
-              <li><a href="#/products" className="hover:text-sky-600 transition-colors">业务板块</a></li>
-              <li><a href="#/news" className="hover:text-sky-600 transition-colors">新闻动态</a></li>
-            </ul>
+        <div className="grid md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
+          {/* Brand & Logo */}
+          <div className="col-span-1 md:col-span-1">
+            {/* Logo: 白色背景下直接显示原图 */}
+            <img src="/images/yongai.jpg" alt="Tops Life" className="h-20 mb-4 mx-auto md:mx-0 object-contain" />
+            <h3 className="text-lg font-bold text-slate-900 mb-4">{t.companyName}</h3>
+            <p className="text-sm leading-relaxed mb-6">{t.desc}</p>
+            <div className="flex gap-4 justify-center md:justify-start">
+              <a 
+                href="https://www.linkedin.com/company/tops-life" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="text-slate-400 hover:text-sky-600 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={24} />
+              </a>
+              
+              {/* WeChat with Hover QR Code */}
+              <div className="relative group cursor-pointer text-slate-400 hover:text-sky-600 transition-colors">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-label="WeChat">
+                  <path d="M8.696 14.93c-4.225 0-7.65-3.15-7.65-7.035 0-3.886 3.425-7.036 7.65-7.036 4.224 0 7.649 3.15 7.649 7.036 0 3.885-3.425 7.036-7.65 7.036zm10.917 2.07c0-.28-.023-.556-.066-.826.54-.83.86-1.805.86-2.847 0-3.09-2.76-5.595-6.165-5.595-3.404 0-6.164 2.505-6.164 5.595 0 3.09 2.76 5.596 6.164 5.596.72 0 1.41-.11 2.055-.31l2.355 1.245-.585-1.858z"/>
+                </svg>
+                
+                {/* QR Code Popup (悬停显示) */}
+                <div className="absolute bottom-full left-0 mb-3 hidden group-hover:block z-50">
+                  <div className="bg-white p-2 rounded-lg shadow-xl">
+                    <img src="/images/gzh.png" alt="WeChat QR" className="w-32 h-32 object-contain" />
+                    {/* 小三角箭头 */}
+                    <div className="absolute -bottom-1 left-2 w-3 h-3 bg-white rotate-45"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Column 3: 联系方式 */}
+          {/* Quick Links - Products */}
           <div>
-            <h4 className="text-slate-900 font-semibold mb-4">联系方式</h4>
+            <h4 className="text-slate-900 font-bold mb-6">{t.products}</h4>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3">
-                <MapPin size={16} className="mt-1 text-sky-600 shrink-0" />
-                <span>江苏省苏州市苏州工业园区<br/>方泾路 8 号</span>
+              {t.productLinks.map((item, index) => (
+                <li key={index}><Link to={item.link} className="hover:text-sky-600 transition-colors">{item.name}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quick Links - About */}
+          <div>
+            <h4 className="text-slate-900 font-bold mb-6">{t.about}</h4>
+            <ul className="space-y-3 text-sm">
+              {t.aboutLinks.map((item, index) => (
+                <li key={index}><Link to={item.link} className="hover:text-sky-600 transition-colors">{item.name}</Link></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-slate-900 font-bold mb-6">{t.contact}</h4>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-start gap-3 justify-center md:justify-start">
+                <MapPin size={18} className="mt-0.5 shrink-0 text-sky-500" />
+                <span>{t.address}</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={16} className="text-sky-600 shrink-0" />
+              <li className="flex items-center gap-3 justify-center md:justify-start">
+                <Mail size={18} className="shrink-0 text-sky-500" />
+                <a href="mailto:Topslife@tops-life.com" className="hover:text-sky-600 transition-colors">Topslife@tops-life.com</a>
+              </li>
+              <li className="flex items-center gap-3 justify-center md:justify-start">
+                <Phone size={18} className="shrink-0 text-sky-500" />
                 <span>+86 0512-66185798</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={16} className="text-sky-600 shrink-0" />
-                <span>pai.ma@tops-life.com</span>
-              </li>
             </ul>
-          </div>
-
-          {/* Column 4: 认证资质 */}
-          <div>
-            <h4 className="text-slate-900 font-semibold mb-4">认证资质</h4>
-            <div className="flex gap-3 text-xs">
-              <span className="px-3 py-1 border border-slate-300 rounded text-sky-600 font-medium">ISO 9001</span>
-              <span className="px-3 py-1 border border-slate-300 rounded text-sky-600 font-medium">ISO 13485</span>
-            </div>
           </div>
         </div>
 
-        {/* 底部版权 */}
-        <div className="border-t border-slate-300 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-          <p>© 2025 Suzhou Tops Life Technology Co., Ltd. All rights reserved.</p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#/privacy-policy" className="hover:text-sky-600 transition-colors">隐私政策</a>
-            <a href="#/terms-and-conditions" className="hover:text-sky-600 transition-colors">条款与条件</a>
+        {/* Copyright */}
+        <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+          <div className="text-center md:text-left">
+            <p>{t.copyright}</p>
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" className="mt-1 block hover:text-sky-600 transition-colors">{t.icp}</a>
+          </div>
+          <div className="flex gap-6">
+             <span className="hover:text-sky-600 transition-colors cursor-pointer">{t.privacy}</span>
+             <span className="hover:text-sky-600 transition-colors cursor-pointer">{t.terms}</span>
           </div>
         </div>
       </div>

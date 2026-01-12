@@ -3,6 +3,8 @@ import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// 1. 引入 Analytics 组件
+import { Analytics } from "@vercel/analytics/react"
 
 import { LanguageProvider } from './components/LanguageContext'; 
 import ParticleBackground from './components/ParticleBackground';
@@ -29,7 +31,7 @@ const ScrollToTop = () => {
 
 const Layout = ({ children }: { children?: React.ReactNode }) => {
   const lenisRef = useRef<Lenis | null>(null);
-  
+   
   useEffect(() => {
      const lenis = new Lenis({
       duration: 1.2,
@@ -79,15 +81,19 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
-            
+             
             {/* 新增：产品详情页路由 */}
             <Route path="/products/:id" element={<ProductDetail />} />
-            
+             
             <Route path="/news" element={<News />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </Layout>
       </HashRouter>
+      
+      {/* 2. 在这里添加 Analytics 组件 */}
+      <Analytics />
+      
     </LanguageProvider>
   );
 };

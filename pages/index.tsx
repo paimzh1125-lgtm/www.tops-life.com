@@ -484,28 +484,36 @@ export default function Home() {
 
             <div className="grid lg:grid-cols-3 gap-8">
               {t.solutions.map((item, idx) => (
-                <Link 
-                  key={idx} 
-                  to={item.link}
-                  className="gsap-fade-up group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl hover:shadow-sky-100/50 transition-all duration-300 border border-slate-100 hover:border-sky-200 hover:-translate-y-2 overflow-hidden flex flex-col h-full cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
-                >
-                  <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
-                  
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ${
-                        idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
-                      }`} aria-hidden="true">
-                      {item.icon}
+                <div key={idx} className="gsap-fade-up group [perspective:1000px] h-[400px]">
+                  <Link 
+                    to={item.link}
+                    className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] block focus:outline-none"
+                  >
+                    {/* Front Face (正面：简洁大气) */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center hover:shadow-xl hover:border-sky-200 transition-all duration-300">
+                      <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-50 rounded-full transition-transform duration-500 group-hover:scale-150"></div>
+                      
+                      <div className={`relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg ${
+                          idx === 0 ? 'bg-sky-500' : idx === 1 ? 'bg-blue-600' : 'bg-cyan-500'
+                        }`}>
+                        {item.icon}
+                      </div>
+                      
+                      <h3 className="relative z-10 text-2xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                      <div className="relative z-10 mt-4 w-12 h-1 bg-slate-100 rounded-full group-hover:bg-sky-500 transition-colors duration-300"></div>
                     </div>
-                    
-                    <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors">{item.title}</h3>
-                    <p className="text-slate-500 leading-relaxed mb-8 flex-1">{item.desc}</p>
-                    
-                    <div className="flex items-center text-sm font-bold text-slate-400 group-hover:text-sky-600 transition-colors uppercase tracking-wider mt-auto">
-                      {t.more} <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+
+                    {/* Back Face (背面：深色详情) */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-3xl p-8 shadow-xl border border-slate-700 flex flex-col items-center justify-center text-center">
+                      <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
+                      <p className="text-slate-300 leading-relaxed mb-8 text-sm">{item.desc}</p>
+                      
+                      <div className="flex items-center text-sm font-bold text-sky-400 uppercase tracking-wider">
+                        {t.more} <ArrowRight size={16} className="ml-2" />
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
