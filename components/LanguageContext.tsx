@@ -1,49 +1,51 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
-// 定义语言类型
-type Language = 'zh' | 'en';
+export type Language = 'zh' | 'en';
 
 interface LanguageContextType {
   language: Language;
-  toggleLanguage: () => void;
   setLanguage: (lang: Language) => void;
+  toggleLanguage: () => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  // 默认语言设置
-  const [language, setLanguageState] = useState<Language>('zh');
-
-  // 1. 第一次打开时，检查浏览器缓存有没有存过语言设置
-  useEffect(() => {
-    const savedLang = localStorage.getItem('app-language') as Language;
-    if (savedLang) {
-      setLanguageState(savedLang);
+export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  // 初始化状态：优先从 localStorage 读取，默认为 'zh'
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('app_language');
+      return (saved === 'zh' || saved === 'en') ? saved : 'zh';
     }
-  }, []);
+    return 'zh';
+  });
 
-  // 2. 切换语言的功能（带记忆存储）
-  const toggleLanguage = () => {
-    const newLang = language === 'zh' ? 'en' : 'zh';
-    setLanguageState(newLang);
-    localStorage.setItem('app-language', newLang); // 存入缓存
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // 切换后回到顶部
-  };
-
+  // 核心方法：设置语言并持久化
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem('app-language', lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('app_language', lang);
+      document.documentElement.lang = lang;
+    }
   };
 
+  // 辅助方法：切换语言（兼容现有 Navbar）
+  const toggleLanguage = () => {
+    setLanguage(language === 'zh' ? 'en' : 'zh');
+  };
+
+  // 监听语言变化，同步到 document
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, setLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-// 让其他组件能用这个功能的“钩子”
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {
