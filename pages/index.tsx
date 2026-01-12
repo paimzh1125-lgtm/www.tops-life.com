@@ -35,7 +35,7 @@ const LANG = {
     who: "关于我们",
     companyPrefix: "永爱",
     companySuffix: "生命科技有限公司",
-    intro: "永爱 Tops-Life 成立于 2011 年，是一家专注于软包装、医疗器械及新材料供应等领域的创新型企业。公司在医疗行业、特种纸、油墨行业等多个领域的各类组件方面拥有丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
+    intro: "自淘爱成立 2011 年以来，始终专注于软包装、医疗器械及新材料供应等领域的创新。我们拥有生物医药、医疗器械、特种纸、水性油墨行业等多领域的丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
     introPoints: ["ISO 7 (万级) 洁净车间", "全流程质量追溯"],
     more: "探索详情",
     stats: [
@@ -47,20 +47,20 @@ const LANG = {
     solutionsDesc: "以专业技术满足不同业务需求，提供一站式解决方案。",
     solutions: [
       {
-        title: "医疗软包装解决方案",
-        desc: "提供高性能无菌屏障系统。包括医用级薄膜和医用级PE袋子，确保全生命周期无菌安全。",
+        title: "医药软包装方案",
+        desc: "专注于医用级薄膜与洁净无菌袋技术，提供从材料到成品的全生命周期无菌安全保障，确保护理无忧。",
         icon: <PackageOpen size={32} />,
         link: "/products#packaging"
       },
       {
-        title: "精密医疗注塑件",
-        desc: "依托全电动注塑工艺与 ISO 13485 体系，制造公差微米级的关键医疗零部件，广泛应用于微创手术器械。",
+        title: "医疗器械研发与制造解决方案",
+        desc: "提供从工业设计、特种材料配方研发到精密制造及内部严苛检测的一站式全流程服务。",
         icon: <DraftingCompass size={32} />,
         link: "/products#molding"
       },
       {
-        title: "大豆蛋白聚合物",
-        desc: "源自非转基因大豆的革新性生物基材料。为纸张涂布、水性油墨及工业包装领域提供可降解的绿色替代方案。",
+        title: "大豆蛋白等新材料应用解决方案",
+        desc: "源自天然植物基大豆的绿色革新，探索生物基材料在多领域的环保与高性能应用。",
         icon: <Sprout size={32} />,
         link: "/products#material"
       }
@@ -95,7 +95,7 @@ const LANG = {
     who: "About Us",
     companyPrefix: "Suzhou Tops Life",
     companySuffix: " Technology Co., Ltd.",
-    intro: "Established in 2011, Suzhou Tops-Life is a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience across medical, specialty paper, and ink industries, we adhere to 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
+    intro: "Since Zitaoai was founded in 2011, we have been a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience in Biomedicine, Medical Devices, Specialty Paper, and Water-based Ink industries, we adhere to a 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
     introPoints: ["ISO 7 Cleanroom", "Full Quality Traceability"],
     more: "Discover More",
     stats: [
@@ -107,20 +107,20 @@ const LANG = {
     solutionsDesc: "Meeting diverse business needs with professional technology and one-stop solutions.",
     solutions: [
       {
-        title: "Medical Soft Packaging",
-        desc: "High-performance sterile barrier systems. Including medical-grade films and PE bags, ensuring sterility integrity throughout the lifecycle.",
+        title: "Pharmaceutical Soft Packaging Solutions",
+        desc: "Featuring medical-grade films and sterile containment systems to ensure full lifecycle sterility assurance and safety.",
         icon: <PackageOpen size={32} />,
         link: "/products#packaging"
       },
       {
-        title: "Precision Injection Molding",
-        desc: "Micron-level precision components manufactured under ISO 13485. Utilizing all-electric injection molding for critical medical parts.",
+        title: "Medical Device R&D and Manufacturing",
+        desc: "End-to-end solutions covering structural design, proprietary material formulation, precision manufacturing, and comprehensive in-house validation.",
         icon: <DraftingCompass size={32} />,
         link: "/products#molding"
       },
       {
-        title: "Soy Protein Polymers",
-        desc: "Innovative bio-based materials derived from non-GMO soy. Providing biodegradable alternatives for paper coating, inks, and packaging.",
+        title: "Soy Protein & New Material Applications",
+        desc: "Pioneering green innovations derived from natural plant-based soy protein to redefine sustainable material performance.",
         icon: <Sprout size={32} />,
         link: "/products#material"
       }
@@ -523,7 +523,7 @@ export default function Home() {
                     {/* Back Face (背面：深色详情) */}
                     <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-3xl p-8 shadow-xl border border-slate-700 flex flex-col items-center justify-center text-center">
                       <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
-                      <p className="text-slate-300 leading-relaxed mb-8 text-sm">{item.desc}</p>
+                      <p className="text-slate-300 leading-relaxed mb-8 text-sm line-clamp-5">{item.desc}</p>
                       
                       <div className="flex items-center text-sm font-bold text-sky-400 uppercase tracking-wider">
                         {t.more} <ArrowRight size={16} className="ml-2" />
