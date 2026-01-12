@@ -34,7 +34,7 @@ const LANG = {
     heroTag: "创新医疗科技合作伙伴",
     who: "关于我们",
     companyPrefix: "永爱",
-    companySuffix: "生命科技有限公司",
+    companySuffix: "生命",
     intro: "自淘爱成立 2011 年以来，始终专注于软包装、医疗器械及新材料供应等领域的创新。我们拥有生物医药、医疗器械、特种纸、水性油墨行业等多领域的丰富经验。秉持 “质量为先” 的理念，我们聚焦洁净软包装、精密注塑及生物基新材料三大核心业务，致力于为全球客户提供更安全、更环保、更高效的解决方案。",
     introPoints: ["ISO 7 (万级) 洁净车间", "全流程质量追溯"],
     more: "探索详情",
@@ -76,10 +76,10 @@ const LANG = {
     marketTitle: "应用领域",
     marketDesc: "覆盖生命科学关键领域，提供高标准产品支持。",
     market: [
-      { title: "医疗器械", desc: "为二类/三类医疗器械提供符合 ISO 13485 标准的无菌屏障包装。" },
-      { title: "制药生产", desc: "提供符合 GMP 标准的药用级过程保护与一次性耗材。" },
-      { title: "新材料应用", desc: "探索高性能生物基材料在环保包装与工业领域的创新应用。" },
-      { title: "生物聚合物", desc: "源自天然的改性大豆蛋白材料，助力全球碳中和目标。" }
+      { title: "医药软包装", desc: "专注于高阻隔医用膜材与无菌包装系统，建立从原料到临床使用的全生命周期无菌屏障，确保药品安全与合规。" },
+      { title: "医疗器械", desc: "提供从精密模具设计、材料研发到洁净制造的 CDMO 一站式服务，赋能高精度医疗组件的快速商业化落地。" },
+      { title: "大豆聚合物", desc: "源自天然植物基的革新性生物材料，具备卓越的生物相容性与降解性能，引领医疗耗材的绿色可持续未来。" },
+      { title: "新材料应用", desc: "突破传统边界，探索高性能复合材料在极端环境与特殊医疗场景下的前沿应用，重新定义材料性能极限。" }
     ],
     marketBtn: "查看所有行业",
     newsTitle: "最新动态",
@@ -93,8 +93,8 @@ const LANG = {
     metaDesc: "Tops Life specializes in medical soft packaging, precision injection molding, and soy protein polymers. ISO 7 cleanroom certified sustainable solutions.",
     heroTag: "Innovative MedTech Partner",
     who: "About Us",
-    companyPrefix: "Suzhou Tops Life",
-    companySuffix: " Technology Co., Ltd.",
+    companyPrefix: "Tops",
+    companySuffix: " Life Science",
     intro: "Since Zitaoai was founded in 2011, we have been a technology-driven manufacturer specializing in medical soft packaging, precision injection components, and innovative biomaterials. With extensive experience in Biomedicine, Medical Devices, Specialty Paper, and Water-based Ink industries, we adhere to a 'Quality First' philosophy. We focus on clean packaging, precision molding, and bio-based materials to deliver safer, more efficient solutions globally.",
     introPoints: ["ISO 7 Cleanroom", "Full Quality Traceability"],
     more: "Discover More",
@@ -136,10 +136,10 @@ const LANG = {
     marketTitle: "Market Applications",
     marketDesc: "Deep industry insights covering key areas of life sciences and industrial applications.",
     market: [
-      { title: "Medical Devices", desc: "ISO 13485 compliant sterile barrier packaging for Class II/III devices." },
-      { title: "Pharma", desc: "GMP-compliant process protection and single-use consumables." },
-      { title: "Advanced Materials", desc: "Innovative applications of high-performance bio-based materials." },
-      { title: "Bio Polymers", desc: "Natural modified soy protein materials aiding carbon neutrality." }
+      { title: "Pharmaceutical Soft Packaging", desc: "Specializing in high-barrier medical films and sterile containment systems, creating a complete sterility lifecycle from raw materials to clinical application." },
+      { title: "Medical Devices", desc: "Delivering one-stop CDMO solutions encompassing precision mold design, material R&D, and cleanroom manufacturing to accelerate medical component commercialization." },
+      { title: "Soy Polymer", desc: "Innovative plant-based biomaterials derived from natural soy, featuring superior biocompatibility and biodegradability for a sustainable future in medical consumables." },
+      { title: "Advanced Material Applications", desc: "Pushing boundaries to explore frontier applications of high-performance composites in extreme environments and specialized medical scenarios." }
     ],
     marketBtn: "View All Industries",
     newsTitle: "Latest News",
@@ -613,30 +613,42 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* 
+              Layout Optimization: 
+              - Grid: 1 column (mobile) -> 2 columns (md) -> 4 columns (lg) 
+              - Card: White bg, shadow, rounded-xl (12px)
+              - Hover: TranslateY -5px, shadow-xl
+            */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {t.market.map((item, i) => (
                 <Link 
                   key={i} 
-                  className="gsap-fade-up group relative h-72 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200"
+                  className="gsap-fade-up group relative flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-200 border border-slate-100"
                   to="/products"
                 >
-                  <img 
+                  {/* Image Section (Top) */}
+                  <div className="h-48 overflow-hidden relative">
+                    <img 
                       src={`images/application${i + 1}.png`} 
                       loading="lazy"
                       alt={`${item.title} application example`} 
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
+                    />
+                    <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors duration-300"></div>
+                  </div>
                   
-                  <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                    <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                      <div className="w-8 h-1 bg-sky-500 rounded-full mb-3 origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                      <p className="text-slate-200 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100 leading-snug">
-                        {item.desc}
-                      </p>
-                    </div>
+                  {/* Content Section (Bottom) */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3 group-hover:text-sky-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-[#4B5563] text-sm leading-[1.6] flex-grow">
+                      {item.desc}
+                    </p>
+                    
+                    {/* Decorative Line */}
+                    <div className="w-12 h-1 bg-slate-100 rounded-full mt-4 group-hover:bg-sky-500 transition-colors duration-300"></div>
                   </div>
                 </Link>
               ))}
