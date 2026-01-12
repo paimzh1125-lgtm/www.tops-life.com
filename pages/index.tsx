@@ -226,6 +226,18 @@ export default function Home() {
     setTypingStage(0);
   }, [language]);
 
+  // 按钮入场动画 (当副标题打字完成后触发)
+  useEffect(() => {
+    if (typingStage >= 2) {
+      gsap.to(".hero-buttons", {
+        y: 0, opacity: 1, duration: 0.8, delay: 0.5, ease: "power3.out"
+      });
+    } else {
+      // 重置状态 (语言切换时)
+      gsap.set(".hero-buttons", { y: 20, opacity: 0 });
+    }
+  }, [typingStage]);
+
   // SEO & Meta Handling
   useEffect(() => {
     document.title = t.metaTitle;
@@ -329,10 +341,11 @@ export default function Home() {
       <main id="main-content">
         
         {/* === Hero Section (Static Image, Single Content) === */}
+        {/* 1. 布局重构: min-h-[85vh], Flex 垂直居中 */}
         <section 
           id="hero-section"
           aria-labelledby="hero-heading" 
-          className="min-h-screen relative overflow-hidden z-10 flex flex-col"
+          className="relative min-h-[85vh] flex items-center overflow-hidden z-10"
         >
           {/* Static Background */}
           <div className="absolute inset-0 z-0">
@@ -341,70 +354,72 @@ export default function Home() {
                 ref={heroImageRef}
                 src="banner/hero-bg.webp" 
                 alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
-                className="w-full h-[120%] object-cover object-center opacity-90" // h-[120%] for parallax space
+                className="w-full h-[120%] object-cover object-center" // 移除 opacity-90，由遮罩控制明暗
                 fetchPriority="high"
               />
             </div>
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/60 to-slate-900/20" />
+            {/* 2. 背景与遮罩优化: 线性渐变遮罩 (左深右浅) */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
           </div>
 
-          {/* Static Content (No Slider) */}
-          <div className="flex-grow w-full flex items-center px-6 md:px-12 lg:px-24 relative z-10 py-20">
-            <div className="max-w-4xl text-white pt-12">
+          {/* 1. 布局重构: Container 容器 + 左侧留白 */}
+          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10 w-full py-20">
+            <div className="max-w-4xl">
               
-              {/* Tag */}
-              <div className="overflow-hidden mb-6">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/20 bg-sky-900/40 backdrop-blur-md text-sky-300 text-xs font-bold uppercase tracking-widest shadow-lg">
-                  <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
+              {/* 3. 字体与排版: Tag (半透明描边风格) */}
+              <div className="mb-8">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/30 bg-white/5 backdrop-blur-sm text-white/90 text-[11px] font-bold uppercase tracking-[0.2em] shadow-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></div>
                   {t.heroTag}
                 </div>
               </div>
               
-              {/* Headline */}
-              <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] min-h-[2.2em] md:min-h-[2.2em]">
-                <Typewriter 
-                  text={heroTitleParts.main} 
-                  speed={80} 
-                  onComplete={() => setTypingStage(1)} 
-                />
-                <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">
+              {/* 3. 字体与排版: H1 (无衬线, Bold, 行高 1.2, 品牌色渐变) */}
+              <h1 id="hero-heading" className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.2] text-white mb-8 min-h-[2.4em]">
+                <span className="block mb-2 text-white">
+                  <Typewriter 
+                    text={heroTitleParts.main} 
+                    speed={60} 
+                    onComplete={() => setTypingStage(1)} 
+                  />
+                </span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
                   {typingStage >= 1 && (
                     <Typewriter 
                       text={heroTitleParts.sub} 
-                      speed={80} 
+                      speed={60} 
                       onComplete={() => setTypingStage(2)} 
                     />
                   )}
                 </span>
               </h1>
               
-              {/* Subtitle */}
-              <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6 min-h-[3.5em]">
-                {typingStage >= 2 && (
-                  <Typewriter 
-                    text={t.hero.subtitle} 
-                    speed={30} 
-                    showCursor={false} 
-                  />
-                )}
-              </p>
+              {/* 3. 字体与排版: Subtitle (增加间距, 浅灰色) */}
+              <div className="mt-8 mb-12 max-w-2xl min-h-[3.5em]">
+                <p className="text-lg md:text-xl text-gray-200 font-light leading-relaxed">
+                  {typingStage >= 2 && (
+                    <Typewriter 
+                      text={t.hero.subtitle} 
+                      speed={20} 
+                      showCursor={false} 
+                    />
+                  )}
+                </p>
+              </div>
               
-              {/* Buttons */}
-              <div className="flex flex-wrap gap-4">
+              {/* 4. 按钮优化: 增加间距, 发光阴影, 毛玻璃效果 */}
+              <div className="hero-buttons flex flex-wrap items-center gap-6 opacity-0">
                 <Link 
                   to="/products"
-                  className="px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.4)] flex items-center gap-2 group active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/50"
+                  className="px-8 py-4 bg-sky-600 text-white rounded-full font-semibold transition-all duration-300 hover:bg-sky-500 hover:shadow-[0_0_30px_rgba(14,165,233,0.6)] hover:-translate-y-1 flex items-center gap-2 active:scale-95"
                 >
-                  {t.more} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  {t.more} <ArrowRight size={18} />
                 </Link>
                 <Link 
                   to="/contact"
-                  className="relative px-8 py-4 bg-white/10 border border-white/20 backdrop-blur-md text-white rounded-full font-medium transition-all group overflow-hidden hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
+                  className="px-8 py-4 border border-white/30 bg-white/5 backdrop-blur-md text-white rounded-full font-semibold transition-all duration-300 hover:bg-white/10 hover:border-white/60 flex items-center gap-2 active:scale-95"
                 >
-                  <span className="relative z-10">{t.ctaBtn}</span>
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"></div>
+                  {t.ctaBtn}
                 </Link>
               </div>
             </div>
