@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       about: "关于我们",
       products: "产品中心",
       companyName: "永爱生命",
-      brandB: "淘爱医疗",
+      brandB: "淘爱材料",
       news: "新闻动态",
       contact: "联系我们",
       address: "江苏省苏州市苏州工业园区方泾路 8 号",
@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
       about: "About Us",
       products: "Products",
       companyName: "Tops Life Science",
-      brandB: "Taoai Medical",
+      brandB: "Taoai Material",
       news: "News",
       contact: "Contact Us",
       address: "No. 8 Fangjing Road, SIP, Suzhou, Jiangsu, China",
@@ -67,16 +67,16 @@ const Footer: React.FC = () => {
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 mb-6">
               {/* Brand A: Tops Life */}
               <div className="flex flex-col items-center md:items-start">
-                <img src="/images/yongai.jpg" alt="Tops Life" className="h-12 mb-2 object-contain" />
+                <img src="/images/yongai.jpg" alt="Tops Life" className="h-16 mb-2 object-contain" />
                 <h3 className="text-sm font-bold text-slate-900">{t.companyName}</h3>
               </div>
 
               {/* Divider (仅在桌面端显示) */}
-              <div className="hidden md:block h-8 w-px bg-slate-200"></div>
+              <div className="hidden md:block h-10 w-px bg-slate-200"></div>
 
               {/* Brand B: Taoai */}
               <div className="flex flex-col items-center md:items-start">
-                <img src="/images/taoai.png" alt="Taoai Medical" className="h-12 mb-2 object-contain" />
+                <img src="/images/taoai.png" alt="Taoai Material" className="h-16 mb-2 object-contain" />
                 <h3 className="text-sm font-bold text-slate-900">{t.brandB}</h3>
               </div>
             </div>
