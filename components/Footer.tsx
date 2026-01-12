@@ -11,6 +11,7 @@ const Footer: React.FC = () => {
       about: "关于我们",
       products: "产品中心",
       companyName: "永爱生命",
+      brandB: "淘爱医疗",
       news: "新闻动态",
       contact: "联系我们",
       address: "江苏省苏州市苏州工业园区方泾路 8 号",
@@ -34,6 +35,7 @@ const Footer: React.FC = () => {
       about: "About Us",
       products: "Products",
       companyName: "Tops Life Science",
+      brandB: "Taoai Medical",
       news: "News",
       contact: "Contact Us",
       address: "No. 8 Fangjing Road, SIP, Suzhou, Jiangsu, China",
@@ -61,9 +63,24 @@ const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
           {/* Brand & Logo */}
           <div className="col-span-1 md:col-span-1">
-            {/* Logo: 白色背景下直接显示原图 */}
-            <img src="/images/yongai.jpg" alt="Tops Life" className="h-20 mb-4 mx-auto md:mx-0 object-contain" />
-            <h3 className="text-lg font-bold text-slate-900 mb-4">{t.companyName}</h3>
+            {/* Dual Brand Area (双品牌展示区) */}
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 mb-6">
+              {/* Brand A: Tops Life */}
+              <div className="flex flex-col items-center md:items-start">
+                <img src="/images/yongai.jpg" alt="Tops Life" className="h-12 mb-2 object-contain" />
+                <h3 className="text-sm font-bold text-slate-900">{t.companyName}</h3>
+              </div>
+
+              {/* Divider (仅在桌面端显示) */}
+              <div className="hidden md:block h-8 w-px bg-slate-200"></div>
+
+              {/* Brand B: Taoai */}
+              <div className="flex flex-col items-center md:items-start">
+                <img src="/images/taoai.png" alt="Taoai Medical" className="h-12 mb-2 object-contain" />
+                <h3 className="text-sm font-bold text-slate-900">{t.brandB}</h3>
+              </div>
+            </div>
+            
             <p className="text-sm leading-relaxed mb-6">{t.desc}</p>
             <div className="flex gap-4 justify-center md:justify-start">
               <a 
