@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -74,7 +74,7 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
 const App: React.FC = () => {
   return (
     <LanguageProvider>
-      <HashRouter>
+      <BrowserRouter>
         <ScrollToTop />
         <Layout>
           <Routes>
@@ -89,7 +89,7 @@ const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </Layout>
-      </HashRouter>
+      </BrowserRouter>
       
       {/* 2. 在这里添加 Analytics 组件 */}
       <Analytics />
