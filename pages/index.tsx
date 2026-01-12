@@ -206,6 +206,7 @@ export default function Home() {
   const { language } = useLanguage(); 
   const t = LANG[language];
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLImageElement>(null);
   const navigate = useNavigate(); 
   
   // 0: Start, 1: Main Title Done, 2: Sub Title Done
@@ -253,6 +254,20 @@ export default function Home() {
     const ctx = gsap.context(() => {
       // Use matchMedia to skip heavy animations on mobile
       const mm = gsap.matchMedia();
+
+      // Hero Parallax Effect (视差滚动)
+      if (heroImageRef.current) {
+        gsap.to(heroImageRef.current, {
+          yPercent: 30, // 向下移动 30%
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          }
+        });
+      }
       
       mm.add("(min-width: 768px)", () => {
         const fadeUps = document.querySelectorAll(".gsap-fade-up");
@@ -315,6 +330,7 @@ export default function Home() {
         
         {/* === Hero Section (Static Image, Single Content) === */}
         <section 
+          id="hero-section"
           aria-labelledby="hero-heading" 
           className="min-h-screen relative overflow-hidden z-10 flex flex-col"
         >
@@ -322,14 +338,15 @@ export default function Home() {
           <div className="absolute inset-0 z-0">
             <div className="w-full h-full">
               <img 
+                ref={heroImageRef}
                 src="banner/hero-bg.webp" 
                 alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
-                className="w-full h-full object-cover object-center opacity-90 animate-ken-burns" 
+                className="w-full h-[120%] object-cover object-center opacity-90" // h-[120%] for parallax space
                 fetchPriority="high"
               />
             </div>
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/60 to-slate-900/20" />
           </div>
 
           {/* Static Content (No Slider) */}
@@ -345,7 +362,7 @@ export default function Home() {
               </div>
               
               {/* Headline */}
-              <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
+              <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] min-h-[2.2em] md:min-h-[2.2em]">
                 <Typewriter 
                   text={heroTitleParts.main} 
                   speed={80} 
@@ -364,7 +381,7 @@ export default function Home() {
               </h1>
               
               {/* Subtitle */}
-              <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6">
+              <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed border-l-2 border-sky-500 pl-6 min-h-[3.5em]">
                 {typingStage >= 2 && (
                   <Typewriter 
                     text={t.hero.subtitle} 
@@ -696,9 +713,6 @@ export default function Home() {
       </main>
 
       <style>{`
-        @keyframes ken-burns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-        .animate-ken-burns { animation: ken-burns 20s ease-out infinite alternate; }
-        
         @keyframes slide-up-fade { 
           0% { opacity: 0; transform: translateY(20px); } 
           100% { opacity: 1; transform: translateY(0); } 

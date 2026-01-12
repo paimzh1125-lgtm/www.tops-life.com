@@ -7,7 +7,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Analytics } from "@vercel/analytics/react"
 
 import { LanguageProvider } from './components/LanguageContext'; 
-import ParticleBackground from './components/ParticleBackground';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -61,7 +60,6 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
 
   return (
     <div className="relative min-h-screen flex flex-col font-sans text-tops-dark bg-tops-white selection:bg-tops-blue selection:text-white">
-      <ParticleBackground />
       <Navbar />
       <main className="flex-grow z-10 relative">
         {children}
