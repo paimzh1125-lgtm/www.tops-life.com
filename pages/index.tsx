@@ -21,7 +21,6 @@ import {
 import { useLanguage } from "../components/LanguageContext";
 // Data
 import { ALL_NEWS } from "./News";
-import SEO from "../components/SEO";
 
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -242,6 +241,29 @@ export default function Home() {
       gsap.set(".hero-buttons", { y: 20, opacity: 0 });
     }
   }, [typingStage]);
+
+  // SEO & Meta Handling
+  useEffect(() => {
+    document.title = t.metaTitle;
+    
+    // Update or create meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', t.metaDesc);
+
+    // Canonical Tag (防重复)
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href.split('#')[0]);
+  }, [language, t.metaTitle, t.metaDesc]);
 
   // GSAP Animations with Mobile Check
   useEffect(() => {
