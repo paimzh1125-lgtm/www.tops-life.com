@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 // 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -252,29 +253,13 @@ const About: React.FC = () => {
 
   const t = language === 'zh' ? content.zh : content.en;
 
-  // --- SEO 配置 ---
-  useEffect(() => {
-    document.title = t.metaTitle;
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t.metaDesc);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, t.metaTitle, t.metaDesc]);
-
   return (
     <main ref={containerRef} className="min-h-screen bg-white font-sans overflow-x-hidden selection:bg-sky-200 selection:text-sky-900">
+
+      <SEO 
+        title={t.metaTitle} 
+        description={t.metaDesc} 
+      />
 
       {/* 1. Hero Section */}
       <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 bg-slate-50 overflow-hidden">
