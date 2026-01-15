@@ -1,4 +1,6 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, ReactNode } from 'react';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export type Language = 'zh' | 'en';
 
@@ -11,44 +13,42 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // 初始化状态：优先从 localStorage 读取，默认为 'zh'
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('app_language');
-        return (saved === 'zh' || saved === 'en') ? saved : 'zh';
-      } catch (e) {
-        // 忽略 localStorage 访问错误（如隐私模式）
-        return 'zh';
-      }
-    }
-    return 'zh';
-  });
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
 
-  // 核心方法：设置语言并持久化
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('app_language', lang);
-      } catch (e) {
-        // 忽略写入错误
-      }
-    }
-  };
+  // 1. 从 URL 参数获取语言，如果没有则回退到 i18n 检测结果或 'zh'
+  // (注意：下一步修改 App.tsx 后，params.lang 才会生效)
+  const currentLang = (params.lang as Language) || (i18n.resolvedLanguage as Language) || 'zh';
 
-  // 辅助方法：切换语言（兼容现有 Navbar）
-  const toggleLanguage = () => {
-    setLanguage(language === 'zh' ? 'en' : 'zh');
-  };
-
-  // 监听语言变化，同步到 document
+  // 2. 监听 URL 变化，同步给 i18next 和 HTML 标签
   useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
+    if (currentLang && ['en', 'zh'].includes(currentLang) && i18n.language !== currentLang) {
+      i18n.changeLanguage(currentLang);
+      document.documentElement.lang = currentLang;
+    }
+  }, [currentLang, i18n]);
+
+  // 3. 核心方法：切换语言 = 切换 URL
+  const setLanguage = (targetLang: Language) => {
+    if (targetLang === currentLang) return;
+    
+    const currentPath = location.pathname;
+    // 将路径中的语言部分替换掉 (例如 /en/about -> /zh/about)
+    const newPath = currentPath.replace(/^\/(en|zh)/, `/${targetLang}`);
+    // 如果路径没有变（可能是根路径），强制拼接
+    const finalPath = newPath === currentPath ? `/${targetLang}${currentPath === '/' ? '' : currentPath}` : newPath;
+    
+    navigate(finalPath + location.search + location.hash);
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(currentLang === 'zh' ? 'en' : 'zh');
+  };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language: currentLang, setLanguage, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
