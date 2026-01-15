@@ -21,14 +21,14 @@ const Footer: React.FC = () => {
       privacy: "隐私政策",
       terms: "使用条款",
       productLinks: [
-        { name: "医用软包装", link: "/products#packaging" },
-        { name: "精密注塑", link: "/products#molding" },
-        { name: "生物基材料", link: "/products#material" }
+        { name: "医用软包装", link: `/${language}/products#packaging` },
+        { name: "精密注塑", link: `/${language}/products#molding` },
+        { name: "生物基材料", link: `/${language}/products#material` }
       ],
       aboutLinks: [
-        { name: "公司简介", link: "/about" },
-        { name: "新闻中心", link: "/news" },
-        { name: "联系我们", link: "/contact" }
+        { name: "公司简介", link: `/${language}/about` },
+        { name: "新闻中心", link: `/${language}/news` },
+        { name: "联系我们", link: `/${language}/contact` }
       ]
     },
     en: {
@@ -45,14 +45,14 @@ const Footer: React.FC = () => {
       privacy: "Privacy Policy",
       terms: "Terms of Use",
       productLinks: [
-        { name: "Medical Packaging", link: "/products#packaging" },
-        { name: "Injection Molding", link: "/products#molding" },
-        { name: "Bio-Materials", link: "/products#material" }
+        { name: "Medical Packaging", link: `/${language}/products#packaging` },
+        { name: "Injection Molding", link: `/${language}/products#molding` },
+        { name: "Bio-Materials", link: `/${language}/products#material` }
       ],
       aboutLinks: [
-        { name: "Company Profile", link: "/about" },
-        { name: "News Center", link: "/news" },
-        { name: "Contact Us", link: "/contact" }
+        { name: "Company Profile", link: `/${language}/about` },
+        { name: "News Center", link: `/${language}/news` },
+        { name: "Contact Us", link: `/${language}/contact` }
       ]
     }
   }[language];

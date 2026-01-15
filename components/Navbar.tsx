@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const { language, toggleLanguage } = useLanguage();
 
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === `/${language}` || location.pathname === `/${language}/`;
   const isTransparentMode = isHomePage && !isScrolled;
 
   useEffect(() => {
@@ -42,18 +42,19 @@ const Navbar: React.FC = () => {
 
   // 使用 useMemo 优化导航链接数组，确保语言切换时正确更新
   const navLinks = useMemo(() => {
+    const prefix = `/${language}`;
     return language === 'zh' ? [
-      { name: '首页', path: '/' },
-      { name: '关于我们', path: '/about' },
-      { name: '解决方案', path: '/products' },
-      { name: '新闻动态', path: '/news' },
-      { name: '联系我们', path: '/contact' },
+      { name: '首页', path: prefix },
+      { name: '关于我们', path: `${prefix}/about` },
+      { name: '解决方案', path: `${prefix}/products` },
+      { name: '新闻动态', path: `${prefix}/news` },
+      { name: '联系我们', path: `${prefix}/contact` },
     ] : [
-      { name: 'Home', path: '/' },
-      { name: 'About', path: '/about' },
-      { name: 'Solutions', path: '/products' },
-      { name: 'News', path: '/news' },
-      { name: 'Contact', path: '/contact' },
+      { name: 'Home', path: prefix },
+      { name: 'About', path: `${prefix}/about` },
+      { name: 'Solutions', path: `${prefix}/products` },
+      { name: 'News', path: `${prefix}/news` },
+      { name: 'Contact', path: `${prefix}/contact` },
     ];
   }, [language]);
 
@@ -68,7 +69,7 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-6 flex justify-between items-center relative">
         
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
+        <Link to={`/${language}`} className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
           <img 
             src="/banner/logo.png" 
             alt="Tops Life Science Logo" 
