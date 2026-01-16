@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -77,28 +77,26 @@ const App: React.FC = () => {
       {/* 全局 SEO 配置 (处理默认 Title 和 Meta) */}
       <SEO />
       
-      <BrowserRouter>
-        {/* LanguageProvider 必须在 Router 内部才能使用 hooks */}
-        <LanguageProvider>
-          <ScrollToTop />
-          <Routes>
-            {/* 子域名策略：移除 /:lang 前缀，直接使用根路径 */}
-            <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:id" element={<ProductDetail />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/contact" element={<Contact />} />
-              
-              {/* 全局 404 */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Route>
-          </Routes>
-          
-          <Analytics />
-        </LanguageProvider>
-      </BrowserRouter>
+      {/* LanguageProvider 必须在 Router 内部才能使用 hooks */}
+      <LanguageProvider>
+        <ScrollToTop />
+        <Routes>
+          {/* 子域名策略：移除 /:lang 前缀，直接使用根路径 */}
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/contact" element={<Contact />} />
+            
+            {/* 全局 404 */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+        
+        <Analytics />
+      </LanguageProvider>
     </HelmetProvider>
   );
 };
