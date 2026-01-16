@@ -1,0 +1,225 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "products": "Products",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "home": {
+    "metaTitle": "Home | Suzhou Tops Life Technology - Medical Packaging & Biomaterials Expert",
+    "metaDesc": "Tops Life specializes in medical soft packaging, precision injection molding, and soy protein polymers. ISO 7 cleanroom certified sustainable solutions.",
+    "heroTag": "Innovative MedTech Partner",
+    "hero": {
+      "title": "Green Tech, Guarding the Future",
+      "subtitle": "Redefining medical manufacturing with sustainable solutions, from bio-materials to sterile barriers."
+    },
+    "more": "Discover More",
+    "ctaBtn": "Contact Us",
+    "who": "About Us",
+    "companyPrefix": "Tops",
+    "companySuffix": " Life Science",
+    "intro": "Since the establishment of Tops Life in 2011, we have been committed to delivering exceptional solutions for the global medical and new material industries. As a pioneer in sterile barrier systems and precision manufacturing, we integrate multidisciplinary expertise in biomedicine, specialty paper, and water-based inks. Adhering to a 'Quality First' philosophy, we focus on clean flexible packaging, precision injection molding, and bio-based materials to empower safety and innovation in medical devices.",
+    "introPoints": ["ISO 7 Cleanroom", "Full Quality Traceability"],
+    "stats": [
+      { "num": "12+", "label": "Years Exp." },
+      { "num": "10k", "label": "Clean Class" },
+      { "num": "50+", "label": "Global Partners" }
+    ],
+    "solutionsTitle": "Core Solutions",
+    "solutionsDesc": "Meeting diverse business needs with professional technology and one-stop solutions.",
+    "solutions": [
+      {
+        "title": "Pharmaceutical Soft Packaging Solutions",
+        "desc": "Featuring medical-grade films and sterile containment systems to ensure full lifecycle sterility assurance and safety."
+      },
+      {
+        "title": "Medical Device R&D and Manufacturing",
+        "desc": "End-to-end solutions covering structural design, proprietary material formulation, precision manufacturing, and comprehensive in-house validation."
+      },
+      {
+        "title": "Soy Protein & New Material Applications",
+        "desc": "Pioneering green innovations derived from natural plant-based soy protein to redefine sustainable material performance."
+      }
+    ],
+    "tech": "R&D Strength",
+    "techDesc": "Integrating polymer science, materials engineering, and precision molding expertise.",
+    "qualityCard": { "rate": "99.9%", "title": "Quality Assurance", "desc": "Strict control in every step." },
+    "marketTitle": "Market Applications",
+    "marketDesc": "Deep industry insights covering key areas of life sciences and industrial applications.",
+    "market": [
+      { "title": "Pharmaceutical Soft Packaging", "desc": "Specializing in high-barrier medical films and sterile containment systems, creating a complete sterility lifecycle from raw materials to clinical application." },
+      { "title": "Medical Devices", "desc": "Delivering one-stop CDMO solutions encompassing precision mold design, material R&D, and cleanroom manufacturing to accelerate medical component commercialization." },
+      { "title": "Soy Polymer", "desc": "Innovative plant-based biomaterials derived from natural soy, featuring superior biocompatibility and biodegradability for a sustainable future in medical consumables." },
+      { "title": "Advanced Material Applications", "desc": "Pushing boundaries to explore frontier applications of high-performance composites in extreme environments and specialized medical scenarios." }
+    ],
+    "marketBtn": "View All Industries",
+    "newsTitle": "Latest News",
+    "newsBtn": "View All News",
+    "cta": "Ready to start your next project?",
+    "skipLink": "Skip to content"
+  },
+  "about": {
+    "metaTitle": "About Us | Tops Life - Medical Packaging & Molding Expert",
+    "metaDesc": "Founded in 2011, Tops-Life specializes in medical flexible packaging, precision injection molding, and bio-based materials with ISO Class 7 cleanrooms.",
+    "hero": {
+      "subtitle": "About TOPS LIFE",
+      "title": "Quality First, Innovation Lead",
+      "desc": "Since 2011, we have been dedicated to providing exceptional solutions for the global medical and new material industries."
+    },
+    "stats": [
+      { "value": "12+", "label": "Years Exp." },
+      { "value": "3", "label": "Core Business" },
+      { "value": "50+", "label": "Global Partners" },
+      { "value": "100%", "label": "Quality First" }
+    ],
+    "intro": {
+      "title": "Who We Are",
+      "p1": "Since the establishment of Tops Life in 2011, we have been committed to delivering exceptional solutions for the global medical and new material industries. As an innovative enterprise focusing on flexible packaging, medical devices, and new material supply, we possess extensive experience across medical components, specialty paper, and ink sectors.",
+      "coreTitle": "Core Businesses",
+      "coreItems": [
+          "Clean Flexible Packaging",
+          "New Materials Supplying",
+          "Medical Devices & Components"
+      ],
+      "p2": "Relying on ISO 7 cleanrooms and advanced automation, we built a strict quality control system from raw materials to finished products, ensuring medical-grade safety.",
+      "btn": "Explore Our Solutions"
+    },
+    "timeline": {
+      "title": "Our History",
+      "subtitle": "Every step from startup to excellence",
+      "items": [
+        { "year": "2011", "title": "Foundation", "desc": "Established Tops Life Technology." },
+        { "year": "2013", "title": "Expansion", "desc": "Started Medical Device OEM business." },
+        { "year": "2018", "title": "Upgrade", "desc": "Established Tops Life Science." },
+        { "year": "2021", "title": "Innovation", "desc": "New Materials Dept. established." },
+        { "year": "2023", "title": "Global", "desc": "Hong Kong branch established." }
+      ]
+    },
+    "cert": {
+      "title": "Certifications",
+      "desc": "Strict adherence to international standards ensuring medical safety.",
+      "items": [
+         { "title": "ISO 9001", "sub": "Quality Management" },
+         { "title": "ISO 13485", "sub": "Medical Devices QMS" }
+      ]
+    },
+    "values": {
+      "title": "Core Values",
+      "items": [
+        { "title": "Philosophy", "desc": "Quality First, Serving Market and Application." },
+        { "title": "Vision", "desc": "To be a unique market-leading provider of high-end packaging and medical solutions." },
+        { "title": "Mission", "desc": "Create value for customers and empower industry development." }
+      ]
+    },
+    "cta": {
+      "title": "Your Trusted Global Partner",
+      "desc": "Our manufacturing and management systems strictly adhere to international standards, ensuring safety, compliance, and efficiency in every delivery.",
+      "certs": ["ISO 13485 Certified", "ISO 9001 Certified", "ISO Class 7 Cleanroom"],
+      "btn": "Contact Us to Collaborate"
+    }
+  },
+  "products": {
+    "metaTitle": "Products | Medical Packaging, Injection Molding & Bio-Materials",
+    "metaDesc": "Explore Tops-Life's core solutions: Sterile Barrier Systems (Medical PE Bags/Films), Precision Medical Injection Molding, and Soy Protein Bio-Materials.",
+    "hero": {
+      "title": "Our Solutions",
+      "subtitle": "From Material Science to Manufacturing",
+      "desc": "We provide one-stop solutions for medical packaging, components, and eco-materials that meet global regulatory requirements."
+    },
+    "tech": {
+      "title": "Why Choose TOPS LIFE?",
+      "items": [
+        { "title": "R&D Lab", "desc": "Fully equipped physical, chemical, and microbiological labs for complete validation." },
+        { "title": "Compliance", "desc": "Strict ISO 13485 adherence. Products meet FDA, CE, and GB standards." },
+        { "title": "Smart Mfg", "desc": "All-electric injection molding and automated assembly for micron-level precision." }
+      ]
+    },
+    "list": [
+      {
+        "category": "Core Business 01",
+        "title": "Medical Flexible Packaging",
+        "desc": "Sterile Barrier Systems (SBS) designed for terminal sterilization. We offer full-process services from material selection to validation, ensuring sterility integrity throughout shelf life.",
+        "subProducts": [
+          { "name": "PE Bags and Rolls" },
+          { "name": "Medical-grade Films" },
+          { "name": "High Barrier Packaging" },
+          { "name": "EVA and TPU (Lidding)" }
+        ],
+        "applications": ["Pharma Packaging", "Surgical Kits", "Consumables Packaging", "Device Packaging"],
+        "features": ["ISO 11607 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
+        "imgDesc": "ISO Class 7 Production"
+      },
+      {
+        "category": "Core Business 02",
+        "title": "Medical Injection Molding",
+        "desc": "Operating in Class 100k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
+        "subProducts": [
+          { "name": "Microfluidic Chips" },
+          { "name": "Surgical Staplers" },
+          { "name": "IVD Consumables" },
+          { "name": "Precision Gears" }
+        ],
+        "applications": ["Device Structural Parts", "Life Science", "Diagnostic Components", "Minimally Invasive Tools"],
+        "features": ["All-electric Molding", "Tolerance < 0.005mm", "Full Traceability"],
+        "imgDesc": "Precision Mold & Production"
+      },
+      {
+        "category": "Core Business 03",
+        "title": "Soy Protein Bio-Materials",
+        "desc": "Sustainable solutions for the future. Utilizing modified soy protein technology to create high-performance, formaldehyde-free plant-based binders and coatings replacing petrochemicals.",
+        "subProducts": [
+          { "name": "Plant-based Adhesives" },
+          { "name": "Degradable Coatings" },
+          { "name": "Eco Paper-Plastic" },
+          { "name": "Functional Additives" }
+        ],
+        "applications": ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
+        "features": ["100% Biodegradable", "Zero Formaldehyde", "High Wet/Dry Strength"],
+        "imgDesc": "Green Chemistry Lab"
+      }
+    ],
+    "cta": {
+      "text": "Looking for customization?",
+      "sub": "Our engineering team is ready to provide technical support.",
+      "btn": "Contact Consultants"
+    },
+    "labels": {
+      "series": "Product Series",
+      "applications": "Applications"
+    }
+  },
+  "news": {
+    "metaTitle": "News & Insights | Tops Life Technology",
+    "metaDesc": "Stay updated with Tops-Life's latest corporate news, event information, and insights into medical manufacturing and sustainability.",
+    "hero": {
+      "label": "News Center",
+      "title": "Latest Updates & Insights",
+      "desc": "Explore Tops-Life's latest developments, technological breakthroughs, and our footprint in global healthcare."
+    },
+    "filters": { "all": "All", "corporate": "Corporate", "products": "Products", "events": "Events" },
+    "readMore": "Read More"
+  },
+  "contact": {
+    "metaTitle": "Contact Us | Tops Life - Get in Touch",
+    "metaDesc": "Contact Suzhou Tops Life Technology. Find our address, phone number, and email for inquiries regarding medical packaging and manufacturing solutions.",
+    "hero": { "title": "Contact Us", "subtitle": "Start a Conversation", "desc": "Whether for product inquiries, technical cooperation, or business negotiation, we are ready to provide professional support." },
+    "info": {
+      "title": "Get in Touch",
+      "address": { "label": "Address", "val": "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", "zip": "Zip: 215121" },
+      "phone": { "label": "Phone", "val": "+86 0512-66185798" },
+      "email": { "label": "Email", "val": "pai.ma@tops-life.com" },
+      "hours": { "label": "Hours", "val": "Mon - Fri 09:00 - 18:00 (GMT+8)" }
+    },
+    "form": { 
+      "title": "Send a Message", 
+      "desc": "Fill out the form below and our team will get back to you within 24 hours.", 
+      "name": "Your Name", "email": "Email Address", "subject": "Subject", "message": "Message / Requirements", 
+      "btn": "Send Email",
+      "sending": "Sending...",
+      "successTitle": "Message Sent!",
+      "successDesc": "Thank you. We will get back to you shortly (Email client opened as backup)."
+    },
+    "map": { "btn": "View on Map" }
+  }
+}
