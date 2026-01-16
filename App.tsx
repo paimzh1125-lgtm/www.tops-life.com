@@ -4,7 +4,7 @@ import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // 1. 引入 Analytics 组件
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import './i18n'; // 引入 i18n 配置
@@ -48,6 +48,7 @@ const Layout = () => {
   useEffect(() => {
      const lenis = new Lenis({
       duration: 1.2,
+      // Smooth scrolling configuration
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
     });
