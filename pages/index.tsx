@@ -21,6 +21,7 @@ import {
 import { useLanguage } from "../components/LanguageContext";
 // Data
 import { ALL_NEWS } from "./News";
+import SEO from "../components/SEO";
 
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);

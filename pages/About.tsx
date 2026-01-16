@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../components/LanguageContext';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 // 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
