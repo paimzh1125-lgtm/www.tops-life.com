@@ -9,6 +9,9 @@ import { HelmetProvider } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import './i18n'; // 引入 i18n 配置
 
+// FIX: 导入 SEO 组件以修复 ReferenceError
+import SEO from './components/SEO';
+
 import { LanguageProvider } from './components/LanguageContext'; 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -72,39 +75,29 @@ const Layout = () => {
   );
 };
 
-// 根路径重定向: / -> /zh 或 /en
-const RootRedirect = () => {
-  const { i18n } = useTranslation();
-  const dest = i18n.language.startsWith('en') ? '/en' : '/zh';
-  return <Navigate to={dest} replace />;
-};
-
 const App: React.FC = () => {
   return (
     <HelmetProvider>
+      {/* 全局 SEO 配置 (处理默认 Title 和 Meta) */}
+      <SEO />
+      
       <BrowserRouter>
         {/* LanguageProvider 必须在 Router 内部才能使用 hooks */}
         <LanguageProvider>
           <ScrollToTop />
           <Routes>
-            {/* 1. 根路径重定向 */}
-            <Route path="/" element={<RootRedirect />} />
-
-            {/* 2. 语言路由 (/:lang) */}
-            <Route path="/:lang" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="about" element={<About />} />
-              <Route path="products" element={<Products />} />
-              <Route path="products/:id" element={<ProductDetail />} />
-              <Route path="news" element={<News />} />
-              <Route path="contact" element={<Contact />} />
+            {/* 子域名策略：移除 /:lang 前缀，直接使用根路径 */}
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/contact" element={<Contact />} />
               
-              {/* 捕获语言路径下的 404 */}
-              <Route path="*" element={<Navigate to="" replace />} />
+              {/* 全局 404 */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
-
-            {/* 3. 全局 404 */}
-            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           
           <Analytics />
