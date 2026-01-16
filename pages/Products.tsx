@@ -32,7 +32,7 @@ interface ContentState {
   metaTitle: string;
   metaDesc: string;
   hero: { title: string; subtitle: string; desc: string };
-  tech: { title: string; items: { icon: JSX.Element; title: string; desc: string }[] };
+  tech: { title: string; items: { icon: React.ReactNode; title: string; desc: string }[] };
   products: ProductItem[];
   cta: { text: string; sub: string; btn: string };
 }
