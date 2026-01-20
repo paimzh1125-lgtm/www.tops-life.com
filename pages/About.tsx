@@ -123,27 +123,6 @@ const About: React.FC = () => {
     return () => ctx.revert();
   }, [language]);
 
-  // --- SEO 配置 ---
-  useEffect(() => {
-    document.title = t('about.metaTitle');
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t('about.metaDesc'));
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, t]);
-
   return (
     <main ref={containerRef} className="min-h-screen bg-white font-sans overflow-x-hidden selection:bg-sky-200 selection:text-sky-900">
 

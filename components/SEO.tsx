@@ -1,22 +1,20 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
 
-const SEO: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  
-  // Default values from translation files
-  const title = t('home.metaTitle') || 'Tops Life Science';
-  const description = t('home.metaDesc') || 'Medical Packaging & Biomaterials Expert';
-  const lang = i18n.language;
+interface SEOProps {
+  title?: string;
+  description?: string;
+}
 
+const SEO: React.FC<SEOProps> = ({ title, description }) => {
   return (
     <Helmet>
-      <html lang={lang} />
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      {title && <title>{title}</title>}
+      {description && <meta name="description" content={description} />}
+      {title && <meta property="og:title" content={title} />}
+      {description && <meta property="og:description" content={description} />}
+      {title && <meta name="twitter:title" content={title} />}
+      {description && <meta name="twitter:description" content={description} />}
     </Helmet>
   );
 };
