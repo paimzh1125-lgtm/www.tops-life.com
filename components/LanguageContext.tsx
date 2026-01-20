@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, ReactNode } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export type Language = 'zh' | 'en';
@@ -14,13 +14,12 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { i18n } = useTranslation();
-  const navigate = useNavigate();
   const location = useLocation();
-  const params = useParams();
 
-  // 1. 从 URL 参数获取语言，如果没有则回退到 i18n 检测结果或 'zh'
-  // (注意：下一步修改 App.tsx 后，params.lang 才会生效)
-  const currentLang = (params.lang as Language) || (i18n.resolvedLanguage as Language) || 'zh';
+  // 1. 从域名 (Subdomain) 获取语言
+  // 如果域名以 'cn.' 开头，则为中文，否则默认为英文
+  const isCn = window.location.hostname.startsWith('cn.');
+  const currentLang: Language = isCn ? 'zh' : 'en';
 
   // 2. 监听 URL 变化，同步给 i18next 和 HTML 标签
   useEffect(() => {
@@ -30,17 +29,22 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, [currentLang, i18n]);
 
-  // 3. 核心方法：切换语言 = 切换 URL
+  // 3. 核心方法：切换语言 = 切换子域名
   const setLanguage = (targetLang: Language) => {
     if (targetLang === currentLang) return;
     
-    const currentPath = location.pathname;
-    // 将路径中的语言部分替换掉 (例如 /en/about -> /zh/about)
-    const newPath = currentPath.replace(/^\/(en|zh)/, `/${targetLang}`);
-    // 如果路径没有变（可能是根路径），强制拼接
-    const finalPath = newPath === currentPath ? `/${targetLang}${currentPath === '/' ? '' : currentPath}` : newPath;
+    const host = window.location.host;
+    let newHost = host;
+
+    if (targetLang === 'zh') {
+      // 切换到中文：添加或替换为 cn.
+      newHost = host.startsWith('www.') ? host.replace('www.', 'cn.') : `cn.${host}`;
+    } else {
+      // 切换到英文：移除 cn. 或替换为 www.
+      newHost = host.startsWith('cn.') ? host.replace('cn.', 'www.') : `www.${host}`;
+    }
     
-    navigate(finalPath + location.search + location.hash);
+    window.location.href = `${window.location.protocol}//${newHost}${location.pathname}${location.search}${location.hash}`;
   };
 
   const toggleLanguage = () => {
