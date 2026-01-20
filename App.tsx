@@ -83,11 +83,11 @@ const Layout = () => {
 const App: React.FC = () => {
   return (
     <HelmetProvider>
-      {/* 全局 SEO 配置 (处理默认 Title 和 Meta) */}
-      <SEO />
-      
       {/* LanguageProvider 必须在 Router 内部才能使用 hooks */}
       <LanguageProvider>
+        {/* 全局 SEO 配置 (处理默认 Title 和 Meta) - 移到 LanguageProvider 内部以便获取语言状态 */}
+        <SEO />
+        
         <ScrollToTop />
         <Routes>
           {/* 子域名策略：移除 /:lang 前缀，直接使用根路径 */}
