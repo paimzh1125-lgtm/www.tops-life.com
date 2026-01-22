@@ -10,7 +10,7 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ title, description }) => {
   const { t } = useTranslation();
   
-  const effectiveTitle = title || t('home.metaTitle');
+  const effectiveTitle = title ? `${title} | TopsLife (Suzhou Tops Life)` : t('home.metaTitle');
   const effectiveDesc = description || t('home.metaDesc');
 
   return (
