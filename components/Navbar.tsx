@@ -23,9 +23,9 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
-  const { language, toggleLanguage } = useLanguage();
+  const { language } = useLanguage();
 
-  const isHomePage = location.pathname === `/${language}` || location.pathname === `/${language}/`;
+  const isHomePage = location.pathname === '/';
   const isTransparentMode = isHomePage && !isScrolled;
 
   useEffect(() => {
@@ -57,6 +57,13 @@ const Navbar: React.FC = () => {
     ];
   }, [language]);
 
+  // Subdomain Switch Logic
+  const currentPath = window.location.pathname + window.location.search;
+  const isChineseDomain = window.location.hostname.includes('cn.');
+  const switchUrl = isChineseDomain 
+      ? `https://www.tops-life.com${currentPath}` 
+      : `https://cn.tops-life.com${currentPath}`;
+
   return (
     <header 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -68,9 +75,9 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-6 flex justify-between items-center relative">
         
         {/* Logo */}
-        <Link to={`/${language}`} className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
           <img 
-            src="/images/logo.png" 
+            src="/banner/logo.png" 
             alt="Tops Life Science Logo" 
             className={`
               h-9 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
@@ -105,8 +112,8 @@ const Navbar: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex items-center gap-5">
-          <button 
-            onClick={toggleLanguage}
+          <a 
+            href={switchUrl}
             aria-label={language === 'zh' ? "Switch to English" : "切换到中文"}
             className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 ${
               isTransparentMode
@@ -116,7 +123,7 @@ const Navbar: React.FC = () => {
           >
             <Icons.Globe />
             {language === 'zh' ? 'EN' : '中文'}
-          </button>
+          </a>
           
           <button 
             className={`md:hidden transition-colors hover:scale-110 ${isTransparentMode ? 'text-white' : 'text-slate-900'}`}
@@ -150,13 +157,14 @@ const Navbar: React.FC = () => {
                  {link.name} <div className="text-sky-500"><Icons.ChevronRight /></div>
                </Link>
             ))}
-             <button 
-              onClick={() => { toggleLanguage(); setIsMobileOpen(false); }}
+             <a 
+              href={switchUrl}
+              onClick={() => setIsMobileOpen(false)}
               aria-label={language === 'zh' ? "Switch to English" : "切换到中文"}
               className="mt-8 flex items-center gap-2 px-6 py-2 border border-white/20 rounded-full text-lg font-bold text-white hover:bg-white/10 hover:border-white/40 transition-all"
             >
               <Icons.Globe /> {language === 'zh' ? 'EN' : '中文'}
-            </button>
+            </a>
         </div>
       </div>
     </header>
