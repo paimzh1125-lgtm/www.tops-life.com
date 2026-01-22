@@ -6,6 +6,19 @@
     "news": "新闻动态",
     "contact": "联系我们"
   },
+  "alt": {
+    "logo": "TopsLife 永爱生命 - 医用软包装与新材料专家",
+    "hero_factory": "ISO 7级 (万级) 洁净车间 - 医用无菌包装生产环境",
+    "about_factory": "永爱生命现代化工厂外观与洁净设施",
+    "rnd_lab": "永爱生命研发实验室与质量检测中心",
+    "market_pharma": "医药软包装应用场景",
+    "market_device": "医疗器械制造应用场景",
+    "market_soy": "大豆蛋白聚合物材料应用",
+    "market_material": "新材料前沿应用",
+    "product_packaging": "永爱生命医用无菌软包装与薄膜产品",
+    "product_molding": "永爱生命精密医疗注塑组件",
+    "product_material": "永爱生命大豆蛋白生物基环保材料"
+  },
   "home": {
     "metaTitle": "TopsLife 苏州永爱 - 医用软包装与生物新材料专家",
     "metaDesc": "TopsLife (苏州永爱) 专注医疗软包装、精密注塑及生物基新材料。拥有ISO 7级洁净车间，提供无菌屏障系统与可持续医疗解决方案。",

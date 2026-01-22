@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../components/LanguageContext';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from 'react-i18next';
 
 // 注册插件
 gsap.registerPlugin(ScrollTrigger);
@@ -269,6 +270,7 @@ const Products: React.FC = () => {
   const { language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const { t: tAlt } = useTranslation();
 
   // 使用 useMemo 获取当前语言数据，避免重复计算
   const t = useMemo(() => {
@@ -423,7 +425,7 @@ const Products: React.FC = () => {
                        <div className="aspect-video w-full rounded-2xl overflow-hidden bg-slate-200 shadow-lg relative">
                            <img 
                              src={product.image} 
-                             alt={product.title} 
+                             alt={tAlt(`alt.product_${product.id}`)} 
                              loading="lazy"
                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                              onError={(e) => {

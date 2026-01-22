@@ -211,7 +211,7 @@ const Home: React.FC = () => {
               <img 
                 ref={heroImageRef}
                 src="banner/hero-bg.webp" 
-                alt="Tops-Life Medical Packaging and Precision Manufacturing in Cleanroom" 
+                alt={t('alt.hero_factory')} 
                 className="w-full h-[120%] object-cover object-center" // 移除 opacity-90，由遮罩控制明暗
                 fetchPriority="high"
               />
@@ -307,7 +307,7 @@ const Home: React.FC = () => {
                 <img 
                   src="banner/outsight.jpg" 
                   loading="lazy" 
-                  alt="Modern factory exterior showing the Tops-Life facility" 
+                  alt={t('alt.about_factory')} 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" 
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
@@ -453,7 +453,7 @@ const Home: React.FC = () => {
                       src="images/industry1.jpg" 
                       loading="lazy" 
                       className="w-full h-full object-cover" 
-                      alt="Laboratory technicians working in a sterile environment" 
+                      alt={t('alt.rnd_lab')} 
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000'; }}
                   />
                   <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
@@ -502,7 +502,7 @@ const Home: React.FC = () => {
                     <img 
                       src={`images/application${i + 1}.png`} 
                       loading="lazy"
-                      alt={`${item.title} application example`} 
+                      alt={t(`alt.market_${['pharma', 'device', 'soy', 'material'][i]}`)} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
                     />

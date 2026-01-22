@@ -6,6 +6,19 @@
     "news": "News",
     "contact": "Contact"
   },
+  "alt": {
+    "logo": "TopsLife Science - Medical Packaging & New Materials Expert",
+    "hero_factory": "ISO 7 Class Cleanroom for Sterile Medical Packaging Manufacturing",
+    "about_factory": "TopsLife Modern Factory Exterior and Cleanroom Facilities",
+    "rnd_lab": "TopsLife R&D Laboratory and Quality Testing",
+    "market_pharma": "Pharmaceutical Soft Packaging Application",
+    "market_device": "Medical Device Manufacturing Application",
+    "market_soy": "Soy Protein Polymer Material Application",
+    "market_material": "Advanced Material Application",
+    "product_packaging": "TopsLife Sterile Medical Flexible Packaging and Films",
+    "product_molding": "TopsLife Precision Medical Injection Molding Components",
+    "product_material": "TopsLife Soy Protein Bio-based Materials"
+  },
   "home": {
     "metaTitle": "TopsLife - Medical Packaging & New Materials Expert | Tops Life Science",
     "metaDesc": "TopsLife (Tops Life Science) specializes in sterile medical packaging, precision injection molding, and soy protein polymers. ISO 7 cleanroom certified sustainable solutions.",

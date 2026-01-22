@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from './LanguageContext'; // 确保路径正确
+import { useTranslation } from 'react-i18next';
 
 // --- 简单的内部 SVG 图标组件，替代 lucide-react ---
 const Icons = {
@@ -24,6 +25,7 @@ const Navbar: React.FC = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
   const { language } = useLanguage();
+  const { t } = useTranslation();
 
   const isHomePage = location.pathname === '/';
   const isTransparentMode = isHomePage && !isScrolled;
@@ -78,7 +80,7 @@ const Navbar: React.FC = () => {
         <Link to="/" className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
           <img 
             src="/banner/logo.png" 
-            alt="Tops Life Science Logo" 
+            alt={t('alt.logo')} 
             className={`
               h-9 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
               ${isTransparentMode ? "brightness-0 invert opacity-100" : ""} 
