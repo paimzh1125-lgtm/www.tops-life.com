@@ -208,13 +208,18 @@ const Home: React.FC = () => {
           {/* Static Background */}
           <div className="absolute inset-0 z-0">
             <div className="w-full h-full">
-              <img 
-                ref={heroImageRef}
-                src="banner/hero-bg.webp" 
-                alt={t('alt.hero_factory')} 
-                className="w-full h-[120%] object-cover object-center" // 移除 opacity-90，由遮罩控制明暗
-                fetchPriority="high"
-              />
+              <picture>
+                <source media="(max-width: 768px)" srcSet="/banner/hero-mobile.webp" />
+                <img 
+                  ref={heroImageRef}
+                  src="/banner/hero-bg.webp" 
+                  alt={t('alt.hero_factory')} 
+                  className="w-full h-[120%] object-cover object-center" 
+                  fetchPriority="high"
+                  width="1920"
+                  height="1080"
+                />
+              </picture>
             </div>
             {/* 3. Banner 视觉提亮: 品牌色渐变遮罩 (Brand Gradient Overlay) */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 via-cyan-800/80 to-transparent mix-blend-multiply md:mix-blend-normal" />
