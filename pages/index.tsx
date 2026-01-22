@@ -423,7 +423,7 @@ const Home: React.FC = () => {
               <div className="lg:col-span-5 gsap-fade-up">
                 <div className="flex items-center gap-3 mb-6">
                   <span className="p-2 bg-sky-50 border border-sky-100 rounded-lg text-sky-600"><Microscope size={24} /></span>
-                  <span className="text-sky-600 font-bold tracking-widest uppercase">R&D Center</span>
+                  <span className="text-sky-600 font-bold tracking-widest uppercase">{t('home.rndTag')}</span>
                 </div>
                 <h2 id="rnd-title" className="text-4xl lg:text-5xl font-bold mb-8 leading-tight text-slate-900">
                   {t('home.tech')} <span className="text-sky-500">.</span>
@@ -431,21 +431,19 @@ const Home: React.FC = () => {
                 <p className="text-slate-600 text-lg leading-relaxed mb-10 border-l-4 border-sky-500 pl-6">{t('home.techDesc')}</p>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-md transition-all cursor-default group">
-                    <Activity className="text-sky-500 group-hover:scale-110 transition-transform" size={24} />
-                    <div>
-                      <h4 className="font-bold text-lg text-slate-900">ISO 13485 Certified</h4>
-                      <p className="text-sm text-slate-500">国际医疗器械质量管理体系</p>
+                  {(t('home.techFeatures', { returnObjects: true }) as any[]).map((feature, idx) => (
+                    <div key={idx} className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-md transition-all cursor-default group">
+                      {idx === 0 ? (
+                        <Activity className="text-sky-500 group-hover:scale-110 transition-transform" size={24} />
+                      ) : (
+                        <Layers className="text-sky-500 group-hover:scale-110 transition-transform" size={24} />
+                      )}
+                      <div>
+                        <h4 className="font-bold text-lg text-slate-900">{feature.title}</h4>
+                        <p className="text-sm text-slate-500">{feature.desc}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-md transition-all cursor-default group">
-                    {/* Updated to sky-400 for consistency */}
-                    <Layers className="text-sky-500 group-hover:scale-110 transition-transform" size={24} />
-                    <div>
-                      <h4 className="font-bold text-lg text-slate-900">10,000 Class Cleanroom</h4>
-                      <p className="text-sm text-slate-500">高标准洁净生产环境</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 

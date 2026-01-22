@@ -44,6 +44,11 @@
     ],
     "tech": "R&D Strength",
     "techDesc": "Integrating polymer science, materials engineering, and precision molding expertise.",
+    "rndTag": "R&D Center",
+    "techFeatures": [
+      { "title": "ISO 13485 Certified", "desc": "International Medical Device QMS" },
+      { "title": "10,000 Class Cleanroom", "desc": "High Standard Clean Production Environment" }
+    ],
     "qualityCard": { "rate": "99.9%", "title": "Quality Assurance", "desc": "Strict control in every step." },
     "marketTitle": "Market Applications",
     "marketDesc": "Deep industry insights covering key areas of life sciences and industrial applications.",
