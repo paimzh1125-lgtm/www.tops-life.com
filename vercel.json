@@ -1,8 +1,9 @@
 {
   "redirects": [
-    { "source": "/lxwm", "destination": "https://www.tops-life.com/contact", "permanent": true },
-    { "source": "/newsinfo/(.*)", "destination": "https://www.tops-life.com/news", "permanent": true },
-    { "source": "/ywbm", "destination": "https://www.tops-life.com/about", "permanent": true }
+    { "source": "/lxwm", "destination": "/contact", "permanent": true },
+    { "source": "/ywbm", "destination": "/about", "permanent": true },
+    { "source": "/newsinfo/(.*)", "destination": "/news", "permanent": true },
+    { "source": "/index\\.php(.*)", "destination": "/", "permanent": true }
   ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
