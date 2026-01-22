@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
-import './src/index.css'; // 导入全局 Tailwind 样式
+import './index.css'; // 导入全局 Tailwind 样式
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // 1. 引入 Analytics 组件
 import { Analytics } from "@vercel/analytics/react"
