@@ -1,9 +1,10 @@
 {
   "redirects": [
     { "source": "/lxwm", "destination": "/contact", "permanent": true },
-    { "source": "/ywbm", "destination": "/about", "permanent": true },
+    { "source": "/ywbm", "destination": "/products", "permanent": true },
     { "source": "/newsinfo/(.*)", "destination": "/news", "permanent": true },
-    { "source": "/index\\.php(.*)", "destination": "/", "permanent": true }
+    { "source": "/index.php", "destination": "/", "permanent": true },
+    { "source": "/Common/(.*)", "destination": "/", "permanent": true }
   ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }

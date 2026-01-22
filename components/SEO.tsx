@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 interface SEOProps {
   title?: string;
@@ -7,14 +8,19 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({ title, description }) => {
+  const { t } = useTranslation();
+  
+  const effectiveTitle = title || t('home.metaTitle');
+  const effectiveDesc = description || t('home.metaDesc');
+
   return (
     <Helmet>
-      {title && <title>{title}</title>}
-      {description && <meta name="description" content={description} />}
-      {title && <meta property="og:title" content={title} />}
-      {description && <meta property="og:description" content={description} />}
-      {title && <meta name="twitter:title" content={title} />}
-      {description && <meta name="twitter:description" content={description} />}
+      <title>{effectiveTitle}</title>
+      <meta name="description" content={effectiveDesc} />
+      <meta property="og:title" content={effectiveTitle} />
+      <meta property="og:description" content={effectiveDesc} />
+      <meta name="twitter:title" content={effectiveTitle} />
+      <meta name="twitter:description" content={effectiveDesc} />
     </Helmet>
   );
 };
