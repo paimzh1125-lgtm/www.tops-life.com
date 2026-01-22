@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
         {/* Logo */}
         <Link to={`/${language}`} className="flex items-center gap-2 group cursor-pointer select-none" aria-label="Go to homepage">
           <img 
-            src="/banner/logo.png" 
+            src="/images/logo.png" 
             alt="Tops Life Science Logo" 
             className={`
               h-9 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
