@@ -26,6 +26,7 @@ interface ProductItem {
   features: string[];
   imgDesc: string;
   image: string;
+  specs?: Record<string, string>;
 }
 
 interface ContentState {
@@ -161,9 +162,24 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
           { name: "特种功能助剂", link: "/products/functional-additives" }
         ],
         applications: ["高端消费品包装", "环保包装材料", "可堆肥食品包装", "生物医用辅助材料"],
-        features: ["100% 生物降解", "零甲醛 / 零苯", "优异的干湿强度"],
+        features: [
+          "100% 生物降解",
+          "优异的强度以及增稠保水稳定性",
+          "非热塑耐高温性",
+          "可定制化的涂层功能"
+        ],
         imgDesc: "绿色化学与可持续发展实验室",
-        image: "/images/soy.jpg"
+        image: "/images/soy.jpg",
+        specs: {
+          "基材": "改性大豆蛋白",
+          "环保等级": "无醛, 低 VOC",
+          "粘接强度": "高干/湿强度",
+          "应用": "食品/医疗包装, 复合材料",
+          "外观": "近白色或棕色粉体",
+          "水份含量": "6%-10%",
+          "包装": "20公斤纸袋或1000公斤吨袋",
+          "储存": "常温通风干燥"
+        }
       }
     ],
     cta: {
@@ -382,6 +398,24 @@ const Products: React.FC = () => {
                                   <Icons.Check /> {f}
                               </span>
                           ))}
+                       </div>
+
+                       {/* Technical Specifications Table */}
+                       {product.specs && (
+                         <div className="mt-8 bg-slate-50 rounded-xl p-6 border border-slate-100">
+                           <h4 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
+                             <Icons.Tool /> {language === 'zh' ? '技术规格' : 'Technical Specifications'}
+                           </h4>
+                           <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+                             {Object.entries(product.specs).map(([key, value]) => (
+                               <div key={key} className="flex justify-between border-b border-slate-200 pb-2 last:border-0">
+                                 <span className="text-slate-500">{key}</span>
+                                 <span className="font-medium text-slate-900 text-right">{value}</span>
+                               </div>
+                             ))}
+                           </div>
+                         </div>
+                       )}
                        </div>
                    </div>
 
