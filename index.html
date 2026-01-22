@@ -17,33 +17,14 @@
     <meta property="og:image" content="/images/logo.png" />
     <meta property="og:url" content="https://www.tops-life.com" />
 
+    <!-- Performance: Preconnect to Font Origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Performance: Load Fonts with display=swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Preload Critical LCP Image for Mobile -->
     <link rel="preload" as="image" href="/banner/hero-mobile.webp" media="(max-width: 768px)" />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              tops: {
-                blue: '#40C4FF', // 品牌主色：天空蓝
-                dark: '#0F172A', // 深空蓝
-                white: '#F8FAFC', // 纯净白
-                gray: '#94A3B8', // 辅助灰
-              }
-            },
-            fontFamily: {
-              sans: ['"HarmonyOS Sans"', '"MiSans"', '"Microsoft YaHei"', 'sans-serif'],
-            },
-            backgroundImage: {
-              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-            }
-          }
-        }
-      }
-    </script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
