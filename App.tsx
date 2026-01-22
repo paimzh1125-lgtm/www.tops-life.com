@@ -1,12 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // 1. 引入 Analytics 组件
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
 import './i18n'; // 引入 i18n 配置
 
 // FIX: 导入 SEO 组件以修复 ReferenceError
@@ -35,15 +34,12 @@ const ScrollToTop = () => {
 };
 
 const Layout = () => {
-  const lenisRef = useRef<Lenis | null>(null);
-   
   useEffect(() => {
      const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
     });
-    lenisRef.current = lenis;
     const raf = (time: number) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
