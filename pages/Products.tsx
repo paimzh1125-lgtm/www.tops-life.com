@@ -417,6 +417,7 @@ const Products: React.FC = () => {
                          </div>
                        )}
                        </div>
+                   </div>
 
                    {/* 右侧图片 */}
                    <div className="lg:w-1/2 relative group">
