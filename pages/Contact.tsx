@@ -1,6 +1,6 @@
 // src/pages/Contact.tsx
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from '../components/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
 
 // --- SVG Icons ---
@@ -61,7 +61,8 @@ const content = {
 };
 
 const Contact: React.FC = () => {
-  const { language } = useLanguage();
+  const { i18n } = useTranslation();
+  const language = i18n.language as 'zh' | 'en';
   // 新增：表单状态管理 (idle: 空闲, submitting: 提交中, success: 成功)
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });

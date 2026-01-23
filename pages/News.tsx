@@ -6,7 +6,7 @@ import {
   ArrowRight, 
   Calendar
 } from 'lucide-react';
-import { useLanguage } from '../components/LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 type CategoryType = 'All' | 'Corporate' | 'Products' | 'Events';
 
@@ -68,7 +68,8 @@ export const ALL_NEWS = [
 gsap.registerPlugin(ScrollTrigger);
 
 const News: React.FC = () => {
-  const { language } = useLanguage();
+  const { i18n } = useTranslation();
+  const language = i18n.language as 'zh' | 'en';
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<CategoryType>('All');

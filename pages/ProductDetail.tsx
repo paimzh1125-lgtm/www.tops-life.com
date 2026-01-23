@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { X, ZoomIn } from 'lucide-react';
-import { useLanguage } from '../components/LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 // 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -623,7 +623,8 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { language } = useLanguage(); 
+  const { i18n } = useTranslation();
+  const language = i18n.language as 'zh' | 'en';
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   
