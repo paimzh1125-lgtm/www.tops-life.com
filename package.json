@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@prerenderer/renderer-puppeteer": "^0.2.0",
+    "@prerenderer/renderer-jsdom": "^0.2.0",
     "@prerenderer/rollup-plugin": "^0.2.0",
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.7",
@@ -38,8 +38,8 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^17.0.0",
+    "jsdom": "^24.0.0",
     "postcss": "^8.4.49",
-    "puppeteer": "^24.0.0",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.53.1",

@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression';
 import prerender from '@prerenderer/rollup-plugin';
-import puppeteerRenderer from '@prerenderer/renderer-puppeteer';
+import jsdomRenderer from '@prerenderer/renderer-jsdom';
 
 export default defineConfig({
   plugins: [
@@ -12,10 +12,8 @@ export default defineConfig({
       // 1. 指定需要预渲染的静态路由
       routes: ['/', '/about', '/products', '/news', '/contact'],
       
-      // 2. 配置 Puppeteer 渲染器
-      renderer: new puppeteerRenderer({
-        // Vercel 构建环境通常需要这些参数来运行无头浏览器
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      // 2. 配置 JSDOM 渲染器 (更轻量，无需系统依赖，完美适配 Vercel)
+      renderer: new jsdomRenderer({
         // 等待 1000ms 确保 React 组件挂载和初始数据加载完成
         renderAfterTime: 1000,
       }),
