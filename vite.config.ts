@@ -22,7 +22,18 @@ export default defineConfig({
     react(),
     prerender({
       // 1. 指定需要预渲染的静态路由
-      routes: ['/', '/about', '/products', '/news', '/contact'],
+      routes: [
+        '/', 
+        '/about', 
+        '/products', 
+        '/news', 
+        '/contact',
+        '/zh', 
+        '/zh/about', 
+        '/zh/products', 
+        '/zh/news', 
+        '/zh/contact'
+      ],
       
       // 2. 配置 JSDOM 渲染器 (更轻量，无需系统依赖，完美适配 Vercel)
       renderer: new jsdomRenderer({

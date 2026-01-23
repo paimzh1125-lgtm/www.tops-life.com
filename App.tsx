@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 // FIX: 导入 SEO 组件以修复 ReferenceError
 import SEO from './components/SEO';
 
-import { LanguageProvider } from './components/LanguageContext'; 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -87,8 +86,7 @@ const App: React.FC = () => {
       {/* 全局 SEO 配置 (处理默认 Title 和 Meta) */}
       <SEO />
       
-      {/* LanguageProvider 必须在 Router 内部才能使用 hooks */}
-      <LanguageProvider>
+      {/* 移除 LanguageProvider 以避免与 react-i18next 状态冲突导致死循环 (#185) */}
         <ScrollToTop />
         <Routes>
           {/* Task 2: 英文路由 (默认) */}
@@ -121,7 +119,6 @@ const App: React.FC = () => {
         
         <Analytics />
         <SpeedInsights />
-      </LanguageProvider>
     </HelmetProvider>
   );
 };
