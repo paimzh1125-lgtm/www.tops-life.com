@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { HelmetProvider } from 'react-helmet-async';
 import './i18n'; // 引入 i18n 配置
+import { useTranslation } from 'react-i18next';
 
 // FIX: 导入 SEO 组件以修复 ReferenceError
 import SEO from './components/SEO';
@@ -67,6 +68,19 @@ const Layout = () => {
   );
 };
 
+// 语言状态同步组件 (Task 2: 适配多语言)
+const LanguageWrapper = ({ lang }: { lang: 'zh' | 'en' }) => {
+  const { i18n } = useTranslation();
+  
+  React.useEffect(() => {
+    if (i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
+  }, [lang, i18n]);
+
+  return <Outlet />;
+};
+
 const App: React.FC = () => {
   return (
     <HelmetProvider>
@@ -77,18 +91,32 @@ const App: React.FC = () => {
       <LanguageProvider>
         <ScrollToTop />
         <Routes>
-          {/* 子域名策略：移除 /:lang 前缀，直接使用根路径 */}
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/contact" element={<Contact />} />
-            
-            {/* 全局 404 */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Task 2: 英文路由 (默认) */}
+          <Route path="/" element={<LanguageWrapper lang="en" />}>
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="products" element={<Products />} />
+              <Route path="products/:id" element={<ProductDetail />} />
+              <Route path="news" element={<News />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
           </Route>
+
+          {/* Task 2: 中文路由 (/zh 前缀) */}
+          <Route path="/zh" element={<LanguageWrapper lang="zh" />}>
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="products" element={<Products />} />
+              <Route path="products/:id" element={<ProductDetail />} />
+              <Route path="news" element={<News />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
+          </Route>
+
+          {/* 全局 404 重定向到英文首页 */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
         <Analytics />
