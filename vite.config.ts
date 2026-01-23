@@ -5,6 +5,11 @@ import prerender from '@prerenderer/rollup-plugin';
 import puppeteerRenderer from '@prerenderer/renderer-puppeteer';
 
 export default defineConfig({
+  // ... 后面的配置保持不变
+
+uppeteer';
+
+export default defineConfig({
   plugins: [
     react(),
     viteCompression(),
