@@ -10,7 +10,8 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
-          'ui-vendor': ['lucide-react', 'swiper', '@studio-freight/lenis'],
+          'ui-vendor': ['lucide-react', '@studio-freight/lenis'],
+          'swiper-vendor': ['swiper'],
           'gsap-vendor': ['gsap'],
           'three-vendor': ['three'], // 3D 库体积巨大，必须独立拆分
         },
