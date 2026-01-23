@@ -216,6 +216,7 @@ const Home: React.FC = () => {
                   alt={t('alt.hero_factory')} 
                   className="w-full h-[120%] object-cover object-center" 
                   fetchPriority="high"
+                  decoding="sync"
                   width="1920"
                   height="1080"
                 />
