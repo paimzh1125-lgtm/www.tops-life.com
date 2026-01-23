@@ -1,9 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression';
-// @ts-expect-error: 忽略缺少类型定义的错误，确保构建通过
 import prerender from '@prerenderer/rollup-plugin';
-// @ts-expect-error: 忽略缺少类型定义的错误，确保构建通过
 import puppeteerRenderer from '@prerenderer/renderer-puppeteer';
 
 export default defineConfig({
