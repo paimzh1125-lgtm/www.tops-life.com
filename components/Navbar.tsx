@@ -1,7 +1,6 @@
 // src/components/Navbar.tsx
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useLanguage } from './LanguageContext'; // 确保路径正确
 import { useTranslation } from 'react-i18next';
 
 // --- 简单的内部 SVG 图标组件，替代 lucide-react ---
@@ -24,8 +23,8 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
-  const { language } = useLanguage();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   const isHomePage = location.pathname === '/';
   const isTransparentMode = isHomePage && !isScrolled;

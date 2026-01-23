@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Mail, Phone, MapPin } from 'lucide-react';
-import { useLanguage } from './LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC = () => {
-  const { language } = useLanguage();
+  const { i18n } = useTranslation();
+  const language = i18n.language as 'zh' | 'en';
   
   const t = {
     zh: {
