@@ -148,7 +148,7 @@ const Home: React.FC = () => {
                   ref={heroImageRef}
                   src="/banner/hero-bg.webp" 
                   alt={t('alt.hero_factory')} 
-                  className="w-full h-[120%] object-cover object-center" 
+                  className="w-full h-full md:h-[120%] object-cover object-center" 
                   fetchPriority="high"
                   loading="eager"
                   decoding="async"
@@ -424,7 +424,7 @@ const Home: React.FC = () => {
                   to="/products"
                 >
                   {/* Image Section (Top) */}
-                  <div className="h-48 overflow-hidden relative">
+                  <div className="h-64 md:h-48 overflow-hidden relative">
                     <img 
                       src={`images/application${i + 1}.png`} 
                       loading="lazy"

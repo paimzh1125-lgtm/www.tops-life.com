@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isTransparentMode
           ? 'bg-transparent py-6' 
-          : 'bg-white/95 backdrop-blur-md shadow-lg py-4'
+          : 'bg-slate-900/90 backdrop-blur-md shadow-lg py-4 md:bg-white/95'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center relative">
@@ -93,7 +93,7 @@ const Navbar: React.FC = () => {
             alt={t('alt.logo')} 
             className={`
               h-9 md:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105
-              ${isTransparentMode ? "brightness-0 invert opacity-100" : ""} 
+              ${isTransparentMode ? "brightness-0 invert opacity-100" : "brightness-0 invert md:brightness-100 md:invert-0"} 
             `}
           />
         </Link>
@@ -138,7 +138,7 @@ const Navbar: React.FC = () => {
           </a>
           
           <button 
-            className={`md:hidden transition-colors hover:scale-110 ${isTransparentMode ? 'text-white' : 'text-slate-900'}`}
+            className={`md:hidden transition-colors hover:scale-110 text-white`}
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle navigation menu"
             aria-expanded={isMobileOpen}

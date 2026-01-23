@@ -705,14 +705,14 @@ const ProductDetail: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
           <div className="hero-anim relative">
             <div 
-              className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100 group cursor-zoom-in relative"
+              className="md:aspect-[4/3] aspect-square rounded-3xl overflow-hidden shadow-xl bg-white border border-slate-100 group cursor-zoom-in relative"
               onClick={() => setIsLightboxOpen(true)}
             >
               <img 
                 src={image} 
                 alt={content.title} 
                 fetchPriority="high"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                className="w-full h-full md:object-cover object-contain hover:scale-105 transition-transform duration-700" 
                 onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=2000';
                 }}
