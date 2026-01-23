@@ -72,10 +72,15 @@ const LanguageWrapper = ({ lang }: { lang: 'zh' | 'en' }) => {
   const { i18n } = useTranslation();
   
   React.useEffect(() => {
+    // 1. SEO: 动态更新 HTML lang 属性 (Critical for SEO)
+    document.documentElement.lang = lang;
+
+    // 2. 只有当 i18n 语言与 URL 路由不一致时才切换
     if (i18n.language !== lang) {
       i18n.changeLanguage(lang);
     }
-  }, [lang, i18n]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   return <Outlet />;
 };
