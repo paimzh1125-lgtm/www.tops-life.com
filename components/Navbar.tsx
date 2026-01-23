@@ -60,18 +60,19 @@ const Navbar: React.FC = () => {
 
   // Language Switch Logic (Subpath Routing)
   const switchTarget = useMemo(() => {
+    const host = window.location.host;
     const path = location.pathname;
     const search = location.search;
     const hash = location.hash;
 
     if (language === 'zh') {
-      // 当前是中文 -> 切换到英文 (www域名 + 移除 /zh 前缀)
-      const newPath = path.replace(/^\/zh/, '') || '/';
-      return `https://www.tops-life.com${newPath}${search}${hash}`;
+      // cn.tops-life.com -> www.tops-life.com (Rule 1, 2, 3)
+      const newHost = host.replace('cn.', 'www.');
+      return `https://${newHost}${path}${search}${hash}`;
     } else {
-      // 当前是英文 -> 切换到中文 (cn域名 + 添加 /zh 前缀)
-      const newPath = path.startsWith('/zh') ? path : `/zh${path === '/' ? '' : path}`;
-      return `https://cn.tops-life.com${newPath}${search}${hash}`;
+      // www.tops-life.com -> cn.tops-life.com (Rule 1, 2, 3)
+      const newHost = host.includes('www.') ? host.replace('www.', 'cn.') : `cn.${host}`;
+      return `https://${newHost}${path}${search}${hash}`;
     }
   }, [language, location.pathname, location.search, location.hash]);
 
