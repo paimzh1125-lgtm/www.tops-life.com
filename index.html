@@ -79,6 +79,12 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+
+      /* Performance: Force font-display swap for all loaded fonts to prevent FOIT */
+      @font-face {
+        font-family: 'Inter';
+        font-display: swap;
+      }
     </style>
 
     <script type="importmap">

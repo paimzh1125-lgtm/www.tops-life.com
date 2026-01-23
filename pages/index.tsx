@@ -25,67 +25,12 @@ import SEO from "../components/SEO";
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Typewriter Component (打字机组件) ---
-const Typewriter = ({ 
-  text, 
-  speed = 100, 
-  delay = 0, 
-  className = "", 
-  showCursor = true,
-  onComplete 
-}: { 
-  text: string; 
-  speed?: number; 
-  delay?: number; 
-  className?: string; 
-  showCursor?: boolean;
-  onComplete?: () => void;
-}) => {
-  const [display, setDisplay] = useState('');
-  const [started, setStarted] = useState(false);
-  const onCompleteRef = useRef(onComplete);
-
-  useEffect(() => { onCompleteRef.current = onComplete; }, [onComplete]);
-
-  useEffect(() => {
-    setDisplay('');
-    setStarted(false);
-    const startTimeout = setTimeout(() => {
-      setStarted(true);
-      let i = 0;
-      const timer = setInterval(() => {
-        if (i < text.length) {
-          setDisplay(text.substring(0, i + 1));
-          i++;
-        } else {
-          clearInterval(timer);
-          if (onCompleteRef.current) onCompleteRef.current();
-        }
-      }, speed);
-      return () => clearInterval(timer);
-    }, delay);
-    return () => clearTimeout(startTimeout);
-  }, [text, speed, delay]);
-
-  return (
-    <span className={className}>
-      {display}
-      {showCursor && started && display.length < text.length && (
-        <span className="animate-pulse ml-1 inline-block w-1 h-[1em] bg-current align-middle opacity-80"></span>
-      )}
-    </span>
-  );
-};
-
 const Home: React.FC = () => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
   const containerRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
   
-  // 0: Start, 1: Main Title Done, 2: Sub Title Done
-  const [typingStage, setTypingStage] = useState(0);
-
   // 智能处理标题分行与渐变色逻辑 (优化：支持中英文逗号混用，更稳健)
   const heroTitleParts = useMemo(() => {
     const title = t('home.hero.title') || "";
@@ -96,28 +41,17 @@ const Home: React.FC = () => {
     };
   }, [t]);
 
-  // Reset animation when language changes
-  useEffect(() => {
-    setTypingStage(0);
-  }, [language]);
-
-  // 按钮入场动画 (当副标题打字完成后触发)
-  useEffect(() => {
-    if (typingStage >= 2) {
-      gsap.to(".hero-buttons", {
-        y: 0, opacity: 1, duration: 0.8, delay: 0.5, ease: "power3.out"
-      });
-    } else {
-      // 重置状态 (语言切换时)
-      gsap.set(".hero-buttons", { y: 20, opacity: 0 });
-    }
-  }, [typingStage]);
-
   // GSAP Animations with Mobile Check
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Use matchMedia to skip heavy animations on mobile
       const mm = gsap.matchMedia();
+
+      // Hero Buttons Entrance (Simple Fade Up)
+      gsap.fromTo(".hero-buttons", 
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, delay: 0.2, ease: "power3.out" }
+      );
 
       // Hero Parallax Effect (视差滚动)
       if (heroImageRef.current) {
@@ -240,39 +174,24 @@ const Home: React.FC = () => {
               
               {/* 3. 字体与排版: H1 (无衬线, Bold, 行高 1.2, 品牌色渐变) */}
               <h1 id="hero-heading" className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.2] text-white mb-8 min-h-[2.4em]">
-                <span className="block mb-2 text-white">
-                  <Typewriter 
-                    text={heroTitleParts.main} 
-                    speed={60} 
-                    onComplete={() => setTypingStage(1)} 
-                  />
+                {/* LCP 优化: 直接渲染文本，移除 JS 打字机 */}
+                <span className="block mb-2 text-white animate-fade-in">
+                  {heroTitleParts.main}
                 </span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                  {typingStage >= 1 && (
-                    <Typewriter 
-                      text={heroTitleParts.sub} 
-                      speed={60} 
-                      onComplete={() => setTypingStage(2)} 
-                    />
-                  )}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 animate-fade-in [animation-delay:200ms]">
+                  {heroTitleParts.sub}
                 </span>
               </h1>
               
               {/* 3. 字体与排版: Subtitle (增加间距, 浅灰色) */}
               <div className="mt-8 mb-12 max-w-2xl min-h-[3.5em]">
-                <p className="text-lg md:text-xl text-gray-200 font-light leading-relaxed">
-                  {typingStage >= 2 && (
-                    <Typewriter 
-                      text={t('home.hero.subtitle')} 
-                      speed={20} 
-                      showCursor={false} 
-                    />
-                  )}
+                <p className="text-lg md:text-xl text-gray-200 font-light leading-relaxed animate-fade-in [animation-delay:400ms]">
+                  {t('home.hero.subtitle')}
                 </p>
               </div>
               
               {/* 4. 按钮优化: 增加间距, 发光阴影, 毛玻璃效果 */}
-              <div className="hero-buttons flex flex-wrap items-center gap-6 opacity-0">
+              <div className="hero-buttons flex flex-wrap items-center gap-6">
                 <Link 
                   to="/products"
                   className="px-8 py-4 bg-sky-600 text-white rounded-full font-semibold transition-all duration-300 hover:bg-sky-500 hover:shadow-[0_0_30px_rgba(14,165,233,0.6)] hover:-translate-y-1 flex items-center gap-2 active:scale-95"
@@ -602,6 +521,12 @@ const Home: React.FC = () => {
       </main>
 
       <style>{`
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fade-in 0.8s ease-out forwards; opacity: 0; }
+
         @keyframes slide-up-fade { 
           0% { opacity: 0; transform: translateY(20px); } 
           100% { opacity: 1; transform: translateY(0); } 
