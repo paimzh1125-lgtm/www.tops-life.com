@@ -153,17 +153,16 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
       {
         id: "material",
         category: "核心业务 03",
-        title: "大豆蛋白生物基新材料",
-        desc: "面向未来的可持续解决方案。我们利用改性大豆蛋白技术，开发出高性能、无甲醛的植物基胶黏剂与功能涂层，完美替代传统石油基材料，助力碳中和。",
+        title: "大豆蛋白聚合物等新材料",
+        desc: "面向未来的可持续解决方案。我们利用改性大豆蛋白技术，开发出独特的多功能的植物基胶粘剂，完美替代传统石油基材料，助力碳中和。同时我们也提供可定制化的纸张表面功能涂层解决方案服务。",
         subProducts: [
-          { name: "植物基无醛胶黏剂", link: "/products/plant-adhesive" },
-          { name: "可降解阻隔涂层", link: "/products/degradable-coating" },
-          { name: "环保纸塑复合材料", link: "/products/eco-paper" },
-          { name: "特种功能助剂", link: "/products/functional-additives" }
+          { name: "大豆蛋白聚合物系列胶粘剂", link: "/products/plant-adhesive" },
+          { name: "纸张表面多功能阻隔涂层系列", link: "/products/degradable-coating" },
+          { name: "其它新材料系列", link: "/products/eco-paper" }
         ],
-        applications: ["高端消费品包装", "环保包装材料", "可堆肥食品包装", "生物医用辅助材料"],
+        applications: ["特种纸涂布", "水性油墨", "个人护理品", "医用辅助材料"],
         features: [
-          "100% 生物降解",
+          "100%生物降解",
           "优异的强度以及增稠保水稳定性",
           "非热塑耐高温性",
           "可定制化的涂层功能"
@@ -171,10 +170,6 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         imgDesc: "绿色化学与可持续发展实验室",
         image: "/images/soy.jpg",
         specs: {
-          "基材": "改性大豆蛋白",
-          "环保等级": "无醛, 低 VOC",
-          "粘接强度": "高干/湿强度",
-          "应用": "食品/医疗包装, 复合材料",
           "外观": "近白色或棕色粉体",
           "水份含量": "6%-10%",
           "包装": "20公斤纸袋或1000公斤吨袋",
