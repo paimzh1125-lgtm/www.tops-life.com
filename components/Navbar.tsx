@@ -58,12 +58,17 @@ const Navbar: React.FC = () => {
     ];
   }, [language]);
 
-  // Subdomain Switch Logic
-  const currentPath = window.location.pathname + window.location.search;
-  const isChineseDomain = window.location.hostname.includes('cn.');
-  const switchUrl = isChineseDomain 
-      ? `https://www.tops-life.com${currentPath}` 
-      : `https://cn.tops-life.com${currentPath}`;
+  // Language Switch Logic (Subpath Routing)
+  const switchTarget = useMemo(() => {
+    const search = location.search;
+    if (language === 'zh') {
+      // 当前是中文 (/zh...) -> 切换到英文 (移除 /zh 前缀)
+      return (location.pathname.replace(/^\/zh/, '') || '/') + search;
+    } else {
+      // 当前是英文 -> 切换到中文 (添加 /zh 前缀)
+      return `/zh${location.pathname === '/' ? '' : location.pathname}` + search;
+    }
+  }, [language, location.pathname, location.search]);
 
   return (
     <header 
@@ -113,8 +118,8 @@ const Navbar: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex items-center gap-5">
-          <a 
-            href={switchUrl}
+          <Link 
+            to={switchTarget}
             aria-label={language === 'zh' ? "Switch to English" : "切换到中文"}
             className={`hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all border hover:scale-105 ${
               isTransparentMode
@@ -124,7 +129,7 @@ const Navbar: React.FC = () => {
           >
             <Icons.Globe />
             {language === 'zh' ? 'EN' : '中文'}
-          </a>
+          </Link>
           
           <button 
             className={`md:hidden transition-colors hover:scale-110 ${isTransparentMode ? 'text-white' : 'text-slate-900'}`}
@@ -158,14 +163,14 @@ const Navbar: React.FC = () => {
                  {link.name} <div className="text-sky-500"><Icons.ChevronRight /></div>
                </Link>
             ))}
-             <a 
-              href={switchUrl}
+             <Link 
+              to={switchTarget}
               onClick={() => setIsMobileOpen(false)}
               aria-label={language === 'zh' ? "Switch to English" : "切换到中文"}
               className="mt-8 flex items-center gap-2 px-6 py-2 border border-white/20 rounded-full text-lg font-bold text-white hover:bg-white/10 hover:border-white/40 transition-all"
             >
               <Icons.Globe /> {language === 'zh' ? 'EN' : '中文'}
-            </a>
+            </Link>
         </div>
       </div>
     </header>
