@@ -156,7 +156,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "material",
         category: "核心业务 03",
         title: "大豆蛋白聚合物等新材料",
-        desc: "源自可持续管理的非转基因大豆种植基地。我们致力于从源头把控，将田间的大豆转化为高性能的植物基新材料，实现从农场到产品的全绿色生命周期，助力农业与工业的生态循环。",
+        desc: "源自可持续管理的非转基因大豆种植基地。我们采用“从农场到工厂”的模式，将田间的大豆转化为高性能的植物基新材料，实现从土壤到成品的全绿色生命周期，助力农业与工业的生态循环。",
         subProducts: [
           { name: "大豆蛋白聚合物系列胶粘剂", link: "/products/plant-adhesive" },
           { name: "纸张表面多功能阻隔涂层系列", link: "/products/degradable-coating" },
@@ -169,7 +169,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
           "非热塑耐高温性",
           "可定制化的涂层功能"
         ],
-        imgDesc: "可持续大豆种植与农业研究基地",
+        imgDesc: "可持续农业与大豆种植研究基地",
         image: "/images/soy.jpg",
         specs: {
           "外观": "近白色或棕色粉体",
@@ -238,7 +238,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "material",
         category: "Core Business 03",
         title: "Soy Protein Bio-Materials",
-        desc: "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Material' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
+        desc: "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Factory' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
         subProducts: [
           { name: "Plant-based Adhesives", link: "/products/plant-adhesive" },
           { name: "Degradable Coatings", link: "/products/degradable-coating" },
@@ -247,7 +247,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         ],
         applications: ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
         features: ["100% Bio-based", "Farm-to-Material", "Non-thermoplastic", "Customizable Coatings"],
-        imgDesc: "Sustainable Soybean Farming & Research",
+        imgDesc: "Sustainable Farming & Agricultural Research Fields",
         image: "/images/soy.jpg"
       }
     ],
@@ -461,13 +461,14 @@ const Products: React.FC = () => {
                         <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                            <Icons.Beaker /> {language === 'zh' ? '应用领域' : 'Applications'}
                         </h4>
-                        <div className="flex flex-wrap gap-2">
+                        <ul className="flex flex-wrap gap-x-6 gap-y-3">
                             {product.applications.map((app, idx) => (
-                                <span key={idx} className="px-3 py-1 bg-slate-50 text-slate-600 border border-slate-200 rounded text-xs hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200 transition-colors cursor-default">
+                                <li key={idx} className="flex items-center gap-2 text-sm text-slate-600 cursor-default">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0"></span>
                                     {app}
-                                </span>
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     </div>
                 </div>
 

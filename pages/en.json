@@ -185,7 +185,7 @@
       {
         "category": "Core Business 03",
         "title": "Soy Protein Bio-Materials",
-        "desc": "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Material' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
+        "desc": "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Factory' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
         "subProducts": [
           { "name": "Plant-based Adhesives" },
           { "name": "Degradable Coatings" },
@@ -194,7 +194,7 @@
         ],
         "applications": ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
         "features": ["100% Bio-based", "Farm-to-Material", "Non-thermoplastic", "Customizable Coatings"],
-        "imgDesc": "Sustainable Soybean Farming & Research"
+        "imgDesc": "Sustainable Farming & Agricultural Research Fields"
       }
     ],
     "cta": {
