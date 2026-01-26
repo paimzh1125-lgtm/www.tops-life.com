@@ -134,7 +134,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         applications: ["医疗器械包装", "药品包装", "手术器械包", "医疗耗材包装"],
         features: ["符合 ISO 13485 标准", "适应 EO/Gamma/蒸汽灭菌", "极低的微粒污染风险"],
         imgDesc: "ISO Class 7 洁净车间生产环境",
-        image: "/public/images/industry3.jpg"
+        image: "images/industry3.jpg"
       },
       {
         id: "molding",
@@ -216,7 +216,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         applications: ["Pharma Packaging", "Surgical Kits", "Consumables Packaging", "Device Packaging"],
         features: ["ISO 13485 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
         imgDesc: "ISO Class 7 Production",
-        image: "public/images/industry3.jpg"
+        image: "images/industry3.jpg"
       },
       {
         id: "molding",
