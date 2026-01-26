@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import {
   ArrowRight,
   PackageOpen,
@@ -40,6 +41,34 @@ const Home: React.FC = () => {
       sub: (parts[1] || "").trim() // 去除可能存在的多余空格
     };
   }, [t]);
+
+  // SEO: Organization Structured Data (JSON-LD)
+  const organizationSchema = useMemo(() => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "TopsLife (Suzhou Tops Life Technology)",
+      "alternateName": "苏州永爱生命科技有限公司",
+      "url": language === 'zh' ? "https://cn.tops-life.com" : "https://www.tops-life.com",
+      "logo": "https://www.tops-life.com/banner/logo.png",
+      "description": t('home.metaDesc'),
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "No. 8 Fangjing Road, Suzhou Industrial Park",
+        "addressLocality": "Suzhou",
+        "addressRegion": "Jiangsu",
+        "postalCode": "215121",
+        "addressCountry": "CN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+86 0512-66185798",
+        "contactType": "customer service",
+        "areaServed": "Global",
+        "availableLanguage": ["Chinese", "English"]
+      }
+    };
+  }, [language, t]);
 
   // GSAP Animations with Mobile Check
   useEffect(() => {
@@ -115,6 +144,11 @@ const Home: React.FC = () => {
         title={t('home.metaTitle')} 
         description={t('home.metaDesc')} 
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
+      </Helmet>
       
       {/* Accessibility Skip Link */}
       <a 
@@ -235,6 +269,8 @@ const Home: React.FC = () => {
                   loading="lazy" 
                   alt={t('alt.about_factory')} 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700" 
+                  width="800"
+                  height="600"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent pointer-events-none"></div>
               </div>
@@ -380,6 +416,8 @@ const Home: React.FC = () => {
                       loading="lazy" 
                       className="w-full h-full object-cover" 
                       alt={t('alt.rnd_lab')} 
+                      width="800"
+                      height="600"
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000'; }}
                   />
                   <div className="absolute inset-0 bg-sky-900/30 mix-blend-overlay"></div>
@@ -430,6 +468,8 @@ const Home: React.FC = () => {
                       loading="lazy"
                       alt={t(`alt.market_${['pharma', 'device', 'soy', 'material'][i]}`)} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                      width="600"
+                      height="400"
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000'; }}
                     />
                     <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors duration-300"></div>
