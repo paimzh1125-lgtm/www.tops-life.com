@@ -185,7 +185,7 @@
       {
         "category": "Core Business 03",
         "title": "Soy Protein Bio-Materials",
-        "desc": "Sustainable solutions for the future. Utilizing modified soy protein technology to create high-performance, formaldehyde-free plant-based binders and coatings replacing petrochemicals.",
+        "desc": "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Material' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
         "subProducts": [
           { "name": "Plant-based Adhesives" },
           { "name": "Degradable Coatings" },
@@ -193,8 +193,8 @@
           { "name": "Functional Additives" }
         ],
         "applications": ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
-        "features": ["100% Biodegradable", "Zero Formaldehyde", "High Wet/Dry Strength"],
-        "imgDesc": "Green Chemistry Lab"
+        "features": ["100% Bio-based", "Farm-to-Material", "Non-thermoplastic", "Customizable Coatings"],
+        "imgDesc": "Sustainable Soybean Farming & Research"
       }
     ],
     "cta": {

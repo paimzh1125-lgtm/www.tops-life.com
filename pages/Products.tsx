@@ -156,7 +156,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "material",
         category: "核心业务 03",
         title: "大豆蛋白聚合物等新材料",
-        desc: "面向未来的可持续解决方案。我们利用改性大豆蛋白技术，开发出独特的多功能的植物基胶粘剂，完美替代传统石油基材料，助力碳中和。同时我们也提供可定制化的纸张表面功能涂层解决方案服务。",
+        desc: "源自可持续管理的非转基因大豆种植基地。我们致力于从源头把控，将田间的大豆转化为高性能的植物基新材料，实现从农场到产品的全绿色生命周期，助力农业与工业的生态循环。",
         subProducts: [
           { name: "大豆蛋白聚合物系列胶粘剂", link: "/products/plant-adhesive" },
           { name: "纸张表面多功能阻隔涂层系列", link: "/products/degradable-coating" },
@@ -164,12 +164,12 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         ],
         applications: ["特种纸涂布", "水性油墨", "个人护理品", "医用辅助材料"],
         features: [
-          "100%生物降解",
-          "优异的强度以及增稠保水稳定性",
+          "100% 生物基来源",
+          "农场直供原料 (Farm-to-Material)",
           "非热塑耐高温性",
           "可定制化的涂层功能"
         ],
-        imgDesc: "绿色化学与可持续发展实验室",
+        imgDesc: "可持续大豆种植与农业研究基地",
         image: "/images/soy.jpg",
         specs: {
           "外观": "近白色或棕色粉体",
@@ -238,7 +238,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "material",
         category: "Core Business 03",
         title: "Soy Protein Bio-Materials",
-        desc: "Sustainable solutions for the future. Utilizing modified soy protein technology to create high-performance, formaldehyde-free plant-based binders and coatings replacing petrochemicals.",
+        desc: "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Material' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
         subProducts: [
           { name: "Plant-based Adhesives", link: "/products/plant-adhesive" },
           { name: "Degradable Coatings", link: "/products/degradable-coating" },
@@ -246,8 +246,8 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
           { name: "Functional Additives", link: "/products/functional-additives" }
         ],
         applications: ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
-        features: ["100% Biodegradable", "Zero Formaldehyde", "High Wet/Dry Strength"],
-        imgDesc: "Green Chemistry Lab",
+        features: ["100% Bio-based", "Farm-to-Material", "Non-thermoplastic", "Customizable Coatings"],
+        imgDesc: "Sustainable Soybean Farming & Research",
         image: "/images/soy.jpg"
       }
     ],
@@ -392,7 +392,7 @@ const Products: React.FC = () => {
                        
                        <div className="flex flex-wrap gap-3 mt-6">
                           {product.features.map((f, idx) => (
-                              <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 text-sm font-medium rounded-lg">
+                              <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-600 text-sm font-medium rounded-md cursor-default select-none">
                                   <Icons.Check /> {f}
                               </span>
                           ))}
