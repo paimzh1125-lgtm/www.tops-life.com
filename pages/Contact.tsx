@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
+import SEO from '../components/SEO';
 
 // --- SVG Icons ---
 const Icons = {
@@ -126,33 +127,13 @@ const Contact: React.FC = () => {
 
   const t = language === 'zh' ? content.zh : content.en;
 
-  // --- SEO 配置 ---
-  useEffect(() => {
-    document.title = t.metaTitle;
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t.metaDesc);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, t.metaTitle, t.metaDesc]);
-
   return (
     <main className="min-h-screen bg-slate-50 relative font-sans">
+      <SEO title={t.metaTitle} description={t.metaDesc} />
 
       {/* Hero */}
       <section className="h-[45vh] w-full relative overflow-hidden bg-slate-900">
-        <img src="/banner/outsligth.jpg" className="w-full h-full object-cover opacity-60" alt="Contact Banner" />
+        <img src="/banner/outsligth.jpg" className="w-full h-full object-cover opacity-60" alt="Contact Banner" width="1920" height="600" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 mt-10">
           <span className="text-sky-400 font-bold tracking-[0.2em] uppercase mb-4">{t.hero.subtitle}</span>
@@ -220,6 +201,8 @@ const Contact: React.FC = () => {
                 src="/images/banner.jpg" 
                 alt="Location Map" 
                 loading="lazy"
+                width="600"
+                height="300"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000'; 

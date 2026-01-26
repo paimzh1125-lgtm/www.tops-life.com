@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { X, ZoomIn } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 // 注册 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -639,35 +641,27 @@ const ProductDetail: React.FC = () => {
     return () => ctx.revert();
   }, [content]);
 
-  // --- SEO 配置 (客户端动态渲染) ---
-  useEffect(() => {
-    if (!content) return;
+  // --- SEO Data Preparation ---
+  const seoTitle = content ? (language === 'zh' 
+    ? `${content.title} | 永爱生命产品详情` 
+    : `${content.title} | Tops Life Products`) : "";
+  const seoDesc = content ? (content.description.substring(0, 150) + "...") : "";
 
-    // 动态生成标题和描述
-    const seoTitle = language === 'zh' 
-      ? `${content.title} | 永爱生命产品详情` 
-      : `${content.title} | Tops Life Products`;
-    const seoDesc = content.description.substring(0, 150) + "...";
-
-    document.title = seoTitle;
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', seoDesc);
-
-    // Canonical (指向当前产品页)
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, content]);
+  // --- SEO: Product Structured Data ---
+  const productSchema = React.useMemo(() => {
+    if (!content) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": content.title,
+      "description": content.description,
+      "image": image,
+      "brand": {
+        "@type": "Brand",
+        "name": "TopsLife"
+      }
+    };
+  }, [content, image]);
 
   // Lightbox Animation & Scroll Lock
   useEffect(() => {
@@ -696,6 +690,12 @@ const ProductDetail: React.FC = () => {
 
   return (
       <main className="container mx-auto px-6">
+        <SEO title={seoTitle} description={seoDesc} />
+        {productSchema && (
+          <Helmet>
+            <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
+          </Helmet>
+        )}
         
         <Link to="/products" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors mb-8 group">
           <span className="group-hover:-translate-x-1 transition-transform"><Icons.Back /></span>
@@ -712,6 +712,8 @@ const ProductDetail: React.FC = () => {
                 src={image} 
                 alt={content.title} 
                 fetchPriority="high"
+                width="800"
+                height="600"
                 className="w-full h-full md:object-cover object-contain hover:scale-105 transition-transform duration-700" 
                 onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&q=80&w=2000';

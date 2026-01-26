@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 
 // 注册插件
 gsap.registerPlugin(ScrollTrigger);
@@ -318,29 +320,29 @@ const Products: React.FC = () => {
     }
   }, [location]);
 
-  // --- SEO 配置 ---
-  useEffect(() => {
-    document.title = t.metaTitle;
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t.metaDesc);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, t.metaTitle, t.metaDesc]);
+  // --- SEO: ItemList Structured Data ---
+  const productListSchema = useMemo(() => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": t.products.map((product, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": product.title,
+        "description": product.desc,
+        "url": typeof window !== 'undefined' ? `${window.location.origin}/products#${product.id}` : ""
+      }))
+    };
+  }, [t.products]);
 
   return (
     <main ref={containerRef} className="min-h-screen bg-slate-50 relative font-sans overflow-x-hidden">
+      <SEO title={t.metaTitle} description={t.metaDesc} />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(productListSchema)}
+        </script>
+      </Helmet>
       
       {/* --- Section 1: Hero --- */}
       <section className="pt-32 pb-20 bg-white relative overflow-hidden">
@@ -421,6 +423,8 @@ const Products: React.FC = () => {
                              src={product.image} 
                              alt={tAlt(`alt.product_${product.id}`)} 
                              loading="lazy"
+                             width="800"
+                             height="450"
                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                              onError={(e) => {
                                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2070';

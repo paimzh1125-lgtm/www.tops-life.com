@@ -7,6 +7,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import SEO from '../components/SEO';
 
 type CategoryType = 'All' | 'Corporate' | 'Products' | 'Events';
 
@@ -102,27 +103,6 @@ const News: React.FC = () => {
 
   const t = language === 'zh' ? content.zh : content.en;
 
-  // --- SEO 配置 ---
-  useEffect(() => {
-    document.title = t.metaTitle;
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t.metaDesc);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', window.location.href.split('#')[0]);
-  }, [language, t.metaTitle, t.metaDesc]);
-
   // Filter Logic
   const filteredNews = useMemo(() => {
     if (activeCategory === 'All') return ALL_NEWS;
@@ -142,6 +122,7 @@ const News: React.FC = () => {
 
   return (
     <main ref={containerRef} className="min-h-screen bg-slate-50 font-sans">
+      <SEO title={t.metaTitle} description={t.metaDesc} />
       {/* Hero */}
       <section className="pt-32 pb-16 bg-white border-b border-slate-100">
          <div className="container mx-auto px-6 text-center">

@@ -138,7 +138,7 @@ const About: React.FC = () => {
 
         {/* 新增：背景纹理图片 (增加实业质感) */}
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none mix-blend-multiply grayscale">
-            <img src="/images/industry1.jpg" alt="Background Texture" className="w-full h-full object-cover" />
+            <img src="/images/industry1.jpg" alt="Background Texture" className="w-full h-full object-cover" width="1920" height="1080" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-50/50 to-slate-50 z-0"></div>
 
@@ -178,14 +178,14 @@ const About: React.FC = () => {
             <div className="w-full lg:w-1/2 relative gsap-fade-up">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 relative aspect-[16/9] rounded-2xl overflow-hidden shadow-lg group">
-                        <img src="/images/industry2.jpg" alt="Advanced Manufacturing" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <img src="/images/industry2.jpg" alt="Advanced Manufacturing" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" width="800" height="450" />
                         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors"></div>
                     </div>
                     <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg group">
-                        <img src="/images/industry3.jpg" alt="Cleanroom" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src="/images/industry3.jpg" alt="Cleanroom" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" width="400" height="400" />
                     </div>
                     <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg group">
-                        <img src="/images/industry1.jpg" alt="R&D" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src="/images/industry1.jpg" alt="R&D" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" width="400" height="400" />
                         <div className="absolute bottom-0 right-0 bg-sky-600 text-white p-3 rounded-tl-xl">
                             <Factory size={20} />
                         </div>
@@ -262,6 +262,8 @@ const About: React.FC = () => {
                               src={["images/taoai.png", "images/injection.jpg", "images/yongai.jpg", "images/soy.jpg", "images/oversea.jpg"][i]} 
                               alt={item.title} 
                               loading="lazy"
+                              width="450"
+                              height="224"
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                            />
                            {/* 浅色渐变遮罩 */}
@@ -341,7 +343,7 @@ const About: React.FC = () => {
                   {(t('about.cert.items', { returnObjects: true }) as any[]).map((item, idx) => (
                       <div key={idx} className="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-6 hover:shadow-md transition-shadow">
                           <div className="w-24 h-24 shrink-0 bg-white rounded-xl overflow-hidden border border-slate-200 p-2">
-                             <img src={["/banner/9001.jpg", "/banner/13485.jpg"][idx]} alt={item.title} loading="lazy" className="w-full h-full object-contain" />
+                             <img src={["/banner/9001.jpg", "/banner/13485.jpg"][idx]} alt={item.title} loading="lazy" className="w-full h-full object-contain" width="100" height="100" />
                           </div>
                           <div>
                               <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
