@@ -37,7 +37,7 @@
     "stats": [
       { "num": "15+", "label": "Years Exp." },
       { "num": "10k", "label": "Clean Class" },
-      { "num": "50+", "label": "Global Partners" }
+      { "num": "100+", "label": "Global Partners" }
     ],
     "solutionsTitle": "Core Solutions",
     "solutionsDesc": "Meeting diverse business needs with professional technology and one-stop solutions.",
@@ -88,7 +88,7 @@
     "stats": [
       { "value": "15+", "label": "Years Exp." },
       { "value": "3", "label": "Core Business" },
-      { "value": "50+", "label": "Global Partners" },
+      { "value": "100+", "label": "Global Partners" },
       { "value": "100%", "label": "Quality First" }
     ],
     "intro": {
