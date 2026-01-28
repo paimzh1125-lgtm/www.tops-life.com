@@ -155,7 +155,7 @@
     },
     "list": [
       {
-        "category": "Core Business 01",
+        "category": "Core Business",
         "title": "Medical Flexible Packaging",
         "desc": "Sterile Barrier Systems (SBS) designed for terminal sterilization. We offer full-process services from material selection to validation, ensuring sterility integrity throughout shelf life.",
         "subProducts": [
@@ -169,7 +169,7 @@
         "imgDesc": "ISO Class 7 Production"
       },
       {
-        "category": "Core Business 02",
+        "category": "Core Business",
         "title": "Medical Injection Molding",
         "desc": "Operating in Class 100k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
         "subProducts": [
@@ -183,7 +183,7 @@
         "imgDesc": "Precision Mold & Production"
       },
       {
-        "category": "Core Business 03",
+        "category": "Core Business",
         "title": "Soy Protein Bio-Materials",
         "desc": "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Factory' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
         "subProducts": [
