@@ -397,23 +397,6 @@ const Products: React.FC = () => {
                               </span>
                           ))}
                        </div>
-
-                       {/* Technical Specifications Table */}
-                       {product.specs && (
-                         <div className="mt-8 bg-slate-50 rounded-xl p-6 border border-slate-100">
-                           <h4 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
-                             <Icons.Tool /> {language === 'zh' ? '技术规格' : 'Technical Specifications'}
-                           </h4>
-                           <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
-                             {Object.entries(product.specs).map(([key, value]) => (
-                               <div key={key} className="flex justify-between border-b border-slate-200 pb-2 last:border-0">
-                                 <span className="text-slate-500">{key}</span>
-                                 <span className="font-medium text-slate-900 text-right">{value}</span>
-                               </div>
-                             ))}
-                           </div>
-                         </div>
-                       )}
                        </div>
 
                    {/* 右侧图片 */}
