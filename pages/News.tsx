@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
@@ -14,6 +14,7 @@ type CategoryType = 'All' | 'Corporate' | 'Products' | 'Events';
 export const ALL_NEWS = [
   { 
     id: 1,
+    slug: "ecovadis-silver-2025",
     year: "2025", 
     dateLabel_zh: "01月", 
     dateLabel_en: "Jan",
@@ -27,6 +28,7 @@ export const ALL_NEWS = [
   },
   { 
     id: 2,
+    slug: "3-layer-sterile-bag",
     year: "2024", 
     dateLabel_zh: "年度创新", 
     dateLabel_en: "Innovation",
@@ -40,6 +42,7 @@ export const ALL_NEWS = [
   },
   { 
     id: 3,
+    slug: "cleanroom-expansion",
     year: "2023", 
     dateLabel_zh: "年度基建", 
     dateLabel_en: "Expansion",
@@ -50,19 +53,6 @@ export const ALL_NEWS = [
     desc_zh: "完成十万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
     desc_en: "Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.",
     category: "Corporate"
-  },
-  { 
-    id: 4,
-    year: "2019", 
-    dateLabel_zh: "03月", 
-    dateLabel_en: "Mar",
-    tag_zh: "质量体系", 
-    tag_en: "Quality",
-    title_zh: "取得 ISO 13485 & 9001 双重认证", 
-    title_en: "Obtained ISO 13485 & 9001 Certificates",
-    desc_zh: "质量管理体系正式通过国际标准认证。这不仅是对我们生产管理水平的认可，更意味着我们的产品获得了进入全球医疗供应链的“通行证”。",
-    desc_en: "Officially certified by international quality standards. This accreditation serves as a global passport for our products to enter the medical supply chain.",
-    category: "Corporate"
   }
 ];
 
@@ -72,7 +62,6 @@ const News: React.FC = () => {
   const { i18n } = useTranslation();
   const language = i18n.language as 'zh' | 'en';
   const containerRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<CategoryType>('All');
 
   // Content Config
@@ -166,15 +155,17 @@ const News: React.FC = () => {
                       <span>{item.year} {language === 'zh' ? item.dateLabel_zh : item.dateLabel_en}</span>
                     </div>
                  </div>
-                 <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors">
-                   {language === 'zh' ? item.title_zh : item.title_en}
-                 </h3>
+                 <Link to={`/news/${item.slug}`}>
+                   <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-sky-600 transition-colors cursor-pointer">
+                     {language === 'zh' ? item.title_zh : item.title_en}
+                   </h3>
+                 </Link>
                  <p className="text-slate-500 mb-6 line-clamp-3 leading-relaxed">
                    {language === 'zh' ? item.desc_zh : item.desc_en}
                  </p>
-                 <button className="flex items-center gap-2 text-sky-600 font-bold text-sm group-hover:gap-3 transition-all">
+                 <Link to={`/news/${item.slug}`} className="flex items-center gap-2 text-sky-600 font-bold text-sm group-hover:gap-3 transition-all">
                    {t.readMore} <ArrowRight size={16} />
-                 </button>
+                 </Link>
               </article>
             ))}
          </div>
