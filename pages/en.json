@@ -239,5 +239,11 @@
       "successDesc": "Thank you. We will get back to you shortly (Email client opened as backup)."
     },
     "map": { "btn": "View on Map" }
+  },
+  "newsDetail": {
+    "back": "Back to News",
+    "share": "Share Article",
+    "related": "Related Stories",
+    "notFound": "Article Not Found"
   }
 }
