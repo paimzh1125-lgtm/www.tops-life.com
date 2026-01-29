@@ -436,13 +436,13 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
   "plant-adhesive": {
     zh: {
       title: "大豆蛋白聚合物系列胶粘剂",
-      subtitle: "改性大豆蛋白核心技术",
-      description: "大豆蛋白聚合物是一系列从植物中制取的可再生产品，可作为工业涂料和油墨中有效的胶粘剂和增稠剂。可部分或全部地替代酪蛋白、合成聚合乳液等其它类型胶粘剂，粘度调节剂和增稠剂。我们的技术团队很乐意提供配方方面的指导和建议。",
+      subtitle: "从农场到工厂的可持续生物基材料",
+      description: "源自可持续管理的非转基因大豆种植基地。我们采用“从农场到工厂”的模式，将田间的大豆转化为高性能的植物基胶粘剂，实现从土壤到成品的全绿色生命周期，助力农业与工业的生态循环。",
       features: [
-        "核心技术：特殊的大豆蛋白改性技术",
-        "环保安全：不含有机挥发物，植物基可持续性",
-        "性能优越：优异的粘结强度，非热塑耐高温抗粘连，带两性电荷再溶解性好",
-        "应用广泛：可用于纸张涂布，水性胶粘剂和油墨，皮革表面处理，乳胶等行业"
+        "100% 生物基来源：源自非转基因大豆农场 (Farm-to-Material)",
+        "性能优越：优异的强度以及增稠保水稳定性",
+        "耐温特性：非热塑耐高温性",
+        "应用灵活：可定制化的涂层功能"
       ],
       specs: [
         { label: "外观", value: "近白色或棕色粉体" },
@@ -458,13 +458,13 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
     },
     en: {
       title: "Plant-based Adhesives",
-      subtitle: "Modified Soy Protein Core Technology",
-      description: "Bio-based eco-friendly adhesives centered on modified soy protein, replacing traditional petrochemical and formaldehyde-based systems. Formaldehyde-free, Benzene-free, low VOC, with high wet/dry strength.",
+      subtitle: "Sustainable Bio-Materials from Farm to Factory",
+      description: "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Factory' approach, transforming field-grown soy into high-performance plant-based adhesives, ensuring a fully green lifecycle from soil to finished product.",
       features: [
-        "Technology: Protein Modification",
-        "Eco-Safety: Formaldehyde-free, Benzene-free",
-        "Performance: Excellent wet/dry strength & aging resistance",
-        "Versatility: Strong adhesion to paper, wood, composites"
+        "100% Bio-based: Sourced from non-GMO farms (Farm-to-Material)",
+        "Performance: Excellent strength and water retention stability",
+        "Thermal Properties: Non-thermoplastic, high-temperature resistant",
+        "Versatility: Customizable coating functions"
       ],
       specs: [
         { label: "Base", value: "Modified Soy Protein" },
