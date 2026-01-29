@@ -170,13 +170,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
           "可定制化的涂层功能"
         ],
         imgDesc: "可持续农业与大豆种植研究基地",
-        image: "/images/soy.jpg",
-        specs: {
-          "外观": "近白色或棕色粉体",
-          "水份含量": "6%-10%",
-          "包装": "20公斤纸袋或1000公斤吨袋",
-          "储存": "常温通风干燥"
-        }
+        image: "/images/soy.jpg"
       }
     ],
     cta: {
