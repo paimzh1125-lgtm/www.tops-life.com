@@ -482,20 +482,20 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
   },
   "degradable-coating": {
     zh: {
-      title: "纸张表面多功能阻隔涂层系列",
-      subtitle: "来自德国希纶赛勒赫化学公司的可定制化的纸张表面处理方案",
-      description: "Tops Life代理的德国希纶赛勒赫化学公司的纸张表面处理系列产品，可帮助纸张的表面获得所需的性能，提高纸张的质量，量身定制的涂层结合合适的应用方法，确保了食品蔬菜包装的防水防油屏障，高质量的印刷和工业包装纸品的光泽以及具有防滑保护性的手感涂层表面。同时环境解决方案在希纶赛勒赫化学公司扮演着重要角色。我们的技术团队很乐意提供配方方面的指导和建议。",
+      title: "可降解阻隔涂层",
+      subtitle: "可定制化的纸张表面功能涂层",
+      description: "面向未来的绿色包装解决方案。我们提供高性能的水性及生物基阻隔涂层，赋予纸张优异的防水、防油及阻气性能。该系列产品不含氟，完全可回收、可再浆化及可堆肥，是替代传统 PE/PP 淋膜的理想环保选择，助力实现包装去塑化。",
       features: [
-        "核心技术：德国希纶赛勒赫化学公司是全球生产和开发用于工艺优化的特种化学品的市场领导者",
-        "环保安全：相关产品符合FDA, BfR法规要求，不含氟类添加剂，可回收可堆肥环境友好",
-        "性能优越：优异的防水防油阻隔性能，热封性能，防滑保护性能，耐高温性能等",
-        "应用广泛：可用于食品包装，工业包装，墙纸装饰纸等各类纸张表面处理"
+        "环保可持续：生物基来源，无氟配方，可堆肥降解",
+        "性能卓越：优异的防水防油阻隔性能与热封性能",
+        "去塑化：完美替代传统塑料淋膜，支持纸张回收",
+        "安全合规：符合 FDA 及 BfR 食品接触法规要求"
       ],
       specs: [
         { label: "外观", value: "近白色水性聚合物" },
         { label: "固含量", value: "30%-50%" },
         { label: "包装", value: "200公斤塑胶桶或1吨桶装" },
-        { label: "储存", value: "常温保存需防冻和避免40度以上高温" }
+        { label: "储存", value: "常温保存 (防冻/避光)" }
       ],
       btnText: "了解涂层方案",
       specTitle: "技术规格 Technical Specifications",
@@ -505,13 +505,13 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
     },
     en: {
       title: "Degradable Barrier Coatings",
-      subtitle: "Balance of Barrier Performance & Sustainability",
-      description: "Functional coatings combining barrier properties with eco-friendliness. Bio-based or degradable formulas provide water, grease, and gas resistance to paper, replacing traditional plastic laminates for full recyclability.",
+      subtitle: "Green Chemistry Empowering Paper for Plastic Replacement",
+      description: "Future-oriented green packaging solutions. We provide high-performance water-based and bio-based barrier coatings that endow paper with excellent water, grease, and gas resistance. Fluorine-free, fully recyclable, repulpable, and compostable, making it the ideal eco-friendly alternative to traditional PE/PP laminates.",
       features: [
-        "Function: Water/Grease/Gas Barrier",
-        "Eco-friendly: Bio-based, Compostable",
-        "Plastic Replacement: Replaces PE/PP coating",
-        "Process: Print-friendly"
+        "Eco-Sustainability: Bio-based, Fluorine-free, Compostable",
+        "Superior Performance: Excellent barrier against water/grease & heat sealability",
+        "Plastic Reduction: Perfect alternative to plastic laminates, fully recyclable",
+        "Compliance: Meets FDA and BfR food contact standards"
       ],
       specs: [
         { label: "Type", value: "Water-based / Bio-based" },
