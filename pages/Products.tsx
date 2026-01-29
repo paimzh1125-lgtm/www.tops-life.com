@@ -156,7 +156,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "material",
         category: "核心业务 03",
         title: "大豆蛋白聚合物等新材料",
-        desc: "源自可持续管理的非转基因大豆种植基地。我们采用“从农场到工厂”的模式，将田间的大豆转化为高性能的植物基新材料，实现从土壤到成品的全绿色生命周期，助力农业与工业的生态循环。",
+        desc: "面向未来的可持续解决方案。我们利用改性大豆蛋白技术，开发出独特的多功能的植物基胶粘剂，完美替代传统石油基材料，助力碳中和。同时我们也提供可定制化的纸张表面功能涂层解决方案服务。",
         subProducts: [
           { name: "大豆蛋白聚合物系列胶粘剂", link: "/products/plant-adhesive" },
           { name: "纸张表面多功能阻隔涂层系列", link: "/products/degradable-coating" },
@@ -164,8 +164,8 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         ],
         applications: ["特种纸涂布", "水性油墨", "个人护理品", "医用辅助材料"],
         features: [
-          "100% 生物基来源",
-          "农场直供原料 (Farm-to-Material)",
+          "100%生物降解",
+          "优异的强度以及增稠保水稳定性",
           "非热塑耐高温性",
           "可定制化的涂层功能"
         ],
@@ -232,15 +232,15 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "material",
         category: "Core Business 03",
         title: "Soy Protein Bio-Materials",
-        desc: "Sourced from sustainably managed non-GMO soybean farms. We adopt a 'Farm-to-Factory' approach, transforming field-grown soy into high-performance plant-based polymers, ensuring a fully green lifecycle from soil to finished product.",
+        desc: "Future-oriented sustainable solutions.We leverage modified soy protein technology to develop unique, multifunctional plant-based adhesives that perfectly replace traditional petroleum-based materials, contributing to carbon neutrality.At the same time, we also provide customized paper surface functional coating solutions and services.",
         subProducts: [
           { name: "Plant-based Adhesives", link: "/products/plant-adhesive" },
           { name: "Degradable Coatings", link: "/products/degradable-coating" },
           { name: "Eco Paper-Plastic", link: "/products/eco-paper" },
           { name: "Functional Additives", link: "/products/functional-additives" }
         ],
-        applications: ["Luxury Packaging", "Eco Materials", "Compostable Packaging", "Bio-medical Aids"],
-        features: ["100% Bio-based", "Farm-to-Material", "Non-thermoplastic", "Customizable Coatings"],
+        applications: ["Luxury Packaging", "Excellent strength with superior thickening and water retention stability", "Non-thermoplastic, high-temperature resistant", "Bio-medical Aids"],
+        features: ["100% Bio-degradable", "Excellent strength with superior thickening and water retention stability", "Non-thermoplastic, high-temperature resistant", "Customizable Coatings"],
         imgDesc: "Sustainable Farming & Agricultural Research Fields",
         image: "/images/soy.jpg"
       }
