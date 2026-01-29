@@ -248,7 +248,8 @@
       "back": "返回新闻列表",
       "share": "分享本文",
       "related": "相关阅读",
-      "notFound": "文章未找到"
+      "notFound": "文章未找到",
+      "shareSuccess": "链接已复制到剪贴板"
     }
   }
 }

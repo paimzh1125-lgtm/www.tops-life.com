@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { gsap } from 'gsap';
-import { ArrowLeft, Calendar, Tag, Share2, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag, Share2, Clock, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
 
@@ -219,9 +219,25 @@ const NewsDetail: React.FC = () => {
   const { i18n, t } = useTranslation();
   const language = i18n.language as 'zh' | 'en';
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showToast, setShowToast] = useState(false);
 
   const newsItem = id ? NEWS_DATABASE[id] : null;
   const content = newsItem ? newsItem[language] : null;
+
+  // 计算相关新闻 (排除当前文章，取前2篇)
+  const relatedNews = useMemo(() => {
+    return Object.entries(NEWS_DATABASE)
+      .filter(([slug]) => slug !== id)
+      .map(([slug, entry]) => ({ slug, ...entry }))
+      .slice(0, 2);
+  }, [id]);
+
+  // 分享功能
+  const handleShare = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2000);
+  };
 
   // 动画效果
   useEffect(() => {
@@ -248,7 +264,7 @@ const NewsDetail: React.FC = () => {
   }
 
   return (
-    <main ref={containerRef} className="bg-white min-h-screen pb-20">
+    <main ref={containerRef} className="bg-white min-h-screen">
       <SEO title={content.metaTitle} description={content.metaDesc} />
       
       {/* Hero Section */}
@@ -328,7 +344,10 @@ const NewsDetail: React.FC = () => {
               {language === 'zh' ? '发布于：' : 'Posted by: '} 
               <span className="font-semibold text-slate-700">{newsItem.author}</span>
             </div>
-            <button className="flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors">
+            <button 
+              onClick={handleShare}
+              className="flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-50"
+            >
               <Share2 size={18} />
               <span className="text-sm font-medium">{t('newsDetail.share')}</span>
             </button>
@@ -336,6 +355,56 @@ const NewsDetail: React.FC = () => {
 
         </div>
       </article>
+
+      {/* Related News Section */}
+      {relatedNews.length > 0 && (
+        <section className="bg-slate-50 py-20 mt-12 border-t border-slate-200">
+          <div className="container mx-auto px-6 max-w-5xl">
+            <h3 className="text-2xl font-bold text-slate-900 mb-10 flex items-center gap-3">
+              <span className="w-1.5 h-6 bg-sky-600 rounded-full"></span>
+              {t('newsDetail.related')}
+            </h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              {relatedNews.map((item) => {
+                const itemContent = item[language];
+                return (
+                  <Link 
+                    key={item.slug} 
+                    to={`/news/${item.slug}`}
+                    className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col"
+                    onClick={() => window.scrollTo(0,0)}
+                  >
+                    <div className="aspect-[16/9] overflow-hidden relative">
+                      <img 
+                        src={item.image} 
+                        alt={itemContent.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-sky-600 uppercase tracking-wider shadow-sm">
+                        {itemContent.category}
+                      </div>
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h4 className="text-lg font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-sky-600 transition-colors">
+                        {itemContent.title}
+                      </h4>
+                      <div className="mt-auto text-slate-400 text-sm flex items-center gap-2">
+                        <Calendar size={14} /> {itemContent.date}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Toast Notification */}
+      <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-xl z-50 flex items-center gap-3 transition-all duration-300 ${showToast ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
+        <CheckCircle2 size={18} className="text-emerald-400" />
+        <span className="font-medium text-sm">{t('newsDetail.shareSuccess')}</span>
+      </div>
     </main>
   );
 };

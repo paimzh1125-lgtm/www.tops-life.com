@@ -243,7 +243,8 @@
       "back": "Back to News",
       "share": "Share Article",
       "related": "Related Stories",
-      "notFound": "Article Not Found"
+      "notFound": "Article Not Found",
+      "shareSuccess": "Link copied to clipboard"
     }
   }
 }
