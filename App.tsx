@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // 1. 引入 Analytics 组件
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { HelmetProvider } from 'react-helmet-async';
 import './i18n'; // 引入 i18n 配置
 import { useTranslation } from 'react-i18next';
 
@@ -72,7 +71,7 @@ const Layout = () => {
 
 const App: React.FC = () => {
   return (
-    <HelmetProvider>
+    <>
       <SEO />
       <ScrollToTop />
       <Routes>
@@ -91,7 +90,7 @@ const App: React.FC = () => {
       
       <Analytics />
       <SpeedInsights />
-    </HelmetProvider>
+    </>
   );
 };
 
