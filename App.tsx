@@ -14,7 +14,6 @@ import SEO from './components/SEO';
 
 import { LanguageProvider } from './components/LanguageContext';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 
 const Home = lazy(() => import('./pages/index'));
 const About = lazy(() => import('./pages/About'));
@@ -22,6 +21,8 @@ const Products = lazy(() => import('./pages/Products'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const News = lazy(() => import('./pages/News'));
 const Contact = lazy(() => import('./pages/Contact'));
+
+const Footer = lazy(() => import('./components/Footer'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,7 +72,9 @@ const Layout = () => {
             <Outlet />
           </Suspense>
         </main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </div>
     </LanguageProvider>
   );
