@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import prerender from '@prerenderer/rollup-plugin';
 import jsdomRenderer from '@prerenderer/renderer-jsdom';
+import webfontDownload from 'vite-plugin-webfont-dl';
 
 export default defineConfig({
   build: {
@@ -20,6 +21,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    webfontDownload(),
     prerender({
       // 1. 指定需要预渲染的静态路由
       routes: [
