@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
@@ -16,13 +16,12 @@ import { LanguageProvider } from './components/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-import Home from './pages/index';
-import About from './pages/About';
-import Products from './pages/Products';
-// 引入新创建的详情页
-import ProductDetail from './pages/ProductDetail';
-import News from './pages/News';
-import Contact from './pages/Contact';
+const Home = lazy(() => import('./pages/index'));
+const About = lazy(() => import('./pages/About'));
+const Products = lazy(() => import('./pages/Products'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const News = lazy(() => import('./pages/News'));
+const Contact = lazy(() => import('./pages/Contact'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,6 +32,13 @@ const ScrollToTop = () => {
   }, [pathname]);
   return null;
 };
+
+const Loading = () => (
+  <div className="flex flex-col justify-center items-center min-h-[60vh] w-full">
+    <div className="w-10 h-10 border-4 border-slate-200 border-t-sky-500 rounded-full animate-spin mb-4"></div>
+    <p className="text-slate-500 font-medium text-sm">Loading...</p>
+  </div>
+);
 
 const Layout = () => {
   useEffect(() => {
@@ -61,7 +67,9 @@ const Layout = () => {
       <div className="relative min-h-screen flex flex-col font-sans text-tops-dark bg-tops-white selection:bg-tops-blue selection:text-white">
         <Navbar />
         <main className="flex-grow z-10 relative">
-          <Outlet />
+          <Suspense fallback={<Loading />}>
+            <Outlet />
+          </Suspense>
         </main>
         <Footer />
       </div>
