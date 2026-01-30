@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import prerender from '@prerenderer/rollup-plugin';
-import jsdomRenderer from '@prerenderer/renderer-jsdom';
+import puppeteerRenderer from '@prerenderer/renderer-puppeteer';
 import webfontDownload from 'vite-plugin-webfont-dl';
 
 export default defineConfig({
@@ -37,10 +37,13 @@ export default defineConfig({
         '/zh/contact'
       ],
       
-      // 2. 配置 JSDOM 渲染器 (更轻量，无需系统依赖，完美适配 Vercel)
-      renderer: new jsdomRenderer({
+      // 2. 配置 Puppeteer 渲染器 (基于 Chrome，渲染结果更准确，解决了 JSDOM 的依赖废弃问题)
+      renderer: new puppeteerRenderer({
         // 等待 3000ms 确保 React 组件挂载和初始数据加载完成 (Vercel CI 环境较慢，增加等待时间防止空壳 HTML)
         renderAfterTime: 3000,
+        // 关键配置：因为跳过了 Chromium 下载，必须指定本地 Chrome 路径
+        // Windows 默认安装路径通常是下面这个，如果你的安装位置不同，请修改它
+        executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
       }),
 
       // 3. 构建后处理 (Critical SEO Fix)
