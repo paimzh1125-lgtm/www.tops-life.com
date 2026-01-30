@@ -89,7 +89,6 @@ const App: React.FC = () => {
       </Routes>
       
       <Analytics />
-      <SpeedInsights />
     </>
   );
 };
