@@ -1,31 +1,49 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 interface SEOProps {
   title?: string;
   description?: string;
+  path?: string;
+  type?: string;
+  image?: string;
 }
 
-const SEO: React.FC<SEOProps> = ({ title, description }) => {
-  const { t } = useTranslation();
+const SEO: React.FC<SEOProps> = ({ 
+  title = "Tops Life Science | Medical Packaging & Biomaterials Expert", 
+  description = "Tops Life Science specializes in medical soft packaging, precision injection molding, and soy protein polymers. ISO 7 cleanroom certified sustainable solutions.",
+  path,
+  type = "website",
+  image = "/images/logo.png"
+}) => {
   const location = useLocation();
   
-  const effectiveTitle = title ? `${title} | TopsLife (Suzhou Tops Life)` : t('home.metaTitle');
-  const effectiveDesc = description || t('home.metaDesc');
+  // 1. Determine the current path (prop overrides automatic detection)
+  const currentPath = path || location.pathname;
 
-  // Ensure we strip query params (?...) to avoid duplicate content issues
-  const canonicalUrl = `https://${window.location.hostname}${location.pathname}`;
+  // 2. Construct the canonical URL
+  // Ensure we don't have double slashes when joining
+  const baseUrl = "https://www.tops-life.com";
+  const canonicalUrl = currentPath === "/" 
+    ? `${baseUrl}/` 
+    : `${baseUrl}${currentPath.startsWith('/') ? currentPath : '/' + currentPath}`;
 
   return (
     <Helmet>
-      <title>{effectiveTitle}</title>
-      <meta name="description" content={effectiveDesc} />
-      <meta property="og:title" content={effectiveTitle} />
-      <meta property="og:description" content={effectiveDesc} />
-      <meta name="twitter:title" content={effectiveTitle} />
-      <meta name="twitter:description" content={effectiveDesc} />
+      {/* Standard Metadata */}
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta name="author" content="Tops Life Science" />
+
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content={type} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={image} />
+      <meta property="og:url" content={canonicalUrl} />
+
+      {/* Dynamic Canonical Tag */}
       <link rel="canonical" href={canonicalUrl} />
     </Helmet>
   );
