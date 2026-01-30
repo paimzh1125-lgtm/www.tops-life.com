@@ -8,12 +8,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
-          'ui-vendor': ['lucide-react', '@studio-freight/lenis'],
+          'react-core': ['react', 'react-dom', 'react-router-dom', 'react-i18next', 'i18next', 'i18next-browser-languagedetector'],
+          'animation-lib': ['gsap', '@studio-freight/lenis'],
+          'ui-lib': ['lucide-react'],
+          'analytics': ['@vercel/analytics', '@vercel/speed-insights'],
           'swiper-vendor': ['swiper'],
-          'gsap-vendor': ['gsap'],
-          'three-vendor': ['three'], // 3D 库体积巨大，必须独立拆分
+          'three-vendor': ['three'],
         },
       },
     },
