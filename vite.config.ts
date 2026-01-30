@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import prerender from '@prerenderer/rollup-plugin';
 import puppeteerRenderer from '@prerenderer/renderer-puppeteer';
+// @ts-ignore
 import webfontDownload from 'vite-plugin-webfont-dl';
 
 export default defineConfig({
@@ -44,7 +45,7 @@ export default defineConfig({
         // 关键配置：因为跳过了 Chromium 下载，必须指定本地 Chrome 路径
         // Windows 默认安装路径通常是下面这个，如果你的安装位置不同，请修改它
         executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-      }),
+      } as any),
 
       // 3. 构建后处理 (Critical SEO Fix)
       postProcess(renderedRoute) {
