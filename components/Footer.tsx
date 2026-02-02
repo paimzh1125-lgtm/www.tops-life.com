@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
       about: "About Us",
       products: "Products",
       companyName: "Tops Life Science",
-      brandB: "Taoai Material",
+      brandB: "Tops Life Technology",
       news: "News",
       contact: "Contact Us",
       address: "No. 8 Fangjing Road, SIP, Suzhou, Jiangsu, China",
