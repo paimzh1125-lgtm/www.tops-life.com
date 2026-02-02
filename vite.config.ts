@@ -31,11 +31,9 @@ export default defineConfig({
         '/products', 
         '/news', 
         '/contact',
-        '/zh', 
-        '/zh/about', 
-        '/zh/products', 
-        '/zh/news', 
-        '/zh/contact'
+        '/news/ecovadis-silver-2025',
+        '/news/3-layer-sterile-bag',
+        '/news/cleanroom-expansion'
       ],
       
       // 2. 配置 JSDOM 渲染器 (更轻量，无需下载浏览器，安装最稳定)

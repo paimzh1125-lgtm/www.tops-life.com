@@ -23,11 +23,11 @@ const SEO: React.FC<SEOProps> = ({
   const currentPath = path || location.pathname;
 
   // 2. Construct the canonical URL
-  // Ensure we don't have double slashes when joining
+  // Ensure unified format: https://www.tops-life.com/path (no trailing slash unless root)
   const baseUrl = "https://www.tops-life.com";
-  const canonicalUrl = currentPath === "/" 
-    ? `${baseUrl}/` 
-    : `${baseUrl}${currentPath.startsWith('/') ? currentPath : '/' + currentPath}`;
+  const cleanPath = currentPath.endsWith('/') && currentPath !== '/' ? currentPath.slice(0, -1) : currentPath;
+  const normalizedPath = cleanPath.startsWith('/') ? cleanPath : '/' + cleanPath;
+  const canonicalUrl = `${baseUrl}${normalizedPath}`;
 
   return (
     <Helmet>
