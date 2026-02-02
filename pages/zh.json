@@ -75,7 +75,14 @@
     "newsTitle": "最新动态",
     "newsBtn": "查看更多新闻",
     "cta": "准备好开启下一个项目了吗？",
-    "skipLink": "跳转至主要内容"
+    "skipLink": "跳转至主要内容",
+    "detail": {
+      "back": "返回新闻列表",
+      "share": "分享",
+      "shareSuccess": "链接已复制到剪贴板",
+      "related": "相关阅读",
+      "notFound": "未找到该新闻"
+    }
   },
   "about": {
     "metaTitle": "关于我们 | 永爱生命 - 专注医疗软包装与精密注塑",
