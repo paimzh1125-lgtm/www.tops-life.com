@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import prerender from '@prerenderer/rollup-plugin';
-import puppeteerRenderer from '@prerenderer/renderer-puppeteer';
+import jsdomRenderer from '@prerenderer/renderer-jsdom';
 // @ts-ignore
 import webfontDownload from 'vite-plugin-webfont-dl';
 
@@ -38,15 +38,10 @@ export default defineConfig({
         '/zh/contact'
       ],
       
-      // 2. 配置 Puppeteer 渲染器 (基于 Chrome，渲染结果更准确，解决了 JSDOM 的依赖废弃问题)
-      renderer: new puppeteerRenderer({
-        // 等待 3000ms 确保 React 组件挂载和初始数据加载完成 (Vercel CI 环境较慢，增加等待时间防止空壳 HTML)
+      // 2. 配置 JSDOM 渲染器 (更轻量，无需下载浏览器，安装最稳定)
+      renderer: new jsdomRenderer({
         renderAfterTime: 3000,
-        // 适配 Vercel: 仅在 Windows 本地开发时使用固定路径，Linux/Vercel 环境下使用 Puppeteer 自动下载的 Chromium
-        executablePath: process.platform === 'win32' 
-          ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' 
-          : undefined,
-      } as any),
+      }),
 
       // 3. 构建后处理 (Critical SEO Fix)
       postProcess(renderedRoute) {
