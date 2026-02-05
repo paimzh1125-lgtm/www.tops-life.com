@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ArrowLeft, Calendar, Tag, Share2, Clock, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEO from '../components/SEO';
-import { NEWS_DATABASE } from '../data/newsData';
+import { NEWS_DATABASE } from '../newsData';
 
 const NewsDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
