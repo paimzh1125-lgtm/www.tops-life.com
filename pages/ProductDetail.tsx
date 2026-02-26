@@ -478,7 +478,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       notFound: "Product Not Found",
       ctaTitle: "Looking for eco-adhesive alternatives?"
     },
-    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=1200"
+    image: "/images/Soy protein Polymer adhesives.png"
   },
   "degradable-coating": {
     zh: {
@@ -525,7 +525,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       notFound: "Product Not Found",
       ctaTitle: "Need plastic-free packaging?"
     },
-    image: "https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?auto=format&fit=crop&q=80&w=1200"
+    image: "/images/Paper surface functional coatings.png"
   },
   "eco-paper": {
     zh: {
