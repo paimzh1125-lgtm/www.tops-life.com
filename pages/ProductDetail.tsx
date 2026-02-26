@@ -86,7 +86,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       notFound: "Product Not Found",
       ctaTitle: "Need customization or samples?"
     },
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=1200"
+    image: "/images/PE Bags and Rolls.png"
   },
   "medical-film": {
     zh: {
@@ -135,7 +135,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       notFound: "Product Not Found",
       ctaTitle: "Need specialized films?"
     },
-    image: "https://images.unsplash.com/photo-1605609284543-c2229e62553a?auto=format&fit=crop&q=80&w=1200"
+    image: "/images/Medical-grade Films.png"
   },
   "high-barrier": {
     zh: {
@@ -182,7 +182,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       notFound: "Product Not Found",
       ctaTitle: "Need high-barrier solutions?"
     },
-    image: "https://images.unsplash.com/photo-1624916223253-128c707d8533?auto=format&fit=crop&q=80&w=1200"
+    image: "/images/High Barrier Packaging.jpg"
   },
   "lidding": {
     zh: {
@@ -231,7 +231,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       notFound: "Product Not Found",
       ctaTitle: "Looking for lidding materials?"
     },
-    image: "https://images.unsplash.com/photo-1583912267550-d44d8319c701?auto=format&fit=crop&q=80&w=1200"
+    image: "/images/EVA and TPU.png"
   },
 
   // === 精密医疗注塑 (原有) ===
@@ -710,8 +710,10 @@ const ProductDetail: React.FC = () => {
             >
               <img 
                 src={image} 
-                alt={content.title} 
+                alt={`${content.title} - Medical Sterile Barrier Packaging Solutions`}
                 fetchPriority="high"
+                loading="eager"
+                decoding="async"
                 width="800"
                 height="600"
                 className="w-full h-full md:object-cover object-contain hover:scale-105 transition-transform duration-700" 
