@@ -530,37 +530,47 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
   "eco-paper": {
     zh: {
       title: "其它新材料系列",
-      subtitle: "更多创新材料解决方案",
-      description: "留空间后续可添加",
-      features: [],
-      specs: [],
-      btnText: "联系我们",
+      subtitle: "探索材料科学的无限可能",
+      description: "致力于拓展生物基材料与高性能聚合物的应用边界。该系列涵盖了功能性母粒、生物质复合材料及特种改性工程塑料。我们根据客户的具体应用场景，提供从配方开发到材料改性的定制化服务，满足医疗、消费电子及工业包装领域的特殊需求。",
+      features: [
+        "配方定制化：根据性能需求调整配方",
+        "功能多样性：提供抗菌、抗静电、增强增韧等改性方案",
+        "可持续来源：可选生物基或可回收基材",
+        "加工适应性：优异的流变性能，适应注塑、挤出等工艺"
+      ],
+      specs: [
+        { label: "产品类型", value: "功能母粒, 改性树脂" },
+        { label: "基材体系", value: "PE, PP, PLA, PBAT" },
+        { label: "功能选项", value: "阻燃, 抗菌, 增强, 降解" },
+        { label: "应用领域", value: "医疗耗材, 工业包装, 消费品" }
+      ],
+      btnText: "联系我们定制",
       specTitle: "技术规格 Technical Specifications",
       backText: "返回产品列表",
       notFound: "产品未找到",
-      ctaTitle: "寻找可持续复合材料？"
+      ctaTitle: "寻找特定的材料解决方案？"
     },
     en: {
-      title: "Eco Paper-Plastic Composites",
-      subtitle: "Plastic Reduction & Recyclability",
-      description: "Novel composites balancing strength, barrier, and ecology. Combining paper base with bio-coatings/films to drastically reduce plastic usage, aligning with global green packaging trends.",
+      title: "Other New Materials Series",
+      subtitle: "Exploring Infinite Possibilities in Material Science",
+      description: "Dedicated to expanding the boundaries of bio-based materials and high-performance polymers. This series covers functional masterbatches, biomass composites, and specialty modified engineering plastics. We provide customized services from formulation development to material modification based on specific application scenarios, meeting the special needs of medical, consumer electronics, and industrial packaging sectors.",
       features: [
-        "Innovation: Paper base + Bio-layer",
-        "Eco: Reduced plastic, Recyclable",
-        "Custom: Adjustable barrier properties",
-        "Process: Good forming and heat sealing"
+        "Customized Formulation: Tailored to performance needs",
+        "Multifunctional: Antibacterial, Antistatic, Reinforced solutions",
+        "Sustainable Options: Bio-based or Recyclable substrates available",
+        "Processability: Excellent rheology for Injection/Extrusion"
       ],
       specs: [
-        { label: "Structure", value: "Paper-based Composite" },
-        { label: "Feature", value: "Plastic Reduction" },
-        { label: "Process", value: "Heat Seal, Forming" },
-        { label: "Applications", value: "Medical/Consumer Packaging" }
+        { label: "Product Type", value: "Masterbatch, Modified Resin" },
+        { label: "Base System", value: "PE, PP, PLA, PBAT" },
+        { label: "Functions", value: "FR, Antibacterial, Reinforced" },
+        { label: "Applications", value: "Medical, Industrial, Consumer" }
       ],
-      btnText: "Contact Us",
+      btnText: "Contact for Customization",
       specTitle: "Technical Specifications",
       backText: "Back to Products",
       notFound: "Product Not Found",
-      ctaTitle: "Looking for sustainable composites?"
+      ctaTitle: "Looking for specific material solutions?"
     },
     image: "https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&q=80&w=1200"
   },

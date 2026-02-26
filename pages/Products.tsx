@@ -231,16 +231,15 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
       {
         id: "material",
         category: "Core Business 03",
-        title: "Soy Protein Bio-Materials",
-        desc: "Future-oriented sustainable solutions.We leverage modified soy protein technology to develop unique, multifunctional plant-based adhesives that perfectly replace traditional petroleum-based materials, contributing to carbon neutrality.At the same time, we also provide customized paper surface functional coating solutions and services.",
+        title: "Soy Protein Polymers & New Materials",
+        desc: "Future-oriented sustainable solutions. We leverage modified soy protein technology to develop unique, multifunctional plant-based adhesives that perfectly replace traditional petroleum-based materials, contributing to carbon neutrality. At the same time, we also provide customized paper surface functional coating solutions and services.",
         subProducts: [
-          { name: "Plant-based Adhesives", link: "/products/plant-adhesive" },
-          { name: "Degradable Coatings", link: "/products/degradable-coating" },
-          { name: "Eco Paper-Plastic", link: "/products/eco-paper" },
-          { name: "Functional Additives", link: "/products/functional-additives" }
+          { name: "Soy Protein Polymer Adhesives", link: "/products/plant-adhesive" },
+          { name: "Paper Surface Functional Coatings", link: "/products/degradable-coating" },
+          { name: "Other New Materials Series", link: "/products/eco-paper" }
         ],
-        applications: ["Luxury Packaging", "Excellent strength with superior thickening and water retention stability", "Non-thermoplastic, high-temperature resistant", "Bio-medical Aids"],
-        features: ["100% Bio-degradable", "Excellent strength with superior thickening and water retention stability", "Non-thermoplastic, high-temperature resistant", "Customizable Coatings"],
+        applications: ["Specialty Paper Coating", "Water-based Inks", "Personal Care", "Medical Auxiliaries"],
+        features: ["100% Bio-degradable", "Excellent Strength & Stability", "Non-thermoplastic & Heat Resistant", "Customizable Coating Functions"],
         imgDesc: "Sustainable Farming & Agricultural Research Fields",
         image: "/images/soy.jpg"
       }
