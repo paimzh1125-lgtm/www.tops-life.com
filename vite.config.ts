@@ -38,7 +38,7 @@ export default defineConfig({
       
       // 2. 配置 JSDOM 渲染器 (更轻量，无需下载浏览器，安装最稳定)
       renderer: new jsdomRenderer({
-        renderAfterTime: 3000,
+        renderAfterTime: 5000, // Increase to 5s to ensure React fully mounts in JSDOM
       }),
 
       // 3. 构建后处理 (Critical SEO Fix)

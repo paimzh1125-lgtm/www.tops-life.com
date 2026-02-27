@@ -19,6 +19,43 @@
     <link rel="preload" as="image" href="/banner/hero-bg.webp" media="(min-width: 769px)" fetchpriority="high" />
     <link rel="preload" as="image" href="/banner/hero-bg.webp" type="image/webp" fetchpriority="high" />
 
+    <!-- Critical Fix for JSDOM Prerendering: Mock missing browser APIs -->
+    <script>
+      if (typeof window !== 'undefined') {
+        // 1. Mock matchMedia (Required by GSAP)
+        if (!window.matchMedia) {
+          window.matchMedia = function() {
+            return {
+              matches: false,
+              addListener: function() {},
+              removeListener: function() {},
+              addEventListener: function() {},
+              removeEventListener: function() {},
+              dispatchEvent: function() { return false; },
+            };
+          };
+        }
+        // 2. Mock IntersectionObserver (Required by ScrollTrigger/LazyLoad)
+        if (!window.IntersectionObserver) {
+          window.IntersectionObserver = class {
+            constructor() {}
+            observe() {}
+            unobserve() {}
+            disconnect() {}
+          };
+        }
+        // 3. Mock ResizeObserver (Required by Lenis)
+        if (!window.ResizeObserver) {
+          window.ResizeObserver = class {
+            constructor() {}
+            observe() {}
+            unobserve() {}
+            disconnect() {}
+          };
+        }
+      }
+    </script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
