@@ -27,12 +27,9 @@ export default defineConfig({
             // 3. UI 组件与图标 (优先匹配，防止 lucide-react 被下方的 react 规则捕获)
             if (id.includes('lucide') || id.includes('swiper')) return 'vendor-ui';
 
-            // 4. React 核心 (首屏必须)
-            // 添加 'scheduler' 确保 React 调度器与核心库打包在一起，防止运行时 undefined 错误
-            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler') || id.includes('router') || id.includes('i18next')) return 'vendor-react';
-            
-            // 5. 其他依赖归拢
-            return 'vendor-libs';
+            // 4. 核心依赖合并 (React + Router + i18n + Analytics + Others)
+            // 修复: 将 React 核心与其他依赖合并，防止因分包导致的初始化顺序问题 (Uncaught TypeError: Cannot set properties of undefined)
+            return 'vendor-core';
           }
         },
       },
