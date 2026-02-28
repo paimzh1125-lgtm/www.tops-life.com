@@ -28,7 +28,8 @@ export default defineConfig({
             if (id.includes('lucide') || id.includes('swiper')) return 'vendor-ui';
 
             // 4. React 核心 (首屏必须)
-            if (id.includes('react') || id.includes('react-dom') || id.includes('router') || id.includes('i18next')) return 'vendor-react';
+            // 添加 'scheduler' 确保 React 调度器与核心库打包在一起，防止运行时 undefined 错误
+            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler') || id.includes('router') || id.includes('i18next')) return 'vendor-react';
             
             // 5. 其他依赖归拢
             return 'vendor-libs';
