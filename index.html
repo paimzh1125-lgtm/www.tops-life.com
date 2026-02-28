@@ -57,6 +57,16 @@
         if (typeof exports === 'undefined') {
           window.exports = {};
         }
+        // 5. Fix for "Uncaught ReferenceError: global is not defined"
+        // Some older libraries expect the Node.js 'global' object to exist.
+        if (typeof global === 'undefined') {
+          window.global = window;
+        }
+        // 6. Fix for "Uncaught ReferenceError: process is not defined"
+        // Some libraries try to access process.env even in the browser.
+        if (typeof process === 'undefined') {
+          window.process = { env: {} };
+        }
       }
     </script>
 
