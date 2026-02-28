@@ -22,7 +22,11 @@ const app = (
 
 // 如果 root 元素里有内容（预渲染生成的），使用 hydrateRoot，否则使用 createRoot
 if (rootElement.hasChildNodes()) {
-  ReactDOM.hydrateRoot(rootElement, app);
+  ReactDOM.hydrateRoot(rootElement, app, {
+    onRecoverableError: (error) => {
+      console.warn('Hydration failed, falling back to client render:', error);
+    }
+  });
 } else {
   const root = ReactDOM.createRoot(rootElement);
   root.render(app);
