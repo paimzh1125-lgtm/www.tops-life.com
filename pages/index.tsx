@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 // Data
-import { ALL_NEWS } from "./News";
+import { ALL_NEWS } from "../newsData";
 import SEO from "../components/SEO";
 
 // Register GSAP Plugin
@@ -510,7 +510,7 @@ const Home: React.FC = () => {
                 {ALL_NEWS.map((news, i) => (
                   <Link 
                     key={news.id} 
-                    to={`/news/${news.id}`}
+                    to={`/news/${news.slug}`}
                     className="gsap-fade-up min-w-[85vw] md:min-w-[380px] snap-center bg-white rounded-2xl p-8 border border-slate-100 hover:border-sky-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group cursor-pointer focus-within:ring-4 focus-within:ring-sky-200 flex flex-col" 
                   >
                       <div className="flex justify-between items-start mb-4">
