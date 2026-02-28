@@ -47,30 +47,6 @@
         background: #40C4FF;
       }
 
-      /* 初始加载动画样式 (React加载前显示) */
-      .initial-loader {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #F8FAFC;
-        flex-direction: column;
-        color: #0F172A;
-      }
-      .spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid #E2E8F0;
-        border-top: 3px solid #40C4FF;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 16px;
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
       /* Performance: Force font-display swap for all loaded fonts to prevent FOIT */
       @font-face {
         font-family: 'Inter';
@@ -81,10 +57,6 @@
   </head>
   <body>
     <div id="root">
-      <div class="initial-loader">
-        <div class="spinner"></div>
-        <p style="font-size: 14px; font-weight: 500;">Tops Life Loading...</p>
-      </div>
     </div>
 
     <script type="module" src="/index.tsx"></script>
