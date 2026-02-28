@@ -52,6 +52,11 @@
             disconnect() {}
           };
         }
+        // 4. Fix for "Uncaught TypeError: Cannot set properties of undefined (setting 'Activity')"
+        // This mocks 'exports' for CommonJS libraries (like icon packs) that leak into the browser environment.
+        if (typeof exports === 'undefined') {
+          window.exports = {};
+        }
       }
     </script>
 
