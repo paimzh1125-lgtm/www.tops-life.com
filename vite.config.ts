@@ -24,11 +24,11 @@ export default defineConfig({
             // 2. 动画库隔离
             if (id.includes('gsap') || id.includes('lenis')) return 'vendor-animation';
             
-            // 3. React 核心 (首屏必须)
-            if (id.includes('react') || id.includes('react-dom') || id.includes('router') || id.includes('i18next')) return 'vendor-react';
-            
-            // 4. UI 组件与图标
+            // 3. UI 组件与图标 (优先匹配，防止 lucide-react 被下方的 react 规则捕获)
             if (id.includes('lucide') || id.includes('swiper')) return 'vendor-ui';
+
+            // 4. React 核心 (首屏必须)
+            if (id.includes('react') || id.includes('react-dom') || id.includes('router') || id.includes('i18next')) return 'vendor-react';
             
             // 5. 其他依赖归拢
             return 'vendor-libs';

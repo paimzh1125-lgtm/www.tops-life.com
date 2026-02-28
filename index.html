@@ -17,7 +17,6 @@
     <!-- Performance: Preload Critical LCP Images (Mobile & Desktop) -->
     <link rel="preload" as="image" href="/banner/hero-mobile.webp" media="(max-width: 768px)" fetchpriority="high" />
     <link rel="preload" as="image" href="/banner/hero-bg.webp" media="(min-width: 769px)" fetchpriority="high" />
-    <link rel="preload" as="image" href="/banner/hero-bg.webp" type="image/webp" fetchpriority="high" />
 
     <!-- Critical Fix for JSDOM Prerendering: Mock missing browser APIs -->
     <script>
@@ -116,22 +115,6 @@
       }
     </style>
 
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://aistudiocdn.com/react@^19.2.0",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-        "react/": "https://aistudiocdn.com/react@^19.2.0/",
-        "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
-        "@studio-freight/lenis": "https://aistudiocdn.com/@studio-freight/lenis@^1.0.42",
-        "gsap": "https://aistudiocdn.com/gsap@^3.13.0",
-        "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/",
-        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-        "swiper/": "https://aistudiocdn.com/swiper@^12.0.3/"
-      }
-    }
-    </script>
-    
   </head>
   <body>
     <div id="root">
