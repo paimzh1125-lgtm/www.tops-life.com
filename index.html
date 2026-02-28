@@ -57,6 +57,10 @@
         if (typeof exports === 'undefined') {
           window.exports = {};
         }
+        // 4.1 Fix for "module is not defined"
+        if (typeof module === 'undefined') {
+          window.module = { exports: {} };
+        }
         // 5. Fix for "Uncaught ReferenceError: global is not defined"
         // Some older libraries expect the Node.js 'global' object to exist.
         if (typeof global === 'undefined') {
@@ -65,11 +69,22 @@
         // 6. Fix for "Uncaught ReferenceError: process is not defined"
         // Some libraries try to access process.env even in the browser.
         if (typeof process === 'undefined') {
-          window.process = { env: {} };
+          window.process = { 
+            env: { NODE_ENV: 'development' }, 
+            browser: true, 
+            version: '', 
+            nextTick: function(cb) { setTimeout(cb, 0); } 
+          };
         }
         // 7. Fix for "Uncaught ReferenceError: Buffer is not defined"
         if (typeof Buffer === 'undefined') {
-          window.Buffer = { isBuffer: function() { return false; }, from: function() { return []; }, alloc: function() { return []; } };
+          // Must be a function to support 'new Buffer()' calls from legacy libs
+          window.Buffer = function() { return {}; };
+          window.Buffer.isBuffer = function() { return false; };
+          window.Buffer.from = function() { return []; };
+          window.Buffer.alloc = function() { return []; };
+          window.Buffer.concat = function() { return []; };
+          window.Buffer.isEncoding = function() { return false; };
         }
         // 8. Fix for "Uncaught ReferenceError: setImmediate is not defined"
         if (typeof setImmediate === 'undefined') {
