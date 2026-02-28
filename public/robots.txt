@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# 禁止抓取旧的 PHP 路径
+Disallow: /index.php
+
+# 禁止抓取带分页参数或搜索参数的低价值页面
+Disallow: /*?PageNum=
+Disallow: /*?act=
+
 Sitemap: https://www.tops-life.com/sitemap.xml

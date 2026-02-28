@@ -22,6 +22,15 @@
     { "source": "/lxwm", "destination": "/contact", "permanent": true },
     { "source": "/ywbm", "destination": "/products", "permanent": true },
     { "source": "/newsinfo/(.*)", "destination": "/news", "permanent": true },
+    {
+      "source": "/index.php",
+      "has": [
+        { "type": "query", "key": "act", "value": "product" },
+        { "type": "query", "key": "sid", "value": "13" }
+      ],
+      "destination": "/news/3-layer-sterile-bag",
+      "permanent": true
+    },
     { "source": "/index.php", "destination": "/", "permanent": true },
     { "source": "/Common/(.*)", "destination": "/", "permanent": true }
   ]

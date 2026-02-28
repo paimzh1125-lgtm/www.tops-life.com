@@ -4,6 +4,9 @@ import prerender from '@prerenderer/rollup-plugin';
 import jsdomRenderer from '@prerenderer/renderer-jsdom';
 // @ts-ignore
 import webfontDownload from 'vite-plugin-webfont-dl';
+import { NEWS_DATABASE } from './newsData';
+
+const newsRoutes = Object.keys(NEWS_DATABASE).map((slug) => `/news/${slug}`);
 
 export default defineConfig({
   build: {
@@ -31,9 +34,7 @@ export default defineConfig({
         '/products', 
         '/news', 
         '/contact',
-        '/news/ecovadis-silver-2025',
-        '/news/3-layer-sterile-bag',
-        '/news/cleanroom-expansion'
+        ...newsRoutes
       ],
       
       // 2. 配置 JSDOM 渲染器 (更轻量，无需下载浏览器，安装最稳定)
