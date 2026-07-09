@@ -48,14 +48,14 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
         "医疗级原料：低析出、低气味，确保药物与器械安全",
         "性能优异：良好的抗穿刺与抗撕裂性能",
         "灭菌稳定：EO / Gamma / 蒸汽灭菌后不脆化、不收缩",
-        "洁净生产：ISO Class 8 (万级) 环境生产"
+        "洁净生产：ISO Class 7 (万级) 环境生产"
       ],
       specs: [
         { label: "材料结构", value: "LDPE / HDPE 多层共挤" },
         { label: "灭菌兼容性", value: "EO, Gamma, Steam" },
-        { label: "符合标准", value: "ISO 11607, ISO 13485" },
+        { label: "符合标准", value: "ISO 9001, ISO 13485" },
         { label: "应用", value: "手术器械包, 一次性耗材" },
-        { label: "生产环境", value: "ISO Class 8 Cleanroom" }
+        { label: "生产环境", value: "ISO Class 7 Cleanroom" }
       ],
       btnText: "联系我们的工程师",
       specTitle: "技术规格 Technical Specifications",
@@ -71,14 +71,14 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
         "Medical Grade: Low extractables, low odor",
         "Performance: Excellent puncture and tear resistance",
         "Stability: No embrittlement or shrinkage after EO/Gamma/Steam sterilization",
-        "Clean Mfg: Produced in ISO Class 8 environment"
+        "Clean Mfg: Produced in ISO Class 7 environment"
       ],
       specs: [
         { label: "Structure", value: "LDPE / HDPE Co-extrusion" },
         { label: "Sterilization", value: "EO, Gamma, Steam" },
-        { label: "Standard", value: "ISO 11607, ISO 13485" },
+        { label: "Standard", value: "ISO 9001, ISO 13485" },
         { label: "Applications", value: "Surgical Kits, Disposables" },
-        { label: "Environment", value: "ISO Class 8 Cleanroom" }
+        { label: "Environment", value: "ISO Class 7 Cleanroom" }
       ],
       btnText: "Contact Engineers",
       specTitle: "Technical Specifications",
@@ -337,7 +337,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
     zh: {
       title: "体外诊断耗材 (IVD Consumables)",
       subtitle: "洁净度 + 生物安全 + 批量稳定",
-      description: "在 ISO Class 8 (10万级) 洁净环境下生产的试剂杯、深孔板及反应卡匣。我们专注于生物负载 (Bioburden) 控制，确保产品无 DNase/RNase、无热原，并具备极佳的光学性能与低吸附特性，保障检测结果的准确性。",
+      description: "在 ISO Class 7 (万级) 洁净环境下生产的试剂杯、深孔板及反应卡匣。我们专注于生物负载 (Bioburden) 控制，确保产品无 DNase/RNase、无热原，并具备极佳的光学性能与低吸附特性，保障检测结果的准确性。",
       features: [
         "严格的洁净制造：全自动封闭式供料与生产",
         "生物安全性：无酶、无热原、低析出物",
@@ -347,7 +347,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       specs: [
         { label: "产品类型", value: "PCR管, 深孔板, 发光杯, 卡匣" },
         { label: "材料", value: "医疗级 PP, PS (高透)" },
-        { label: "生产环境", value: "ISO Class 8 (10万级洁净室)" },
+        { label: "生产环境", value: "ISO Class 7 (万级洁净室)" },
         { label: "质量控制", value: "气密性测试, 光学检测" },
         { label: "包装", value: "医疗级吸塑 / 灭菌袋" }
       ],
@@ -370,7 +370,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
       specs: [
         { label: "Products", value: "PCR Tubes, Deep Well Plates, Cuvettes" },
         { label: "Materials", value: "Medical Grade PP, PS (High Clarity)" },
-        { label: "Environment", value: "ISO Class 8 Cleanroom" },
+        { label: "Environment", value: "ISO Class 7 Cleanroom" },
         { label: "QC", value: "Airtightness Test, Optical Inspection" },
         { label: "Packaging", value: "Medical Blister / Sterilization Pouch" }
       ],
