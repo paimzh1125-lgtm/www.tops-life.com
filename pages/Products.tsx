@@ -140,7 +140,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "molding",
         category: "核心业务 02",
         title: "精密医疗注塑与组装",
-        desc: "依托 10 万级洁净注塑车间，我们专注于高难度、高精度的医疗高分子部件制造。具备双色注塑、包胶注塑及嵌件注塑能力，并提供移印、超声波焊接等后道工艺。",
+        desc: "依托万级洁净注塑车间，我们专注于高难度、高精度的医疗高分子部件制造。具备双色注塑、包胶注塑及嵌件注塑能力，并提供移印、超声波焊接等后道工艺。",
         subProducts: [
           { name: "微流控芯片基底", link: "/products/microfluidic" },
           { name: "外科吻合器组件", link: "/products/stapler" },
@@ -216,7 +216,7 @@ const CONTENT_DATA: { zh: ContentState; en: ContentState } = {
         id: "molding",
         category: "Core Business 02",
         title: "Medical Injection Molding",
-        desc: "Operating in Class 100k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
+        desc: "Operating in Class 10k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
         subProducts: [
           { name: "Microfluidic Chips", link: "/products/microfluidic" },
           { name: "Surgical Staplers", link: "/products/stapler" },
