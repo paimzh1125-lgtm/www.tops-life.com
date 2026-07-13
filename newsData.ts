@@ -63,7 +63,7 @@ export const ALL_NEWS = [
     tag_en: "Upgrade",
     title_zh: "升级扩建 ISO Class 7 洁净室", 
     title_en: "Upgraded to ISO Class 7 Cleanroom",
-    desc_zh: "完成十万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
+    desc_zh: "完成万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
     desc_en: "Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.",
     category: "Corporate"
   }
@@ -209,7 +209,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "技术细节",
-          content: "本次扩建工程严格遵循 ISO 14644-1 标准进行设计与施工：",
+          content: "本次扩建工程严格遵循 ISO 9001 标准进行设计与施工：",
           list: [
             "HVAC 系统升级：引入了全新的独立空气净化循环系统，换气次数提升至 ≥25 次/小时。",
             "智能化环境监控：安装了 24 小时在线粒子计数器与温湿度监控探头，数据实时上传至中央控制系统 (SCADA)。",
