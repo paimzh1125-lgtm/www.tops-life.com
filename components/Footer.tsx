@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
       address: "No. 8 Fangjing Road, SIP, Suzhou, Jiangsu, China",
       copyright: "© 2025 Tops Life Science. All Rights Reserved.",
       desc: "Dedicated to providing high-standard flexible packaging, precision molding, and sustainable material solutions for the global medical device and life science sectors.",
-      icp: "Suzhou ICP No. XXXXXXXX",
+      icp: "Suzhou ICP No.",
       privacy: "Privacy Policy",
       terms: "Terms of Use",
       productLinks: [
