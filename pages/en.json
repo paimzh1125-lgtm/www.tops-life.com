@@ -165,13 +165,13 @@
           { "name": "EVA and TPU (Lidding)" }
         ],
         "applications": ["Pharma Packaging", "Surgical Kits", "Consumables Packaging", "Device Packaging"],
-        "features": ["ISO 11607 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
+        "features": ["ISO 13485 Compliant", "EO/Gamma/Steam Compatible", "Low Particulate Risk"],
         "imgDesc": "ISO Class 7 Production"
       },
       {
         "category": "Core Business 02",
         "title": "Medical Injection Molding",
-        "desc": "Operating in Class 100k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
+        "desc": "Operating in Class 10k cleanrooms, we focus on high-precision polymer components. Capabilities include 2K molding, over-molding, and insert molding, plus ultrasonic welding assembly.",
         "subProducts": [
           { "name": "Microfluidic Chips" },
           { "name": "Surgical Staplers" },
@@ -226,7 +226,7 @@
       "title": "Get in Touch",
       "address": { "label": "Address", "val": "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", "zip": "Zip: 215121" },
       "phone": { "label": "Phone", "val": "+86 0512-66185798" },
-      "email": { "label": "Email", "val": "pai.ma@tops-life.com" },
+      "email": { "label": "Email", "val": "Tops-life@tops-life.com" },
       "hours": { "label": "Hours", "val": "Mon - Fri 09:00 - 18:00 (GMT+8)" }
     },
     "form": { 
