@@ -360,7 +360,7 @@ const PRODUCT_DATABASE: Record<string, ProductEntry> = {
     en: {
       title: "IVD Consumables",
       subtitle: "Cleanliness + Bio-safety + Batch Stability",
-      description: "Reagent cups, deep well plates, and cartridges produced in ISO Class 8 cleanrooms. We focus on Bioburden control, ensuring products are DNase/RNase-free and pyrogen-free, with excellent optical properties and low adsorption to guarantee diagnostic accuracy.",
+      description: "Reagent cups, deep well plates, and cartridges produced in ISO Class 7 cleanrooms. We focus on Bioburden control, ensuring products are DNase/RNase-free and pyrogen-free, with excellent optical properties and low adsorption to guarantee diagnostic accuracy.",
       features: [
         "Clean Mfg: Fully automated closed-loop feeding and production",
         "Bio-safety: Enzyme-free, Pyrogen-free, Low extractables",
