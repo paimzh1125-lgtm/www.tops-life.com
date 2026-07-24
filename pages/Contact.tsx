@@ -45,7 +45,7 @@ const content = {
       title: "Get in Touch",
       address: { label: "Address", val: "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", zip: "Zip: 215121" },
       phone: { label: "Phone", val: "+86 0512-66185798" },
-      email: { label: "Email", val: "Tops-life@tops-life.com"  "pai.ma@tops-life.com" },
+      email: { label: "Email", val: "Tops-life@tops-life.com","pai.ma@tops-life.com" },
       hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
     },
     form: { 
