@@ -23,7 +23,7 @@ const content = {
       title: "联系方式",
       address: { label: "公司地址", val: "江苏省苏州市苏州工业园区方泾路 8 号", zip: "邮编：215121" },
       phone: { label: "联系电话", val: "+86 0512-66185798" },
-      email: { label: "电子邮箱", val: "Topslife@tops-life.com" },
+      email: { label: "销售电子邮箱", val: "qq.fan@tops-life.com" },
       hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
     },
     form: { 
@@ -45,7 +45,7 @@ const content = {
       title: "Get in Touch",
       address: { label: "Address", val: "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", zip: "Zip: 215121" },
       phone: { label: "Phone", val: "+86 0512-66185798" },
-      email: { label: "Email", val: "Topslife@tops-life.com"},
+      email: { label: "Sale Email", val: "qq.fan@tops-life.com"},
       hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
     },
     form: { 
