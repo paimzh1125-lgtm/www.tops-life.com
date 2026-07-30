@@ -23,7 +23,13 @@ const content = {
       title: "联系方式",
       address: { label: "公司地址", val: "江苏省苏州市苏州工业园区方泾路 8 号", zip: "邮编：215121" },
       phone: { label: "联系电话", val: "+86 0512-66185798" },
-      email: { label: "销售电子邮箱", val: "qq.fan@tops-life.com" },
+      email: { 
+        label: "电子邮箱", 
+        val: [
+          { title: "官方邮箱", address: "Topslife@tops-life.com" },
+          { title: "销售邮箱", address: "qq.fan@tops-life.com" }
+        ] 
+      },
       hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
     },
     form: { 
@@ -45,7 +51,13 @@ const content = {
       title: "Get in Touch",
       address: { label: "Address", val: "No. 8 Fangjing Road, Suzhou Industrial Park, Jiangsu, China", zip: "Zip: 215121" },
       phone: { label: "Phone", val: "+86 0512-66185798" },
-      email: { label: "Sale Email", val: "qq.fan@tops-life.com"},
+      email: { 
+        label: "Email", 
+        val: [
+          { title: "Official", address: "Topslife@tops-life.com" },
+          { title: "Sales", address: "qq.fan@tops-life.com" }
+        ] 
+      },
       hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
     },
     form: { 
@@ -174,7 +186,18 @@ const Contact: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-sky-50 flex items-center justify-center text-sky-600"><Icons.Mail /></div>
               <div>
                 <h4 className="font-bold text-lg text-slate-800">{t.info.email.label}</h4>
-                <a href={`mailto:${t.info.email.val}`} className="text-sky-600 hover:underline text-lg">{t.info.email.val}</a>
+                <div className="flex flex-col gap-3 mt-1">
+                  {Array.isArray(t.info.email.val) ? (
+                    t.info.email.val.map((item, idx) => (
+                      <div key={idx} className="flex flex-col">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{item.title}</span>
+                        <a href={`mailto:${item.address}`} className="text-sky-600 hover:underline text-lg leading-tight">{item.address}</a>
+                      </div>
+                    ))
+                  ) : (
+                    <a href={`mailto:${t.info.email.val}`} className="text-sky-600 hover:underline text-lg">{t.info.email.val}</a>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -275,3 +298,4 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
+
