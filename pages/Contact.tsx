@@ -30,7 +30,7 @@ const content = {
           { title: "销售邮箱", address: "qq.fan@tops-life.com" }
         ] 
       },
-      hours: { label: "工作时间", val: "周一至周五 09:00 - 18:00 (GMT+8)" }
+      hours: { label: "工作时间", val: "周一至周五 08:00 - 17:00 (GMT+8)" }
     },
     form: { 
       title: "发送消息", 
@@ -58,7 +58,7 @@ const content = {
           { title: "Sales", address: "qq.fan@tops-life.com" }
         ] 
       },
-      hours: { label: "Hours", val: "Mon - Fri 09:00 - 18:00 (GMT+8)" }
+      hours: { label: "Hours", val: "Mon - Fri 08:00 - 17:00 (GMT+8)" }
     },
     form: { 
       title: "Send a Message", 
