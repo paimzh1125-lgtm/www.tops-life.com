@@ -95,8 +95,8 @@ const Contact: React.FC = () => {
 
     try {
       // 1. 尝试通过 FormSubmit.co 发送邮件
-      // 目标邮箱：pai.ma@tops-life.com
-      const response = await fetch("https://formsubmit.co/ajax/pai.ma@tops-life.com", {
+      // 目标邮箱：qq.fan@tops-life.com
+      const response = await fetch("https://formsubmit.co/ajax/qq.fan@tops-life.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ const Contact: React.FC = () => {
     } catch (error) {
       console.error("Submission Error:", error);
       // 2. 保底方案：如果网络发送失败，则唤起本地邮件客户端
-      const mailtoLink = `mailto:pai.ma@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
+      const mailtoLink = `mailto:qq.fan@tops-life.com?subject=[Website Inquiry] ${encodeURIComponent(formData.subject)}&body=Name: ${encodeURIComponent(formData.name)}%0D%0AEmail: ${encodeURIComponent(formData.email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(formData.message)}`;
       window.location.href = mailtoLink;
       setStatus('idle'); 
     }
@@ -298,4 +298,3 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
-
