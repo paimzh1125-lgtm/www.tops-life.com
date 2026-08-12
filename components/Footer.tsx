@@ -1,13 +1,16 @@
-import React from 'react';
+
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Linkedin, Mail, Phone, MapPin, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC = () => {
   const { i18n } = useTranslation();
   const language = i18n.language as 'zh' | 'en';
+  const [showQR, setShowQR] = useState(false);
   
-  const t = {
+
+  const t = useMemo(() => ({
     zh: {
       about: "关于我们",
       products: "产品中心",
@@ -21,6 +24,8 @@ const Footer: React.FC = () => {
       icp: "苏ICP备17054569号-2",
       privacy: "隐私政策",
       terms: "使用条款",
+      qrTitle: "关注永爱生命公众号",
+      qrDesc: "扫一扫 获取更多产品资讯",
       productLinks: [
         { name: "医用软包装", link: `/products#packaging` },
         { name: "精密注塑", link: `/products#molding` },
@@ -45,6 +50,8 @@ const Footer: React.FC = () => {
       icp: "Suzhou ICP No.",
       privacy: "Privacy Policy",
       terms: "Terms of Use",
+      qrTitle: "Follow Our WeChat",
+      qrDesc: "Scan to get latest updates",
       productLinks: [
         { name: "Medical Packaging", link: `/products#packaging` },
         { name: "Injection Molding", link: `/products#molding` },
@@ -56,10 +63,12 @@ const Footer: React.FC = () => {
         { name: "Contact Us", link: `/contact` }
       ]
     }
-  }[language];
 
+
+  })[language], [language]);
   return (
-    <footer className="bg-white text-slate-600 py-12 border-t border-slate-100 font-sans">
+
+    <footer className="bg-white text-slate-600 py-12 border-t border-slate-100 font-sans" itemscope itemtype="https://schema.org/WPFooter">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
           {/* Brand & Logo */}
@@ -67,19 +76,25 @@ const Footer: React.FC = () => {
             {/* Dual Brand Area (双品牌展示区) */}
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 mb-6">
               {/* Brand A: Tops Life */}
-              <div className="flex flex-col items-center md:items-start">
-                <img src="/images/yongai.jpg" alt="Tops Life" className="h-16 mb-2 object-contain" />
+
+
+              <Link to="/" className="flex flex-col items-center md:items-start group">
+                <img src="/images/yongai.jpg" alt="Tops Life" className="h-16 mb-2 object-contain transition-opacity group-hover:opacity-80" />
                 <h3 className="text-sm font-bold text-slate-900">{t.companyName}</h3>
-              </div>
+
+              </Link>
 
               {/* Divider (仅在桌面端显示) */}
               <div className="hidden md:block h-10 w-px bg-slate-200"></div>
 
               {/* Brand B: Taoai */}
-              <div className="flex flex-col items-center md:items-start">
-                <img src="/images/taoai.png" alt="Taoai Material" className="h-16 mb-2 object-contain" />
+
+
+              <Link to="/" className="flex flex-col items-center md:items-start group">
+                <img src="/images/taoai.png" alt="Taoai Material" className="h-16 mb-2 object-contain transition-opacity group-hover:opacity-80" />
                 <h3 className="text-sm font-bold text-slate-900">{t.brandB}</h3>
-              </div>
+
+              </Link>
             </div>
             
             <p className="text-sm leading-relaxed mb-6">{t.desc}</p>
@@ -94,18 +109,50 @@ const Footer: React.FC = () => {
                 <Linkedin size={24} />
               </a>
               
-              {/* WeChat with Hover QR Code */}
-              <div className="relative group cursor-pointer text-slate-400 hover:text-sky-600 transition-colors">
+              {/* WeChat with Hover/Click QR Code */}
+              <div 
+                className="relative group cursor-pointer text-slate-400 hover:text-sky-600 transition-colors"
+                onMouseEnter={() => setShowQR(true)}
+                onMouseLeave={() => setShowQR(false)}
+                onClick={() => setShowQR(!showQR)}
+              >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-label="WeChat">
                   <path d="M8.696 14.93c-4.225 0-7.65-3.15-7.65-7.035 0-3.886 3.425-7.036 7.65-7.036 4.224 0 7.649 3.15 7.649 7.036 0 3.885-3.425 7.036-7.65 7.036zm10.917 2.07c0-.28-.023-.556-.066-.826.54-.83.86-1.805.86-2.847 0-3.09-2.76-5.595-6.165-5.595-3.404 0-6.164 2.505-6.164 5.595 0 3.09 2.76 5.596 6.164 5.596.72 0 1.41-.11 2.055-.31l2.355 1.245-.585-1.858z"/>
                 </svg>
                 
-                {/* QR Code Popup (悬停显示) */}
-                <div className="absolute bottom-full left-0 mb-3 hidden group-hover:block z-50">
-                  <div className="bg-white p-2 rounded-lg shadow-xl">
-                    <img src="/images/gzh.png" alt="WeChat QR" className="w-32 h-32 object-contain" />
-                    {/* 小三角箭头 */}
-                    <div className="absolute -bottom-1 left-2 w-3 h-3 bg-white rotate-45"></div>
+                {/* QR Code Popup (Optimized Size & Layout) */}
+                <div 
+                  className={`absolute bottom-full left-0 md:left-1/2 md:-translate-x-1/2 mb-4 z-50 transition-all duration-300 transform origin-bottom ${
+                    showQR ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2 pointer-events-none'
+                  }`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="bg-white p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 w-64 md:w-72 flex flex-col items-center">
+                    <button 
+                      className="absolute top-3 right-3 text-slate-300 hover:text-slate-500 md:hidden"
+                      onClick={() => setShowQR(false)}
+                    >
+                      <X size={18} />
+                    </button>
+                    
+                    <h5 className="text-slate-900 font-bold mb-4 text-sm tracking-tight">{t.qrTitle}</h5>
+                    
+                    {/* QR Code Container with proper padding (Quiet Zone) */}
+                    <div className="bg-white p-2 rounded-xl border border-slate-50 shadow-inner">
+                      <img 
+                        src="/images/gzh.png" 
+                        alt="WeChat QR" 
+                        className="w-48 h-48 md:w-52 md:h-52 object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    
+                    <p className="mt-4 text-[11px] text-slate-400 font-medium leading-relaxed uppercase tracking-wider">
+                      {t.qrDesc}
+                    </p>
+                    
+                    {/* Decorative Triangle Arrow */}
+                    <div className="absolute -bottom-2 left-4 md:left-1/2 md:-translate-x-1/2 w-4 h-4 bg-white border-b border-r border-slate-100 rotate-45"></div>
                   </div>
                 </div>
               </div>
@@ -135,20 +182,25 @@ const Footer: React.FC = () => {
           {/* Contact Info */}
           <div>
             <h4 className="text-slate-900 font-bold mb-6">{t.contact}</h4>
-            <ul className="space-y-4 text-sm">
+
+            <address className="not-italic space-y-4 text-sm">
               <li className="flex items-start gap-3 justify-center md:justify-start">
                 <MapPin size={18} className="mt-0.5 shrink-0 text-sky-500" />
-                <span>{t.address}</span>
+
+                <span itemprop="address">{t.address}</span>
               </li>
               <li className="flex items-center gap-3 justify-center md:justify-start">
                 <Mail size={18} className="shrink-0 text-sky-500" />
-                <a href="mailto:Topslife@tops-life.com" className="hover:text-sky-600 transition-colors">Topslife@tops-life.com</a>
+
+                <a href="mailto:Topslife@tops-life.com" className="hover:text-sky-600 transition-colors" itemprop="email">Topslife@tops-life.com</a>
               </li>
               <li className="flex items-center gap-3 justify-center md:justify-start">
                 <Phone size={18} className="shrink-0 text-sky-500" />
-                <span>+86 0512-66185798</span>
+
+                <a href="tel:+86051266185798" className="hover:text-sky-600 transition-colors font-mono" itemprop="telephone">+86 0512-66185798</a>
               </li>
-            </ul>
+
+            </address>
           </div>
         </div>
 
@@ -169,3 +221,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
