@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Mail, Phone, MapPin, X } from 'lucide-react';
@@ -9,7 +8,6 @@ const Footer: React.FC = () => {
   const language = i18n.language as 'zh' | 'en';
   const [showQR, setShowQR] = useState(false);
   
-
   const t = useMemo(() => ({
     zh: {
       about: "关于我们",
@@ -63,12 +61,10 @@ const Footer: React.FC = () => {
         { name: "Contact Us", link: `/contact` }
       ]
     }
-
-
   })[language], [language]);
-  return (
 
-    <footer className="bg-white text-slate-600 py-12 border-t border-slate-100 font-sans" itemscope itemtype="https://schema.org/WPFooter">
+  return (
+    <footer className="bg-white text-slate-600 py-12 border-t border-slate-100 font-sans" {...({ itemScope: true, itemType: "https://schema.org/WPFooter" } as any)}>
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
           {/* Brand & Logo */}
@@ -76,24 +72,18 @@ const Footer: React.FC = () => {
             {/* Dual Brand Area (双品牌展示区) */}
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 mb-6">
               {/* Brand A: Tops Life */}
-
-
-              <Link to="/" className="flex flex-col items-center md:items-start group">
-                <img src="/images/yongai.jpg" alt="Tops Life" className="h-16 mb-2 object-contain transition-opacity group-hover:opacity-80" />
+              <Link to="/" className="flex flex-col items-center md:items-start group transition-opacity hover:opacity-80">
+                <img src="/images/yongai.jpg" alt="Tops Life" className="h-16 mb-2 object-contain" />
                 <h3 className="text-sm font-bold text-slate-900">{t.companyName}</h3>
-
               </Link>
 
               {/* Divider (仅在桌面端显示) */}
               <div className="hidden md:block h-10 w-px bg-slate-200"></div>
 
               {/* Brand B: Taoai */}
-
-
-              <Link to="/" className="flex flex-col items-center md:items-start group">
-                <img src="/images/taoai.png" alt="Taoai Material" className="h-16 mb-2 object-contain transition-opacity group-hover:opacity-80" />
+              <Link to="/" className="flex flex-col items-center md:items-start group transition-opacity hover:opacity-80">
+                <img src="/images/taoai.png" alt="Taoai Material" className="h-16 mb-2 object-contain" />
                 <h3 className="text-sm font-bold text-slate-900">{t.brandB}</h3>
-
               </Link>
             </div>
             
@@ -182,25 +172,20 @@ const Footer: React.FC = () => {
           {/* Contact Info */}
           <div>
             <h4 className="text-slate-900 font-bold mb-6">{t.contact}</h4>
-
-            <address className="not-italic space-y-4 text-sm">
+            <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3 justify-center md:justify-start">
                 <MapPin size={18} className="mt-0.5 shrink-0 text-sky-500" />
-
-                <span itemprop="address">{t.address}</span>
+                <span {...({ itemProp: "address" } as any)}>{t.address}</span>
               </li>
               <li className="flex items-center gap-3 justify-center md:justify-start">
                 <Mail size={18} className="shrink-0 text-sky-500" />
-
-                <a href="mailto:Topslife@tops-life.com" className="hover:text-sky-600 transition-colors" itemprop="email">Topslife@tops-life.com</a>
+                <a href="mailto:Topslife@tops-life.com" className="hover:text-sky-600 transition-colors" {...({ itemProp: "email" } as any)}>Topslife@tops-life.com</a>
               </li>
               <li className="flex items-center gap-3 justify-center md:justify-start">
                 <Phone size={18} className="shrink-0 text-sky-500" />
-
-                <a href="tel:+86051266185798" className="hover:text-sky-600 transition-colors font-mono" itemprop="telephone">+86 0512-66185798</a>
+                <a href="tel:+86051266185798" className="hover:text-sky-600 transition-colors font-mono" {...({ itemProp: "telephone" } as any)}>+86 0512-66185798</a>
               </li>
-
-            </address>
+            </ul>
           </div>
         </div>
 
