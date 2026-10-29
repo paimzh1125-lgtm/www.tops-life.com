@@ -20,11 +20,27 @@ export interface NewsEntry {
   zh: NewsContent;
   en: NewsContent;
   image: string;
+  /** Optional English hero image; falls back to `image` when omitted */
+  imageEn?: string;
   author: string;
 }
 
 // --- 新闻列表数据 (用于列表页展示) ---
 export const ALL_NEWS = [
+  {
+    id: 4,
+    slug: "pe-tubular-film-2026",
+    year: "2026",
+    dateLabel_zh: "10月",
+    dateLabel_en: "Oct",
+    tag_zh: "产品发布",
+    tag_en: "Product Launch",
+    title_zh: "15mm 超窄 PE 筒膜：专攻微导管导丝内包装痛点",
+    title_en: "15mm Precision PE Tubular Film for Microcatheter & Guidewire Packaging",
+    desc_zh: "针对细长器械包装偏大、规格难匹配的痛点，提供最小 15mm 超窄幅 PE 筒膜；厚度可达 50μm，洁净室生产，宽度 / 厚度 / 材料可定制，小批量亦可协商。",
+    desc_en: "Addressing oversized fit and hard-to-match specs for slender devices — ultra-narrow PE tubular film from 15mm, as thin as 50μm, cleanroom-produced, with flexible customization on width, thickness, materials, and small-batch MOQ.",
+    category: "Products"
+  },
   { 
     id: 1,
     slug: "ecovadis-silver-2025",
@@ -71,6 +87,105 @@ export const ALL_NEWS = [
 
 // --- 新闻数据源 ---
 export const NEWS_DATABASE: Record<string, NewsEntry> = {
+  "pe-tubular-film-2026": {
+    image: "/images/pe-tubular-film-zh.jpg",
+    imageEn: "/images/pe-tubular-film-en.png",
+    author: "TopsLife Product Marketing",
+    zh: {
+      title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
+      date: "2026-10-29",
+      category: "产品发布",
+      readTime: "3 分钟阅读",
+      metaTitle: "TopsLife 15mm 超窄 PE 筒膜 | 导管导丝内包装",
+      metaDesc: "TopsLife 推出最小宽度 15mm 的超窄 PE 筒膜，厚度可达 50μm，洁净室生产，解决微导管等细长器械包装偏大、规格难匹配的痛点，支持宽度/厚度/材料定制与小批量协商。",
+      lead: "在微导管、导丝等细长器械的洁净包装中，包装尺寸偏大、规格难以匹配，是客户常见的痛点。TopsLife 正式推出最小宽度 15mm 的超窄 PE 筒膜，以「洁净 · 无菌 · 可靠」为核心，为导管与导丝内包装提供更贴合的窄幅方案。",
+      sections: [
+        {
+          heading: "行业痛点",
+          content: "细长介入器械对外径贴合度要求高。若内包装筒膜过宽，不仅影响穿套效率与外观整洁度，也容易造成材料浪费；而市场上窄幅规格供给有限，客户往往难以找到与器械匹配的标准品。"
+        },
+        {
+          heading: "产品亮点",
+          content: "围绕上述痛点，TopsLife 超窄 PE 筒膜在宽度、厚度与交付灵活性上形成差异化能力：",
+          list: [
+            "超窄幅宽度：最小 15mm，具备明确的市场差异化优势",
+            "轻薄柔韧：膜厚可达 50μm，贴合更紧密、手感更柔软",
+            "洁净室生产：适用于导管、导丝及介入类器械的无菌包装场景",
+            "灵活定制：宽度、厚度、材料可按需定制，支持小批量，MOQ 可协商，交期可控"
+          ]
+        },
+        {
+          heading: "规格参考",
+          content: "常规宽度规格如下（厚度可根据需求另行沟通）：",
+          list: [
+            "宽度 15mm｜公差 ±1mm｜任意点允差 10%",
+            "宽度 20mm｜公差 ±1mm｜任意点允差 10%",
+            "宽度 30mm｜公差 ±1mm｜任意点允差 10%"
+          ]
+        },
+        {
+          heading: "质量与合规",
+          content: "生产与体系保障对标医疗器械供应链要求：",
+          list: [
+            "Class 7 洁净室生产",
+            "ISO 9001 已认证",
+            "ISO 13485 已认证"
+          ]
+        },
+        {
+          heading: "现在就改变包装选择",
+          content: "若您正在寻找更窄、更贴合的导管导丝内包装方案，欢迎联系我们索取样品或讨论定制规格。让包装尺寸真正匹配器械本身——这正是更好包装的开始。"
+        }
+      ]
+    },
+    en: {
+      title: "Clean · Sterile Flexible Packaging: 15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
+      date: "Oct 29, 2026",
+      category: "Product Launch",
+      readTime: "3 min read",
+      metaTitle: "TopsLife 15mm Precision PE Tubular Film | Catheter & Guidewire Packaging",
+      metaDesc: "TopsLife offers ultra-narrow PE tubular film from 15mm and as thin as 50μm, produced in cleanrooms to solve oversized packaging and hard-to-match specs for microcatheters and guidewires — with flexible customization and negotiable MOQ.",
+      lead: "Oversized packaging dimensions and difficulty matching specifications are common pain points in the clean packaging of slender devices such as microcatheters. TopsLife introduces Precision PE Tubular Film with a minimum width of 15mm — Clean, Sterile, and Reliable — for catheter and guidewire inner packaging.",
+      sections: [
+        {
+          heading: "The Challenge",
+          content: "Slender interventional devices demand a close fit. When the tubular film is too wide, sleeving efficiency and appearance suffer, and material waste rises. Narrow-width options remain limited in the market, leaving many customers without a standard size that truly matches the device."
+        },
+        {
+          heading: "Key Advantages",
+          content: "TopsLife Precision PE Tubular Film is built around these pain points, with differentiated capability in width, thickness, and delivery flexibility:",
+          list: [
+            "Ultra-narrow width: 15mm minimum — a clear differentiated market advantage",
+            "Thin & flexible: 50μm film for a slim, close fit",
+            "Cleanroom production: for sterile packaging of catheters, guidewires, and interventional devices",
+            "Flexible customization: custom widths, thicknesses, and materials; small-batch orders welcome; MOQ negotiable; delivery time controllable"
+          ]
+        },
+        {
+          heading: "Specification Reference",
+          content: "Standard width options are listed below (specific thickness can be discussed):",
+          list: [
+            "Width 15mm | Tolerance ±1mm | Width allowance 10% at any point",
+            "Width 20mm | Tolerance ±1mm | Width allowance 10% at any point",
+            "Width 30mm | Tolerance ±1mm | Width allowance 10% at any point"
+          ]
+        },
+        {
+          heading: "Quality & Compliance",
+          content: "Manufacturing and quality systems align with medical device supply-chain expectations:",
+          list: [
+            "Class 7 cleanroom manufacturing",
+            "ISO 9001 certified",
+            "ISO 13485 certified"
+          ]
+        },
+        {
+          heading: "Time to Make a Change",
+          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a customized specification. It’s time to make a change for better packaging."
+        }
+      ]
+    }
+  },
   "ecovadis-silver-2025": {
     image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=2000", // Green/Leaf concept
     author: "TopsLife Corporate",
