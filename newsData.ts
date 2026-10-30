@@ -95,8 +95,8 @@ export const ALL_NEWS = [
 // --- 新闻数据源 ---
 export const NEWS_DATABASE: Record<string, NewsEntry> = {
   "pe-tubular-film-2026": {
-    image: "/images/pe-tubular-film-zh.jpg",
-    imageEn: "/images/pe-tubular-film-en.png",
+    image: "/images/PE-film-zh.jpg",
+    imageEn: "/images/PE-film-en.png",
     author: "TopsLife Product Marketing",
     zh: {
       title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
@@ -121,8 +121,8 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
             "灵活定制：宽度、厚度、材料可按需定制，支持小批量，MOQ 可协商，交期可控"
           ],
           image: {
-            zh: "/images/PE-film-zh/PE-film-1.jpg",
-            en: "/images/PE-film-en/PE-film-en.png",
+            zh: "/images/PE-film-zh.jpg",
+            en: "/images/PE-film-en.png",
             altZh: "15mm 超窄 PE 筒膜产品外观与结构",
             altEn: "15mm Precision PE Tubular Film Product Appearance"
           }
