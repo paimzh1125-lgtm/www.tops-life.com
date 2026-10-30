@@ -1,252 +1,369 @@
- --- 类型定义 ---
+// --- 类型定义 ---
 export interface NewsSection {
-  heading string;
-  content string;
-  list string[];
+  heading?: string;
+  content: string;
+  list?: string[];
+  /** Optional inline images for this section (used only when configured by the article). */
+  images?: string[];
 }
 
 export interface NewsContent {
-  title string;
-  date string;
-  category string;
-  readTime string;
-  lead string;
-  sections NewsSection[];
-  metaTitle string;
-  metaDesc string;
+  title: string;
+  date: string;
+  category: string;
+  readTime: string;
+  lead: string;
+  sections: NewsSection[];
+  metaTitle: string;
+  metaDesc: string;
 }
 
 export interface NewsEntry {
-  zh NewsContent;
-  en NewsContent;
-  image string;
-  author string;
+  zh: NewsContent;
+  en: NewsContent;
+  image: string;
+  /** Optional English hero image; falls back to `image` when omitted */
+  imageEn?: string;
+  author: string;
 }
 
- --- 新闻列表数据 (用于列表页展示) ---
+// --- 新闻列表数据 (用于列表页展示) ---
 export const ALL_NEWS = [
-  { 
-    id 1,
-    slug ecovadis-silver-2025,
-    year 2025, 
-    dateLabel_zh 01月, 
-    dateLabel_en Jan,
-    tag_zh 可持续发展, 
-    tag_en Sustainability,
-    title_zh 荣获法国 EcoVadis 可持续发展银牌认证, 
-    title_en Achieved EcoVadis Sustainability Silver Rating,
-    desc_zh 永爱在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。,
-    desc_en Recognized internationally for excellence in Environment, Labor & Human Rights, Ethics, and Sustainable Procurement. A solid step forward in our CSR journey.,
-    category Corporate
+  {
+    id: 4,
+    slug: "pe-tubular-film-2026",
+    year: "2026",
+    dateLabel_zh: "10月",
+    dateLabel_en: "Oct",
+    tag_zh: "产品发布",
+    tag_en: "Product Launch",
+    title_zh: "15mm 超窄 PE 筒膜：专攻微导管导丝内包装痛点",
+    title_en: "15mm Precision PE Tubular Film for Microcatheter & Guidewire Packaging",
+    desc_zh: "针对细长器械包装偏大、规格难匹配的痛点，提供最小 15mm 超窄幅 PE 筒膜；厚度可达 50μm，洁净室生产，宽度 / 厚度 / 材料可定制，小批量亦可协商。",
+    desc_en: "Addressing oversized fit and hard-to-match specs for slender devices — ultra-narrow PE tubular film from 15mm, as thin as 50μm, cleanroom-produced, with flexible customization on width, thickness, materials, and small-batch MOQ.",
+    category: "Products"
   },
   { 
-    id 2,
-    slug 3-layer-sterile-bag,
-    year 2024, 
-    dateLabel_zh 年度创新, 
-    dateLabel_en Innovation,
-    tag_zh 产品研发, 
-    tag_en R&D,
-    title_zh 成功开发三层易揭自封袋, 
-    title_en Developed 3-Layer Easy-Peel Self-Sealing Bag,
-    desc_zh 针对细胞培养瓶开包后的存放痛点，我们研发出创新的三层结构易揭自封袋。该产品有效解决了二次污染问题，极大提升了实验室无菌操作的便利性与安全性。,
-    desc_en Innovatively solved storage and contamination issues for cell culture flasks. This product significantly improves safety and convenience in sterile labs.,
-    category Products
+    id: 1,
+    slug: "ecovadis-silver-2025",
+    year: "2025", 
+    dateLabel_zh: "01月", 
+    dateLabel_en: "Jan",
+    tag_zh: "可持续发展", 
+    tag_en: "Sustainability",
+    title_zh: "荣获法国 EcoVadis 可持续发展银牌认证", 
+    title_en: "Achieved EcoVadis Sustainability Silver Rating",
+    desc_zh: "永爱在环境、劳工与人权、商业道德及可持续采购等方面的卓越表现获得国际认可，标志着我们在企业社会责任（CSR）领域迈出了坚实一步。",
+    desc_en: "Recognized internationally for excellence in Environment, Labor & Human Rights, Ethics, and Sustainable Procurement. A solid step forward in our CSR journey.",
+    category: "Corporate"
   },
   { 
-    id 3,
-    slug cleanroom-expansion,
-    year 2023, 
-    dateLabel_zh 年度基建, 
-    dateLabel_en Expansion,
-    tag_zh 产能升级, 
-    tag_en Upgrade,
-    title_zh 升级扩建 ISO Class 7 洁净室, 
-    title_en Upgraded to ISO Class 7 Cleanroom,
-    desc_zh 完成万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。,
-    desc_en Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.,
-    category Corporate
+    id: 2,
+    slug: "3-layer-sterile-bag",
+    year: "2024", 
+    dateLabel_zh: "年度创新", 
+    dateLabel_en: "Innovation",
+    tag_zh: "产品研发", 
+    tag_en: "R&D",
+    title_zh: "成功开发三层易揭自封袋", 
+    title_en: "Developed 3-Layer Easy-Peel Self-Sealing Bag",
+    desc_zh: "针对细胞培养瓶开包后的存放痛点，我们研发出创新的三层结构易揭自封袋。该产品有效解决了二次污染问题，极大提升了实验室无菌操作的便利性与安全性。",
+    desc_en: "Innovatively solved storage and contamination issues for cell culture flasks. This product significantly improves safety and convenience in sterile labs.",
+    category: "Products"
+  },
+  { 
+    id: 3,
+    slug: "cleanroom-expansion",
+    year: "2023", 
+    dateLabel_zh: "年度基建", 
+    dateLabel_en: "Expansion",
+    tag_zh: "产能升级", 
+    tag_en: "Upgrade",
+    title_zh: "升级扩建 ISO Class 7 洁净室", 
+    title_en: "Upgraded to ISO Class 7 Cleanroom",
+    desc_zh: "完成万级（ISO Class 7）洁净车间的全面升级与扩建。此次升级引入了更先进的空气净化系统与环境监控设备，为高端医疗器械生产提供了更严苛的洁净环境保障。",
+    desc_en: "Completed the expansion of our ISO Class 7 cleanroom. Introduced advanced air purification systems to ensure the strictest production environment.",
+    category: "Corporate"
   }
 ];
 
- --- 新闻数据源 ---
-export const NEWS_DATABASE Recordstring, NewsEntry = {
-  ecovadis-silver-2025 {
-    image httpsimages.unsplash.comphoto-1542601906990-b4d3fb7d5b1eauto=format&fit=crop&q=80&w=2000,  GreenLeaf concept
-    author TopsLife Corporate,
-    zh {
-      title 迈向绿色未来：TopsLife 荣获 2025 EcoVadis 可持续发展银牌认证,
-      date 2025-01-15,
-      category 企业荣誉,
-      readTime 3 分钟阅读,
-      metaTitle TopsLife 荣获 EcoVadis 银牌认证  可持续发展新闻,
-      metaDesc TopsLife 在环境、劳工与人权、商业道德及可持续采购方面表现卓越，荣获 2025 EcoVadis 银牌认证，位列全球参评企业前 15%。,
-      lead 近日，苏州永爱生命科技有限公司（TopsLife）在国际权威企业社会责任（CSR）评估机构 EcoVadis 的年度评审中，凭借在环境管理、劳工与人权、商业道德及可持续采购四大维度的杰出表现，成功斩获“银牌”认证。,
-      sections [
+// --- 新闻数据源 ---
+export const NEWS_DATABASE: Record<string, NewsEntry> = {
+  "pe-tubular-film-2026": {
+    image: "/images/PE-film-zh.jpg",
+    imageEn: "/images/PE-film-en.png",
+    author: "TopsLife Product Marketing",
+    zh: {
+      title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
+      date: "2026-10-29",
+      category: "产品发布",
+      readTime: "3 分钟阅读",
+      metaTitle: "TopsLife 15mm 超窄 PE 筒膜 | 导管导丝内包装",
+      metaDesc: "TopsLife 推出最小宽度 15mm 的超窄 PE 筒膜，厚度可达 50μm，洁净室生产，解决微导管等细长器械包装偏大、规格难匹配的痛点，支持宽度/厚度/材料定制与小批量协商。",
+      lead: "在微导管、导丝等细长器械的洁净包装中，包装尺寸偏大、规格难以匹配，是客户常见的痛点。TopsLife 正式推出最小宽度 15mm 的超窄 PE 筒膜，以「洁净 · 无菌 · 可靠」为核心，为导管与导丝内包装提供更贴合的窄幅方案。",
+      sections: [
         {
-          heading 背景与挑战,
-          content 在全球医疗供应链中，可持续发展已不再是可选项，而是衡量企业长期竞争力的核心指标。随着 ESG 标准的日益严格，全球顶尖的制药公司与医疗器械巨头对供应商的考核已从单纯的“质量与成本”延伸至“社会责任与碳足迹”。如何在保持高标准洁净制造的同时，降低能源消耗并保障员工福祉，是我们面临的重要课题。
+          heading: "行业痛点",
+          content: "细长介入器械对外径贴合度要求高。若内包装筒膜过宽，不仅影响穿套效率与外观整洁度，也容易造成材料浪费；而市场上窄幅规格供给有限，客户往往难以找到与器械匹配的标准品。"
         },
         {
-          heading 行动与表现,
-          content TopsLife 成立了专门的可持续发展委员会，制定了明确的“绿色制造 2030”路线图。在本次 EcoVadis 评估中，我们采取了多项关键举措：,
-          list [
-            环境维度：全面升级生产线废气处理系统，引入光伏发电辅助供能，显著降低了单位产品的碳排放。,
-            劳工与人权：完善了员工健康安全管理体系（ISO 45001 对标），确保每一位员工在安全、尊重的环境中工作。,
-            可持续采购：建立了严格的供应商准入机制，优先选择具备环保认证的原材料供应商（如 FSC 认证纸张、生物基树脂）。
+          heading: "产品亮点",
+          content: "围绕上述痛点，TopsLife 超窄 PE 筒膜在宽度、厚度与交付灵活性上形成差异化能力：",
+          list: [
+            "超窄幅宽度：最小 15mm，具备明确的市场差异化优势",
+            "轻薄柔韧：膜厚可达 50μm，贴合更紧密、手感更柔软",
+            "洁净室生产：适用于导管、导丝及介入类器械的无菌包装场景",
+            "灵活定制：宽度、厚度、材料可按需定制，支持小批量，MOQ 可协商，交期可控"
           ]
         },
         {
-          heading 未来展望,
-          content 获得 EcoVadis 银牌认证不仅是一份荣誉，更是一份责任。TopsLife 总经理表示：“这只是我们可持续发展旅程的起点。未来，我们将继续加大在生物基材料研发（如大豆蛋白聚合物）上的投入，致力于为客户提供‘零碳’医疗包装解决方案。”
+          heading: "规格参考",
+          content: "常规宽度规格如下（厚度可根据需求另行沟通）：",
+          list: [
+            "宽度 15mm｜公差 ±1mm｜任意点允差 10%",
+            "宽度 20mm｜公差 ±1mm｜任意点允差 10%",
+            "宽度 30mm｜公差 ±1mm｜任意点允差 10%"
+          ]
+        },
+        {
+          heading: "质量与合规",
+          content: "生产与体系保障对标医疗器械供应链要求：",
+          list: [
+            "Class 7 洁净室生产",
+            "ISO 9001 已认证",
+            "ISO 13485 已认证"
+          ]
+        },
+        {
+          heading: "现在就改变包装选择",
+          content: "若您正在寻找更窄、更贴合的导管导丝内包装方案，欢迎联系我们索取样品或讨论定制规格。让包装尺寸真正匹配器械本身——这正是更好包装的开始。"
         }
       ]
     },
-    en {
-      title Towards a Green Future TopsLife Awarded 2025 EcoVadis Silver Medal,
-      date Jan 15, 2025,
-      category Corporate Honor,
-      readTime 3 min read,
-      metaTitle TopsLife Awarded EcoVadis Silver Medal  Sustainability News,
-      metaDesc TopsLife awarded the 2025 EcoVadis Silver Medal for Sustainability, ranking in the top 15% globally. Highlighting excellence in Environment, Labor & Ethics.,
-      lead Suzhou Tops Life Technology (TopsLife) has been awarded the prestigious Silver Medal by EcoVadis, the world’s most trusted provider of business sustainability ratings. This recognition places TopsLife in the top 15% of companies assessed globally.,
-      sections [
+    en: {
+      title: "Clean · Sterile Flexible Packaging: 15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
+      date: "Oct 29, 2026",
+      category: "Product Launch",
+      readTime: "3 min read",
+      metaTitle: "TopsLife 15mm Precision PE Tubular Film | Catheter & Guidewire Packaging",
+      metaDesc: "TopsLife offers ultra-narrow PE tubular film from 15mm and as thin as 50μm, produced in cleanrooms to solve oversized packaging and hard-to-match specs for microcatheters and guidewires — with flexible customization and negotiable MOQ.",
+      lead: "Oversized packaging dimensions and difficulty matching specifications are common pain points in the clean packaging of slender devices such as microcatheters. TopsLife introduces Precision PE Tubular Film with a minimum width of 15mm — Clean, Sterile, and Reliable — for catheter and guidewire inner packaging.",
+      sections: [
         {
-          heading Background & Challenge,
-          content In the global medical supply chain, sustainability is no longer optional but a core metric of long-term competitiveness. With increasingly stringent ESG standards, top pharmaceutical and medical device companies are expanding their supplier assessments beyond 'Quality and Cost' to include 'Social Responsibility and Carbon Footprint'.
+          heading: "The Challenge",
+          content: "Slender interventional devices demand a close fit. When the tubular film is too wide, sleeving efficiency and appearance suffer, and material waste rises. Narrow-width options remain limited in the market, leaving many customers without a standard size that truly matches the device."
         },
         {
-          heading Solution & Action,
-          content TopsLife established a dedicated Sustainability Committee and defined a clear 'Green Manufacturing 2030' roadmap. Key initiatives evaluated during this EcoVadis assessment include,
-          list [
-            Environment Upgraded exhaust treatment systems and introduced photovoltaic power generation.,
-            Labor & Human Rights Enhanced our Occupational Health and Safety management system (benchmarked against ISO 45001).,
-            Sustainable Procurement Implemented strict supplier admission criteria, prioritizing raw material suppliers with environmental certifications.
+          heading: "Key Advantages",
+          content: "TopsLife Precision PE Tubular Film is built around these pain points, with differentiated capability in width, thickness, and delivery flexibility:",
+          list: [
+            "Ultra-narrow width: 15mm minimum — a clear differentiated market advantage",
+            "Thin & flexible: 50μm film for a slim, close fit",
+            "Cleanroom production: for sterile packaging of catheters, guidewires, and interventional devices",
+            "Flexible customization: custom widths, thicknesses, and materials; small-batch orders welcome; MOQ negotiable; delivery time controllable"
           ]
         },
         {
-          heading Outlook,
-          content Receiving the EcoVadis Silver Medal is not just an honor, but a responsibility. We will increase investment in bio-based material R&D, aiming to provide 'Net-Zero' medical packaging solutions.
+          heading: "Specification Reference",
+          content: "Standard width options are listed below (specific thickness can be discussed):",
+          list: [
+            "Width 15mm | Tolerance ±1mm | Width allowance 10% at any point",
+            "Width 20mm | Tolerance ±1mm | Width allowance 10% at any point",
+            "Width 30mm | Tolerance ±1mm | Width allowance 10% at any point"
+          ]
+        },
+        {
+          heading: "Quality & Compliance",
+          content: "Manufacturing and quality systems align with medical device supply-chain expectations:",
+          list: [
+            "Class 7 cleanroom manufacturing",
+            "ISO 9001 certified",
+            "ISO 13485 certified"
+          ]
+        },
+        {
+          heading: "Time to Make a Change",
+          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a customized specification. It’s time to make a change for better packaging."
         }
       ]
     }
   },
-  3-layer-sterile-bag {
-    image httpsimages.unsplash.comphoto-1584308666744-24d5c474f2aeauto=format&fit=crop&q=80&w=2000,  MedicalPlastic
-    author R&D Department,
-    zh {
-      title 实验室无菌操作新标准：成功开发三层结构易揭自封袋,
-      date 2024-12-10,
-      category 产品研发,
-      readTime 4 分钟阅读,
-      metaTitle TopsLife 发布三层易揭自封袋  医疗包装创新,
-      metaDesc 针对细胞培养瓶开包后存放痛点，TopsLife 推出创新型三层结构易揭自封袋，解决二次污染问题，提升实验室无菌操作效率。,
-      lead 针对生命科学实验室中细胞培养耗材“开包难、存更难”的痛点，TopsLife 研发团队于近日成功推出创新型“三层结构易揭自封袋”。该产品通过独特的材料配方与结构设计，完美解决了细胞培养瓶在拆封后的二次存储与污染防护问题。,
-      sections [
+  "ecovadis-silver-2025": {
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=2000", // Green/Leaf concept
+    author: "TopsLife Corporate",
+    zh: {
+      title: "迈向绿色未来：TopsLife 荣获 2025 EcoVadis 可持续发展银牌认证",
+      date: "2025-01-15",
+      category: "企业荣誉",
+      readTime: "3 分钟阅读",
+      metaTitle: "TopsLife 荣获 EcoVadis 银牌认证 | 可持续发展新闻",
+      metaDesc: "TopsLife 在环境、劳工与人权、商业道德及可持续采购方面表现卓越，荣获 2025 EcoVadis 银牌认证，位列全球参评企业前 15%。",
+      lead: "近日，苏州永爱生命科技有限公司（TopsLife）在国际权威企业社会责任（CSR）评估机构 EcoVadis 的年度评审中，凭借在环境管理、劳工与人权、商业道德及可持续采购四大维度的杰出表现，成功斩获“银牌”认证。",
+      sections: [
         {
-          heading 痛点分析,
-          content 在细胞生物学研究中，培养瓶通常多只一组包装。一旦剪开传统包装袋，剩余的培养瓶便暴露在非无菌环境中，极易遭受微生物污染。此外，传统热封袋在佩戴手套操作时难以徒手撕开，常需借助剪刀，增加了引入污染源的风险。
+          heading: "背景与挑战",
+          content: "在全球医疗供应链中，可持续发展已不再是可选项，而是衡量企业长期竞争力的核心指标。随着 ESG 标准的日益严格，全球顶尖的制药公司与医疗器械巨头对供应商的考核已从单纯的“质量与成本”延伸至“社会责任与碳足迹”。如何在保持高标准洁净制造的同时，降低能源消耗并保障员工福祉，是我们面临的重要课题。"
         },
         {
-          heading 技术亮点,
-          content TopsLife 研发中心历时 6 个月，开发出这款专用的三层共挤易揭自封袋：,
-          list [
-            三层复合结构：外层 PET 提供高强度物理保护，中间层 ALNY 提供优异的阻隔性，内层 PE 确保洁净接触。,
-            Easy-Peel 易揭技术：采用特殊的密封胶配方，实验人员单手即可平滑剥离，无需剪刀，杜绝微粒产生。,
-            自封条设计 (Zipper)：袋口内置高密封性自封条，可立即重新密封包装，为剩余产品提供持续的洁净屏障。
+          heading: "行动与表现",
+          content: "TopsLife 成立了专门的可持续发展委员会，制定了明确的“绿色制造 2030”路线图。在本次 EcoVadis 评估中，我们采取了多项关键举措：",
+          list: [
+            "环境维度：全面升级生产线废气处理系统，引入光伏发电辅助供能，显著降低了单位产品的碳排放。",
+            "劳工与人权：完善了员工健康安全管理体系（ISO 45001 对标），确保每一位员工在安全、尊重的环境中工作。",
+            "可持续采购：建立了严格的供应商准入机制，优先选择具备环保认证的原材料供应商（如 FSC 认证纸张、生物基树脂）。"
           ]
         },
         {
-          heading 客户价值,
-          content 这款产品的推出，极大提升了实验室操作的便利性与安全性。对于高价值的干细胞培养或疫苗研发场景，它意味着更低的污染风险和更少的耗材浪费。
+          heading: "未来展望",
+          content: "获得 EcoVadis 银牌认证不仅是一份荣誉，更是一份责任。TopsLife 总经理表示：“这只是我们可持续发展旅程的起点。未来，我们将继续加大在生物基材料研发（如大豆蛋白聚合物）上的投入，致力于为客户提供‘零碳’医疗包装解决方案。”"
         }
       ]
     },
-    en {
-      title New Standard in Sterile Lab Operations 3-Layer Easy-Peel Self-Sealing Bag,
-      date Dec 10, 2024,
-      category Product R&D,
-      readTime 4 min read,
-      metaTitle TopsLife Launches 3-Layer Easy-Peel Sterile Bag  Innovation,
-      metaDesc Solving the pain point of secondary storage for cell culture flasks. TopsLife introduces the innovative 3-layer easy-peel self-sealing bag to prevent contamination.,
-      lead Addressing the critical pain points of 'difficult opening and unsafe storage' for cell culture consumables, TopsLife's R&D team has successfully launched the innovative '3-Layer Easy-Peel Self-Sealing Bag'.,
-      sections [
+    en: {
+      title: "Towards a Green Future: TopsLife Awarded 2025 EcoVadis Silver Medal",
+      date: "Jan 15, 2025",
+      category: "Corporate Honor",
+      readTime: "3 min read",
+      metaTitle: "TopsLife Awarded EcoVadis Silver Medal | Sustainability News",
+      metaDesc: "TopsLife awarded the 2025 EcoVadis Silver Medal for Sustainability, ranking in the top 15% globally. Highlighting excellence in Environment, Labor & Ethics.",
+      lead: "Suzhou Tops Life Technology (TopsLife) has been awarded the prestigious Silver Medal by EcoVadis, the world’s most trusted provider of business sustainability ratings. This recognition places TopsLife in the top 15% of companies assessed globally.",
+      sections: [
         {
-          heading Pain Point Analysis,
-          content Once traditional bags are cut open, remaining flasks are exposed to non-sterile environments. Furthermore, traditional heat-sealed bags are difficult to open manually while wearing gloves, often requiring scissors which introduce contamination.
+          heading: "Background & Challenge",
+          content: "In the global medical supply chain, sustainability is no longer optional but a core metric of long-term competitiveness. With increasingly stringent ESG standards, top pharmaceutical and medical device companies are expanding their supplier assessments beyond 'Quality and Cost' to include 'Social Responsibility and Carbon Footprint'."
         },
         {
-          heading Technical Highlights,
-          content After 6 months of development, TopsLife introduced this specialized 3-layer co-extruded bag,
-          list [
-            3-Layer Composite PET for strength, ALNY for barrier, PE for clean contact.,
-            Easy-Peel Technology Special sealant formulation allows smooth peeling with one hand, eliminating scissors and particles.,
-            Integrated Zipper Features a high-seal zipper to immediately reseal the package, providing a continuous barrier.
+          heading: "Solution & Action",
+          content: "TopsLife established a dedicated Sustainability Committee and defined a clear 'Green Manufacturing 2030' roadmap. Key initiatives evaluated during this EcoVadis assessment include:",
+          list: [
+            "Environment: Upgraded exhaust treatment systems and introduced photovoltaic power generation.",
+            "Labor & Human Rights: Enhanced our Occupational Health and Safety management system (benchmarked against ISO 45001).",
+            "Sustainable Procurement: Implemented strict supplier admission criteria, prioritizing raw material suppliers with environmental certifications."
           ]
         },
         {
-          heading Customer Value,
-          content This product significantly enhances the convenience and safety of laboratory operations. For high-value scenarios like stem cell culture, it translates to lower contamination risks.
+          heading: "Outlook",
+          content: "Receiving the EcoVadis Silver Medal is not just an honor, but a responsibility. We will increase investment in bio-based material R&D, aiming to provide 'Net-Zero' medical packaging solutions."
         }
       ]
     }
   },
-  cleanroom-expansion {
-    image httpsimages.unsplash.comphoto-1581093458791-9f3c3900df4bauto=format&fit=crop&q=80&w=2000,  CleanroomLab
-    author Operations Team,
-    zh {
-      title 产能与品质双重飞跃：完成 ISO Class 7 洁净车间升级扩建,
-      date 2023-11-20,
-      category 产能升级,
-      readTime 3 分钟阅读,
-      metaTitle TopsLife 完成万级洁净车间扩建  产能升级,
-      metaDesc TopsLife 宣布完成 ISO Class 7 (万级) 洁净车间升级。引入智能化环境监控系统，大幅提升高端医疗器械与无菌包装的生产产能。,
-      lead 为满足全球市场对高端医疗器械及无菌包装日益增长的需求，TopsLife 宣布已于 2023 年底全面完成 ISO Class 7（万级）洁净车间的升级与扩建工程。此次升级不仅使洁净生产面积增加了 50%，更引入了智能化环境监控系统。,
-      sections [
+  "3-layer-sterile-bag": {
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=2000", // Medical/Plastic
+    author: "R&D Department",
+    zh: {
+      title: "实验室无菌操作新标准：成功开发三层结构易揭自封袋",
+      date: "2024-12-10",
+      category: "产品研发",
+      readTime: "4 分钟阅读",
+      metaTitle: "TopsLife 发布三层易揭自封袋 | 医疗包装创新",
+      metaDesc: "针对细胞培养瓶开包后存放痛点，TopsLife 推出创新型三层结构易揭自封袋，解决二次污染问题，提升实验室无菌操作效率。",
+      lead: "针对生命科学实验室中细胞培养耗材“开包难、存更难”的痛点，TopsLife 研发团队于近日成功推出创新型“三层结构易揭自封袋”。该产品通过独特的材料配方与结构设计，完美解决了细胞培养瓶在拆封后的二次存储与污染防护问题。",
+      sections: [
         {
-          heading 升级背景,
-          content 随着 TopsLife 在微流控芯片及高端医用薄膜业务上的快速增长，原有的生产产能已趋于饱和。同时，国际客户对医疗器械生产环境的微粒控制提出了更为严苛的要求。
+          heading: "痛点分析",
+          content: "在细胞生物学研究中，培养瓶通常多只一组包装。一旦剪开传统包装袋，剩余的培养瓶便暴露在非无菌环境中，极易遭受微生物污染。此外，传统热封袋在佩戴手套操作时难以徒手撕开，常需借助剪刀，增加了引入污染源的风险。"
         },
         {
-          heading 技术细节,
-          content 本次扩建工程严格遵循 ISO 9001 标准进行设计与施工：,
-          list [
-            HVAC 系统升级：引入了全新的独立空气净化循环系统，换气次数提升至 ≥25 次小时。,
-            智能化环境监控：安装了 24 小时在线粒子计数器与温湿度监控探头，数据实时上传至中央控制系统 (SCADA)。,
-            人流物流分流：重新规划了更科学的人员更衣通道与物料传递窗，最大限度减少交叉污染风险。
+          heading: "技术亮点",
+          content: "TopsLife 研发中心历时 6 个月，开发出这款专用的三层共挤易揭自封袋：",
+          list: [
+            "三层复合结构：外层 PET 提供高强度物理保护，中间层 AL/NY 提供优异的阻隔性，内层 PE 确保洁净接触。",
+            "Easy-Peel 易揭技术：采用特殊的密封胶配方，实验人员单手即可平滑剥离，无需剪刀，杜绝微粒产生。",
+            "自封条设计 (Zipper)：袋口内置高密封性自封条，可立即重新密封包装，为剩余产品提供持续的洁净屏障。"
           ]
         },
         {
-          heading 未来展望,
-          content 全新的洁净车间已通过第三方权威机构检测并投入使用。这标志着 TopsLife 的制造硬件水平已达到国际一流水准，我们将以此为契机，承接更多高标准的 CDMO 订单。
+          heading: "客户价值",
+          content: "这款产品的推出，极大提升了实验室操作的便利性与安全性。对于高价值的干细胞培养或疫苗研发场景，它意味着更低的污染风险和更少的耗材浪费。"
         }
       ]
     },
-    en {
-      title Capacity & Quality Leap ISO Class 7 Cleanroom Expansion Completed,
-      date Nov 20, 2023,
-      category Capacity Upgrade,
-      readTime 3 min read,
-      metaTitle TopsLife Completes ISO Class 7 Cleanroom Expansion,
-      metaDesc TopsLife announces the completion of its ISO Class 7 cleanroom upgrade. Enhanced HVAC and monitoring systems ensure superior quality for medical manufacturing.,
-      lead To meet the growing global demand for high-end medical devices, TopsLife announced the completion of its ISO Class 7 cleanroom upgrade. This project increased clean production area by 50% and introduced intelligent environmental monitoring systems.,
-      sections [
+    en: {
+      title: "New Standard in Sterile Lab Operations: 3-Layer Easy-Peel Self-Sealing Bag",
+      date: "Dec 10, 2024",
+      category: "Product R&D",
+      readTime: "4 min read",
+      metaTitle: "TopsLife Launches 3-Layer Easy-Peel Sterile Bag | Innovation",
+      metaDesc: "Solving the pain point of secondary storage for cell culture flasks. TopsLife introduces the innovative 3-layer easy-peel self-sealing bag to prevent contamination.",
+      lead: "Addressing the critical pain points of 'difficult opening and unsafe storage' for cell culture consumables, TopsLife's R&D team has successfully launched the innovative '3-Layer Easy-Peel Self-Sealing Bag'.",
+      sections: [
         {
-          heading Background,
-          content With rapid growth in microfluidic chips and medical films, existing capacity was approaching saturation. International clients have also imposed stricter requirements on particle control.
+          heading: "Pain Point Analysis",
+          content: "Once traditional bags are cut open, remaining flasks are exposed to non-sterile environments. Furthermore, traditional heat-sealed bags are difficult to open manually while wearing gloves, often requiring scissors which introduce contamination."
         },
         {
-          heading Technical Details,
-          content The expansion followed strict ISO 14644-1 standards,
-          list [
-            HVAC Upgrade New air purification system increasing air change rates to ≥25 timeshour.,
-            Intelligent Monitoring 247 online particle counters and sensors connected to SCADA for real-time control.,
-            Flow Separation Redesigned personnel and material flows to minimize cross-contamination risks.
+          heading: "Technical Highlights",
+          content: "After 6 months of development, TopsLife introduced this specialized 3-layer co-extruded bag:",
+          list: [
+            "3-Layer Composite: PET for strength, AL/NY for barrier, PE for clean contact.",
+            "Easy-Peel Technology: Special sealant formulation allows smooth peeling with one hand, eliminating scissors and particles.",
+            "Integrated Zipper: Features a high-seal zipper to immediately reseal the package, providing a continuous barrier."
           ]
         },
         {
-          heading Outlook,
-          content The new cleanroom has passed third-party validation. This milestone signifies that TopsLife's infrastructure has reached a world-class level, positioning us to undertake complex CDMO projects.
+          heading: "Customer Value",
+          content: "This product significantly enhances the convenience and safety of laboratory operations. For high-value scenarios like stem cell culture, it translates to lower contamination risks."
+        }
+      ]
+    }
+  },
+  "cleanroom-expansion": {
+    image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=2000", // Cleanroom/Lab
+    author: "Operations Team",
+    zh: {
+      title: "产能与品质双重飞跃：完成 ISO Class 7 洁净车间升级扩建",
+      date: "2023-11-20",
+      category: "产能升级",
+      readTime: "3 分钟阅读",
+      metaTitle: "TopsLife 完成万级洁净车间扩建 | 产能升级",
+      metaDesc: "TopsLife 宣布完成 ISO Class 7 (万级) 洁净车间升级。引入智能化环境监控系统，大幅提升高端医疗器械与无菌包装的生产产能。",
+      lead: "为满足全球市场对高端医疗器械及无菌包装日益增长的需求，TopsLife 宣布已于 2023 年底全面完成 ISO Class 7（万级）洁净车间的升级与扩建工程。此次升级不仅使洁净生产面积增加了 50%，更引入了智能化环境监控系统。",
+      sections: [
+        {
+          heading: "升级背景",
+          content: "随着 TopsLife 在微流控芯片及高端医用薄膜业务上的快速增长，原有的生产产能已趋于饱和。同时，国际客户对医疗器械生产环境的微粒控制提出了更为严苛的要求。"
+        },
+        {
+          heading: "技术细节",
+          content: "本次扩建工程严格遵循 ISO 9001 标准进行设计与施工：",
+          list: [
+            "HVAC 系统升级：引入了全新的独立空气净化循环系统，换气次数提升至 ≥25 次/小时。",
+            "智能化环境监控：安装了 24 小时在线粒子计数器与温湿度监控探头，数据实时上传至中央控制系统 (SCADA)。",
+            "人流物流分流：重新规划了更科学的人员更衣通道与物料传递窗，最大限度减少交叉污染风险。"
+          ]
+        },
+        {
+          heading: "未来展望",
+          content: "全新的洁净车间已通过第三方权威机构检测并投入使用。这标志着 TopsLife 的制造硬件水平已达到国际一流水准，我们将以此为契机，承接更多高标准的 CDMO 订单。"
+        }
+      ]
+    },
+    en: {
+      title: "Capacity & Quality Leap: ISO Class 7 Cleanroom Expansion Completed",
+      date: "Nov 20, 2023",
+      category: "Capacity Upgrade",
+      readTime: "3 min read",
+      metaTitle: "TopsLife Completes ISO Class 7 Cleanroom Expansion",
+      metaDesc: "TopsLife announces the completion of its ISO Class 7 cleanroom upgrade. Enhanced HVAC and monitoring systems ensure superior quality for medical manufacturing.",
+      lead: "To meet the growing global demand for high-end medical devices, TopsLife announced the completion of its ISO Class 7 cleanroom upgrade. This project increased clean production area by 50% and introduced intelligent environmental monitoring systems.",
+      sections: [
+        {
+          heading: "Background",
+          content: "With rapid growth in microfluidic chips and medical films, existing capacity was approaching saturation. International clients have also imposed stricter requirements on particle control."
+        },
+        {
+          heading: "Technical Details",
+          content: "The expansion followed strict ISO 14644-1 standards:",
+          list: [
+            "HVAC Upgrade: New air purification system increasing air change rates to ≥25 times/hour.",
+            "Intelligent Monitoring: 24/7 online particle counters and sensors connected to SCADA for real-time control.",
+            "Flow Separation: Redesigned personnel and material flows to minimize cross-contamination risks."
+          ]
+        },
+        {
+          heading: "Outlook",
+          content: "The new cleanroom has passed third-party validation. This milestone signifies that TopsLife's infrastructure has reached a world-class level, positioning us to undertake complex CDMO projects."
         }
       ]
     }
