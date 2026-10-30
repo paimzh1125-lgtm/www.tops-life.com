@@ -3,8 +3,13 @@ export interface NewsSection {
   heading?: string;
   content: string;
   list?: string[];
-  /** Optional inline images for this section (used only when configured by the article). */
-  images?: string[];
+  /** Optional inline image for this section (supports multilingual paths) */
+  image?: {
+    zh: string;
+    en: string;
+    altZh?: string;
+    altEn?: string;
+  };
 }
 
 export interface NewsContent {
@@ -90,8 +95,8 @@ export const ALL_NEWS = [
 // --- 新闻数据源 ---
 export const NEWS_DATABASE: Record<string, NewsEntry> = {
   "pe-tubular-film-2026": {
-    image: "/images/PE-film-zh.jpg",
-    imageEn: "/images/PE-film-en.png",
+    image: "/images/pe-tubular-film-zh.jpg",
+    imageEn: "/images/pe-tubular-film-en.png",
     author: "TopsLife Product Marketing",
     zh: {
       title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
@@ -114,7 +119,13 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
             "轻薄柔韧：膜厚可达 50μm，贴合更紧密、手感更柔软",
             "洁净室生产：适用于导管、导丝及介入类器械的无菌包装场景",
             "灵活定制：宽度、厚度、材料可按需定制，支持小批量，MOQ 可协商，交期可控"
-          ]
+          ],
+          image: {
+            zh: "/images/PE-film-zh/PE-film-1.jpg",
+            en: "/images/PE-film-en/PE-film-en.png",
+            altZh: "15mm 超窄 PE 筒膜产品外观与结构",
+            altEn: "15mm Precision PE Tubular Film Product Appearance"
+          }
         },
         {
           heading: "规格参考",
@@ -161,7 +172,13 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
             "Thin & flexible: 50μm film for a slim, close fit",
             "Cleanroom production: for sterile packaging of catheters, guidewires, and interventional devices",
             "Flexible customization: custom widths, thicknesses, and materials; small-batch orders welcome; MOQ negotiable; delivery time controllable"
-          ]
+          ],
+          image: {
+            zh: "/images/PE-film-zh/PE-film-1.jpg",
+            en: "/images/PE-film-en/PE-film-en.png",
+            altZh: "15mm 超窄 PE 筒膜产品外观与结构",
+            altEn: "15mm Precision PE Tubular Film Product Appearance"
+          }
         },
         {
           heading: "Specification Reference",
@@ -189,7 +206,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
     }
   },
   "ecovadis-silver-2025": {
-    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=2000", // Green/Leaf concept
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=2000",
     author: "TopsLife Corporate",
     zh: {
       title: "迈向绿色未来：TopsLife 荣获 2025 EcoVadis 可持续发展银牌认证",
@@ -249,7 +266,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
     }
   },
   "3-layer-sterile-bag": {
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=2000", // Medical/Plastic
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=2000",
     author: "R&D Department",
     zh: {
       title: "实验室无菌操作新标准：成功开发三层结构易揭自封袋",
@@ -309,7 +326,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
     }
   },
   "cleanroom-expansion": {
-    image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=2000", // Cleanroom/Lab
+    image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=2000",
     author: "Operations Team",
     zh: {
       title: "产能与品质双重飞跃：完成 ISO Class 7 洁净车间升级扩建",
