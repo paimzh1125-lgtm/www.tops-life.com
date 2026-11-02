@@ -157,21 +157,21 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       category: "Product Launch",
       readTime: "3 min read",
       metaTitle: "TopsLife 15mm Precision PE Tubular Film | Catheter & Guidewire Packaging",
-      metaDesc: "TopsLife offers ultra-narrow PE tubular film from 15mm and as thin as 50μm, produced in cleanrooms to solve oversized packaging and hard-to-match specs for microcatheters and guidewires — with flexible customization and negotiable MOQ.",
-      lead: "Oversized packaging dimensions and difficulty matching specifications are common pain points in the clean packaging of slender devices such as microcatheters. TopsLife introduces Precision PE Tubular Film with a minimum width of 15mm — Clean, Sterile, and Reliable — for catheter and guidewire inner packaging.",
+      metaDesc: "TopsLife ultra-narrow PE tubular film from 15mm, down to 50μm, cleanroom-produced — solving oversized packaging and hard-to-match specs for microcatheters and guidewires. Flexible customization, negotiable MOQ.",
+      lead: "Oversized dimensions and hard-to-match specs are common pain points in the clean packaging of slender devices like microcatheters. TopsLife introduces Precision PE Tubular Film from 15mm — Clean, Sterile, Reliable — for catheter and guidewire inner packaging.",
       sections: [
         {
           heading: "The Challenge",
-          content: "Slender interventional devices demand a close fit. When the tubular film is too wide, sleeving efficiency and appearance suffer, and material waste rises. Narrow-width options remain limited in the market, leaving many customers without a standard size that truly matches the device."
+          content: "Slender interventional devices demand a close fit. Oversized tubular film hurts sleeving efficiency and appearance, and wastes material. With limited narrow-width options on the market, customers often can't find a standard size that truly fits the device."
         },
         {
           heading: "Key Advantages",
-          content: "TopsLife Precision PE Tubular Film is built around these pain points, with differentiated capability in width, thickness, and delivery flexibility:",
+          content: "Precision PE Tubular Film addresses these pain points with differentiated width, thickness, and delivery flexibility:",
           list: [
-            "Ultra-narrow width: 15mm minimum — a clear differentiated market advantage",
-            "Thin & flexible: 50μm film for a slim, close fit",
+            "Ultra-narrow width: 15mm minimum — a clear market differentiator",
+            "Thin & flexible: down to 50μm for a slim, close fit",
             "Cleanroom production: for sterile packaging of catheters, guidewires, and interventional devices",
-            "Flexible customization: custom widths, thicknesses, and materials; small-batch orders welcome; MOQ negotiable; delivery time controllable"
+            "Flexible customization: custom width, thickness, and material; small batches welcome; MOQ negotiable; controllable lead time"
           ],
           image: {
             zh: "/images/PE-film-zh/PE-film-1.jpg",
@@ -182,16 +182,16 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Specification Reference",
-          content: "Standard width options are listed below (specific thickness can be discussed):",
+          content: "Standard widths (custom thickness available on request):",
           list: [
-            "Width 15mm | Tolerance ±1mm | Width allowance 10% at any point",
-            "Width 20mm | Tolerance ±1mm | Width allowance 10% at any point",
-            "Width 30mm | Tolerance ±1mm | Width allowance 10% at any point"
+            "Width 15mm | Tolerance ±1mm | Thickness tolerance ±10% at any point",
+            "Width 20mm | Tolerance ±1mm | Thickness tolerance ±10% at any point",
+            "Width 30mm | Tolerance ±1mm | Thickness tolerance ±10% at any point"
           ]
         },
         {
           heading: "Quality & Compliance",
-          content: "Manufacturing and quality systems align with medical device supply-chain expectations:",
+          content: "Built to medical-device supply-chain standards:",
           list: [
             "Class 7 cleanroom manufacturing",
             "ISO 9001 certified",
@@ -200,7 +200,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Time to Make a Change",
-          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a customized specification. It’s time to make a change for better packaging."
+          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a custom specification. Make the packaging truly fit the device — a better packaging starts here."
         }
       ]
     }
