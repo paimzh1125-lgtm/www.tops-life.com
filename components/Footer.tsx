@@ -90,11 +90,11 @@ const Footer: React.FC = () => {
             <p className="text-sm leading-relaxed mb-6">{t.desc}</p>
             <div className="flex gap-4 justify-center md:justify-start">
               <a 
-                href="https://www.linkedin.com/company/tops-life" 
+                href="https://www.linkedin.com/in/tops-life-232755448" 
                 target="_blank" 
-                rel="noreferrer" 
+                rel="noopener noreferrer" 
                 className="text-slate-400 hover:text-sky-600 transition-colors"
-                aria-label="LinkedIn"
+                aria-label="Tops Life on LinkedIn"
               >
                 <Linkedin size={24} />
               </a>
