@@ -668,7 +668,7 @@ const ProductDetail: React.FC = () => {
       "image": image,
       "brand": {
         "@type": "Brand",
-        "name": "TopsLife"
+        "name": "Tops Life"
       }
     };
   }, [content, image]);
