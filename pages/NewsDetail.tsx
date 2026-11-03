@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -35,10 +36,10 @@ const NewsDetail: React.FC = () => {
   useEffect(() => {
     if (!content) return;
     const ctx = gsap.context(() => {
-      gsap.from(".news-hero-img", { scale: 1.1, opacity: 0, duration: 1.2, ease: "power2.out" });
-      gsap.from(".news-header", { y: 30, opacity: 0, duration: 0.8, delay: 0.3, ease: "power2.out" });
+      gsap.from(".news-header", { y: 30, opacity: 0, duration: 0.8, delay: 0.1, ease: "power2.out" });
+      gsap.from(".news-hero-img", { y: 24, opacity: 0, duration: 1.0, delay: 0.25, ease: "power2.out" });
       gsap.from(".news-body > div", { 
-        y: 20, opacity: 0, duration: 0.6, stagger: 0.1, delay: 0.5, ease: "power2.out" 
+        y: 20, opacity: 0, duration: 0.6, stagger: 0.1, delay: 0.45, ease: "power2.out" 
       });
     }, containerRef);
     return () => ctx.revert();
@@ -59,44 +60,44 @@ const NewsDetail: React.FC = () => {
     <main ref={containerRef} className="bg-white min-h-screen">
       <SEO title={content.metaTitle} description={content.metaDesc} />
       
-      {/* Hero Section */}
-      <div className="relative h-[50vh] md:h-[60vh] w-full overflow-hidden bg-slate-900">
-        <img 
-          src={newsItem.image} 
-          alt={content.title}
-          className="news-hero-img w-full h-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
+      {/* Header Section (text only — image shown full below) */}
+      <div className="container mx-auto max-w-4xl px-6 pt-10 md:pt-16 pb-8 news-header">
+        <Link to="/news" className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-600 mb-6 transition-colors">
+          <ArrowLeft size={20} />
+          <span>{t('newsDetail.back')}</span>
+        </Link>
         
-        <div className="absolute bottom-0 left-0 w-full p-6 md:p-12">
-          <div className="container mx-auto max-w-4xl news-header">
-            <Link to="/news" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
-              <ArrowLeft size={20} />
-              <span>{t('newsDetail.back')}</span>
-            </Link>
-            
-            <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-sky-400 mb-4">
-              <span className="bg-sky-500/20 px-3 py-1 rounded-full border border-sky-500/30 backdrop-blur-sm flex items-center gap-2">
-                <Tag size={14} /> {content.category}
-              </span>
-              <span className="flex items-center gap-1.5 text-slate-300">
-                <Calendar size={14} /> {content.date}
-              </span>
-              <span className="flex items-center gap-1.5 text-slate-300">
-                <Clock size={14} /> {content.readTime}
-              </span>
-            </div>
-
-            <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
-              {content.title}
-            </h1>
-          </div>
+        <div className="flex flex-wrap items-center gap-4 text-sm font-medium mb-5">
+          <span className="bg-sky-50 text-sky-600 px-3 py-1 rounded-full border border-sky-100 flex items-center gap-2">
+            <Tag size={14} /> {content.category}
+          </span>
+          <span className="flex items-center gap-1.5 text-slate-500">
+            <Calendar size={14} /> {content.date}
+          </span>
+          <span className="flex items-center gap-1.5 text-slate-500">
+            <Clock size={14} /> {content.readTime}
+          </span>
         </div>
+
+        <h1 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
+          {content.title}
+        </h1>
+      </div>
+
+      {/* Full Image — shown complete & clear, not cropped */}
+      <div className="container mx-auto max-w-5xl px-6">
+        <figure className="news-hero-img overflow-hidden rounded-2xl border border-slate-100 shadow-xl bg-slate-50">
+          <img 
+            src={(language === 'en' && newsItem.imageEn) ? newsItem.imageEn : newsItem.image} 
+            alt={content.title}
+            className="w-full h-auto max-h-[70vh] object-contain mx-auto"
+          />
+        </figure>
       </div>
 
       {/* Content Body */}
-      <article className="container mx-auto px-6 max-w-4xl -mt-10 relative z-10">
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-slate-100 news-body">
+      <article className="container mx-auto px-6 max-w-4xl mt-10 relative z-10">
+        <div className="bg-white rounded-2xl p-8 md:p-12 border border-slate-100 news-body">
           
           {/* Lead Paragraph */}
           <div className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-10 border-l-4 border-sky-500 pl-6">
@@ -125,6 +126,16 @@ const NewsDetail: React.FC = () => {
                       </li>
                     ))}
                   </ul>
+                )}
+                {section.image && (
+                  <figure className="mt-6 overflow-hidden rounded-xl border border-slate-100 bg-slate-50">
+                    <img
+                      src={language === 'en' ? section.image.en : section.image.zh}
+                      alt={(language === 'en' ? section.image.altEn : section.image.altZh) || content.title}
+                      className="w-full h-auto object-contain mx-auto"
+                      loading="lazy"
+                    />
+                  </figure>
                 )}
               </div>
             ))}
