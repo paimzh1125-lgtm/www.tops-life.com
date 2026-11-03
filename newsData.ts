@@ -44,8 +44,8 @@ export const ALL_NEWS = [
     tag_en: "Product Launch",
     title_zh: "15mm 超窄 PE 筒膜：专攻微导管导丝内包装痛点",
     title_en: "15mm Precision PE Tubular Film for Microcatheter & Guidewire Packaging",
-    desc_zh: "针对细长器械包装偏大、规格难匹配的痛点，提供最小 15mm 超窄幅 PE 筒膜；厚度可达 50μm，洁净室生产，宽度 / 厚度 / 材料可定制，小批量亦可协商。",
-    desc_en: "Addressing oversized fit and hard-to-match specs for slender devices — ultra-narrow PE tubular film from 15mm, as thin as 50μm, cleanroom-produced, with flexible customization on width, thickness, materials, and small-batch MOQ.",
+    desc_zh: "针对细长器械包装偏大、规格难匹配的痛点，提供最小 15mm 超窄幅 PE 筒膜；厚度可达 50μm，洁净室生产，宽度 / 厚度 / 材料可定制。",
+    desc_en: "Solving oversized fit and hard-to-match specs for slender devices — ultra-narrow PE tubular film from 15mm, as thin as 50μm, cleanroom-produced, with full customization.",
     category: "Products"
   },
   { 
@@ -103,22 +103,22 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       date: "2026-10-29",
       category: "产品发布",
       readTime: "3 分钟阅读",
-      metaTitle: "TopsLife 15mm 超窄 PE 筒膜 | 导管导丝内包装",
-      metaDesc: "TopsLife 推出最小宽度 15mm 的超窄 PE 筒膜，厚度可达 50μm，洁净室生产，解决微导管等细长器械包装偏大、规格难匹配的痛点，支持宽度/厚度/材料定制与小批量协商。",
-      lead: "在微导管、导丝等细长器械的洁净包装中，包装尺寸偏大、规格难以匹配，是客户常见的痛点。TopsLife 正式推出最小宽度 15mm 的超窄 PE 筒膜，以「洁净 · 无菌 · 可靠」为核心，为导管与导丝内包装提供更贴合的窄幅方案。",
+      metaTitle: "Tops Life 15mm 超窄 PE 筒膜 | 导管导丝内包装",
+      metaDesc: "Tops Life 推出最小宽度 15mm 的超窄 PE 筒膜，厚度可达 50μm，洁净室生产，解决微导管等细长器械包装偏大、规格难匹配的痛点，支持宽度/厚度/材料定制与小批量协商。",
+      lead: "微导管、导丝等细长器械对包装贴合度要求高，过宽的筒膜影响穿套效率并浪费材料，而窄幅规格市场供给有限。Tops Life 最小宽度 15mm 的超窄 PE 筒膜，为导管导丝内包装提供更贴合、更可靠的窄幅方案。",
       sections: [
         {
           heading: "行业痛点",
-          content: "细长介入器械对外径贴合度要求高。若内包装筒膜过宽，不仅影响穿套效率与外观整洁度，也容易造成材料浪费；而市场上窄幅规格供给有限，客户往往难以找到与器械匹配的标准品。"
+          content: "细长器械贴合度要求高：筒膜过宽影响穿套效率与外观，也造成材料浪费；而窄幅标准品市场稀缺，客户难以匹配合适规格。"
         },
         {
           heading: "产品亮点",
-          content: "围绕上述痛点，TopsLife 超窄 PE 筒膜在宽度、厚度与交付灵活性上形成差异化能力：",
+          content: "Tops Life 超窄 PE 筒膜在宽度、厚度与交付上形成差异化优势：",
           list: [
-            "超窄幅宽度：最小 15mm，具备明确的市场差异化优势",
-            "轻薄柔韧：膜厚可达 50μm，贴合更紧密、手感更柔软",
-            "洁净室生产：适用于导管、导丝及介入类器械的无菌包装场景",
-            "灵活定制：宽度、厚度、材料可按需定制，支持小批量，MOQ 可协商，交期可控"
+            "最小 15mm：明确的市场差异化宽度",
+            "薄膜柔韧：膜厚可达 50μm，贴合紧密",
+            "洁净室生产：适配导管、导丝及介入器械无菌包装",
+            "灵活定制：宽度 / 厚度 / 材料可定制，小批量可协商，交期可控"
           ],
           image: {
             zh: "/images/PE-film-zh.jpg",
@@ -129,7 +129,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "规格参考",
-          content: "常规宽度规格如下（厚度可根据需求另行沟通）：",
+          content: "常规宽度规格如下（厚度可按需定制）：",
           list: [
             "宽度 15mm｜公差 ±1mm｜任意点允差 10%",
             "宽度 20mm｜公差 ±1mm｜任意点允差 10%",
@@ -138,7 +138,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "质量与合规",
-          content: "生产与体系保障对标医疗器械供应链要求：",
+          content: "生产与体系对标医疗器械供应链要求：",
           list: [
             "Class 7 洁净室生产",
             "ISO 9001 已认证",
@@ -147,7 +147,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "现在就改变包装选择",
-          content: "若您正在寻找更窄、更贴合的导管导丝内包装方案，欢迎联系我们索取样品或讨论定制规格。让包装尺寸真正匹配器械本身——这正是更好包装的开始。"
+          content: "需要更贴合的导管导丝内包装方案？欢迎联系我们索取样品或讨论定制规格。"
         }
       ]
     },
@@ -158,20 +158,20 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       readTime: "3 min read",
       metaTitle: "Tops Life 15mm Precision PE Tubular Film | Catheter & Guidewire Packaging",
       metaDesc: "Tops Life's ultra-narrow PE tubular film starts at just 15mm and runs as thin as 50μm, produced in certified cleanrooms to solve oversized packaging and hard-to-match specs for microcatheters and guidewires — with full customization and flexible MOQ.",
-      lead: "Oversized dimensions and mismatched specifications are long-standing pain points in the clean packaging of slender devices such as microcatheters and guidewires. Tops Life now introduces Precision PE Tubular Film from just 15mm — Clean, Sterile, and Reliable — delivering a closer-fitting narrow-width solution for catheter and guidewire inner packaging.",
+      lead: "Slender devices like microcatheters and guidewires demand a close fit. Oversized film hurts sleeving efficiency and wastes material, yet narrow-width options remain scarce. Tops Life's Precision PE Tubular Film, from just 15mm, delivers a closer-fitting, more reliable solution for catheter and guidewire inner packaging.",
       sections: [
         {
           heading: "The Challenge",
-          content: "Slender interventional devices demand a tight, consistent fit. When tubular film is too wide, sleeving efficiency and visual consistency suffer, and material is wasted. Yet narrow-width options are scarce on the market, leaving many customers unable to source a standard size that truly matches the device."
+          content: "Slender devices demand a tight fit. Too-wide film hurts sleeving efficiency and appearance, and wastes material. Yet narrow-width standard stock is scarce, leaving customers without a size that truly matches the device."
         },
         {
           heading: "Key Advantages",
-          content: "Precision PE Tubular Film is engineered around these pain points, with clear differentiation in width, thickness, and delivery flexibility:",
+          content: "Precision PE Tubular Film offers clear differentiation in width, thickness, and delivery:",
           list: [
-            "Ultra-narrow width: from just 15mm — a distinct market differentiator",
-            "Thin and supple: film down to 50μm for a tighter fit and softer hand-feel",
-            "Cleanroom production: suited to sterile packaging of catheters, guidewires, and interventional devices",
-            "Flexible customization: custom width, thickness, and material; small batches welcome; negotiable MOQ; controllable lead time"
+            "From just 15mm — a distinct market differentiator",
+            "Thin and supple: film down to 50μm for a tight fit",
+            "Cleanroom production: for sterile catheter, guidewire, and interventional device packaging",
+            "Flexible customization: custom width, thickness, and material; small batches welcome; negotiable MOQ"
           ],
           image: {
             zh: "/images/PE-film-zh/PE-film-1.jpg",
@@ -182,7 +182,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Specification Reference",
-          content: "Standard widths are listed below (thickness can be tailored to your requirements):",
+          content: "Standard widths below (thickness tailored to your needs):",
           list: [
             "Width 15mm | Tolerance ±1mm | Thickness tolerance ±10% at any point",
             "Width 20mm | Tolerance ±1mm | Thickness tolerance ±10% at any point",
@@ -191,7 +191,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Quality & Compliance",
-          content: "Manufacturing and quality systems are aligned with medical-device supply-chain standards:",
+          content: "Manufacturing and quality systems aligned with medical-device supply-chain standards:",
           list: [
             "Class 7 cleanroom manufacturing",
             "ISO 9001 certified",
@@ -200,7 +200,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Time to Make a Change",
-          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a tailored specification. Make the packaging truly fit the device — a better packaging starts here."
+          content: "Need a closer-fitting inner packaging for catheters and guidewires? Contact us for samples or a tailored specification."
         }
       ]
     }
@@ -209,13 +209,13 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
     image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=2000",
     author: "Tops Life Corporate",
     zh: {
-      title: "迈向绿色未来：TopsLife 荣获 2025 EcoVadis 可持续发展银牌认证",
+      title: "迈向绿色未来：Tops Life 荣获 2025 EcoVadis 可持续发展银牌认证",
       date: "2025-01-15",
       category: "企业荣誉",
       readTime: "3 分钟阅读",
-      metaTitle: "TopsLife 荣获 EcoVadis 银牌认证 | 可持续发展新闻",
-      metaDesc: "TopsLife 在环境、劳工与人权、商业道德及可持续采购方面表现卓越，荣获 2025 EcoVadis 银牌认证，位列全球参评企业前 15%。",
-      lead: "近日，苏州永爱生命科技有限公司（TopsLife）在国际权威企业社会责任（CSR）评估机构 EcoVadis 的年度评审中，凭借在环境管理、劳工与人权、商业道德及可持续采购四大维度的杰出表现，成功斩获“银牌”认证。",
+      metaTitle: "Tops Life 荣获 EcoVadis 银牌认证 | 可持续发展新闻",
+      metaDesc: "Tops Life 在环境、劳工与人权、商业道德及可持续采购方面表现卓越，荣获 2025 EcoVadis 银牌认证，位列全球参评企业前 15%。",
+      lead: "近日，苏州永爱生命科技有限公司（Tops Life）在国际权威企业社会责任（CSR）评估机构 EcoVadis 的年度评审中，凭借在环境管理、劳工与人权、商业道德及可持续采购四大维度的杰出表现，成功斩获“银牌”认证。",
       sections: [
         {
           heading: "背景与挑战",
@@ -223,7 +223,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "行动与表现",
-          content: "TopsLife 成立了专门的可持续发展委员会，制定了明确的“绿色制造 2030”路线图。在本次 EcoVadis 评估中，我们采取了多项关键举措：",
+          content: "Tops Life 成立了专门的可持续发展委员会，制定了明确的“绿色制造 2030”路线图。在本次 EcoVadis 评估中，我们采取了多项关键举措：",
           list: [
             "环境维度：全面升级生产线废气处理系统，引入光伏发电辅助供能，显著降低了单位产品的碳排放。",
             "劳工与人权：完善了员工健康安全管理体系（ISO 45001 对标），确保每一位员工在安全、尊重的环境中工作。",
@@ -232,7 +232,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "未来展望",
-          content: "获得 EcoVadis 银牌认证不仅是一份荣誉，更是一份责任。TopsLife 总经理表示：“这只是我们可持续发展旅程的起点。未来，我们将继续加大在生物基材料研发（如大豆蛋白聚合物）上的投入，致力于为客户提供‘零碳’医疗包装解决方案。”"
+          content: "获得 EcoVadis 银牌认证不仅是一份荣誉，更是一份责任。Tops Life 总经理表示：“这只是我们可持续发展旅程的起点。未来，我们将继续加大在生物基材料研发（如大豆蛋白聚合物）上的投入，致力于为客户提供‘零碳’医疗包装解决方案。”"
         }
       ]
     },
@@ -273,9 +273,9 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       date: "2024-12-10",
       category: "产品研发",
       readTime: "4 分钟阅读",
-      metaTitle: "TopsLife 发布三层易揭自封袋 | 医疗包装创新",
-      metaDesc: "针对细胞培养瓶开包后存放痛点，TopsLife 推出创新型三层结构易揭自封袋，解决二次污染问题，提升实验室无菌操作效率。",
-      lead: "针对生命科学实验室中细胞培养耗材“开包难、存更难”的痛点，TopsLife 研发团队于近日成功推出创新型“三层结构易揭自封袋”。该产品通过独特的材料配方与结构设计，完美解决了细胞培养瓶在拆封后的二次存储与污染防护问题。",
+      metaTitle: "Tops Life 发布三层易揭自封袋 | 医疗包装创新",
+      metaDesc: "针对细胞培养瓶开包后存放痛点，Tops Life 推出创新型三层结构易揭自封袋，解决二次污染问题，提升实验室无菌操作效率。",
+      lead: "针对生命科学实验室中细胞培养耗材“开包难、存更难”的痛点，Tops Life 研发团队于近日成功推出创新型“三层结构易揭自封袋”。该产品通过独特的材料配方与结构设计，完美解决了细胞培养瓶在拆封后的二次存储与污染防护问题。",
       sections: [
         {
           heading: "痛点分析",
