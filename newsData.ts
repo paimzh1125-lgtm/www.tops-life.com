@@ -97,7 +97,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
   "pe-tubular-film-2026": {
     image: "/images/PE-film-zh.jpg",
     imageEn: "/images/PE-film-en.png",
-    author: "TopsLife Product Marketing",
+    author: "Tops Life Product Marketing",
     zh: {
       title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
       date: "2026-10-29",
@@ -152,37 +152,37 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "Clean · Sterile Flexible Packaging: 15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
+      title: "Clean, Sterile Flexible Packaging: 15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
       date: "Oct 29, 2026",
       category: "Product Launch",
       readTime: "3 min read",
-      metaTitle: "TopsLife 15mm Precision PE Tubular Film | Catheter & Guidewire Packaging",
-      metaDesc: "TopsLife ultra-narrow PE tubular film from 15mm, down to 50μm, cleanroom-produced — solving oversized packaging and hard-to-match specs for microcatheters and guidewires. Flexible customization, negotiable MOQ.",
-      lead: "Oversized dimensions and hard-to-match specs are common pain points in the clean packaging of slender devices like microcatheters. TopsLife introduces Precision PE Tubular Film from 15mm — Clean, Sterile, Reliable — for catheter and guidewire inner packaging.",
+      metaTitle: "Tops Life 15mm Precision PE Tubular Film | Catheter & Guidewire Packaging",
+      metaDesc: "Tops Life's ultra-narrow PE tubular film starts at just 15mm and runs as thin as 50μm, produced in certified cleanrooms to solve oversized packaging and hard-to-match specs for microcatheters and guidewires — with full customization and flexible MOQ.",
+      lead: "Oversized dimensions and mismatched specifications are long-standing pain points in the clean packaging of slender devices such as microcatheters and guidewires. Tops Life now introduces Precision PE Tubular Film from just 15mm — Clean, Sterile, and Reliable — delivering a closer-fitting narrow-width solution for catheter and guidewire inner packaging.",
       sections: [
         {
           heading: "The Challenge",
-          content: "Slender interventional devices demand a close fit. Oversized tubular film hurts sleeving efficiency and appearance, and wastes material. With limited narrow-width options on the market, customers often can't find a standard size that truly fits the device."
+          content: "Slender interventional devices demand a tight, consistent fit. When tubular film is too wide, sleeving efficiency and visual consistency suffer, and material is wasted. Yet narrow-width options are scarce on the market, leaving many customers unable to source a standard size that truly matches the device."
         },
         {
           heading: "Key Advantages",
-          content: "Precision PE Tubular Film addresses these pain points with differentiated width, thickness, and delivery flexibility:",
+          content: "Precision PE Tubular Film is engineered around these pain points, with clear differentiation in width, thickness, and delivery flexibility:",
           list: [
-            "Ultra-narrow width: 15mm minimum — a clear market differentiator",
-            "Thin & flexible: down to 50μm for a slim, close fit",
-            "Cleanroom production: for sterile packaging of catheters, guidewires, and interventional devices",
-            "Flexible customization: custom width, thickness, and material; small batches welcome; MOQ negotiable; controllable lead time"
+            "Ultra-narrow width: from just 15mm — a distinct market differentiator",
+            "Thin and supple: film down to 50μm for a tighter fit and softer hand-feel",
+            "Cleanroom production: suited to sterile packaging of catheters, guidewires, and interventional devices",
+            "Flexible customization: custom width, thickness, and material; small batches welcome; negotiable MOQ; controllable lead time"
           ],
           image: {
             zh: "/images/PE-film-zh/PE-film-1.jpg",
             en: "/images/PE-film-en/PE-film-en.png",
             altZh: "15mm 超窄 PE 筒膜产品外观与结构",
-            altEn: "15mm Precision PE Tubular Film Product Appearance"
+            altEn: "15mm Precision PE Tubular Film — product appearance and structure"
           }
         },
         {
           heading: "Specification Reference",
-          content: "Standard widths (custom thickness available on request):",
+          content: "Standard widths are listed below (thickness can be tailored to your requirements):",
           list: [
             "Width 15mm | Tolerance ±1mm | Thickness tolerance ±10% at any point",
             "Width 20mm | Tolerance ±1mm | Thickness tolerance ±10% at any point",
@@ -191,7 +191,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Quality & Compliance",
-          content: "Built to medical-device supply-chain standards:",
+          content: "Manufacturing and quality systems are aligned with medical-device supply-chain standards:",
           list: [
             "Class 7 cleanroom manufacturing",
             "ISO 9001 certified",
@@ -200,14 +200,14 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
         },
         {
           heading: "Time to Make a Change",
-          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a custom specification. Make the packaging truly fit the device — a better packaging starts here."
+          content: "Looking for a narrower, better-fitting inner packaging for catheters and guidewires? Contact us for samples or a tailored specification. Make the packaging truly fit the device — a better packaging starts here."
         }
       ]
     }
   },
   "ecovadis-silver-2025": {
     image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b1e?auto=format&fit=crop&q=80&w=2000",
-    author: "TopsLife Corporate",
+    author: "Tops Life Corporate",
     zh: {
       title: "迈向绿色未来：TopsLife 荣获 2025 EcoVadis 可持续发展银牌认证",
       date: "2025-01-15",
@@ -237,30 +237,30 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "Towards a Green Future: TopsLife Awarded 2025 EcoVadis Silver Medal",
+      title: "Towards a Greener Future: Tops Life Awarded the 2025 EcoVadis Silver Medal",
       date: "Jan 15, 2025",
       category: "Corporate Honor",
       readTime: "3 min read",
-      metaTitle: "TopsLife Awarded EcoVadis Silver Medal | Sustainability News",
-      metaDesc: "TopsLife awarded the 2025 EcoVadis Silver Medal for Sustainability, ranking in the top 15% globally. Highlighting excellence in Environment, Labor & Ethics.",
-      lead: "Suzhou Tops Life Technology (TopsLife) has been awarded the prestigious Silver Medal by EcoVadis, the world’s most trusted provider of business sustainability ratings. This recognition places TopsLife in the top 15% of companies assessed globally.",
+      metaTitle: "Tops Life Awarded EcoVadis Silver Medal | Sustainability News",
+      metaDesc: "Tops Life has earned the 2025 EcoVadis Silver Medal for sustainability, placing it among the top 15% of companies assessed worldwide — recognized for excellence across Environment, Labor & Human Rights, Ethics, and Sustainable Procurement.",
+      lead: "Suzhou Tops Life Technology (Tops Life) has been awarded the Silver Medal by EcoVadis, the world's most trusted provider of business sustainability ratings. This recognition places Tops Life among the top 15% of companies assessed globally.",
       sections: [
         {
           heading: "Background & Challenge",
-          content: "In the global medical supply chain, sustainability is no longer optional but a core metric of long-term competitiveness. With increasingly stringent ESG standards, top pharmaceutical and medical device companies are expanding their supplier assessments beyond 'Quality and Cost' to include 'Social Responsibility and Carbon Footprint'."
+          content: "Sustainability has evolved from an option into a core measure of long-term competitiveness across the global medical supply chain. As ESG standards tighten, leading pharmaceutical and medical-device companies are extending supplier assessments beyond 'quality and cost' to embrace 'social responsibility and carbon footprint.' Striking the right balance between high-standard cleanroom manufacturing, lower energy consumption, and employee well-being is now a defining challenge."
         },
         {
-          heading: "Solution & Action",
-          content: "TopsLife established a dedicated Sustainability Committee and defined a clear 'Green Manufacturing 2030' roadmap. Key initiatives evaluated during this EcoVadis assessment include:",
+          heading: "Solutions & Actions",
+          content: "Tops Life established a dedicated Sustainability Committee and defined a clear 'Green Manufacturing 2030' roadmap. Key initiatives assessed in this EcoVadis review include:",
           list: [
-            "Environment: Upgraded exhaust treatment systems and introduced photovoltaic power generation.",
-            "Labor & Human Rights: Enhanced our Occupational Health and Safety management system (benchmarked against ISO 45001).",
-            "Sustainable Procurement: Implemented strict supplier admission criteria, prioritizing raw material suppliers with environmental certifications."
+            "Environment: Fully upgraded production-line exhaust treatment and introduced supplementary photovoltaic power, significantly reducing carbon emissions per unit.",
+            "Labor & Human Rights: Strengthened the occupational health and safety management system (benchmarked against ISO 45001), ensuring a safe and respectful workplace for every employee.",
+            "Sustainable Procurement: Introduced rigorous supplier admission criteria, prioritizing raw-material suppliers with environmental certifications (e.g., FSC-certified paper and bio-based resins)."
           ]
         },
         {
           heading: "Outlook",
-          content: "Receiving the EcoVadis Silver Medal is not just an honor, but a responsibility. We will increase investment in bio-based material R&D, aiming to provide 'Net-Zero' medical packaging solutions."
+          content: "Receiving the EcoVadis Silver Medal is both an honor and a responsibility. 'This is only the starting point of our sustainability journey,' said the General Manager of Tops Life. 'We will continue to invest in bio-based materials (such as soy protein polymers), committed to delivering net-zero medical packaging solutions for our customers.'"
         }
       ]
     }
@@ -297,30 +297,30 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "New Standard in Sterile Lab Operations: 3-Layer Easy-Peel Self-Sealing Bag",
+      title: "A New Standard in Sterile Lab Operations: 3-Layer Easy-Peel Self-Sealing Bag",
       date: "Dec 10, 2024",
       category: "Product R&D",
       readTime: "4 min read",
-      metaTitle: "TopsLife Launches 3-Layer Easy-Peel Sterile Bag | Innovation",
-      metaDesc: "Solving the pain point of secondary storage for cell culture flasks. TopsLife introduces the innovative 3-layer easy-peel self-sealing bag to prevent contamination.",
-      lead: "Addressing the critical pain points of 'difficult opening and unsafe storage' for cell culture consumables, TopsLife's R&D team has successfully launched the innovative '3-Layer Easy-Peel Self-Sealing Bag'.",
+      metaTitle: "Tops Life Launches 3-Layer Easy-Peel Sterile Bag | Medical Packaging Innovation",
+      metaDesc: "Solving the secondary-storage challenge of cell culture flasks, Tops Life introduces the innovative 3-layer easy-peel self-sealing bag — preventing contamination and elevating sterile lab efficiency.",
+      lead: "Addressing the twin pain points of 'hard to open and harder to store' cell culture consumables, Tops Life's R&D team has developed the innovative 3-Layer Easy-Peel Self-Sealing Bag. Its unique material formulation and structural design fully resolve the secondary-storage and contamination-protection challenges faced by cell culture flasks after opening.",
       sections: [
         {
           heading: "Pain Point Analysis",
-          content: "Once traditional bags are cut open, remaining flasks are exposed to non-sterile environments. Furthermore, traditional heat-sealed bags are difficult to open manually while wearing gloves, often requiring scissors which introduce contamination."
+          content: "In cell biology research, culture flasks are typically packed in groups. Once a traditional bag is cut open, the remaining flasks are exposed to a non-sterile environment and highly susceptible to microbial contamination. Moreover, conventional heat-sealed bags are difficult to tear open by hand while wearing gloves, often requiring scissors — adding another route for contamination."
         },
         {
           heading: "Technical Highlights",
-          content: "After 6 months of development, TopsLife introduced this specialized 3-layer co-extruded bag:",
+          content: "After six months of development, the Tops Life R&D Center engineered this purpose-built 3-layer co-extruded, easy-peel self-sealing bag:",
           list: [
-            "3-Layer Composite: PET for strength, AL/NY for barrier, PE for clean contact.",
-            "Easy-Peel Technology: Special sealant formulation allows smooth peeling with one hand, eliminating scissors and particles.",
-            "Integrated Zipper: Features a high-seal zipper to immediately reseal the package, providing a continuous barrier."
+            "3-Layer Composite Structure: an outer PET layer for high-strength physical protection, a middle AL/NY layer for superior barrier performance, and an inner PE layer for clean contact.",
+            "Easy-Peel Technology: a special sealant formulation enables smooth, one-handed peeling — no scissors needed, eliminating particle generation.",
+            "Integrated Zipper: a high-sealing zipper at the bag mouth allows immediate resealing, providing a continuous clean barrier for remaining products."
           ]
         },
         {
           heading: "Customer Value",
-          content: "This product significantly enhances the convenience and safety of laboratory operations. For high-value scenarios like stem cell culture, it translates to lower contamination risks."
+          content: "This launch significantly enhances the convenience and safety of laboratory operations. In high-value scenarios such as stem cell culture or vaccine development, it translates into lower contamination risk and less consumable waste."
         }
       ]
     }
@@ -357,30 +357,30 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "Capacity & Quality Leap: ISO Class 7 Cleanroom Expansion Completed",
+      title: "A Dual Leap in Capacity and Quality: ISO Class 7 Cleanroom Expansion Completed",
       date: "Nov 20, 2023",
       category: "Capacity Upgrade",
       readTime: "3 min read",
-      metaTitle: "TopsLife Completes ISO Class 7 Cleanroom Expansion",
-      metaDesc: "TopsLife announces the completion of its ISO Class 7 cleanroom upgrade. Enhanced HVAC and monitoring systems ensure superior quality for medical manufacturing.",
-      lead: "To meet the growing global demand for high-end medical devices, TopsLife announced the completion of its ISO Class 7 cleanroom upgrade. This project increased clean production area by 50% and introduced intelligent environmental monitoring systems.",
+      metaTitle: "Tops Life Completes ISO Class 7 Cleanroom Expansion | Capacity Upgrade",
+      metaDesc: "Tops Life announces the completion of its ISO Class 7 cleanroom upgrade, featuring intelligent environmental monitoring to significantly boost capacity for high-end medical devices and sterile packaging.",
+      lead: "To meet growing global demand for high-end medical devices and sterile packaging, Tops Life has fully completed the upgrade and expansion of its ISO Class 7 cleanroom by the end of 2023. The project increased clean production area by 50% and introduced an intelligent environmental monitoring system.",
       sections: [
         {
           heading: "Background",
-          content: "With rapid growth in microfluidic chips and medical films, existing capacity was approaching saturation. International clients have also imposed stricter requirements on particle control."
+          content: "With rapid growth in microfluidic chips and high-end medical films, existing production capacity was nearing saturation. At the same time, international clients have imposed increasingly stringent requirements on particle control in medical-device manufacturing environments."
         },
         {
           heading: "Technical Details",
-          content: "The expansion followed strict ISO 14644-1 standards:",
+          content: "The expansion was designed and built in strict accordance with ISO standards:",
           list: [
-            "HVAC Upgrade: New air purification system increasing air change rates to ≥25 times/hour.",
-            "Intelligent Monitoring: 24/7 online particle counters and sensors connected to SCADA for real-time control.",
-            "Flow Separation: Redesigned personnel and material flows to minimize cross-contamination risks."
+            "HVAC Upgrade: A new, independent air-purification circulation system raises air-change rates to ≥25 times per hour.",
+            "Intelligent Monitoring: Round-the-clock online particle counters and temperature/humidity sensors stream data in real time to the central SCADA system.",
+            "Flow Separation: Scientifically redesigned personnel gowning routes and material pass-through windows to minimize cross-contamination risk."
           ]
         },
         {
           heading: "Outlook",
-          content: "The new cleanroom has passed third-party validation. This milestone signifies that TopsLife's infrastructure has reached a world-class level, positioning us to undertake complex CDMO projects."
+          content: "The new cleanroom has passed third-party authoritative validation and is now in operation. This milestone marks Tops Life's manufacturing infrastructure as world-class, positioning us to undertake more high-standard CDMO projects."
         }
       ]
     }
