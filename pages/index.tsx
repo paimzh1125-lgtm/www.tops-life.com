@@ -47,7 +47,7 @@ const Home: React.FC = () => {
     return {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "TopsLife (Suzhou Tops Life Technology)",
+      "name": "Tops Life (Suzhou Tops Life Technology)",
       "alternateName": "苏州永爱生命科技有限公司",
       "url": language === 'zh' ? "https://cn.tops-life.com" : "https://www.tops-life.com",
       "logo": "https://www.tops-life.com/banner/logo.png",
