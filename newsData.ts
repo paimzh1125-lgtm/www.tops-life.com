@@ -27,7 +27,7 @@ export interface NewsEntry {
   zh: NewsContent;
   en: NewsContent;
   image?: string;
-  imageEn?: string
+  imageEn?: string;
   author: string;
 }
 
@@ -94,7 +94,6 @@ export const ALL_NEWS = [
 // --- 新闻数据源 ---
 export const NEWS_DATABASE: Record<string, NewsEntry> = {
   "pe-tubular-film-2026": {
-    image: "",
     author: "Tops Life Product Marketing",
     zh: {
       title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
