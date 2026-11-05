@@ -37,7 +37,6 @@ const NewsDetail: React.FC = () => {
     if (!content) return;
     const ctx = gsap.context(() => {
       gsap.from(".news-header", { y: 30, opacity: 0, duration: 0.8, delay: 0.1, ease: "power2.out" });
-      gsap.from(".news-hero-img", { y: 24, opacity: 0, duration: 1.0, delay: 0.25, ease: "power2.out" });
       gsap.from(".news-body > div", { 
         y: 20, opacity: 0, duration: 0.6, stagger: 0.1, delay: 0.45, ease: "power2.out" 
       });
@@ -82,17 +81,6 @@ const NewsDetail: React.FC = () => {
         <h1 className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
           {content.title}
         </h1>
-      </div>
-
-      {/* Full Image — shown complete & clear, not cropped */}
-      <div className="container mx-auto max-w-5xl px-6">
-        <figure className="news-hero-img overflow-hidden rounded-2xl border border-slate-100 shadow-xl bg-slate-50">
-          <img 
-            src={(language === 'en' && newsItem.imageEn) ? newsItem.imageEn : newsItem.image} 
-            alt={content.title}
-            className="w-full h-auto max-h-[70vh] object-contain mx-auto"
-          />
-        </figure>
       </div>
 
       {/* Content Body */}
