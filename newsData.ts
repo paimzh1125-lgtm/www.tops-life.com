@@ -3,13 +3,6 @@ export interface NewsSection {
   heading?: string;
   content: string;
   list?: string[];
-  /** Optional inline image for this section (supports multilingual paths) */
-  image?: {
-    zh: string;
-    en: string;
-    altZh?: string;
-    altEn?: string;
-  };
 }
 
 export interface NewsContent {
