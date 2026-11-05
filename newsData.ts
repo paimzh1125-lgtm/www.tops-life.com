@@ -100,7 +100,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       date: "2026-10-29",
       category: "产品发布",
       readTime: "3 分钟阅读",
-      metaTitle: "Tops Life 15mm 超窄 PE 筒膜 | 导管导丝内包装",
+      metaTitle: "Tops Life 15mm 超窄 PE 筒膜",
       metaDesc: "Tops Life 推出最小宽度 15mm 的超窄 PE 筒膜，厚度可达 50μm，洁净室生产，解决微导管等细长器械包装偏大、规格难匹配的痛点，支持宽度 / 厚度 / 材料定制与小批量协商。",
       lead: "微导管、导丝等细长器械对包装贴合度要求高，过宽的筒膜影响穿套效率并浪费材料，而窄幅规格市场供给有限。Tops Life 最小宽度 15mm 的超窄 PE 筒膜，为导管导丝内包装提供更贴合、更可靠的窄幅方案。",
       sections: [
@@ -153,7 +153,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       date: "Oct 29, 2026",
       category: "Product Launch",
       readTime: "3 min read",
-      metaTitle: "Tops Life 15mm PE Film | Catheter & Guidewire Packaging",
+      metaTitle: "Tops Life 15mm PE Film",
       metaDesc: "Tops Life's precision PE film (from 15mm width, 50μm thickness) provides superior fit for microcatheters. Cleanroom-manufactured with flexible customization.",
       lead: "Slender medical devices demand precise packaging fit. Standard narrow-width films are often scarce, impacting sleeving efficiency. Tops Life's 15mm Precision PE Tubular Film offers a reliable, close-fitting solution tailored for catheter and guidewire integrity.",
       sections: [
