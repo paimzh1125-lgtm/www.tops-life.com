@@ -42,9 +42,9 @@ export const ALL_NEWS = [
     tag_zh: "产品发布",
     tag_en: "Product Launch",
     title_zh: "15mm 超窄 PE 筒膜：专攻微导管导丝内包装痛点",
-    title_en: "15mm Precision PE Tubular Film for Microcatheter & Guidewire Packaging",
+    title_en: "15mm Precision PE Tubular Film: Mitigating Packaging Challenges for Microcatheters",
     desc_zh: "针对细长器械包装偏大、规格难匹配的痛点，提供最小 15mm 超窄幅 PE 筒膜；厚度可达 50μm，洁净室生产，宽度 / 厚度 / 材料可定制。",
-    desc_en: "Solving oversized-fit and hard-to-match specs for slender devices: ultra-narrow PE tubular film from 15mm, as thin as 50μm, cleanroom-produced, and fully customizable.",
+    desc_en: "Engineered for slender devices: ultra-narrow PE tubular film from 15mm; 50μm thin, cleanroom-produced, and fully customizable for precision fit.",
     category: "Products"
   },
   { 
@@ -153,28 +153,28 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       date: "Oct 29, 2026",
       category: "Product Launch",
       readTime: "3 min read",
-      metaTitle: "Tops Life 15mm Precision PE Film | Catheter & Guidewire Packaging",
-      metaDesc: "Tops Life's ultra-narrow PE film starts at just 15mm and runs as thin as 50μm, produced in certified cleanrooms to solve oversized packaging and hard-to-match specs for microcatheters and guidewires — with full customization and flexible MOQ.",
-      lead: "Slender devices such as microcatheters and guidewires demand a close fit. Oversized film hurts sleeving efficiency and wastes material, yet narrow-width options remain scarce. Tops Life's Precision PE Tubular Film, from just 15mm, delivers a closer-fitting, more reliable solution for catheter and guidewire inner packaging.",
+      metaTitle: "Tops Life 15mm PE Film | Catheter & Guidewire Packaging",
+      metaDesc: "Tops Life's precision PE film (from 15mm width, 50μm thickness) provides superior fit for microcatheters. Cleanroom-manufactured with flexible customization.",
+      lead: "Slender medical devices demand precise packaging fit. Standard narrow-width films are often scarce, impacting sleeving efficiency. Tops Life's 15mm Precision PE Tubular Film offers a reliable, close-fitting solution tailored for catheter and guidewire integrity.",
       sections: [
         {
           heading: "The Challenge",
-          content: "Slender devices demand a tight fit. Overwide film hurts sleeving efficiency and appearance and wastes material, yet narrow-width standard stock is scarce — leaving customers without a size that truly matches the device."
+          content: "Micro-scale devices require optimized packaging. Oversized film creates material waste and hinders assembly speed, while the lack of standardized narrow-width supply forces compromises in device protection."
         },
         {
           heading: "Key Advantages",
-          content: "Precision PE Tubular Film delivers clear differentiation in width, thickness, and delivery:",
+          content: "Precision PE Tubular Film delivers technical differentiation in dimension, barrier properties, and manufacturing flexibility:",
           list: [
-            "From just 15mm — a distinct market differentiator",
-            "Thin and supple: film down to 50μm for a tight fit",
-            "Cleanroom production: for sterile catheter, guidewire, and interventional device packaging",
-            "Flexible customization: custom width, thickness, and material; small batches welcome; negotiable MOQ"
+            "Market-leading narrow width: Starting at 15mm.",
+            "Superior material gauge: Down to 50μm for enhanced fit.",
+            "Certified cleanroom production: Standardized for sterile interventional device packaging.",
+            "Agile customization: Tailored dimensions and flexible MOQ options to match your production cycle."
           ],
           image: {
             zh: "/images/PE-film-zh.jpg",
             en: "/images/PE-film-en.png",
             altZh: "15mm 超窄 PE 筒膜产品外观与结构",
-            altEn: "15mm Precision PE Film — product appearance and structure"
+            altEn: "15mm Precision PE Tubular Film — technical structure and profile"
           }
         },
         {
@@ -234,30 +234,30 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "Towards a Greener Future: Tops Life Awarded the 2025 EcoVadis Silver Medal",
+      title: "Advancing Sustainability: Tops Life Awarded 2025 EcoVadis Silver Medal",
       date: "Jan 15, 2025",
       category: "Corporate Honor",
       readTime: "3 min read",
-      metaTitle: "Tops Life Awarded EcoVadis Silver Medal | Sustainability News",
-      metaDesc: "Tops Life has earned the 2025 EcoVadis Silver Medal for sustainability, placing it among the top 15% of companies assessed worldwide — recognized for excellence across Environment, Labor & Human Rights, Ethics, and Sustainable Procurement.",
-      lead: "Suzhou Tops Life Technology (Tops Life) has been awarded the Silver Medal by EcoVadis, the world's most trusted provider of business sustainability ratings. This recognition places Tops Life among the top 15% of companies assessed globally.",
+      metaTitle: "Tops Life Awarded EcoVadis Silver Medal | Sustainability in Medical Packaging",
+      metaDesc: "Tops Life earns the 2025 EcoVadis Silver Medal, ranking among the top 15% of global firms for excellence in Environmental, Social, and Ethical standards.",
+      lead: "Suzhou Tops Life Technology (Tops Life) has been awarded the Silver Medal by EcoVadis, underscoring our commitment to high-standard corporate social responsibility (CSR) across the global medical supply chain.",
       sections: [
         {
-          heading: "Background & Challenge",
-          content: "Sustainability has moved from an option to a core measure of long-term competitiveness across the global medical supply chain. As ESG standards tighten, leading pharmaceutical and medical-device companies are extending supplier assessments beyond 'quality and cost' to include 'social responsibility and carbon footprint.' Balancing high-standard cleanroom manufacturing with lower energy consumption and employee well-being is now a defining challenge."
+          heading: "Strategic Context",
+          content: "Sustainability is now a core competitiveness metric in the global medical supply chain. As ESG standards evolve, pharmaceutical and device leaders prioritize suppliers that demonstrate low-carbon footprints and transparent social governance. Balancing cleanroom manufacturing precision with resource efficiency remains our primary operational imperative."
         },
         {
-          heading: "Solutions & Actions",
-          content: "Tops Life established a dedicated Sustainability Committee and set a clear 'Green Manufacturing 2030' roadmap. Key initiatives assessed in this EcoVadis review include:",
+          heading: "Key Initiatives",
+          content: "Under our 'Green Manufacturing 2030' roadmap, Tops Life has implemented several high-impact sustainability measures:",
           list: [
-            "Environment: Fully upgraded production-line exhaust treatment and added supplementary photovoltaic power, significantly reducing carbon emissions per unit.",
-            "Labor & Human Rights: Strengthened the occupational health and safety management system (benchmarked against ISO 45001), ensuring a safe and respectful workplace for every employee.",
-            "Sustainable Procurement: Introduced rigorous supplier admission criteria, prioritizing raw-material suppliers with environmental certifications (e.g., FSC-certified paper and bio-based resins)."
+            "Environmental Stewardship: Optimized exhaust treatment and solar integration to significantly reduce unit-product carbon emissions.",
+            "Governance & Human Rights: Aligned safety management with ISO 45001 standards, fostering a secure and inclusive workplace.",
+            "Sustainable Procurement: Mandated rigorous supplier admission criteria, prioritizing eco-certified materials such as bio-based resins."
           ]
         },
         {
-          heading: "Outlook",
-          content: "Receiving the EcoVadis Silver Medal is both an honor and a responsibility. 'This is only the starting point of our sustainability journey,' said the General Manager of Tops Life. 'We will keep investing in bio-based materials such as soy protein polymers, committed to delivering net-zero medical packaging solutions for our customers.'"
+          heading: "Future Commitment",
+          content: "The EcoVadis Silver Medal validates our current trajectory. Tops Life remains dedicated to investing in bio-polymer R&D, striving to deliver net-zero medical packaging solutions for our global partners."
         }
       ]
     }
@@ -294,30 +294,30 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "A New Standard in Sterile Lab Operations: 3-Layer Easy-Peel Self-Sealing Bag",
+      title: "New Standards in Lab Sterility: 3-Layer Easy-Peel Self-Sealing Bag",
       date: "Dec 10, 2024",
       category: "Product R&D",
       readTime: "4 min read",
-      metaTitle: "Tops Life Launches 3-Layer Easy-Peel Sterile Bag | Medical Packaging Innovation",
-      metaDesc: "Solving the secondary-storage challenge of cell culture flasks, Tops Life introduces the innovative 3-layer easy-peel self-sealing bag — preventing contamination and elevating sterile lab efficiency.",
-      lead: "Addressing the twin pain points of cell culture consumables that are 'hard to open and harder to store,' Tops Life's R&D team has developed the innovative 3-Layer Easy-Peel Self-Sealing Bag. Its unique material formulation and structural design fully resolve the secondary-storage and contamination-protection challenges cell culture flasks face after opening.",
+      metaTitle: "Tops Life 3-Layer Easy-Peel Sterile Bag | Medical Packaging Innovation",
+      metaDesc: "Tops Life launches an innovative 3-layer easy-peel bag, specifically engineered to mitigate secondary contamination and enhance sterile efficiency for cell culture consumables.",
+      lead: "To address the storage challenges of sensitive cell culture consumables, the Tops Life R&D team has engineered a 3-layer, Easy-Peel Self-Sealing Bag. This solution optimizes post-opening storage and provides robust contamination protection.",
       sections: [
         {
-          heading: "Pain Point Analysis",
-          content: "In cell biology research, culture flasks are typically packed in groups. Once a traditional bag is cut open, the remaining flasks are exposed to a non-sterile environment and highly prone to microbial contamination. Conventional heat-sealed bags are also difficult to tear open by hand while wearing gloves and often require scissors — adding another contamination route."
+          heading: "Challenge Analysis",
+          content: "Group-packaged cell culture flasks often suffer from exposure-induced contamination once the original bag is opened. Furthermore, conventional heat-sealed packaging frequently requires scissors for access, introducing potential particle contamination into the sterile environment."
         },
         {
-          heading: "Technical Highlights",
-          content: "After six months of development, the Tops Life R&D Center engineered this purpose-built 3-layer co-extruded, easy-peel self-sealing bag:",
+          heading: "Technical Innovation",
+          content: "Developed over a six-month cycle, this purpose-built 3-layer co-extruded solution provides:",
           list: [
-            "3-Layer Composite Structure: an outer PET layer for high-strength physical protection, a middle AL/NY layer for superior barrier performance, and an inner PE layer for clean contact.",
-            "Easy-Peel Technology: a special sealant formulation enables smooth, one-handed peeling with no scissors and no particle generation.",
-            "Integrated Zipper: a high-sealing zipper at the bag mouth allows immediate resealing, providing a continuous clean barrier for the remaining products."
+            "Composite Structure: PET exterior for physical durability; AL/NY middle layer for advanced barrier performance; PE interior for clean, sterile contact.",
+            "Easy-Peel Technology: Proprietary sealant formulation enables smooth, one-handed opening without particle generation.",
+            "Integrated Resealing: Advanced zipper design allows for immediate, high-integrity resealing, maintaining sterile barriers for remaining stock."
           ]
         },
         {
-          heading: "Customer Value",
-          content: "This launch significantly enhances the convenience and safety of laboratory operations. In high-value scenarios such as stem cell culture or vaccine development, it translates into lower contamination risk and less consumable waste."
+          heading: "Value Proposition",
+          content: "This innovation significantly elevates operational efficiency and safety. For high-value applications in stem cell culture and vaccine development, it minimizes contamination risks and reduces consumable waste."
         }
       ]
     }
