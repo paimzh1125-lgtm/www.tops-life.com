@@ -96,7 +96,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
   "pe-tubular-film-2026": {
     author: "Tops Life Product Marketing",
     zh: {
-      title: "洁净 · 无菌软包装：15mm 超窄 PE 筒膜，专用于导管导丝内包装",
+      title: "15mm 超窄 PE 筒膜，专用于导管导丝内包装",
       date: "2026-10-29",
       category: "产品发布",
       readTime: "3 分钟阅读",
@@ -149,7 +149,7 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "Clean, Sterile Flexible Packaging: 15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
+      title: "15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
       date: "Oct 29, 2026",
       category: "Product Launch",
       readTime: "3 min read",
