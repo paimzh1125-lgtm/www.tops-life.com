@@ -96,11 +96,11 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
   "pe-tubular-film-2026": {
     author: "Tops Life Product Marketing",
     zh: {
-      title: "15mm 超窄 PE 筒膜，专用于导管导丝内包装",
+      title: "15mm 超窄 PE 筒膜",
       date: "2026-10-29",
       category: "产品发布",
       readTime: "3 分钟阅读",
-      metaTitle: "Tops Life 15mm 超窄 PE 筒膜",
+      metaTitle: "Tops Life 15mm 超窄 PE 筒膜 | 导管导丝内包装",
       metaDesc: "Tops Life 推出最小宽度 15mm 的超窄 PE 筒膜，厚度可达 50μm，洁净室生产，解决微导管等细长器械包装偏大、规格难匹配的痛点，支持宽度 / 厚度 / 材料定制与小批量协商。",
       lead: "微导管、导丝等细长器械对包装贴合度要求高，过宽的筒膜影响穿套效率并浪费材料，而窄幅规格市场供给有限。Tops Life 最小宽度 15mm 的超窄 PE 筒膜，为导管导丝内包装提供更贴合、更可靠的窄幅方案。",
       sections: [
@@ -149,11 +149,11 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "15mm Precision PE Tubular Film for Catheter & Guidewire Inner Packaging",
+      title: "15mm Precision PE Tubular Film",
       date: "Oct 29, 2026",
       category: "Product Launch",
       readTime: "3 min read",
-      metaTitle: "Tops Life 15mm PE Film",
+      metaTitle: "Tops Life 15mm Precision PE Film | Catheter & Guidewire Packaging",
       metaDesc: "Tops Life's precision PE film (from 15mm width, 50μm thickness) provides superior fit for microcatheters. Cleanroom-manufactured with flexible customization.",
       lead: "Slender medical devices demand precise packaging fit. Standard narrow-width films are often scarce, impacting sleeving efficiency. Tops Life's 15mm Precision PE Tubular Film offers a reliable, close-fitting solution tailored for catheter and guidewire integrity.",
       sections: [
@@ -354,30 +354,30 @@ export const NEWS_DATABASE: Record<string, NewsEntry> = {
       ]
     },
     en: {
-      title: "A Dual Leap in Capacity and Quality: ISO Class 7 Cleanroom Expansion Completed",
+      title: "Scaling Manufacturing Excellence: ISO Class 7 Cleanroom Expansion",
       date: "Nov 20, 2023",
       category: "Capacity Upgrade",
       readTime: "3 min read",
-      metaTitle: "Tops Life Completes ISO Class 7 Cleanroom Expansion | Capacity Upgrade",
-      metaDesc: "Tops Life announces the completion of its ISO Class 7 cleanroom upgrade, featuring intelligent environmental monitoring to significantly boost capacity for high-end medical devices and sterile packaging.",
-      lead: "To meet growing global demand for high-end medical devices and sterile packaging, Tops Life has fully completed the upgrade and expansion of its ISO Class 7 cleanroom by the end of 2023. The project increased clean production area by 50% and introduced an intelligent environmental monitoring system.",
+      metaTitle: "Tops Life Completes ISO Class 7 Cleanroom Expansion | Scaling Capacity",
+      metaDesc: "Tops Life announces the commissioning of expanded ISO Class 7 cleanroom facilities, featuring integrated intelligent monitoring to meet rising global demand.",
+      lead: "To accommodate increasing demand for high-end medical devices, Tops Life has successfully commissioned an expanded ISO Class 7 cleanroom. This facility upgrade increases our production footprint by 50% and integrates advanced, automated environmental monitoring.",
       sections: [
         {
-          heading: "Background",
-          content: "With rapid growth in microfluidic chips and high-end medical films, existing production capacity was nearing saturation. At the same time, international clients have imposed increasingly stringent requirements on particle control in medical-device manufacturing environments."
+          heading: "Strategic Expansion",
+          content: "As our high-end medical film and microfluidics portfolio grows, scaling capacity while maintaining stringent particle-control standards became essential to fulfilling global contract requirements."
         },
         {
-          heading: "Technical Details",
-          content: "The expansion was designed and built in strict accordance with ISO standards:",
+          heading: "Technical Specifications",
+          content: "The expansion adheres to rigorous ISO standards and integrates state-of-the-art infrastructure:",
           list: [
-            "HVAC Upgrade: A new, independent air-purification circulation system raises air-change rates to ≥25 per hour.",
-            "Intelligent Monitoring: Round-the-clock online particle counters and temperature/humidity sensors stream data in real time to the central SCADA system.",
-            "Flow Separation: Personnel gowning routes and material pass-through windows were scientifically redesigned to minimize cross-contamination risk."
+            "HVAC Infrastructure: Independent air-purification loops ensuring ≥25 air changes per hour.",
+            "Intelligent Environmental Monitoring: Real-time, 24/7 data streaming of particulates and climate conditions via SCADA systems.",
+            "Optimized Flow Dynamics: Scientific redesign of gowning and material-transfer zones to minimize cross-contamination."
           ]
         },
         {
-          heading: "Outlook",
-          content: "The new cleanroom has passed third-party authoritative validation and is now in operation. This milestone marks Tops Life's manufacturing infrastructure as world-class, positioning us to undertake more high-standard CDMO projects."
+          heading: "Strategic Outlook",
+          content: "This expanded facility is now fully validated. Tops Life is now strategically positioned to undertake more large-scale, high-complexity CDMO projects with world-class manufacturing reliability."
         }
       ]
     }
