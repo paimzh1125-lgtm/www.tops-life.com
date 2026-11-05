@@ -26,9 +26,8 @@ export interface NewsContent {
 export interface NewsEntry {
   zh: NewsContent;
   en: NewsContent;
-  image: string;
-  /** Optional English hero image; falls back to `image` when omitted */
-  imageEn?: string;
+  image?: string;
+  imageEn?: string
   author: string;
 }
 
